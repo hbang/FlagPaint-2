@@ -51,17 +51,59 @@ UIColor *HBFPGetDominantColor(UIImage *image) {
 
 #pragma mark - The Guts(tm)
 
+static const char *kHBFPBackdropViewSettingsIdentifier;
+
+NSMutableDictionary *cachedTints = [[NSMutableDictionary alloc] init];
+
 %hook SBBannerContextView
 
-- (void)setBannerContext:(/*SBUIBannerContext **/id)bannerContext {
+- (id)initWithFrame:(CGRect)frame {
+	self = %orig;
+
+	if (self) {
+		_UIBackdropView *oldBackdropView = MSHookIvar<_UIBackdropView *>(self, "_backdropView");
+
+		_UIBackdropViewSettingsAdaptiveLight *settings = [[%c(_UIBackdropViewSettingsAdaptiveLight) alloc] initWithDefaultValues];
+		settings.colorTint = [UIColor blackColor];
+		settings.colorTintAlpha = 0.5f;
+		settings.grayscaleTintLevel = 0;
+		settings.grayscaleTintAlpha = 0.4f;
+
+		objc_setAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier, settings, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+
+		_UIBackdropView *backdropView = [[%c(_UIBackdropView) alloc] initWithFrame:frame autosizesToFitSuperview:YES settings:settings];
+		[oldBackdropView.superview insertSubview:backdropView belowSubview:self.backdrop];
+		[oldBackdropView removeFromSuperview];
+		[oldBackdropView release];
+
+		object_setInstanceVariable(self, "_backdropView", backdropView);
+	}
+
+	return self;
+}
+
+- (void)setBannerContext:(id)bannerContext withReplaceReason:(NSInteger)replaceReason {
 	%orig;
 
-	_UIBackdropViewSettingsAdaptiveLight *settings = [[%c(_UIBackdropViewSettingsAdaptiveLight) alloc] init];
-	settings.colorTint = [UIColor redColor];//HBFPGetDominantColor(bannerContext);
-	settings.colorTintAlpha = 0.5f;
-	settings.grayscaleTintLevel = 0.4f;
-	settings.grayscaleTintAlpha = 0.3f;
-	self.backdrop.outputSettings = settings;
+	_UIBackdropViewSettings *settings = objc_getAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier);
+
+	UIView *contentView = MSHookIvar<UIView *>(self, "_contentView");
+	UIImageView *iconImageView = MSHookIvar<UIImageView *>(contentView, "_iconImageView");
+
+	NSObject *viewSource = MSHookIvar<NSObject *>(contentView, "_viewSource");
+	BBBulletin *bulletin = MSHookIvar<BBBulletin *>(viewSource, "_seedBulletin");
+
+	if (!cachedTints[bulletin.sectionID]) {
+		cachedTints[bulletin.sectionID] = HBFPGetDominantColor(iconImageView.image);
+	}
+
+	settings.colorTint = cachedTints[bulletin.sectionID];
+}
+
+- (void)dealloc {
+	[objc_getAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier) release];
+
+	%orig;
 }
 
 %end
