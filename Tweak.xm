@@ -131,6 +131,8 @@ void HBFPShowTestBanner() {
 			@"com.apple.MobileAddressBook", @"com.apple.calculator", @"com.apple.compass", @"com.apple.VoiceMemos",
 			@"com.apple.facetime", @"com.apple.nike"
 		] retain];
+
+		testIndex = arc4random_uniform(TestApps.count);
 	});
 
 	BBBulletinRequest *bulletin = [[[BBBulletinRequest alloc] init] autorelease];
