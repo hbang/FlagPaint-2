@@ -1,9 +1,12 @@
 #import <Accelerate/Accelerate.h>
 #import <BulletinBoard/BBBulletinRequest.h>
-//#import <SpringBoard/SBBannerContextView.h>
+#import <SpringBoard/SBApplication.h>
+#import <SpringBoard/SBApplicationController.h>
+#import <SpringBoard/SBApplicationIcon.h>
 #import <SpringBoard/SBBulletinBannerController.h>
 #import <UIKit/_UIBackdropView.h>
 #import <UIKit/_UIBackdropViewSettingsAdaptiveLight.h>
+#import <version.h>
 
 struct pixel {
 	unsigned char r, g, b, a;
@@ -11,6 +14,17 @@ struct pixel {
 
 static NSUInteger BytesPerPixel = 4;
 static NSUInteger BitsPerComponent = 8;
+
+#pragma mark - Preference variables
+
+BOOL shouldTint = YES;
+BOOL useGradient = NO;
+
+BOOL biggerIcon = YES;
+BOOL biggerText = YES;
+
+BOOL hideGrabber = YES;
+BOOL hideDateLabel = YES;
 
 #pragma mark - Get dominant color
 
@@ -53,7 +67,8 @@ UIColor *HBFPGetDominantColor(UIImage *image) {
 
 static const char *kHBFPBackdropViewSettingsIdentifier;
 
-NSMutableDictionary *cachedTints = [[NSMutableDictionary alloc] init];
+NSMutableDictionary *tintCache = [[NSMutableDictionary alloc] init];
+NSMutableDictionary *iconCache = [[NSMutableDictionary alloc] init];
 
 %hook SBBannerContextView
 
@@ -61,22 +76,24 @@ NSMutableDictionary *cachedTints = [[NSMutableDictionary alloc] init];
 	self = %orig;
 
 	if (self) {
-		_UIBackdropView *oldBackdropView = MSHookIvar<_UIBackdropView *>(self, "_backdropView");
+		if (shouldTint) {
+			_UIBackdropView *oldBackdropView = MSHookIvar<_UIBackdropView *>(self, "_backdropView");
 
-		_UIBackdropViewSettingsAdaptiveLight *settings = [[%c(_UIBackdropViewSettingsAdaptiveLight) alloc] initWithDefaultValues];
-		settings.colorTint = [UIColor blackColor];
-		settings.colorTintAlpha = 0.5f;
-		settings.grayscaleTintLevel = 0;
-		settings.grayscaleTintAlpha = 0.4f;
+			_UIBackdropViewSettingsAdaptiveLight *settings = [[%c(_UIBackdropViewSettingsAdaptiveLight) alloc] initWithDefaultValues];
+			settings.colorTint = [UIColor blackColor];
+			settings.colorTintAlpha = 0.5f;
+			settings.grayscaleTintLevel = 0;
+			settings.grayscaleTintAlpha = 0.4f;
 
-		objc_setAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier, settings, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+			objc_setAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier, settings, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
-		_UIBackdropView *backdropView = [[%c(_UIBackdropView) alloc] initWithFrame:frame autosizesToFitSuperview:YES settings:settings];
-		[oldBackdropView.superview insertSubview:backdropView belowSubview:oldBackdropView];
-		[oldBackdropView removeFromSuperview];
-		[oldBackdropView release];
+			_UIBackdropView *backdropView = [[%c(_UIBackdropView) alloc] initWithFrame:CGRectZero autosizesToFitSuperview:YES settings:settings];
+			[oldBackdropView.superview insertSubview:backdropView belowSubview:oldBackdropView];
+			[oldBackdropView removeFromSuperview];
+			[oldBackdropView release];
 
-		object_setInstanceVariable(self, "_backdropView", backdropView);
+			object_setInstanceVariable(self, "_backdropView", backdropView);
+		}
 	}
 
 	return self;
@@ -85,25 +102,83 @@ NSMutableDictionary *cachedTints = [[NSMutableDictionary alloc] init];
 - (void)setBannerContext:(id)bannerContext withReplaceReason:(NSInteger)replaceReason {
 	%orig;
 
-	_UIBackdropViewSettings *settings = objc_getAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier);
-
 	UIView *contentView = MSHookIvar<UIView *>(self, "_contentView");
 	UIImageView *iconImageView = MSHookIvar<UIImageView *>(contentView, "_iconImageView");
 
 	NSObject *viewSource = MSHookIvar<NSObject *>(contentView, "_viewSource");
 	BBBulletin *bulletin = MSHookIvar<BBBulletin *>(viewSource, "_seedBulletin");
 
-	if (!cachedTints[bulletin.sectionID]) {
-		cachedTints[bulletin.sectionID] = HBFPGetDominantColor(iconImageView.image);
+	if (biggerIcon) {
+		if (!iconCache[bulletin.sectionID]) {
+			SBApplication *app = [[(SBApplicationController *)[%c(SBApplicationController) sharedInstance] applicationWithDisplayIdentifier:bulletin.sectionID] autorelease];
+
+			if (app) {
+				SBApplicationIcon *appIcon = [[[%c(SBApplicationIcon) alloc] initWithApplication:app] autorelease];
+				UIImage *icon = [appIcon getIconImage:SBApplicationIconFormatDefault];
+
+				if (icon) {
+					iconCache[bulletin.sectionID] = icon;
+				}
+			}
+		}
+
+		iconImageView.image = iconCache[bulletin.sectionID];
 	}
 
-	settings.colorTint = cachedTints[bulletin.sectionID];
+	if (shouldTint) {
+		_UIBackdropViewSettings *settings = objc_getAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier);
+
+		if (!tintCache[bulletin.sectionID]) {
+			tintCache[bulletin.sectionID] = HBFPGetDominantColor(iconImageView.image);
+		}
+
+		settings.colorTint = tintCache[bulletin.sectionID];
+	}
 }
 
 - (void)dealloc {
 	[objc_getAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier) release];
 
 	%orig;
+}
+
+%end
+
+@interface SBDefaultBannerView:UIView@end
+%hook SBDefaultBannerView
+
+- (void)layoutSubviews {
+	%orig;
+
+	if (biggerIcon) {
+		UIImageView *iconImageView = MSHookIvar<UIImageView *>(self, "_iconImageView");
+		iconImageView.frame = CGRectMake(8.f, 7.5f, 30.f, 30.f);
+
+		UIImageView *textView = MSHookIvar<UIImageView *>(self, "_textView");
+
+		CGRect textViewFrame = textView.frame;
+		textViewFrame.origin.x = iconImageView.frame.origin.x + iconImageView.frame.size.width + 8.f;
+		textViewFrame.size.width -= textView.frame.origin.x - textViewFrame.origin.x;
+	}
+
+	if (hideGrabber) {
+		UIView *grabberView = MSHookIvar<UIImageView *>(self, IS_IOS_OR_NEWER(iOS_7_0_3) ? "_grabberView" : "_grabberImageView");
+		[grabberView removeFromSuperview];
+	}
+}
+
+%end
+
+%hook SBBannerController
+
+- (CGRect)_bannerFrameForOrientation:(UIInterfaceOrientation)orientation {
+	CGRect frame = %orig;
+
+	if (hideGrabber) {
+		frame.size.height -= 18.f;
+	}
+
+	return frame;
 }
 
 %end
@@ -141,7 +216,7 @@ void HBFPShowTestBanner() {
 	bulletin.message = @"Test notification";
 	bulletin.sectionID = TestApps[testIndex];
 	bulletin.accessoryStyle = BBBulletinAccessoryStyleVIP;
-	[[%c(SBBulletinBannerController) sharedInstance] observer:nil addBulletin:bulletin forFeed:2];
+	[(SBBulletinBannerController *)[%c(SBBulletinBannerController) sharedInstance] observer:nil addBulletin:bulletin forFeed:2];
 
 	testIndex = testIndex == TestApps.count - 1 ? 0 : testIndex + 1;
 }
