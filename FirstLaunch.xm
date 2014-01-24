@@ -3,8 +3,8 @@
 - (void)applicationDidFinishLaunching:(id)arg1 {
 	%orig;
 	UIAlertView *alert = [[UIAlertView alloc]
-			initWithTitle: @"Announcement"
-			message: @"It turns out that you are playing Addicus!"
+			initWithTitle: @"FlagPaint"
+			message: @"First Launch"
 			delegate: nil
 			cancelButtonTitle:@"OK"
 			otherButtonTitles:nil];
