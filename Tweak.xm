@@ -4,6 +4,7 @@
 #import <SpringBoard/SBApplicationController.h>
 #import <SpringBoard/SBApplicationIcon.h>
 #import <SpringBoard/SBBulletinBannerController.h>
+#import <SpringBoard/SBDefaultBannerView.h>
 #import <UIKit/_UIBackdropView.h>
 #import <UIKit/_UIBackdropViewSettingsAdaptiveLight.h>
 #import <version.h>
@@ -144,7 +145,6 @@ NSMutableDictionary *iconCache = [[NSMutableDictionary alloc] init];
 
 %end
 
-@interface SBDefaultBannerView:UIView@end
 %hook SBDefaultBannerView
 
 - (void)layoutSubviews {
