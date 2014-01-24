@@ -1,6 +1,6 @@
 #import <Accelerate/Accelerate.h>
 #import <BulletinBoard/BBBulletinRequest.h>
-#import <SpringBoard/SBBannerContextView.h>
+//#import <SpringBoard/SBBannerContextView.h>
 #import <SpringBoard/SBBulletinBannerController.h>
 #import <UIKit/_UIBackdropView.h>
 #import <UIKit/_UIBackdropViewSettingsAdaptiveLight.h>
@@ -72,7 +72,7 @@ NSMutableDictionary *cachedTints = [[NSMutableDictionary alloc] init];
 		objc_setAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier, settings, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
 		_UIBackdropView *backdropView = [[%c(_UIBackdropView) alloc] initWithFrame:frame autosizesToFitSuperview:YES settings:settings];
-		[oldBackdropView.superview insertSubview:backdropView belowSubview:self.backdrop];
+		[oldBackdropView.superview insertSubview:backdropView belowSubview:oldBackdropView];
 		[oldBackdropView removeFromSuperview];
 		[oldBackdropView release];
 
