@@ -1,15 +1,23 @@
-%hook SpringBoard
+static UIWindow *window;
 
-- (void)applicationDidFinishLaunching:(id)arg1 {
+%hook SBLockScreenManager
+
+- (void)_finishUIUnlockFromSource:(int)arg1 withOptions:(id)arg2 {
 	%orig;
-	UIAlertView *alert = [[UIAlertView alloc]
-			initWithTitle: @"FlagPaint"
-			message: @"First Launch"
-			delegate: nil
-			cancelButtonTitle:@"OK"
-			otherButtonTitles:nil];
-[alert show];
-[alert release];
+	window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+	[window makeKeyAndVisible];
+	UIImageView *iv = [[UIImageView alloc] initWithFrame:window.frame];
+    iv.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/FlagPaint7/welcome_screen.png"];
+    [window addSubview:iv];
+
+     UITapGestureRecognizer *tapGestureRecognize = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismiss)];
+    tapGestureRecognize.numberOfTapsRequired = 1;
+    [iv addGestureRecognizer:tapGestureRecognize];
+}
+
+%new
+-(void)dismiss {
+	[window release];
 }
 
 %end

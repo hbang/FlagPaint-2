@@ -10,7 +10,7 @@ FlagPaint7_PRIVATE_FRAMEWORKS = BulletinBoard
 include $(THEOS_MAKE_PATH)/tweak.mk
 
 after-install::
-	install.exec "spring"
+	install.exec "killall -9 SpringBoard"
 
 SUBPROJECTS += prefs
 include $(THEOS_MAKE_PATH)/aggregate.mk
