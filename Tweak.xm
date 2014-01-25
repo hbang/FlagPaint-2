@@ -19,7 +19,7 @@ static NSUInteger BitsPerComponent = 8;
 #pragma mark - Preference variables
 
 BOOL shouldTint = YES;
-BOOL useGradient = NO;
+BOOL useGradient = YES;
 
 BOOL biggerIcon = YES;
 BOOL biggerText = YES;
@@ -67,6 +67,7 @@ UIColor *HBFPGetDominantColor(UIImage *image) {
 #pragma mark - The Guts(tm)
 
 static const char *kHBFPBackdropViewSettingsIdentifier;
+static const char *kHBFPBackgroundGradientIdentifier;
 
 NSMutableDictionary *tintCache = [[NSMutableDictionary alloc] init];
 NSMutableDictionary *iconCache = [[NSMutableDictionary alloc] init];
@@ -82,9 +83,9 @@ NSMutableDictionary *iconCache = [[NSMutableDictionary alloc] init];
 
 			_UIBackdropViewSettingsAdaptiveLight *settings = [[%c(_UIBackdropViewSettingsAdaptiveLight) alloc] initWithDefaultValues];
 			settings.colorTint = [UIColor blackColor];
-			settings.colorTintAlpha = 0.5f;
+			settings.colorTintAlpha = 0.4f;
 			settings.grayscaleTintLevel = 0;
-			settings.grayscaleTintAlpha = 0.4f;
+			settings.grayscaleTintAlpha = 0.2f;
 
 			objc_setAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier, settings, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
@@ -94,10 +95,38 @@ NSMutableDictionary *iconCache = [[NSMutableDictionary alloc] init];
 			[oldBackdropView release];
 
 			object_setInstanceVariable(self, "_backdropView", backdropView);
+
+			if (useGradient) {
+				UIView *gradientView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+				gradientView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+				[backdropView.superview insertSubview:gradientView aboveSubview:backdropView];
+
+				CAGradientLayer *gradientLayer = [[CAGradientLayer alloc] init];
+				gradientLayer.locations = @[ @0, @0.5f, @1 ];
+				gradientLayer.colors = @[
+					(id)[UIColor colorWithWhite:1 alpha:0.25f].CGColor,
+					(id)[UIColor colorWithWhite:1 alpha:0.125f].CGColor,
+					(id)[UIColor colorWithWhite:1 alpha:0.00001f].CGColor
+				];
+				[gradientView.layer addSublayer:gradientLayer];
+
+				objc_setAssociatedObject(self, &kHBFPBackgroundGradientIdentifier, gradientLayer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+			}
 		}
 	}
 
 	return self;
+}
+
+- (void)layoutSubviews {
+	%orig;
+
+	CAGradientLayer *gradientLayer = objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier);
+
+	if (gradientLayer) {
+		_UIBackdropView *backdropView = MSHookIvar<_UIBackdropView *>(self, "_backdropView");
+		gradientLayer.frame = CGRectMake(0, 0, backdropView.frame.size.width, backdropView.frame.size.height);
+	}
 }
 
 - (void)setBannerContext:(id)bannerContext withReplaceReason:(NSInteger)replaceReason {
@@ -139,6 +168,7 @@ NSMutableDictionary *iconCache = [[NSMutableDictionary alloc] init];
 
 - (void)dealloc {
 	[objc_getAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier) release];
+	[objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier) release];
 
 	%orig;
 }
