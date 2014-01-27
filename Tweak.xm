@@ -327,15 +327,16 @@ CGFloat bannerHeight = 64.f;
 	%orig;
 
 	UIImageView *iconImageView = MSHookIvar<UIImageView *>(self, "_iconImageView");
-	UIView *textView = MSHookIvar<UIView *>(self, "_textView");
+	SBDefaultBannerTextView *textView = MSHookIvar<SBDefaultBannerTextView *>(self, "_textView");
 
 	if (removeIcon) {
-		iconImageView.hidden = YES;
-		iconImageView.frame = CGRectZero;
-
 		CGRect textFrame = textView.frame;
 		textFrame.origin.x = iconImageView.frame.origin.x;
 		textFrame.size.width += iconImageView.frame.size.width + (textView.frame.origin.x - iconImageView.frame.origin.x - iconImageView.frame.size.width);
+		textView.frame = textFrame;
+
+		iconImageView.hidden = YES;
+		iconImageView.frame = CGRectZero;
 	} else if (biggerIcon) {
 		iconImageView.frame = CGRectMake(8.f, 7.5f, 30.f, 30.f);
 	}
@@ -427,7 +428,6 @@ void HBFPShowTestBanner() {
 	});
 
 	HBFPShowBanner(TestApps[testIndex], @"FlagPaint", @"Test notification", YES);
-
 
 	testIndex = testIndex == TestApps.count - 1 ? 0 : testIndex + 1;
 }
