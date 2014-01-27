@@ -195,11 +195,7 @@ CGFloat bannerHeight = 64.f;
 	}
 }
 
-- (void)setBackgroundImage:(UIImage *)backgroundImage {
-	if (!shouldTint) {
-		%orig;
-	}
-}
+- (void)setBackgroundImage:(UIImage *)backgroundImage {}
 
 %new - (void)_flagpaint_setHeightIfNeeded {
 	if (removeGrabber) {

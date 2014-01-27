@@ -87,6 +87,14 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 	notify_post("ws.hbang.flagpaint/TestBanner");
 }
 
+- (void)showTestLockScreenNotification {
+	notify_post("ws.hbang.flagpaint/TestLockScreenNotification");
+}
+
+- (void)showTestNotificationCenterBulletin {
+	notify_post("ws.hbang.flagpaint/TestNotificationCenterBulletin");
+}
+
 #pragma mark - Memory management
 
 - (void)dealloc {

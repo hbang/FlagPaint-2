@@ -8,10 +8,9 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>FlagPaint tints the background of banners based on the colors in the icon.
-“Album Art Icon” shows the currently playing song’s album art for banners shown by tweaks such as NowListening.</string>
+			<string>FlagPaint tints the background of notifications based on the colors in the icon.</string>
 			<key>label</key>
-			<string>Tint</string>
+			<string>Tint Background</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -23,7 +22,7 @@
 			<key>key</key>
 			<string>Tint</string>
 			<key>label</key>
-			<string>Tint Background</string>
+			<string>Banners</string>
 			<key>PostNotification</key>
 			<string>ws.hbang.flagpaint/ReloadPrefs</string>
 		</dict>
@@ -34,6 +33,60 @@
 			<true/>
 			<key>defaults</key>
 			<string>ws.hbang.flagpaint</string>
+			<key>key</key>
+			<string>TintLockScreen</string>
+			<key>label</key>
+			<string>Lock Screen</string>
+			<key>PostNotification</key>
+			<string>ws.hbang.flagpaint/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>ws.hbang.flagpaint</string>
+			<key>key</key>
+			<string>TintNotificationCenter</string>
+			<key>label</key>
+			<string>Notification Center</string>
+			<key>PostNotification</key>
+			<string>ws.hbang.flagpaint/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Various</string>
+			<key>footerText</key>
+			<string>“Album Art Icon” shows the currently playing song’s album art for banners shown by tweaks such as NowListening.</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>ws.hbang.flagpaint</string>
+			<key>id</key>
+			<string>BigIconCell</string>
+			<key>key</key>
+			<string>BigIcon</string>
+			<key>label</key>
+			<string>Bigger Icon</string>
+			<key>PostNotification</key>
+			<string>ws.hbang.flagpaint/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>ws.hbang.flagpaint</string>
+			<key>id</key>
+			<string>AlbumArtCell</string>
 			<key>key</key>
 			<string>AlbumArt</string>
 			<key>label</key>
@@ -43,35 +96,23 @@
 		</dict>
 		<dict>
 			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Banners</string>
+		</dict>
+		<dict>
+			<key>cell</key>
 			<string>PSSwitchCell</string>
 			<key>default</key>
 			<false/>
 			<key>defaults</key>
 			<string>ws.hbang.flagpaint</string>
+			<key>id</key>
+			<string>GradientCell</string>
 			<key>key</key>
 			<string>Gradient</string>
 			<key>label</key>
 			<string>Use Gradient</string>
-			<key>PostNotification</key>
-			<string>ws.hbang.flagpaint/ReloadPrefs</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSGroupCell</string>
-			<key>label</key>
-			<string>Various</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>default</key>
-			<true/>
-			<key>defaults</key>
-			<string>ws.hbang.flagpaint</string>
-			<key>key</key>
-			<string>BigIcon</string>
-			<key>label</key>
-			<string>Bigger Icon</string>
 			<key>PostNotification</key>
 			<string>ws.hbang.flagpaint/ReloadPrefs</string>
 		</dict>
@@ -100,20 +141,6 @@
 			<string>BorderRadius</string>
 			<key>label</key>
 			<string>Round Borders</string>
-			<key>PostNotification</key>
-			<string>ws.hbang.flagpaint/ReloadPrefs</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>default</key>
-			<false/>
-			<key>defaults</key>
-			<string>ws.hbang.flagpaint</string>
-			<key>key</key>
-			<string>CenterText</string>
-			<key>label</key>
-			<string>Center Text</string>
 			<key>PostNotification</key>
 			<string>ws.hbang.flagpaint/ReloadPrefs</string>
 		</dict>
@@ -168,6 +195,8 @@
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Test Notifications</string>
 		</dict>
 		<dict>
 			<key>action</key>
@@ -177,7 +206,27 @@
 			<key>cellClass</key>
 			<string>HBTintedTableCell</string>
 			<key>label</key>
-			<string>Show Test Banner</string>
+			<string>Test Banner</string>
+		</dict>
+		<dict>
+			<key>action</key>
+			<string>showTestLockScreenNotification</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>cellClass</key>
+			<string>HBTintedTableCell</string>
+			<key>label</key>
+			<string>Test Lock Screen Notification</string>
+		</dict>
+		<dict>
+			<key>action</key>
+			<string>showTestNotificationCenterBulletin</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>cellClass</key>
+			<string>HBTintedTableCell</string>
+			<key>label</key>
+			<string>Test Notification Center Bulletin</string>
 		</dict>
 		<dict>
 			<key>cell</key>
