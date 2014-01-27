@@ -23,7 +23,7 @@ static NSUInteger BitsPerComponent = 8;
 
 BOOL tintBanners, tintLockScreen, tintNotificationCenter;
 BOOL biggerIcon, albumArtIcon;
-BOOL useGradient, semiTransparent, borderRadius;
+BOOL useGradient, semiTransparent, borderRadius, textShadow;
 BOOL removeIcon, removeGrabber, removeDateLabel;
 
 #pragma mark - Get dominant color
@@ -354,6 +354,22 @@ CGFloat bannerHeight = 64.f;
 	%orig(removeDateLabel && [relevanceDateText isEqualToString:[[NSBundle mainBundle] localizedStringForKey:@"RELATIVE_DATE_NOW" value:@"now" table:@"SpringBoard"]] ? @"" : relevanceDateText);
 }
 
+- (void)drawRect:(CGRect)rect {
+	if (textShadow) {
+		// http://stackoverflow.com/a/1537079/709376
+
+		CGContextRef context = UIGraphicsGetCurrentContext();
+		CGContextSaveGState(context);
+		CGContextSetShadowWithColor(context, CGSizeMake(1.f, 1.f), 2.f, [UIColor colorWithWhite:0 alpha:0.8f].CGColor);
+
+		%orig;
+
+		CGContextRestoreGState(context);
+	} else {
+		%orig;
+	}
+}
+
 %end
 
 #pragma mark - Preferences
@@ -368,6 +384,7 @@ void HBFPLoadPrefs() {
 	biggerIcon = GET_BOOL(@"BigIcon", YES);
 	semiTransparent = GET_BOOL(@"Semitransparent", YES);
 	borderRadius = GET_BOOL(@"BorderRadius", NO);
+	textShadow = GET_BOOL(@"TextShadow", NO);
 
 	removeIcon = GET_BOOL(@"RemoveIcon", NO);
 	removeGrabber = GET_BOOL(@"RemoveGrabber", YES);

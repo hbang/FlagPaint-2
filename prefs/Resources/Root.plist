@@ -148,7 +148,7 @@
 			<key>cell</key>
 			<string>PSSwitchCell</string>
 			<key>default</key>
-			<true/>
+			<false/>
 			<key>defaults</key>
 			<string>ws.hbang.flagpaint</string>
 			<key>key</key>
