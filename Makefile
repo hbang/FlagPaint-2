@@ -10,7 +10,11 @@ FlagPaint7_PRIVATE_FRAMEWORKS = BulletinBoard
 include $(THEOS_MAKE_PATH)/tweak.mk
 
 after-install::
-	install.exec "killall -9 SpringBoard"
+ifeq ($(RESPRING),0)
+	install.exec "killall Preferences; sleep 0.2; sbopenurl 'prefs:root=Cydia&path=FlagPaint7'"
+else
+	install.exec "killall SpringBoard"
+endif
 
 SUBPROJECTS += prefs
 include $(THEOS_MAKE_PATH)/aggregate.mk

@@ -3,7 +3,9 @@
 #import <SpringBoard/SBApplication.h>
 #import <SpringBoard/SBApplicationController.h>
 #import <SpringBoard/SBApplicationIcon.h>
+#import <SpringBoard/SBBannerContextView.h>
 #import <SpringBoard/SBBulletinBannerController.h>
+#import <SpringBoard/SBDefaultBannerTextView.h>
 #import <SpringBoard/SBDefaultBannerView.h>
 #import <UIKit/_UIBackdropView.h>
 #import <UIKit/_UIBackdropViewSettingsAdaptiveLight.h>
@@ -18,14 +20,9 @@ static NSUInteger BitsPerComponent = 8;
 
 #pragma mark - Preference variables
 
-BOOL shouldTint = YES;
-BOOL useGradient = YES;
-
-BOOL biggerIcon = YES;
-BOOL biggerText = YES;
-
-BOOL hideGrabber = YES;
-BOOL hideDateLabel = YES;
+BOOL shouldTint, albumArtIcon, useGradient;
+BOOL biggerIcon, semiTransparent, borderRadius, centerText;
+BOOL removeIcon, removeGrabber, removeDateLabel;
 
 #pragma mark - Get dominant color
 
@@ -71,6 +68,19 @@ static const char *kHBFPBackgroundGradientIdentifier;
 
 NSMutableDictionary *tintCache = [[NSMutableDictionary alloc] init];
 NSMutableDictionary *iconCache = [[NSMutableDictionary alloc] init];
+CGFloat bannerHeight = 64.f;
+
+@interface SBBannerContextView (FlagPaint)
+
+- (void)_flagpaint_setHeightIfNeeded;
+
+@end
+
+@interface SBDefaultBannerTextView (FlagPaint)
+
+- (void)_flagpaint_centerAttributedStringIfNeeded:(char *)ivar;
+
+@end
 
 %hook SBBannerContextView
 
@@ -113,6 +123,21 @@ NSMutableDictionary *iconCache = [[NSMutableDictionary alloc] init];
 				objc_setAssociatedObject(self, &kHBFPBackgroundGradientIdentifier, gradientLayer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 			}
 		}
+
+		if (semiTransparent) {
+			self.alpha = 0.9f;
+		}
+
+		if (borderRadius) {
+			_UIBackdropView *backdropView = MSHookIvar<_UIBackdropView *>(self, "_backdropView");
+
+			self.layer.cornerRadius = 8.f;
+			backdropView.layer.cornerRadius = self.layer.cornerRadius;
+
+			for (CALayer *layer in backdropView.layer.sublayers) {
+				layer.cornerRadius = self.layer.cornerRadius;
+			}
+		}
 	}
 
 	return self;
@@ -120,6 +145,8 @@ NSMutableDictionary *iconCache = [[NSMutableDictionary alloc] init];
 
 - (void)layoutSubviews {
 	%orig;
+
+	[self _flagpaint_setHeightIfNeeded];
 
 	CAGradientLayer *gradientLayer = objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier);
 
@@ -132,7 +159,9 @@ NSMutableDictionary *iconCache = [[NSMutableDictionary alloc] init];
 - (void)setBannerContext:(id)bannerContext withReplaceReason:(NSInteger)replaceReason {
 	%orig;
 
-	UIView *contentView = MSHookIvar<UIView *>(self, "_contentView");
+	[self _flagpaint_setHeightIfNeeded];
+
+	SBDefaultBannerView *contentView = MSHookIvar<SBDefaultBannerView *>(self, "_contentView");
 	UIImageView *iconImageView = MSHookIvar<UIImageView *>(contentView, "_iconImageView");
 
 	NSObject *viewSource = MSHookIvar<NSObject *>(contentView, "_viewSource");
@@ -166,6 +195,25 @@ NSMutableDictionary *iconCache = [[NSMutableDictionary alloc] init];
 	}
 }
 
+- (void)setBackgroundImage:(UIImage *)backgroundImage {
+	if (!shouldTint) {
+		%orig;
+	}
+}
+
+%new - (void)_flagpaint_setHeightIfNeeded {
+	if (removeGrabber) {
+		SBDefaultBannerView *contentView = MSHookIvar<SBDefaultBannerView *>(self, "_contentView");
+		SBDefaultBannerTextView *textView = MSHookIvar<SBDefaultBannerTextView *>(contentView, "_textView");
+		[contentView layoutSubviews];
+		[textView layoutSubviews];
+
+		CGRect frame = self.frame;
+		frame.size.height = bannerHeight - ([textView textWillWrapForWidth:textView.frame.size.width] ? 5.f : 18.f);
+		self.frame = frame;
+	}
+}
+
 - (void)dealloc {
 	[objc_getAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier) release];
 	[objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier) release];
@@ -175,23 +223,36 @@ NSMutableDictionary *iconCache = [[NSMutableDictionary alloc] init];
 
 %end
 
+%hook SBBannerController
+
+- (CGRect)_bannerFrameForOrientation:(UIInterfaceOrientation)orientation {
+	CGRect bannerFrame = %orig;
+	bannerHeight = bannerFrame.size.height;
+	return bannerFrame;
+}
+
+%end
+
 %hook SBDefaultBannerView
 
 - (void)layoutSubviews {
 	%orig;
 
-	if (biggerIcon) {
-		UIImageView *iconImageView = MSHookIvar<UIImageView *>(self, "_iconImageView");
+	UIImageView *iconImageView = MSHookIvar<UIImageView *>(self, "_iconImageView");
+	UIView *textView = MSHookIvar<UIView *>(self, "_textView");
+
+	if (removeIcon) {
+		iconImageView.hidden = YES;
+		iconImageView.frame = CGRectZero;
+
+		CGRect textFrame = textView.frame;
+		textFrame.origin.x = iconImageView.frame.origin.x;
+		textFrame.size.width += iconImageView.frame.size.width + (textView.frame.origin.x - iconImageView.frame.origin.x - iconImageView.frame.size.width);
+	} else if (biggerIcon) {
 		iconImageView.frame = CGRectMake(8.f, 7.5f, 30.f, 30.f);
-
-		UIImageView *textView = MSHookIvar<UIImageView *>(self, "_textView");
-
-		CGRect textViewFrame = textView.frame;
-		textViewFrame.origin.x = iconImageView.frame.origin.x + iconImageView.frame.size.width + 8.f;
-		textViewFrame.size.width -= textView.frame.origin.x - textViewFrame.origin.x;
 	}
 
-	if (hideGrabber) {
+	if (removeGrabber) {
 		UIView *grabberView = MSHookIvar<UIImageView *>(self, IS_IOS_OR_NEWER(iOS_7_0_3) ? "_grabberView" : "_grabberImageView");
 		[grabberView removeFromSuperview];
 	}
@@ -199,27 +260,71 @@ NSMutableDictionary *iconCache = [[NSMutableDictionary alloc] init];
 
 %end
 
-%hook SBBannerController
+%hook SBDefaultBannerTextView
 
-- (CGRect)_bannerFrameForOrientation:(UIInterfaceOrientation)orientation {
-	CGRect frame = %orig;
-
-	if (hideGrabber) {
-		frame.size.height -= 18.f;
-	}
-
-	return frame;
+- (void)setRelevanceDateText:(NSString *)relevanceDateText {
+	%orig(removeDateLabel && [relevanceDateText isEqualToString:[[NSBundle mainBundle] localizedStringForKey:@"RELATIVE_DATE_NOW" value:@"now" table:@"SpringBoard"]] ? @"" : relevanceDateText);
 }
+
+/*
+- (void)setPrimaryText:(NSString *)primaryText {
+	%orig;
+	[self _flagpaint_centerAttributedStringIfNeeded:(char *)"_primaryTextAttributedString"];
+}
+
+- (void)setSecondaryText:(NSString *)secondaryText italicized:(BOOL)italicized {
+	%orig;
+	[self _flagpaint_centerAttributedStringIfNeeded:(char *)"_secondaryTextAttributedString"];
+}
+
+%new - (void)_flagpaint_centerAttributedStringIfNeeded:(char *)ivar {
+	NSAttributedString *attributedString = MSHookIvar<NSAttributedString *>(self, ivar);
+	NSMutableAttributedString *newAttributedString = [[attributedString mutableCopy] autorelease];
+
+	NSMutableParagraphStyle *paragraphStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
+	paragraphStyle.alignment = NSTextAlignmentCenter;
+	[newAttributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, newAttributedString.string.length)];
+
+	object_setInstanceVariable(self, ivar, newAttributedString);
+}
+*/
 
 %end
 
 #pragma mark - Preferences
 
 void HBFPLoadPrefs() {
-	// ...
+	NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/ws.hbang.flagpaint.plist"];
+
+	shouldTint = GET_BOOL(@"Tint", YES);
+	albumArtIcon = GET_BOOL(@"AlbumArt", YES);
+	useGradient = GET_BOOL(@"Gradient", NO);
+
+	biggerIcon = GET_BOOL(@"BigIcon", YES);
+	semiTransparent = GET_BOOL(@"Semitransparent", YES);
+	borderRadius = GET_BOOL(@"BorderRadius", NO);
+	centerText = GET_BOOL(@"CenterText", NO);
+
+	removeIcon = GET_BOOL(@"RemoveIcon", NO);
+	removeGrabber = GET_BOOL(@"RemoveGrabber", YES);
+	removeDateLabel = GET_BOOL(@"RemoveDateLabel", YES);
 }
 
 #pragma mark - Show test banner
+
+void HBFPShowBanner(NSString *sectionID, NSString *title, NSString *message, BOOL isTest) {
+	BBBulletinRequest *bulletin = [[[BBBulletinRequest alloc] init] autorelease];
+	bulletin.bulletinID = @"ws.hbang.flagpaint7";
+	bulletin.sectionID = sectionID;
+	bulletin.title = title;
+	bulletin.message = message;
+
+	if (isTest) {
+		bulletin.accessoryStyle = BBBulletinAccessoryStyleVIP;
+	}
+
+	[(SBBulletinBannerController *)[%c(SBBulletinBannerController) sharedInstance] observer:nil addBulletin:bulletin forFeed:2];
+}
 
 NSUInteger testIndex = 0;
 
@@ -240,13 +345,8 @@ void HBFPShowTestBanner() {
 		testIndex = arc4random_uniform(TestApps.count);
 	});
 
-	BBBulletinRequest *bulletin = [[[BBBulletinRequest alloc] init] autorelease];
-	bulletin.bulletinID = @"ws.hbang.flagpaint7";
-	bulletin.title = @"FlagPaint";
-	bulletin.message = @"Test notification";
-	bulletin.sectionID = TestApps[testIndex];
-	bulletin.accessoryStyle = BBBulletinAccessoryStyleVIP;
-	[(SBBulletinBannerController *)[%c(SBBulletinBannerController) sharedInstance] observer:nil addBulletin:bulletin forFeed:2];
+	HBFPShowBanner(TestApps[testIndex], @"FlagPaint", @"Test notification", YES);
+
 
 	testIndex = testIndex == TestApps.count - 1 ? 0 : testIndex + 1;
 }
