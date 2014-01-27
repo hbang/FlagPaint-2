@@ -21,7 +21,7 @@ static NSUInteger BitsPerComponent = 8;
 #pragma mark - Preference variables
 
 BOOL shouldTint, albumArtIcon, useGradient;
-BOOL biggerIcon, semiTransparent, borderRadius, centerText;
+BOOL biggerIcon, semiTransparent, borderRadius;
 BOOL removeIcon, removeGrabber, removeDateLabel;
 
 #pragma mark - Get dominant color
@@ -262,29 +262,6 @@ CGFloat bannerHeight = 64.f;
 	%orig(removeDateLabel && [relevanceDateText isEqualToString:[[NSBundle mainBundle] localizedStringForKey:@"RELATIVE_DATE_NOW" value:@"now" table:@"SpringBoard"]] ? @"" : relevanceDateText);
 }
 
-/*
-- (void)setPrimaryText:(NSString *)primaryText {
-	%orig;
-	[self _flagpaint_centerAttributedStringIfNeeded:(char *)"_primaryTextAttributedString"];
-}
-
-- (void)setSecondaryText:(NSString *)secondaryText italicized:(BOOL)italicized {
-	%orig;
-	[self _flagpaint_centerAttributedStringIfNeeded:(char *)"_secondaryTextAttributedString"];
-}
-
-%new - (void)_flagpaint_centerAttributedStringIfNeeded:(char *)ivar {
-	NSAttributedString *attributedString = MSHookIvar<NSAttributedString *>(self, ivar);
-	NSMutableAttributedString *newAttributedString = [[attributedString mutableCopy] autorelease];
-
-	NSMutableParagraphStyle *paragraphStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
-	paragraphStyle.alignment = NSTextAlignmentCenter;
-	[newAttributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, newAttributedString.string.length)];
-
-	object_setInstanceVariable(self, ivar, newAttributedString);
-}
-*/
-
 %end
 
 #pragma mark - Preferences
@@ -299,7 +276,6 @@ void HBFPLoadPrefs() {
 	biggerIcon = GET_BOOL(@"BigIcon", YES);
 	semiTransparent = GET_BOOL(@"Semitransparent", YES);
 	borderRadius = GET_BOOL(@"BorderRadius", NO);
-	centerText = GET_BOOL(@"CenterText", NO);
 
 	removeIcon = GET_BOOL(@"RemoveIcon", NO);
 	removeGrabber = GET_BOOL(@"RemoveGrabber", YES);
