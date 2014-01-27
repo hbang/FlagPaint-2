@@ -20,9 +20,9 @@
 	<string>1.0</string>
 	<key>DTPlatformName</key>
 	<string>iphoneos</string>
-	<key>MinimumOSVersion</key>
-	<string>3.0</string>
+	<key>HBPackageIdentifier</key>
+	<string>ws.hbang.flagpaint7</string>
 	<key>NSPrincipalClass</key>
-	<string>FlagPaint7ListController</string>
+	<string>HBFPRootListController</string>
 </dict>
 </plist>

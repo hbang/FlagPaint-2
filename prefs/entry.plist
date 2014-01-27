@@ -1,10 +1,10 @@
 {
     entry = {
-	bundle = FlagPaint7;
-	cell = PSLinkCell;
-	detail = FlagPaint7ListController;
-	icon = FlagPaint7.png;
-	isController = 1;
-	label = FlagPaint7;
+		bundle = FlagPaint7;
+		cell = PSLinkCell;
+		detail = HBFPRootListController;
+		icon = icon.png;
+		isController = 1;
+		label = FlagPaint7;
     };
 }
