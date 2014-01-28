@@ -809,8 +809,13 @@ BBBulletin *HBFPGetTestBulletin(BOOL isLockScreen) {
 	bulletin.bulletinID = @"ws.hbang.flagpaint";
 	bulletin.sectionID = TestApps[testIndex];
 	bulletin.title = @"FlagPaint";
-	bulletin.message = @"Test notification";
-	bulletin.accessoryStyle = BBBulletinAccessoryStyleVIP;
+
+	if (isLockScreen) {
+		bulletin.subtitle = @"Test notification";
+	} else {
+		bulletin.message = @"Test notification";
+		bulletin.accessoryStyle = BBBulletinAccessoryStyleVIP;
+	}
 
 	testIndex = testIndex == TestApps.count - 1 ? 0 : testIndex + 1;
 
@@ -818,7 +823,7 @@ BBBulletin *HBFPGetTestBulletin(BOOL isLockScreen) {
 }
 
 void HBFPShowTestBanner() {
-	[(SBBulletinBannerController *)[%c(SBBulletinBannerController) sharedInstance] observer:nil addBulletin:HBFPGetTestBulletin() forFeed:2];
+	[(SBBulletinBannerController *)[%c(SBBulletinBannerController) sharedInstance] observer:nil addBulletin:HBFPGetTestBulletin(NO) forFeed:2];
 }
 
 void HBFPShowLockScreenBulletin(BBBulletin *bulletin) {
@@ -847,7 +852,15 @@ void HBFPShowTestNotificationCenterBulletin() {
 %ctor {
 	%init;
 
+	if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/TinyBar.dylib"]) {
+		hasStatusBarTweak = YES;
+		dlopen("/Library/MobileSubstrate/DynamicLibraries/TinyBar.dylib", RTLD_NOW);
+		// %init(TinyBarHax);
+	}
+
 	HBFPLoadPrefs();
 	CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPLoadPrefs, CFSTR("ws.hbang.flagpaint/ReloadPrefs"), NULL, 0);
 	CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPShowTestBanner, CFSTR("ws.hbang.flagpaint/TestBanner"), NULL, 0);
+	CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPShowTestLockScreenNotification, CFSTR("ws.hbang.flagpaint/TestLockScreenNotification"), NULL, 0);
+	CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPShowTestNotificationCenterBulletin, CFSTR("ws.hbang.flagpaint/TestNotificationCenterBulletin"), NULL, 0);
 }
