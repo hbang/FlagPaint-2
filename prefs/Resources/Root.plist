@@ -233,16 +233,6 @@
 			<string>Test Lock Screen Notification</string>
 		</dict>
 		<dict>
-			<key>action</key>
-			<string>showTestNotificationCenterBulletin</string>
-			<key>cell</key>
-			<string>PSButtonCell</string>
-			<key>cellClass</key>
-			<string>HBTintedTableCell</string>
-			<key>label</key>
-			<string>Test Notification Center Bulletin</string>
-		</dict>
-		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 		</dict>
