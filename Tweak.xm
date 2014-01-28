@@ -20,6 +20,7 @@
 #import <SpringBoard/SBNotificationCenterController.h>
 #import <SpringBoard/SBNotificationCenterViewController.h>
 #import <SpringBoard/SBNotificationsBulletinCell.h>
+#import <SpringBoard/SpringBoard.h>
 #import <UIKit/_UIBackdropView.h>
 #import <UIKit/_UIBackdropViewSettingsAdaptiveLight.h>
 #import <UIKit/UITableViewCell+Private.h>
@@ -847,6 +848,10 @@ void HBFPShowTestNotificationCenterBulletin() {
 	}];
 }
 
+void HBFPRelaunchSpringBoard() {
+	[(SpringBoard *)[UIApplication sharedApplication] _relaunchSpringBoardNow];
+}
+
 #pragma mark - Constructor
 
 %ctor {
@@ -863,4 +868,5 @@ void HBFPShowTestNotificationCenterBulletin() {
 	CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPShowTestBanner, CFSTR("ws.hbang.flagpaint/TestBanner"), NULL, 0);
 	CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPShowTestLockScreenNotification, CFSTR("ws.hbang.flagpaint/TestLockScreenNotification"), NULL, 0);
 	CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPShowTestNotificationCenterBulletin, CFSTR("ws.hbang.flagpaint/TestNotificationCenterBulletin"), NULL, 0);
+	CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPRelaunchSpringBoard, CFSTR("ws.hbang.flagpaint/RelaunchSpringBoard"), NULL, 0);
 }

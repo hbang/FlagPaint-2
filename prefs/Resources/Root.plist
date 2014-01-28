@@ -70,7 +70,7 @@
 			<key>defaults</key>
 			<string>ws.hbang.flagpaint</string>
 			<key>id</key>
-			<string>BigIconCell</string>
+			<string>BigIcon</string>
 			<key>key</key>
 			<string>BigIcon</string>
 			<key>label</key>
@@ -86,7 +86,7 @@
 			<key>defaults</key>
 			<string>ws.hbang.flagpaint</string>
 			<key>id</key>
-			<string>AlbumArtCell</string>
+			<string>AlbumArt</string>
 			<key>key</key>
 			<string>AlbumArt</string>
 			<key>label</key>
@@ -97,6 +97,18 @@
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
+			<key>id</key>
+			<string>BannersSection</string>
+			<key>label</key>
+			<string>Banners</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>“Text Shadow” is currently incompatible with TinyBar.</string>
+			<key>id</key>
+			<string>BannersSectionDisabled</string>
 			<key>label</key>
 			<string>Banners</string>
 		</dict>
@@ -108,7 +120,7 @@
 			<key>defaults</key>
 			<string>ws.hbang.flagpaint</string>
 			<key>id</key>
-			<string>GradientCell</string>
+			<string>Gradient</string>
 			<key>key</key>
 			<string>Gradient</string>
 			<key>label</key>
@@ -151,6 +163,8 @@
 			<false/>
 			<key>defaults</key>
 			<string>ws.hbang.flagpaint</string>
+			<key>id</key>
+			<string>TextShadow</string>
 			<key>key</key>
 			<string>TextShadow</string>
 			<key>label</key>
@@ -160,7 +174,21 @@
 		</dict>
 		<dict>
 			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>enabled</key>
+			<false/>
+			<key>id</key>
+			<string>TextShadowDisabled</string>
+			<key>label</key>
+			<string>Text Shadow</string>
+		</dict>
+		<dict>
+			<key>cell</key>
 			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>“Hide Now Label” requires a respring to take effect.</string>
 			<key>label</key>
 			<string>Hide Elements</string>
 		</dict>
@@ -199,6 +227,8 @@
 			<true/>
 			<key>defaults</key>
 			<string>ws.hbang.flagpaint</string>
+			<key>id</key>
+			<string>RemoveDateLabel</string>
 			<key>key</key>
 			<string>RemoveDateLabel</string>
 			<key>label</key>
@@ -237,12 +267,10 @@
 			<string>PSGroupCell</string>
 		</dict>
 		<dict>
-			<key>bundle</key>
-			<string>libhbangprefs</string>
 			<key>cell</key>
 			<string>PSLinkCell</string>
 			<key>detail</key>
-			<string>HBAboutListController</string>
+			<string>HBFPAboutListController</string>
 			<key>isController</key>
 			<true/>
 			<key>label</key>

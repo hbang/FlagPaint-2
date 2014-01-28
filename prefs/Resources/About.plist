@@ -10,8 +10,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>FlagPaint7
-Version 1.0
+			<string>Version 1.0
 © 2013—2014, HASHBANG Productions</string>
 		</dict>
 		<dict>
@@ -20,9 +19,11 @@ Version 1.0
 		</dict>
 		<dict>
 			<key>action</key>
-			<string>openWebsite</string>
+			<string>hb_openWebsite</string>
 			<key>cell</key>
 			<string>PSButtonCell</string>
+			<key>cellClass</key>
+			<string>HBTintedTableCell</string>
 			<key>label</key>
 			<string>Visit Website</string>
 		</dict>
@@ -60,9 +61,11 @@ Version 1.0
 		</dict>
 		<dict>
 			<key>action</key>
-			<string>sendSupportEmail</string>
+			<string>hb_sendSupportEmail</string>
 			<key>cell</key>
 			<string>PSButtonCell</string>
+			<key>cellClass</key>
+			<string>HBTintedTableCell</string>
 			<key>label</key>
 			<string>Email Support</string>
 		</dict>

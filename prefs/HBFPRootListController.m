@@ -1,9 +1,12 @@
 #import "HBFPRootListController.h"
 #import "HBFPHeaderView.h"
+#import <Preferences/PSSpecifier.h>
+#import <Preferences/PSTableCell.h>
 #include <notify.h>
 
 @interface HBFPRootListController () {
 	HBFPHeaderView *_headerView;
+	BOOL _hasStatusBarTweak;
 }
 
 @end
@@ -33,6 +36,10 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 	[super loadView];
 
 	self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"FlagPaint7" style:UIBarButtonItemStyleBordered target:nil action:nil] autorelease];
+
+	if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/TinyBar.dylib"]) {
+		_hasStatusBarTweak = YES;
+	}
 
 	_headerView = [[HBFPHeaderView alloc] initWithTopInset:kHBFPHeaderTopInset];
 	_headerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -75,10 +82,49 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 
 - (NSArray *)specifiers {
 	if (!_specifiers) {
-		_specifiers = [[self loadSpecifiersFromPlistName:@"Root" target:self] retain];
+		NSArray *oldSpecifiers = [self loadSpecifiersFromPlistName:@"Root" target:self];
+		NSMutableArray *specifiers = [[NSMutableArray alloc] init];
+
+		for (PSSpecifier *specifier in oldSpecifiers) {
+			if ((_hasStatusBarTweak && [@[ @"TextShadow", @"BannersSection" ] containsObject:specifier.identifier]) ||
+				(!_hasStatusBarTweak && [@[ @"TextShadowDisabled", @"BannersSectionDisabled" ] containsObject:specifier.identifier])) {
+				continue;
+			}
+
+			[specifiers addObject:specifier];
+		}
+
+		_specifiers = specifiers;
 	}
 
 	return _specifiers;
+}
+
+- (void)setPreferenceValue:(id)value specifier:(PSSpecifier *)specifier {
+	[super setPreferenceValue:value specifier:specifier];
+
+	if ([specifier.identifier isEqualToString:@"BigIcon"]) {
+		PSSpecifier *albumArtSpecifier = [self specifierForID:@"AlbumArt"];
+		[self setPreferenceValue:@NO specifier:albumArtSpecifier];
+		[[NSUserDefaults standardUserDefaults] synchronize];
+
+		[self reloadSpecifier:albumArtSpecifier];
+		[self.view reloadRowsAtIndexPaths:@[ [self indexPathForSpecifier:albumArtSpecifier] ] withRowAnimation:UITableViewRowAnimationNone];
+	} else if ([specifier.identifier isEqualToString:@"RemoveDateLabel"]) {
+		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Respring" style:UIBarButtonItemStyleDone target:self action:@selector(relaunchSpringBoard)] autorelease];
+	}
+}
+
+#pragma mark - UITableViewDataSource
+
+- (PSTableCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	PSTableCell *cell = (PSTableCell *)[super tableView:tableView cellForRowAtIndexPath:indexPath];
+
+	if ([cell.specifier.identifier isEqualToString:@"AlbumArt"]) {
+		cell.cellEnabled = ((NSNumber *)[self readPreferenceValue:[self specifierForID:@"BigIcon"]]).boolValue;
+	}
+
+	return cell;
 }
 
 #pragma mark - Callbacks
@@ -93,6 +139,10 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 
 - (void)showTestNotificationCenterBulletin {
 	notify_post("ws.hbang.flagpaint/TestNotificationCenterBulletin");
+}
+
+- (void)relaunchSpringBoard {
+	notify_post("ws.hbang.flagpaint/RelaunchSpringBoard");
 }
 
 #pragma mark - Memory management
