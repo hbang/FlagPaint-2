@@ -556,7 +556,7 @@ CGFloat bannerHeight = 64.f;
 
 			_UIBackdropViewSettingsAdaptiveLight *settings = [[%c(_UIBackdropViewSettingsAdaptiveLight) alloc] initWithDefaultValues];
 			settings.colorTint = [UIColor blackColor];
-			settings.colorTintAlpha = 0.4f;
+			settings.colorTintAlpha = 0.2f;
 			settings.grayscaleTintLevel = 0;
 			settings.grayscaleTintAlpha = 0.2f;
 
@@ -588,7 +588,7 @@ CGFloat bannerHeight = 64.f;
 - (void)setFloating:(BOOL)floating {
 	if (tintNotificationCenter) {
 		_UIBackdropViewSettings *settings = objc_getAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier);
-		settings.grayscaleTintAlpha = floating ? 0.6f : 0.2f;
+		settings.grayscaleTintAlpha = floating ? 0.35f : 0.2f;
 	} else {
 		%orig;
 	}
