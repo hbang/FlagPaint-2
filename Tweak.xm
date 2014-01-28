@@ -491,7 +491,13 @@ CGFloat bannerHeight = 64.f;
 	SBLockScreenNotificationCell *cell = %orig;
 
 	if (tintLockScreen || biggerIcon) {
-		BBBulletin *bulletin = [self.model listItemAtIndexPath:indexPath].activeBulletin;
+		SBAwayBulletinListItem *listItem = [self.model listItemAtIndexPath:indexPath];
+
+		if (![listItem respondsToSelector:@selector(activeBulletin)]) {
+			return;
+		}
+
+		BBBulletin *bulletin = listItem.activeBulletin;
 		UIImageView *iconImageView = MSHookIvar<UIImageView *>(cell, "_iconImageView");
 
 		BOOL isMusic = HBFPIsMusic(bulletin.sectionID);
