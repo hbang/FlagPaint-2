@@ -4,7 +4,7 @@ Pre-Depends: firmware (>= 7.0)
 Depends: mobilesubstrate, preferenceloader, ws.hbang.common
 Conflicts: org.thebigboss.flagpaint
 Replaces: org.thebigboss.flagpaint
-Version: 0.0.1
+Version: 1.0
 Architecture: iphoneos-arm
 Description: Tint banners based on icon color
 Maintainer: HASHBANG Productions <support@hbang.ws>

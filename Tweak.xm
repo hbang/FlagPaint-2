@@ -494,7 +494,7 @@ CGFloat bannerHeight = 64.f;
 		SBAwayBulletinListItem *listItem = [self.model listItemAtIndexPath:indexPath];
 
 		if (![listItem respondsToSelector:@selector(activeBulletin)]) {
-			return;
+			return cell;
 		}
 
 		BBBulletin *bulletin = listItem.activeBulletin;
