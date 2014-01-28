@@ -1,0 +1,3 @@
+@interface HBFPShadowedLabel : UILabel
+
+@end
