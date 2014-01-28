@@ -15,6 +15,7 @@
 #import <SpringBoard/SBLockScreenNotificationListView.h>
 #import <SpringBoard/SBLockScreenNotificationModel.h>
 #import <SpringBoard/SBMediaController.h>
+#import <SpringBoard/SBNotificationsBulletinCell.h>
 #import <UIKit/_UIBackdropView.h>
 #import <UIKit/_UIBackdropViewSettingsAdaptiveLight.h>
 #import <UIKit/UITableViewCell+Private.h>
@@ -468,8 +469,12 @@ CGFloat bannerHeight = 64.f;
 				iconCache[key] = iconImageView.image;
 			}
 
+			if (!tintCache[key]) {
+				tintCache[key] = HBFPGetDominantColor(iconCache[key]);
+			}
+
 			UIView *backgroundView = objc_getAssociatedObject(cell, &kHBFPBackgroundViewIdentifier);
-			backgroundView.backgroundColor = HBFPGetDominantColor(iconCache[key]);
+			backgroundView.backgroundColor = tintCache[key];
 		}
 	}
 
@@ -539,6 +544,112 @@ CGFloat bannerHeight = 64.f;
 %end
 
 #pragma mark - Notification Center
+
+%hook SBNotificationsSectionHeaderView
+
+- (id)initWithFrame:(CGRect)frame {
+	self = %orig;
+
+	if (self) {
+		if (tintNotificationCenter) {
+			_UIBackdropView *oldBackdropView = MSHookIvar<_UIBackdropView *>(self, "_backdrop");
+
+			_UIBackdropViewSettingsAdaptiveLight *settings = [[%c(_UIBackdropViewSettingsAdaptiveLight) alloc] initWithDefaultValues];
+			settings.colorTint = [UIColor blackColor];
+			settings.colorTintAlpha = 0.4f;
+			settings.grayscaleTintLevel = 0;
+			settings.grayscaleTintAlpha = 0.2f;
+
+			objc_setAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier, settings, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+
+			_UIBackdropView *backdropView = [[%c(_UIBackdropView) alloc] initWithFrame:CGRectZero autosizesToFitSuperview:YES settings:settings];
+			[oldBackdropView.superview insertSubview:backdropView belowSubview:oldBackdropView];
+			[oldBackdropView removeFromSuperview];
+			[oldBackdropView release];
+
+			object_setInstanceVariable(self, "_backdrop", backdropView);
+		}
+	}
+
+	return self;
+}
+
+- (void)layoutSubviews {
+	%orig;
+
+	if (tintNotificationCenter) {
+		UIImageView *iconImageView = MSHookIvar<UIImageView *>(self, "_iconImageView");
+
+		_UIBackdropViewSettings *settings = objc_getAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier);
+		settings.colorTint = HBFPGetDominantColor(iconImageView.image);
+	}
+}
+
+- (void)setFloating:(BOOL)floating {
+	if (tintNotificationCenter) {
+		_UIBackdropViewSettings *settings = objc_getAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier);
+		settings.grayscaleTintAlpha = floating ? 0.6f : 0.2f;
+	} else {
+		%orig;
+	}
+}
+
+- (void)dealloc {
+	[objc_getAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier) release];
+	%orig;
+}
+
+%end
+
+%hook SBNotificationsBulletinCell
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+	self = %orig;
+
+	if (self) {NSLog(@"sdfjshdfdsf");
+		if (tintNotificationCenter) {
+			UIView *backgroundView = [[UIView alloc] initWithFrame:self.frame];
+			backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+			backgroundView.alpha = 0.3f;
+			[self.realContentView insertSubview:backgroundView atIndex:0];
+
+			objc_setAssociatedObject(self, &kHBFPBackgroundViewIdentifier, backgroundView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+		}
+	}
+
+	return self;
+}
+
+- (void)dealloc {
+	[objc_getAssociatedObject(self, &kHBFPBackgroundViewIdentifier) release];
+	%orig;
+}
+
+%end
+
+%hook SBBulletinViewController
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	UITableViewCell *cell = %orig;
+
+	if (tintNotificationCenter) {
+		NSMutableArray *orderedSections = MSHookIvar<NSMutableArray *>(self, "_orderedSections");
+		NSString *key = orderedSections[indexPath.section];
+
+		if (iconCache[key]) {
+			if (!tintCache[key]) {
+				tintCache[key] = HBFPGetDominantColor(iconCache[key]);
+			}
+
+			UIView *backgroundView = objc_getAssociatedObject(cell, &kHBFPBackgroundViewIdentifier);
+			backgroundView.backgroundColor = tintCache[key];
+		}
+	}
+
+	return cell;
+}
+
+%end
 
 #pragma mark - First run
 
