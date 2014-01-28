@@ -6,7 +6,9 @@
 #import <SpringBoard/SBApplicationIcon.h>
 #import <SpringBoard/SBAwayBulletinListItem.h>
 #import <SpringBoard/SBBannerContextView.h>
+#import <SpringBoard/SBBBSectionInfo.h>
 #import <SpringBoard/SBBulletinBannerController.h>
+#import <SpringBoard/SBBulletinObserverViewController.h>
 #import <SpringBoard/SBDefaultBannerTextView.h>
 #import <SpringBoard/SBDefaultBannerView.h>
 #import <SpringBoard/SBLockScreenManager.h>
@@ -15,11 +17,15 @@
 #import <SpringBoard/SBLockScreenNotificationListView.h>
 #import <SpringBoard/SBLockScreenNotificationModel.h>
 #import <SpringBoard/SBMediaController.h>
+#import <SpringBoard/SBNotificationCenterController.h>
+#import <SpringBoard/SBNotificationCenterViewController.h>
 #import <SpringBoard/SBNotificationsBulletinCell.h>
 #import <UIKit/_UIBackdropView.h>
 #import <UIKit/_UIBackdropViewSettingsAdaptiveLight.h>
 #import <UIKit/UITableViewCell+Private.h>
 #import <version.h>
+#import "HBFPShadowedLabel.h"
+#include <dlfcn.h>
 
 struct pixel {
 	unsigned char r, g, b, a;
@@ -28,12 +34,21 @@ struct pixel {
 static NSUInteger BytesPerPixel = 4;
 static NSUInteger BitsPerComponent = 8;
 
-#pragma mark - Preference variables
+#pragma mark - Variables
+
+static const char *kHBFPBackdropViewSettingsIdentifier;
+static const char *kHBFPBackgroundGradientIdentifier;
+static const char *kHBFPBackgroundViewIdentifier;
 
 BOOL tintBanners, tintLockScreen, tintNotificationCenter;
 BOOL biggerIcon, albumArtIcon;
 BOOL useGradient, semiTransparent, borderRadius, textShadow;
 BOOL removeIcon, removeGrabber, removeDateLabel;
+
+BOOL hasStatusBarTweak;
+
+NSMutableDictionary *tintCache = [[NSMutableDictionary alloc] init];
+NSMutableDictionary *iconCache = [[NSMutableDictionary alloc] init];
 
 #pragma mark - Get dominant color
 
@@ -151,14 +166,27 @@ NSString *HBFPGetKey(NSString *sectionID, BOOL isMusic) {
 	return isMusic ? [NSString stringWithFormat:@"_FPMusic_%@_%@_%@_%@", mediaController.nowPlayingApplication.bundleIdentifier, mediaController.nowPlayingTitle, mediaController.nowPlayingArtist, mediaController.nowPlayingAlbum] : sectionID;
 }
 
+void HBFPGetIconIfNeeded(NSString *key, NSString *sectionID, BOOL isMusic) {
+	if (!iconCache[key]) {
+		if (isMusic) {
+			iconCache[key] = HBFPResizeImage([UIImage imageWithData:((SBMediaController *)[%c(SBMediaController) sharedInstance])._nowPlayingInfo[@"artworkData"]], CGSizeMake(120.f, 120.f));
+		} else {
+			SBApplication *app = [[(SBApplicationController *)[%c(SBApplicationController) sharedInstance] applicationWithDisplayIdentifier:sectionID] autorelease];
+
+			if (app) {
+				SBApplicationIcon *appIcon = [[[%c(SBApplicationIcon) alloc] initWithApplication:app] autorelease];
+				UIImage *icon = [appIcon getIconImage:SBApplicationIconFormatDefault];
+
+				if (icon) {
+					iconCache[key] = icon;
+				}
+			}
+		}
+	}
+}
+
 #pragma mark - The Guts(tm)
 
-static const char *kHBFPBackdropViewSettingsIdentifier;
-static const char *kHBFPBackgroundGradientIdentifier;
-static const char *kHBFPBackgroundViewIdentifier;
-
-NSMutableDictionary *tintCache = [[NSMutableDictionary alloc] init];
-NSMutableDictionary *iconCache = [[NSMutableDictionary alloc] init];
 CGFloat bannerHeight = 64.f;
 
 %hook NSBundle
@@ -273,23 +301,7 @@ CGFloat bannerHeight = 64.f;
 	NSString *key = HBFPGetKey(bulletin.sectionID, isMusic);
 
 	if (biggerIcon) {
-		if (!iconCache[key]) {
-			if (isMusic) {
-				iconCache[key] = HBFPResizeImage([UIImage imageWithData:((SBMediaController *)[%c(SBMediaController) sharedInstance])._nowPlayingInfo[@"artworkData"]], CGSizeMake(120.f, 120.f));
-			} else {
-				SBApplication *app = [[(SBApplicationController *)[%c(SBApplicationController) sharedInstance] applicationWithDisplayIdentifier:bulletin.sectionID] autorelease];
-
-				if (app) {
-					SBApplicationIcon *appIcon = [[[%c(SBApplicationIcon) alloc] initWithApplication:app] autorelease];
-					UIImage *icon = [appIcon getIconImage:SBApplicationIconFormatDefault];
-
-					if (icon) {
-						iconCache[key] = icon;
-					}
-				}
-			}
-		}
-
+		HBFPGetIconIfNeeded(key, bulletin.sectionID, isMusic);
 		iconImageView.image = iconCache[key];
 
 		if (isMusic) {
@@ -311,7 +323,7 @@ CGFloat bannerHeight = 64.f;
 - (void)setBackgroundImage:(UIImage *)backgroundImage {}
 
 %new - (void)_flagpaint_setHeightIfNeeded {
-	if (removeGrabber) {
+	if (removeGrabber && !hasStatusBarTweak) {
 		SBDefaultBannerView *contentView = MSHookIvar<SBDefaultBannerView *>(self, "_contentView");
 		SBDefaultBannerTextView *textView = MSHookIvar<SBDefaultBannerTextView *>(contentView, "_textView");
 		[contentView layoutSubviews];
@@ -440,23 +452,7 @@ CGFloat bannerHeight = 64.f;
 		NSString *key = HBFPGetKey(bulletin.sectionID, isMusic);
 
 		if (biggerIcon) {
-			if (!iconCache[key]) {
-				if (isMusic) {
-					iconCache[key] = HBFPResizeImage([UIImage imageWithData:((SBMediaController *)[%c(SBMediaController) sharedInstance])._nowPlayingInfo[@"artworkData"]], CGSizeMake(120.f, 120.f));
-				} else {
-					SBApplication *app = [[(SBApplicationController *)[%c(SBApplicationController) sharedInstance] applicationWithDisplayIdentifier:bulletin.sectionID] autorelease];
-
-					if (app) {
-						SBApplicationIcon *appIcon = [[[%c(SBApplicationIcon) alloc] initWithApplication:app] autorelease];
-						UIImage *icon = [appIcon getIconImage:SBApplicationIconFormatDefault];
-
-						if (icon) {
-							iconCache[key] = icon;
-						}
-					}
-				}
-			}
-
+			HBFPGetIconIfNeeded(key, bulletin.sectionID, isMusic);
 			iconImageView.image = iconCache[key];
 
 			if (isMusic) {
@@ -556,9 +552,9 @@ CGFloat bannerHeight = 64.f;
 
 			_UIBackdropViewSettingsAdaptiveLight *settings = [[%c(_UIBackdropViewSettingsAdaptiveLight) alloc] initWithDefaultValues];
 			settings.colorTint = [UIColor blackColor];
-			settings.colorTintAlpha = 0.2f;
+			settings.colorTintAlpha = 0.35f;
 			settings.grayscaleTintLevel = 0;
-			settings.grayscaleTintAlpha = 0.2f;
+			settings.grayscaleTintAlpha = 0.05f;
 
 			objc_setAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier, settings, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
@@ -574,21 +570,10 @@ CGFloat bannerHeight = 64.f;
 	return self;
 }
 
-- (void)layoutSubviews {
-	%orig;
-
-	if (tintNotificationCenter) {
-		UIImageView *iconImageView = MSHookIvar<UIImageView *>(self, "_iconImageView");
-
-		_UIBackdropViewSettings *settings = objc_getAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier);
-		settings.colorTint = HBFPGetDominantColor(iconImageView.image);
-	}
-}
-
 - (void)setFloating:(BOOL)floating {
 	if (tintNotificationCenter) {
 		_UIBackdropViewSettings *settings = objc_getAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier);
-		settings.grayscaleTintAlpha = floating ? 0.35f : 0.2f;
+		settings.grayscaleTintAlpha = floating ? 0.15f : 0.05f;
 	} else {
 		%orig;
 	}
@@ -606,11 +591,11 @@ CGFloat bannerHeight = 64.f;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
 	self = %orig;
 
-	if (self) {NSLog(@"sdfjshdfdsf");
+	if (self) {
 		if (tintNotificationCenter) {
 			UIView *backgroundView = [[UIView alloc] initWithFrame:self.frame];
 			backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-			backgroundView.alpha = 0.3f;
+			backgroundView.alpha = 0.15f;
 			[self.realContentView insertSubview:backgroundView atIndex:0];
 
 			objc_setAssociatedObject(self, &kHBFPBackgroundViewIdentifier, backgroundView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -618,6 +603,13 @@ CGFloat bannerHeight = 64.f;
 	}
 
 	return self;
+}
+
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
+	if (tintNotificationCenter) {
+		UIView *backgroundView = objc_getAssociatedObject(self, &kHBFPBackgroundViewIdentifier);
+		backgroundView.alpha = highlighted ? 0.3f : 0.15f;
+	}
 }
 
 - (void)dealloc {
@@ -634,9 +626,12 @@ CGFloat bannerHeight = 64.f;
 
 	if (tintNotificationCenter) {
 		NSMutableArray *orderedSections = MSHookIvar<NSMutableArray *>(self, "_orderedSections");
-		NSString *key = orderedSections[indexPath.section];
+		SBBBSectionInfo *sectionInfo = orderedSections[indexPath.section];
 
-		if (iconCache[key]) {
+		if (sectionInfo && [sectionInfo respondsToSelector:@selector(identifier)] && sectionInfo.identifier) {
+			NSString *key = sectionInfo.identifier;
+			HBFPGetIconIfNeeded(key, key, NO);
+
 			if (!tintCache[key]) {
 				tintCache[key] = HBFPGetDominantColor(iconCache[key]);
 			}
@@ -647,6 +642,31 @@ CGFloat bannerHeight = 64.f;
 	}
 
 	return cell;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+	UIView *header = %orig;
+
+	if (!header || !tintNotificationCenter) {
+		return header;
+	}
+
+	NSMutableArray *orderedSections = MSHookIvar<NSMutableArray *>(self, "_orderedSections");
+	SBBBSectionInfo *sectionInfo = orderedSections[section];
+
+	if (sectionInfo && [sectionInfo respondsToSelector:@selector(identifier)] && sectionInfo.identifier) {
+		NSString *key = sectionInfo.identifier;
+		HBFPGetIconIfNeeded(key, key, NO);
+
+		if (!tintCache[key]) {
+			tintCache[key] = HBFPGetDominantColor(iconCache[key]);
+		}
+
+		_UIBackdropViewSettings *settings = objc_getAssociatedObject(header, &kHBFPBackdropViewSettingsIdentifier);
+		settings.colorTint = tintCache[key];
+	}
+
+	return header;
 }
 
 %end
