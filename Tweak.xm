@@ -1,15 +1,23 @@
 #import <Accelerate/Accelerate.h>
-#import <BulletinBoard/BBBulletinRequest.h>
+#import <BulletinBoard/BBAction.h>
+#import <BulletinBoard/BBBulletin.h>
 #import <SpringBoard/SBApplication.h>
 #import <SpringBoard/SBApplicationController.h>
 #import <SpringBoard/SBApplicationIcon.h>
+#import <SpringBoard/SBAwayBulletinListItem.h>
 #import <SpringBoard/SBBannerContextView.h>
 #import <SpringBoard/SBBulletinBannerController.h>
 #import <SpringBoard/SBDefaultBannerTextView.h>
 #import <SpringBoard/SBDefaultBannerView.h>
+#import <SpringBoard/SBLockScreenManager.h>
+#import <SpringBoard/SBLockScreenNotificationCell.h>
+#import <SpringBoard/SBLockScreenNotificationListController.h>
+#import <SpringBoard/SBLockScreenNotificationListView.h>
+#import <SpringBoard/SBLockScreenNotificationModel.h>
 #import <SpringBoard/SBMediaController.h>
 #import <UIKit/_UIBackdropView.h>
 #import <UIKit/_UIBackdropViewSettingsAdaptiveLight.h>
+#import <UIKit/UITableViewCell+Private.h>
 #import <version.h>
 
 struct pixel {
@@ -146,10 +154,22 @@ NSString *HBFPGetKey(NSString *sectionID, BOOL isMusic) {
 
 static const char *kHBFPBackdropViewSettingsIdentifier;
 static const char *kHBFPBackgroundGradientIdentifier;
+static const char *kHBFPBackgroundViewIdentifier;
 
 NSMutableDictionary *tintCache = [[NSMutableDictionary alloc] init];
 NSMutableDictionary *iconCache = [[NSMutableDictionary alloc] init];
 CGFloat bannerHeight = 64.f;
+
+%hook NSBundle
+
+- (NSString *)localizedStringForKey:(NSString *)key value:(NSString *)value table:(NSString *)table {
+	// broad hook, yes i know. sue me.
+	return [key isEqualToString:@"RELATIVE_DATE_NOW"] && [table isEqualToString:@"SpringBoard"] && removeDateLabel ? @"" : %orig;
+}
+
+%end
+
+#pragma mark - Banners
 
 @interface SBBannerContextView (FlagPaint)
 
@@ -351,10 +371,6 @@ CGFloat bannerHeight = 64.f;
 
 %hook SBDefaultBannerTextView
 
-- (void)setRelevanceDateText:(NSString *)relevanceDateText {
-	%orig(removeDateLabel && [relevanceDateText isEqualToString:[[NSBundle mainBundle] localizedStringForKey:@"RELATIVE_DATE_NOW" value:@"now" table:@"SpringBoard"]] ? @"" : relevanceDateText);
-}
-
 - (void)drawRect:(CGRect)rect {
 	if (textShadow) {
 		// http://stackoverflow.com/a/1537079/709376
@@ -373,16 +389,216 @@ CGFloat bannerHeight = 64.f;
 
 %end
 
+#pragma mark - Lock Screen
+
+%hook SBLockScreenNotificationListView
+
+- (id)initWithFrame:(CGRect)frame {
+	self = %orig;
+
+	if (self) {
+		if (tintLockScreen) {
+			UIView *containerView = MSHookIvar<UIView *>(self, "_containerView");
+
+			CAGradientLayer *gradientLayer = [[CAGradientLayer alloc] init];
+			gradientLayer.locations = IS_IPAD ? @[ @0, @0.1f, @0.9f, @1 ] : @[ @0, @0.04f, @0.96f, @1 ];
+			gradientLayer.colors = @[
+				(id)[UIColor colorWithWhite:1 alpha:0.05f].CGColor,
+				(id)[UIColor whiteColor].CGColor,
+				(id)[UIColor whiteColor].CGColor,
+				(id)[UIColor colorWithWhite:1 alpha:0.05f].CGColor
+			];
+			containerView.layer.mask = gradientLayer;
+
+			objc_setAssociatedObject(self, &kHBFPBackgroundGradientIdentifier, gradientLayer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+		}
+	}
+
+	return self;
+}
+
+- (void)layoutSubviews {
+	%orig;
+
+	if (tintLockScreen) {
+		UIView *containerView = MSHookIvar<UIView *>(self, "_containerView");
+
+		CAGradientLayer *gradientLayer = objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier);
+		gradientLayer.frame = CGRectMake(0, 0, containerView.frame.size.width, containerView.frame.size.height);
+	}
+}
+
+- (SBLockScreenNotificationCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	SBLockScreenNotificationCell *cell = %orig;
+
+	if (tintLockScreen || biggerIcon) {
+		BBBulletin *bulletin = [self.model listItemAtIndexPath:indexPath].activeBulletin;
+		UIImageView *iconImageView = MSHookIvar<UIImageView *>(cell, "_iconImageView");
+
+		BOOL isMusic = HBFPIsMusic(bulletin.sectionID);
+		NSString *key = HBFPGetKey(bulletin.sectionID, isMusic);
+
+		if (biggerIcon) {
+			if (!iconCache[key]) {
+				if (isMusic) {
+					iconCache[key] = HBFPResizeImage([UIImage imageWithData:((SBMediaController *)[%c(SBMediaController) sharedInstance])._nowPlayingInfo[@"artworkData"]], CGSizeMake(120.f, 120.f));
+				} else {
+					SBApplication *app = [[(SBApplicationController *)[%c(SBApplicationController) sharedInstance] applicationWithDisplayIdentifier:bulletin.sectionID] autorelease];
+
+					if (app) {
+						SBApplicationIcon *appIcon = [[[%c(SBApplicationIcon) alloc] initWithApplication:app] autorelease];
+						UIImage *icon = [appIcon getIconImage:SBApplicationIconFormatDefault];
+
+						if (icon) {
+							iconCache[key] = icon;
+						}
+					}
+				}
+			}
+
+			iconImageView.image = iconCache[key];
+
+			if (isMusic) {
+				iconImageView.layer.minificationFilter = kCAFilterTrilinear;
+			}
+		}
+
+		if (tintLockScreen) {
+			if (!iconCache[key]) {
+				iconCache[key] = iconImageView.image;
+			}
+
+			UIView *backgroundView = objc_getAssociatedObject(cell, &kHBFPBackgroundViewIdentifier);
+			backgroundView.backgroundColor = HBFPGetDominantColor(iconCache[key]);
+		}
+	}
+
+	return cell;
+}
+
+- (void)dealloc {
+	[objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier) release];
+	%orig;
+}
+
+%end
+
+%hook SBLockScreenNotificationCell
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+	self = %orig;
+
+	if (self) {
+		if (tintLockScreen) {
+			UIView *backgroundView = [[UIView alloc] initWithFrame:self.frame];
+			backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+			[self.realContentView insertSubview:backgroundView atIndex:0];
+
+			CAGradientLayer *gradientLayer = [[CAGradientLayer alloc] init];
+			gradientLayer.locations = @[ @0, @0.2f, @0.4f, @1 ];
+			gradientLayer.startPoint = CGPointMake(0, 0.5f);
+			gradientLayer.endPoint = CGPointMake(1.f, 0.5f);
+			gradientLayer.colors = @[
+				(id)[UIColor colorWithWhite:1 alpha:0.8f].CGColor,
+				(id)[UIColor colorWithWhite:1 alpha:0.5f].CGColor,
+				(id)[UIColor colorWithWhite:1 alpha:0.2f].CGColor,
+				(id)[UIColor colorWithWhite:1 alpha:0.05f].CGColor
+			];
+			backgroundView.layer.mask = gradientLayer;
+
+			objc_setAssociatedObject(self, &kHBFPBackgroundViewIdentifier, backgroundView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+			objc_setAssociatedObject(self, &kHBFPBackgroundGradientIdentifier, gradientLayer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+		}
+	}
+
+	return self;
+}
+
+- (void)layoutSubviews {
+	%orig;
+
+	if (tintLockScreen || biggerIcon) {
+		if (biggerIcon) {
+			UIImageView *iconImageView = MSHookIvar<UIImageView *>(self, "_iconImageView");
+			iconImageView.frame = CGRectMake(9.f, 12.5f, 30.f, 30.f);
+		}
+
+		if (tintLockScreen) {
+			CAGradientLayer *gradientLayer = objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier);
+			gradientLayer.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+		}
+	}
+}
+
+- (void)dealloc {
+	[objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier) release];
+	[objc_getAssociatedObject(self, &kHBFPBackgroundViewIdentifier) release];
+	%orig;
+}
+
+%end
+
+#pragma mark - Notification Center
+
+#pragma mark - First run
+
+void HBFPShowLockScreenBulletin(BBBulletin *bulletin);
+
+%group FirstRun
+
+BOOL firstRun = YES;
+
+%hook SBLockScreenViewController
+
+- (void)viewDidAppear:(BOOL)animated {
+	%orig;
+
+	if (firstRun) {
+		firstRun = NO;
+
+		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
+			BBBulletin *bulletin = [[[BBBulletin alloc] init] autorelease];
+			bulletin.bulletinID = @"ws.hbang.flagpaint";
+			bulletin.sectionID = @"com.apple.Preferences";
+			bulletin.title = @"Thanks for purchasing FlagPaint!";
+			bulletin.unlockActionLabelOverride = @"configure";
+
+			NSURL *url;
+
+			if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/PreferenceOrganizer2.dylib"]) {
+				url = [NSURL URLWithString:@"prefs:root=Cydia&path=FlagPaint7"];
+			} else {
+				url = [NSURL URLWithString:@"prefs:root=FlagPaint7"];
+			}
+
+			bulletin.defaultAction = [BBAction actionWithLaunchURL:url callblock:nil];
+
+			HBFPShowLockScreenBulletin(bulletin);
+		});
+	}
+}
+
+%end
+
+%end
+
 #pragma mark - Preferences
 
 void HBFPLoadPrefs() {
 	NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/ws.hbang.flagpaint.plist"];
 
+	if (prefs.allKeys.count == 0) {
+		%init(FirstRun);
+	}
+
 	tintBanners = GET_BOOL(@"Tint", YES);
-	albumArtIcon = GET_BOOL(@"AlbumArt", YES);
-	useGradient = GET_BOOL(@"Gradient", NO);
+	tintLockScreen = GET_BOOL(@"TintLockScreen", YES);
+	tintNotificationCenter = GET_BOOL(@"TintNotificationCenter", YES);
 
 	biggerIcon = GET_BOOL(@"BigIcon", YES);
+	albumArtIcon = GET_BOOL(@"AlbumArt", YES);
+
+	useGradient = GET_BOOL(@"Gradient", NO);
 	semiTransparent = GET_BOOL(@"Semitransparent", YES);
 	borderRadius = GET_BOOL(@"BorderRadius", NO);
 	textShadow = GET_BOOL(@"TextShadow", NO);
@@ -392,25 +608,11 @@ void HBFPLoadPrefs() {
 	removeDateLabel = GET_BOOL(@"RemoveDateLabel", YES);
 }
 
-#pragma mark - Show test banner
-
-void HBFPShowBanner(NSString *sectionID, NSString *title, NSString *message, BOOL isTest) {
-	BBBulletinRequest *bulletin = [[[BBBulletinRequest alloc] init] autorelease];
-	bulletin.bulletinID = @"ws.hbang.flagpaint7";
-	bulletin.sectionID = sectionID;
-	bulletin.title = title;
-	bulletin.message = message;
-
-	if (isTest) {
-		bulletin.accessoryStyle = BBBulletinAccessoryStyleVIP;
-	}
-
-	[(SBBulletinBannerController *)[%c(SBBulletinBannerController) sharedInstance] observer:nil addBulletin:bulletin forFeed:2];
-}
+#pragma mark - Show test bulletin
 
 NSUInteger testIndex = 0;
 
-void HBFPShowTestBanner() {
+BBBulletin *HBFPGetTestBulletin() {
 	static NSArray *TestApps;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
@@ -427,14 +629,34 @@ void HBFPShowTestBanner() {
 		testIndex = arc4random_uniform(TestApps.count);
 	});
 
-	HBFPShowBanner(TestApps[testIndex], @"FlagPaint", @"Test notification", YES);
+	BBBulletin *bulletin = [[[BBBulletin alloc] init] autorelease];
+	bulletin.bulletinID = @"ws.hbang.flagpaint";
+	bulletin.sectionID = TestApps[testIndex];
+	bulletin.title = @"FlagPaint";
+	bulletin.message = @"Test notification";
+	bulletin.accessoryStyle = BBBulletinAccessoryStyleVIP;
 
 	testIndex = testIndex == TestApps.count - 1 ? 0 : testIndex + 1;
+
+	return bulletin;
+}
+
+void HBFPShowTestBanner() {
+	[(SBBulletinBannerController *)[%c(SBBulletinBannerController) sharedInstance] observer:nil addBulletin:HBFPGetTestBulletin() forFeed:2];
+}
+
+void HBFPShowLockScreenBulletin(BBBulletin *bulletin) {
+	UIViewController *viewController = ((SBLockScreenManager *)[%c(SBLockScreenManager) sharedInstance]).lockScreenViewController;
+	SBLockScreenNotificationListController *notificationController = MSHookIvar<SBLockScreenNotificationListController *>(viewController, "_notificationController");
+
+	[notificationController observer:nil addBulletin:bulletin forFeed:2];
 }
 
 #pragma mark - Constructor
 
 %ctor {
+	%init;
+
 	HBFPLoadPrefs();
 	CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPLoadPrefs, CFSTR("ws.hbang.flagpaint/ReloadPrefs"), NULL, 0);
 	CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPShowTestBanner, CFSTR("ws.hbang.flagpaint/TestBanner"), NULL, 0);
