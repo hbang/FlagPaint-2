@@ -1,0 +1,10 @@
+{
+    entry = {
+		bundle = FlagPaint7;
+		cell = PSLinkCell;
+		detail = HBFPRootListController;
+		icon = icon.png;
+		isController = 1;
+		label = "FlagPaint7 Lite";
+    };
+}
