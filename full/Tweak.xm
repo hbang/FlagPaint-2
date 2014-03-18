@@ -551,17 +551,15 @@ CGFloat bannerHeight = 64.f;
 		BBBulletin *bulletin = cell.bulletin;
 		BOOL isMusic = HBFPIsMusic(bulletin.sectionID);
 		NSString *key = HBFPGetKey(bulletin.sectionID, isMusic);
-		if (tintLockScreen) {
-			if (!iconCache[key]) {
-				iconCache[key] = iconImageView.image;
-			}
-
-			if (!tintCache[key]) {
-				tintCache[key] = HBFPGetDominantColor(iconCache[key]);
-			}
-
-			cell.backgroundColor = tintCache[key];
+		if (!iconCache[key]) {
+			iconCache[key] = iconImageView.image;
 		}
+
+		if (!tintCache[key]) {
+			tintCache[key] = HBFPGetDominantColor(iconCache[key]);
+		}
+
+		cell.backgroundColor = tintCache[key];
 	}
 	return cell;
 }
