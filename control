@@ -2,11 +2,12 @@ Package: ws.hbang.flagpaint7
 Name: FlagPaint7
 Pre-Depends: firmware (>= 7.0)
 Depends: mobilesubstrate, preferenceloader, ws.hbang.common
-Conflicts: org.thebigboss.flagpaint
-Replaces: org.thebigboss.flagpaint
+Conflicts: org.thebigboss.flagpaint, ws.hbang.flagpaint7lite
+Replaces: org.thebigboss.flagpaint, ws.hbang.flagpaint7lite
 Version: 1.0
 Architecture: iphoneos-arm
-Description: Tint banners based on icon color
+Description: Tint notifications based on icon color
 Maintainer: HASHBANG Productions <support@hbang.ws>
 Author: HASHBANG Productions <support@hbang.ws>
+Support: http://cydia.hbang.ws/status#flagpaint7
 Section: Tweaks
