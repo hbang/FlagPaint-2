@@ -786,10 +786,13 @@ static NSString *const kHBFPPrefsRemoveIconKey = @"RemoveIcon";
 static NSString *const kHBFPPrefsRemoveGrabberKey = @"RemoveGrabber";
 static NSString *const kHBFPPrefsRemoveDateLabelKey = @"RemoveDateLabel";
 
+static NSString *const kHBFPPrefsNotFirstRunKey = @"NotFirstRun";
+
 void HBFPLoadPrefs() {
 	NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:kHBFPPrefsPath];
 
 	if (prefs.allKeys.count == 0) {
+		[@{ kHBFPPrefsNotFirstRunKey: @YES } writeToFile:kHBFPPrefsPath atomically:YES];
 		%init(FirstRun);
 	}
 
