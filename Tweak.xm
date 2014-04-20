@@ -372,7 +372,7 @@ CGFloat bannerHeight = 64.f;
 
 	if (removeGrabber) {
 		UIView *grabberView = MSHookIvar<UIImageView *>(self, IS_IOS_OR_NEWER(iOS_7_0_3) ? "_grabberView" : "_grabberImageView");
-		[grabberView removeFromSuperview];
+		grabberView.hidden = YES;
 	}
 }
 
