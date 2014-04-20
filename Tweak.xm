@@ -854,10 +854,6 @@ void HBFPShowTestNotificationCenterBulletin() {
 	}];
 }
 
-void HBFPRelaunchSpringBoard() {
-	[(SpringBoard *)[UIApplication sharedApplication] _relaunchSpringBoardNow];
-}
-
 #pragma mark - Constructor
 
 %ctor {
