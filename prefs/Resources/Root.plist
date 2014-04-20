@@ -58,7 +58,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>“Album Art Icon” shows the currently playing song’s album art for banners shown by tweaks such as NowListening.</string>
+			<string>Shows the currently playing song’s album art for banners shown by tweaks such as NowListening.</string>
 			<key>label</key>
 			<string>Various</string>
 		</dict>
@@ -106,7 +106,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>“Text Shadow” is currently incompatible with TinyBar.</string>
+			<string>Text shadows are currently incompatible with TinyBar.</string>
 			<key>id</key>
 			<string>BannersSectionDisabled</string>
 			<key>label</key>
@@ -183,6 +183,42 @@
 			<string>TextShadowDisabled</string>
 			<key>label</key>
 			<string>Text Shadow</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>Adds a subtle fade effect to the top and bottom of the notification list.</string>
+			<key>label</key>
+			<string>Lock Screen</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>ws.hbang.flagpaint/ReloadPrefs</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>ws.hbang.flagpaint</string>
+			<key>key</key>
+			<string>LockGradient</string>
+			<key>label</key>
+			<string>Use Gradient</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>ws.hbang.flagpaint/ReloadPrefs</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>ws.hbang.flagpaint</string>
+			<key>key</key>
+			<string>LockFade</string>
+			<key>label</key>
+			<string>Fade Top and Bottom</string>
 		</dict>
 		<dict>
 			<key>cell</key>

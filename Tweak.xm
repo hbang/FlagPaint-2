@@ -43,7 +43,8 @@ static const char *kHBFPBackgroundViewIdentifier;
 
 BOOL tintBanners, tintLockScreen, tintNotificationCenter;
 BOOL biggerIcon, albumArtIcon;
-BOOL useGradient, semiTransparent, borderRadius, textShadow;
+BOOL bannerGradient, semiTransparent, borderRadius, textShadow;
+BOOL lockGradient, lockFade;
 BOOL removeIcon, removeGrabber, removeDateLabel;
 
 BOOL hasStatusBarTweak;
@@ -237,7 +238,7 @@ CGFloat bannerHeight = 64.f;
 
 			object_setInstanceVariable(self, "_backdropView", backdropView);
 
-			if (useGradient) {
+			if (bannerGradient) {
 				UIView *gradientView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
 				gradientView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 				[backdropView.superview insertSubview:gradientView aboveSubview:backdropView];
@@ -456,7 +457,7 @@ CGFloat bannerHeight = 64.f;
 	self = %orig;
 
 	if (self) {
-		if (tintLockScreen) {
+		if (lockFade) {
 			UIView *containerView = MSHookIvar<UIView *>(self, "_containerView");
 
 			CAGradientLayer *gradientLayer = [[CAGradientLayer alloc] init];
@@ -479,7 +480,7 @@ CGFloat bannerHeight = 64.f;
 - (void)layoutSubviews {
 	%orig;
 
-	if (tintLockScreen) {
+	if (lockFade) {
 		UIView *containerView = MSHookIvar<UIView *>(self, "_containerView");
 
 		CAGradientLayer *gradientLayer = objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier);
@@ -543,24 +544,27 @@ CGFloat bannerHeight = 64.f;
 
 	if (self) {
 		if (tintLockScreen) {
-			UIView *backgroundView = [[UIView alloc] initWithFrame:self.frame];
+			UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
 			backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 			[self.realContentView insertSubview:backgroundView atIndex:0];
 
-			CAGradientLayer *gradientLayer = [[CAGradientLayer alloc] init];
-			gradientLayer.locations = @[ @0, @0.2f, @0.4f, @1 ];
-			gradientLayer.startPoint = CGPointMake(0, 0.5f);
-			gradientLayer.endPoint = CGPointMake(1.f, 0.5f);
-			gradientLayer.colors = @[
-				(id)[UIColor colorWithWhite:1 alpha:0.8f].CGColor,
-				(id)[UIColor colorWithWhite:1 alpha:0.5f].CGColor,
-				(id)[UIColor colorWithWhite:1 alpha:0.2f].CGColor,
-				(id)[UIColor colorWithWhite:1 alpha:0.05f].CGColor
-			];
-			backgroundView.layer.mask = gradientLayer;
-
 			objc_setAssociatedObject(self, &kHBFPBackgroundViewIdentifier, backgroundView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-			objc_setAssociatedObject(self, &kHBFPBackgroundGradientIdentifier, gradientLayer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+
+			if (lockGradient) {
+				CAGradientLayer *gradientLayer = [[CAGradientLayer alloc] init];
+				gradientLayer.locations = @[ @0, @0.2f, @0.4f, @1 ];
+				gradientLayer.startPoint = CGPointMake(0, 0.5f);
+				gradientLayer.endPoint = CGPointMake(1.f, 0.5f);
+				gradientLayer.colors = @[
+					(id)[UIColor colorWithWhite:1 alpha:0.8f].CGColor,
+					(id)[UIColor colorWithWhite:1 alpha:0.5f].CGColor,
+					(id)[UIColor colorWithWhite:1 alpha:0.2f].CGColor,
+					(id)[UIColor colorWithWhite:1 alpha:0.05f].CGColor
+				];
+				backgroundView.layer.mask = gradientLayer;
+
+				objc_setAssociatedObject(self, &kHBFPBackgroundGradientIdentifier, gradientLayer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+			}
 		}
 	}
 
@@ -576,7 +580,7 @@ CGFloat bannerHeight = 64.f;
 			iconImageView.frame = CGRectMake(9.f, 12.5f, 30.f, 30.f);
 		}
 
-		if (tintLockScreen) {
+		if (tintLockScreen && lockGradient) {
 			CAGradientLayer *gradientLayer = objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier);
 			gradientLayer.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
 		}
@@ -767,28 +771,52 @@ BOOL firstRun = YES;
 
 #pragma mark - Preferences
 
+static NSString *const kHBFPPrefsPath = @"/var/mobile/Library/Preferences/ws.hbang.flagpaint.plist";
+
+static NSString *const kHBFPPrefsTintBannersKey = @"Tint";
+static NSString *const kHBFPPrefsTintLockScreenKey = @"TintLockScreen";
+static NSString *const kHBFPPrefsTintNotificationCenterKey = @"TintNotificationCenter";
+
+static NSString *const kHBFPPrefsBiggerIconKey = @"BigIcon";
+static NSString *const kHBFPPrefsAlbumArtIconKey = @"AlbumArt";
+
+static NSString *const kHBFPPrefsBannerGradientKey = @"Gradient";
+static NSString *const kHBFPPrefsSemiTransparentKey = @"Semitransparent";
+static NSString *const kHBFPPrefsBorderRadiusKey = @"BorderRadius";
+static NSString *const kHBFPPrefsTextShadowKey = @"TextShadow";
+
+static NSString *const kHBFPPrefsLockGradientKey = @"LockGradient";
+static NSString *const kHBFPPrefsLockFadeKey = @"LockFade";
+
+static NSString *const kHBFPPrefsRemoveIconKey = @"RemoveIcon";
+static NSString *const kHBFPPrefsRemoveGrabberKey = @"RemoveGrabber";
+static NSString *const kHBFPPrefsRemoveDateLabelKey = @"RemoveDateLabel";
+
 void HBFPLoadPrefs() {
-	NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/ws.hbang.flagpaint.plist"];
+	NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:kHBFPPrefsPath];
 
 	if (prefs.allKeys.count == 0) {
 		%init(FirstRun);
 	}
 
-	tintBanners = GET_BOOL(@"Tint", YES);
-	tintLockScreen = GET_BOOL(@"TintLockScreen", YES);
-	tintNotificationCenter = GET_BOOL(@"TintNotificationCenter", YES);
+	tintBanners = GET_BOOL(kHBFPPrefsTintBannersKey, YES);
+	tintLockScreen = GET_BOOL(kHBFPPrefsTintLockScreenKey, YES);
+	tintNotificationCenter = GET_BOOL(kHBFPPrefsTintNotificationCenterKey, YES);
 
-	biggerIcon = GET_BOOL(@"BigIcon", YES);
-	albumArtIcon = GET_BOOL(@"AlbumArt", YES);
+	biggerIcon = GET_BOOL(kHBFPPrefsBiggerIconKey, YES);
+	albumArtIcon = GET_BOOL(kHBFPPrefsAlbumArtIconKey, YES);
 
-	useGradient = GET_BOOL(@"Gradient", NO);
-	semiTransparent = GET_BOOL(@"Semitransparent", YES);
-	borderRadius = GET_BOOL(@"BorderRadius", NO);
-	textShadow = GET_BOOL(@"TextShadow", NO);
+	bannerGradient = GET_BOOL(kHBFPPrefsBannerGradientKey, NO);
+	semiTransparent = GET_BOOL(kHBFPPrefsSemiTransparentKey, YES);
+	borderRadius = GET_BOOL(kHBFPPrefsBorderRadiusKey, NO);
+	textShadow = GET_BOOL(kHBFPPrefsTextShadowKey, NO);
 
-	removeIcon = GET_BOOL(@"RemoveIcon", NO);
-	removeGrabber = GET_BOOL(@"RemoveGrabber", YES);
-	removeDateLabel = GET_BOOL(@"RemoveDateLabel", YES);
+	lockGradient = GET_BOOL(kHBFPPrefsLockGradientKey, YES);
+	lockFade = GET_BOOL(kHBFPPrefsLockFadeKey, YES);
+
+	removeIcon = GET_BOOL(kHBFPPrefsRemoveIconKey, NO);
+	removeGrabber = GET_BOOL(kHBFPPrefsRemoveGrabberKey, YES);
+	removeDateLabel = GET_BOOL(kHBFPPrefsRemoveDateLabelKey, YES);
 }
 
 #pragma mark - Show test bulletin
