@@ -110,8 +110,6 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 
 		[self reloadSpecifier:albumArtSpecifier];
 		[self.view reloadRowsAtIndexPaths:@[ [self indexPathForSpecifier:albumArtSpecifier] ] withRowAnimation:UITableViewRowAnimationNone];
-	} else if ([specifier.identifier isEqualToString:@"RemoveDateLabel"]) {
-		self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Respring" style:UIBarButtonItemStyleDone target:self action:@selector(relaunchSpringBoard)] autorelease];
 	}
 }
 
@@ -139,10 +137,6 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 
 - (void)showTestNotificationCenterBulletin {
 	notify_post("ws.hbang.flagpaint/TestNotificationCenterBulletin");
-}
-
-- (void)relaunchSpringBoard {
-	notify_post("ws.hbang.flagpaint/RelaunchSpringBoard");
 }
 
 #pragma mark - Memory management
