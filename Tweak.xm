@@ -208,12 +208,6 @@ CGFloat bannerHeight = 64.f;
 
 @end
 
-@interface SBDefaultBannerTextView (FlagPaint)
-
-- (void)_flagpaint_centerAttributedStringIfNeeded:(char *)ivar;
-
-@end
-
 %hook SBBannerContextView
 
 - (id)initWithFrame:(CGRect)frame {
