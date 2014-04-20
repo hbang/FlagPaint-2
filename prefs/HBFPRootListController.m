@@ -19,7 +19,7 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 #pragma mark - Constants
 
 + (NSString *)hb_shareText {
-	return @"Check out FlagPaint by HASHBANG Productions!";
+	return @"I'm using #FlagPaint to add color to my notifications!";
 }
 
 + (NSURL *)hb_shareURL {
