@@ -331,7 +331,7 @@ CGFloat bannerHeight = 64.f;
 		[textView layoutSubviews];
 
 		CGRect frame = self.frame;
-		frame.size.height = bannerHeight - ([textView textWillWrapForWidth:textView.frame.size.width] ? 5.f : 18.f);
+		frame.size.height = bannerHeight - ([textView textWillWrapForWidth:textView.frame.size.width] || [textView.secondaryText rangeOfString:@"\n"].location != NSNotFound ? 5.f : 18.f);
 		self.frame = frame;
 	}
 }
