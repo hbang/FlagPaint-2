@@ -545,8 +545,10 @@ CGFloat bannerHeight = 64.f;
 			objc_setAssociatedObject(self, &kHBFPBackgroundViewIdentifier, backgroundView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
 			if (lockGradient) {
+				BOOL isRTL = [NSLocale characterDirectionForLanguage:[NSLocale currentLocale][NSLocaleLanguageCode]] == NSLocaleLanguageDirectionRightToLeft;
+
 				CAGradientLayer *gradientLayer = [[CAGradientLayer alloc] init];
-				gradientLayer.locations = @[ @0, @0.2f, @0.4f, @1 ];
+				gradientLayer.locations = isRTL ? @[ @1, @0.4f, @0.2f, @0 ] : @[ @0, @0.2f, @0.4f, @1 ];
 				gradientLayer.startPoint = CGPointMake(0, 0.5f);
 				gradientLayer.endPoint = CGPointMake(1.f, 0.5f);
 				gradientLayer.colors = @[
