@@ -662,6 +662,17 @@ CGFloat bannerHeight = 64.f;
 	if (tintNotificationCenter) {
 		UIView *backgroundView = objc_getAssociatedObject(self, &kHBFPBackgroundViewIdentifier);
 		backgroundView.alpha = highlighted ? 0.3f : 0.15f;
+	} else {
+		%orig;
+	}
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+	if (tintNotificationCenter) {
+		UIView *backgroundView = objc_getAssociatedObject(self, &kHBFPBackgroundViewIdentifier);
+		backgroundView.alpha = selected ? 0.35f : 0.15f;
+	} else {
+		%orig;
 	}
 }
 
