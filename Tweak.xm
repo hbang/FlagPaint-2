@@ -28,6 +28,12 @@
 #import "HBFPShadowedLabel.h"
 #include <dlfcn.h>
 
+@interface SBAwayNotificationListCell : UITableViewCell {
+	BBBulletin *_bulletin;
+}
+@property (nonatomic, retain) BBBulletin *bulletin;
+@end
+
 struct pixel {
 	unsigned char r, g, b, a;
 };
@@ -527,6 +533,30 @@ CGFloat bannerHeight = 64.f;
 - (void)dealloc {
 	[objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier) release];
 	%orig;
+}
+
+%end
+
+%hook CSAwayNotificationController
+
+- (SBAwayNotificationListCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	SBAwayNotificationListCell *cell = %orig;
+	if (tintLockScreen){
+		UIImageView *iconImageView = cell.imageView;
+		BBBulletin *bulletin = cell.bulletin;
+		BOOL isMusic = HBFPIsMusic(bulletin.sectionID);
+		NSString *key = HBFPGetKey(bulletin.sectionID, isMusic);
+		if (!iconCache[key]) {
+			iconCache[key] = iconImageView.image;
+		}
+
+		if (!tintCache[key]) {
+			tintCache[key] = HBFPGetDominantColor(iconCache[key]);
+		}
+
+		cell.backgroundColor = tintCache[key];
+	}
+	return cell;
 }
 
 %end
