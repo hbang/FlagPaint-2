@@ -28,20 +28,20 @@
 
 		[attributedString setAttributes:@{
 			NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Thin" size:50.f],
-			NSForegroundColorAttributeName: [UIColor colorWithWhite:1.f alpha:0.8f],
+			NSForegroundColorAttributeName: [UIColor colorWithWhite:1.f alpha:0.95f],
 			NSKernAttributeName: [NSNull null],
 			NSParagraphStyleAttributeName: paragraphStyle
 		} range:NSMakeRange(0, 9)];
 
 		[attributedString setAttributes:@{
 			NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:50.f],
-			NSForegroundColorAttributeName: [UIColor colorWithWhite:1.f alpha:0.5f],
+			NSForegroundColorAttributeName: [UIColor colorWithWhite:1.f alpha:0.65f],
 			NSKernAttributeName: [NSNull null]
 		} range:NSMakeRange(9, 1)];
 
 		[attributedString setAttributes:@{
 			NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:16.f],
-			NSForegroundColorAttributeName: [UIColor colorWithWhite:0.8f alpha:0.7f],
+			NSForegroundColorAttributeName: [UIColor colorWithWhite:0.85f alpha:0.7f],
 			NSKernAttributeName: [NSNull null]
 		} range:NSMakeRange(11, attributedString.string.length - 11)];
 
