@@ -3,6 +3,7 @@
 #import <Preferences/PSSpecifier.h>
 #import <Preferences/PSTableCell.h>
 #include <notify.h>
+#include <substrate.h>
 
 @interface HBFPRootListController () {
 	HBFPHeaderView *_headerView;
@@ -37,10 +38,6 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 
 	self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"FlagPaint7" style:UIBarButtonItemStyleBordered target:nil action:nil] autorelease];
 
-	if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/TinyBar.dylib"]) {
-		_hasStatusBarTweak = YES;
-	}
-
 	_headerView = [[HBFPHeaderView alloc] initWithTopInset:kHBFPHeaderTopInset];
 	_headerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 	[self.view addSubview:_headerView];
@@ -59,18 +56,22 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 	});
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+	[super viewDidDisappear:animated];
+
+	UIView *titleView = MSHookIvar<UIView *>(self.navigationController.navigationBar, "_titleView");
+	titleView.alpha = 1;
+}
+
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-	if (scrollView.contentOffset.y > -kHBFPHeaderTopInset - (kHBFPHeaderHeight / 2)) {
-		self.title = @"FlagPaint7";
-	}
+	UIView *titleView = MSHookIvar<UIView *>(self.navigationController.navigationBar, "_titleView");
+	titleView.alpha = (scrollView.contentOffset.y / kHBFPHeaderHeight) + 1;
 
 	if (scrollView.contentOffset.y > -kHBFPHeaderTopInset - kHBFPHeaderHeight) {
 		return;
 	}
-
-	self.title = @"";
 
 	CGRect headerFrame = _headerView.frame;
 	headerFrame.origin.y = scrollView.contentOffset.y;

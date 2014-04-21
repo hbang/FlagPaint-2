@@ -3,11 +3,11 @@ ARCHS = armv7 arm64
 include theos/makefiles/common.mk
 
 BUNDLE_NAME = FlagPaint7
-FlagPaint7_FILES = $(wildcard *.m)
+FlagPaint7_FILES = $(wildcard *.mm) $(wildcard *.m)
 FlagPaint7_INSTALL_PATH = /Library/PreferenceBundles
 FlagPaint7_FRAMEWORKS = UIKit CoreGraphics QuartzCore
 FlagPaint7_PRIVATE_FRAMEWORKS = Preferences
-FlagPaint7_LIBRARIES = hbangprefs
+FlagPaint7_LIBRARIES = hbangprefs substrate
 
 include $(THEOS_MAKE_PATH)/bundle.mk
 
