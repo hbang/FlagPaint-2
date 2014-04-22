@@ -27,7 +27,7 @@ CGFloat bannerHeight = 64.f;
 	if (self) {
 		if (tintBanners) {
 			_UIBackdropView *backdropView = MSHookIvar<_UIBackdropView *>(self, "_backdropView");
-			
+
 			_UIBackdropViewSettingsAdaptiveLight *settings = [[%c(_UIBackdropViewSettingsAdaptiveLight) alloc] initWithDefaultValues];
 			settings.colorTint = [UIColor blackColor];
 			settings.colorTintAlpha = 0.4f;
@@ -68,6 +68,10 @@ CGFloat bannerHeight = 64.f;
 			for (CALayer *layer in backdropView.layer.sublayers) {
 				layer.cornerRadius = self.layer.cornerRadius;
 			}
+		}
+
+		if (removeGrabber && !hasStatusBarTweak) {
+			self.clipsToBounds = YES;
 		}
 	}
 
@@ -127,7 +131,6 @@ CGFloat bannerHeight = 64.f;
 	if (removeGrabber && !hasStatusBarTweak) {
 		SBDefaultBannerView *contentView = MSHookIvar<SBDefaultBannerView *>(self, "_contentView");
 		SBDefaultBannerTextView *textView = MSHookIvar<SBDefaultBannerTextView *>(contentView, "_textView");
-		[contentView layoutSubviews];
 		[textView layoutSubviews];
 
 		CGRect frame = self.frame;
@@ -249,11 +252,11 @@ CGFloat bannerHeight = 64.f;
 */
 
 %ctor {
-	%init;
-
 	if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/TinyBar.dylib"]) {
 		hasStatusBarTweak = YES;
 		dlopen("/Library/MobileSubstrate/DynamicLibraries/TinyBar.dylib", RTLD_NOW);
 		// %init(TinyBarHax);
 	}
+
+	%init;
 }
