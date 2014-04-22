@@ -9,26 +9,6 @@
 			<string>PSGroupCell</string>
 		</dict>
 		<dict>
-			<key>cell</key>
-			<string>PSLinkCell</string>
-			<key>detail</key>
-			<string>HBFPBannersListController</string>
-			<key>isController</key>
-			<true/>
-			<key>label</key>
-			<string>Banners</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSLinkCell</string>
-			<key>detail</key>
-			<string>HBFPLockScreenListController</string>
-			<key>isController</key>
-			<true/>
-			<key>label</key>
-			<string>Lock Screen</string>
-		</dict>
-		<dict>
 			<key>PostNotification</key>
 			<string>ws.hbang.flagpaint/ReloadPrefs</string>
 			<key>cell</key>
@@ -38,31 +18,15 @@
 			<key>defaults</key>
 			<string>ws.hbang.flagpaint</string>
 			<key>key</key>
-			<string>TintNotificationCenter</string>
+			<string>TintLockScreen</string>
 			<key>label</key>
-			<string>Notification Center</string>
+			<string>Enabled</string>
 		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
-			<key>label</key>
-			<string>Various</string>
-		</dict>
-		<dict>
-			<key>PostNotification</key>
-			<string>ws.hbang.flagpaint/ReloadPrefs</string>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>default</key>
-			<true/>
-			<key>defaults</key>
-			<string>ws.hbang.flagpaint</string>
-			<key>id</key>
-			<string>BigIcon</string>
-			<key>key</key>
-			<string>BigIcon</string>
-			<key>label</key>
-			<string>Bigger Icon</string>
+			<key>footerText</key>
+			<string>Adds a subtle fade effect to the top and bottom of the notification list.</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>
@@ -74,25 +38,27 @@
 			<key>defaults</key>
 			<string>ws.hbang.flagpaint</string>
 			<key>key</key>
-			<string>RemoveDateLabel</string>
+			<string>LockGradient</string>
 			<key>label</key>
-			<string>Hide “Now” Label</string>
+			<string>Gradient</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>ws.hbang.flagpaint/ReloadPrefs</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>ws.hbang.flagpaint</string>
+			<key>key</key>
+			<string>LockFade</string>
+			<key>label</key>
+			<string>Fade Top and Bottom</string>
 		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
-			<key>label</key>
-			<string>Test Notifications</string>
-		</dict>
-		<dict>
-			<key>action</key>
-			<string>showTestBanner</string>
-			<key>cell</key>
-			<string>PSButtonCell</string>
-			<key>cellClass</key>
-			<string>HBTintedTableCell</string>
-			<key>label</key>
-			<string>Test Banner</string>
 		</dict>
 		<dict>
 			<key>action</key>
@@ -104,22 +70,8 @@
 			<key>label</key>
 			<string>Test Lock Screen Notification</string>
 		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSGroupCell</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSLinkCell</string>
-			<key>detail</key>
-			<string>HBFPAboutListController</string>
-			<key>isController</key>
-			<true/>
-			<key>label</key>
-			<string>About</string>
-		</dict>
 	</array>
 	<key>title</key>
-	<string>FlagPaint7</string>
+	<string>Lock Screen</string>
 </dict>
 </plist>

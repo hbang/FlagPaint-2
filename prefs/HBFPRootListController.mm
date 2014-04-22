@@ -5,17 +5,13 @@
 #include <notify.h>
 #include <substrate.h>
 
-@interface HBFPRootListController () {
-	HBFPHeaderView *_headerView;
-	BOOL _hasStatusBarTweak;
-}
-
-@end
-
 static CGFloat const kHBFPHeaderTopInset = 64.f; // i'm so sorry.
 static CGFloat const kHBFPHeaderHeight = 150.f;
 
-@implementation HBFPRootListController
+@implementation HBFPRootListController {
+	HBFPHeaderView *_headerView;
+	BOOL _hasStatusBarTweak;
+}
 
 #pragma mark - Constants
 
