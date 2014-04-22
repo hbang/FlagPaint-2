@@ -10,21 +10,37 @@
 		</dict>
 		<dict>
 			<key>cell</key>
-			<string>PSLinkCell</string>
+			<string>PSLinkListCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>ws.hbang.flagpaint</string>
 			<key>detail</key>
 			<string>HBFPBannersListController</string>
-			<key>isController</key>
-			<true/>
+			<key>get</key>
+			<string>bannerTintEnabled:</string>
+			<key>id</key>
+			<string>Tint</string>
+			<key>key</key>
+			<string>Tint</string>
 			<key>label</key>
 			<string>Banners</string>
 		</dict>
 		<dict>
 			<key>cell</key>
-			<string>PSLinkCell</string>
-			<key>detail</key>
-			<string>HBFPLockScreenListController</string>
-			<key>isController</key>
+			<string>PSLinkListCell</string>
+			<key>default</key>
 			<true/>
+			<key>defaults</key>
+			<string>ws.hbang.flagpaint</string>
+			<key>detail</key>
+			<string>HBFPBannersListController</string>
+			<key>get</key>
+			<string>lockScreenTintEnabled:</string>
+			<key>key</key>
+			<string>TintLockScreen</string>
+			<key>key</key>
+			<string>TintLockScreen</string>
 			<key>label</key>
 			<string>Lock Screen</string>
 		</dict>

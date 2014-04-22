@@ -50,6 +50,9 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 
 		_headerView.frame = CGRectMake(0, -headerHeight, self.view.frame.size.width, headerHeight);
 	});
+
+	[self reloadSpecifier:[self specifierForID:@"Tint"]];
+	[self reloadSpecifier:[self specifierForID:@"TintLockScreen"]];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -123,6 +126,14 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 }
 
 #pragma mark - Callbacks
+
+- (NSString *)bannerTintEnabled:(PSSpecifier *)specifier {
+	return ((NSNumber *)[self readPreferenceValue:specifier]).boolValue ? @"On" : @"Off";
+}
+
+- (NSString *)lockScreenTintEnabled:(PSSpecifier *)specifier {
+	return ((NSNumber *)[self readPreferenceValue:specifier]).boolValue ? @"On" : @"Off";
+}
 
 - (void)showTestBanner {
 	notify_post("ws.hbang.flagpaint/TestBanner");
