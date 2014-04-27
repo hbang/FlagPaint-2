@@ -37,7 +37,7 @@
 			<string>HBFPLockScreenListController</string>
 			<key>get</key>
 			<string>lockScreenTintEnabled:</string>
-			<key>key</key>
+			<key>id</key>
 			<string>TintLockScreen</string>
 			<key>key</key>
 			<string>TintLockScreen</string>
@@ -73,8 +73,6 @@
 			<true/>
 			<key>defaults</key>
 			<string>ws.hbang.flagpaint</string>
-			<key>id</key>
-			<string>BigIcon</string>
 			<key>key</key>
 			<string>BigIcon</string>
 			<key>label</key>

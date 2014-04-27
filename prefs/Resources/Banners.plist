@@ -37,8 +37,6 @@
 			<true/>
 			<key>defaults</key>
 			<string>ws.hbang.flagpaint</string>
-			<key>id</key>
-			<string>AlbumArt</string>
 			<key>key</key>
 			<string>AlbumArt</string>
 			<key>label</key>
@@ -67,8 +65,6 @@
 			<false/>
 			<key>defaults</key>
 			<string>ws.hbang.flagpaint</string>
-			<key>id</key>
-			<string>Gradient</string>
 			<key>key</key>
 			<string>Gradient</string>
 			<key>label</key>

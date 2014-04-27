@@ -113,8 +113,7 @@ static const char *kHBFPBackgroundViewIdentifier;
 				static BOOL isRTL;
 				static dispatch_once_t onceToken;
 				dispatch_once(&onceToken, ^{
-					//isRTL = [NSLocale characterDirectionForLanguage:[[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode]] == NSLocaleLanguageDirectionRightToLeft;
-					isRTL=YES;
+					isRTL = [NSLocale characterDirectionForLanguage:[[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode]] == NSLocaleLanguageDirectionRightToLeft;
 				});
 
 				CAGradientLayer *gradientLayer = [[CAGradientLayer alloc] init];
