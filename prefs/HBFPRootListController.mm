@@ -68,7 +68,7 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 	UIView *titleView = MSHookIvar<UIView *>(self.navigationController.navigationBar, "_titleView");
 	titleView.alpha = (scrollView.contentOffset.y / kHBFPHeaderHeight) + 1;
 
-	if (scrollView.contentOffset.y > -kHBFPHeaderTopInset - kHBFPHeaderHeight) {
+	if (scrollView.contentOffset.y >= -kHBFPHeaderTopInset - kHBFPHeaderHeight) {
 		return;
 	}
 
