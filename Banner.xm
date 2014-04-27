@@ -97,6 +97,11 @@ CGFloat bannerHeight = 64.f;
 	[self _flagpaint_setHeightIfNeeded];
 
 	SBDefaultBannerView *contentView = MSHookIvar<SBDefaultBannerView *>(self, "_contentView");
+
+	if (!contentView || ![contentView isKindOfClass:%c(SBDefaultBannerView)]) {
+		return;
+	}
+	
 	UIImageView *iconImageView = MSHookIvar<UIImageView *>(contentView, "_iconImageView");
 
 	NSObject *viewSource = MSHookIvar<NSObject *>(contentView, "_viewSource");
@@ -113,7 +118,7 @@ CGFloat bannerHeight = 64.f;
 	if (isMusic) {
 		iconImageView.layer.minificationFilter = kCAFilterTrilinear;
 	}
-	
+
 	if (tintBanners) {
 		_UIBackdropViewSettings *settings = objc_getAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier);
 
@@ -130,6 +135,11 @@ CGFloat bannerHeight = 64.f;
 %new - (void)_flagpaint_setHeightIfNeeded {
 	if (removeGrabber && !hasStatusBarTweak) {
 		SBDefaultBannerView *contentView = MSHookIvar<SBDefaultBannerView *>(self, "_contentView");
+
+		if (!contentView || ![contentView isKindOfClass:%c(SBDefaultBannerView)]) {
+			return;
+		}
+
 		UIImageView *attachmentImageView = MSHookIvar<UIImageView *>(contentView, "_attachmentImageView");
 		SBDefaultBannerTextView *textView = MSHookIvar<SBDefaultBannerTextView *>(contentView, "_textView");
 
