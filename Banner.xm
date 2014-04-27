@@ -130,11 +130,24 @@ CGFloat bannerHeight = 64.f;
 %new - (void)_flagpaint_setHeightIfNeeded {
 	if (removeGrabber && !hasStatusBarTweak) {
 		SBDefaultBannerView *contentView = MSHookIvar<SBDefaultBannerView *>(self, "_contentView");
+		UIImageView *attachmentImageView = MSHookIvar<UIImageView *>(contentView, "_attachmentImageView");
 		SBDefaultBannerTextView *textView = MSHookIvar<SBDefaultBannerTextView *>(contentView, "_textView");
-		[textView layoutSubviews];
+
+		CGFloat lessHeight = 18.f;
+
+		if (attachmentImageView) {
+			lessHeight = 5.f;
+		} else {
+			[contentView layoutSubviews];
+			[textView layoutSubviews];
+
+			if ([textView textWillWrapForWidth:textView.frame.size.width] || [textView.secondaryText rangeOfString:@"\n"].location != NSNotFound) {
+				lessHeight = 5.f;
+			}
+		}
 
 		CGRect frame = self.frame;
-		frame.size.height = bannerHeight - ([textView textWillWrapForWidth:textView.frame.size.width] || [textView.secondaryText rangeOfString:@"\n"].location != NSNotFound ? 5.f : 18.f);
+		frame.size.height = bannerHeight - lessHeight;
 		self.frame = frame;
 	}
 }
