@@ -298,9 +298,11 @@ BBBulletin *HBFPGetTestBulletin(BOOL isLockScreen) {
 			@"com.apple.MobileAddressBook", @"com.apple.calculator", @"com.apple.compass", @"com.apple.VoiceMemos",
 			@"com.apple.facetime", @"com.apple.nike"
 		] retain];
-
-		testIndex = arc4random_uniform(TestApps.count);
 	});
+
+	do {
+		testIndex = arc4random_uniform(TestApps.count);
+	} while (![(SBApplicationController *)[%c(SBApplicationController) sharedInstance] applicationWithDisplayIdentifier:TestApps[testIndex]]);
 
 	BBBulletin *bulletin = [[[BBBulletin alloc] init] autorelease];
 	bulletin.bulletinID = @"ws.hbang.flagpaint";
@@ -313,8 +315,6 @@ BBBulletin *HBFPGetTestBulletin(BOOL isLockScreen) {
 		bulletin.message = @"Test notification";
 		bulletin.accessoryStyle = BBBulletinAccessoryStyleVIP;
 	}
-
-	testIndex = testIndex == TestApps.count - 1 ? 0 : testIndex + 1;
 
 	return bulletin;
 }
