@@ -34,7 +34,7 @@
 			<key>defaults</key>
 			<string>ws.hbang.flagpaint</string>
 			<key>detail</key>
-			<string>HBFPBannersListController</string>
+			<string>HBFPLockScreenListController</string>
 			<key>get</key>
 			<string>lockScreenTintEnabled:</string>
 			<key>key</key>

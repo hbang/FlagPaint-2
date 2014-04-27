@@ -108,12 +108,12 @@ CGFloat bannerHeight = 64.f;
 	if (biggerIcon) {
 		HBFPGetIconIfNeeded(key, bulletin.sectionID, isMusic);
 		iconImageView.image = iconCache[key];
-
-		if (isMusic) {
-			iconImageView.layer.minificationFilter = kCAFilterTrilinear;
-		}
 	}
 
+	if (isMusic) {
+		iconImageView.layer.minificationFilter = kCAFilterTrilinear;
+	}
+	
 	if (tintBanners) {
 		_UIBackdropViewSettings *settings = objc_getAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier);
 

@@ -40,18 +40,6 @@
 	return _specifiers;
 }
 
-#pragma mark - UITableViewDataSource
-
-- (PSTableCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	PSTableCell *cell = (PSTableCell *)[super tableView:tableView cellForRowAtIndexPath:indexPath];
-
-	if ([cell.specifier.identifier isEqualToString:@"AlbumArt"]) {
-		cell.cellEnabled = ((NSNumber *)[self readPreferenceValue:[self specifierForID:@"BigIcon"]]).boolValue;
-	}
-
-	return cell;
-}
-
 #pragma mark - Callbacks
 
 - (void)showTestBanner {
