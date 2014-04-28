@@ -95,6 +95,18 @@ static const char *kHBFPBackgroundViewIdentifier;
 
 %end
 
+%hook SBLockScreenBulletinCell
+
++ (BOOL)wantsUnlockActionText {
+	return removeAction ? NO : %orig;
+}
+
++ (CGFloat)rowHeightForTitle:(NSString *)title subtitle:(NSString *)subtitle body:(NSString *)body maxLines:(NSUInteger)maxLines attachmentSize:(CGSize)attachmentSize datesVisible:(BOOL)datesVisible rowWidth:(CGFloat)rowWidth includeUnlockActionText:(BOOL)includeUnlockActionText {
+	return %orig(title, subtitle, body, maxLines, attachmentSize, datesVisible, rowWidth, removeAction ? NO : includeUnlockActionText);
+}
+
+%end
+
 %hook SBLockScreenNotificationCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {

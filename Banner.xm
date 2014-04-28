@@ -101,7 +101,7 @@ CGFloat bannerHeight = 64.f;
 	if (!contentView || ![contentView isKindOfClass:%c(SBDefaultBannerView)]) {
 		return;
 	}
-	
+
 	UIImageView *iconImageView = MSHookIvar<UIImageView *>(contentView, "_iconImageView");
 
 	NSObject *viewSource = MSHookIvar<NSObject *>(contentView, "_viewSource");

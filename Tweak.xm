@@ -27,7 +27,7 @@ BOOL tintBanners, tintLockScreen, tintNotificationCenter;
 BOOL biggerIcon, albumArtIcon;
 BOOL bannerGradient, semiTransparent, borderRadius, textShadow;
 BOOL lockGradient, lockFade;
-BOOL removeIcon, removeGrabber, removeDateLabel;
+BOOL removeIcon, removeGrabber, removeDateLabel, removeAction;
 
 NSMutableDictionary *tintCache = [[NSMutableDictionary alloc] init];
 NSMutableDictionary *iconCache = [[NSMutableDictionary alloc] init];
@@ -244,6 +244,7 @@ static NSString *const kHBFPPrefsLockFadeKey = @"LockFade";
 static NSString *const kHBFPPrefsRemoveIconKey = @"RemoveIcon";
 static NSString *const kHBFPPrefsRemoveGrabberKey = @"RemoveGrabber";
 static NSString *const kHBFPPrefsRemoveDateLabelKey = @"RemoveDateLabel";
+static NSString *const kHBFPPrefsRemoveLockActionKey = @"RemoveLockAction";
 
 static NSString *const kHBFPPrefsNotFirstRunKey = @"NotFirstRun";
 
@@ -275,6 +276,7 @@ void HBFPLoadPrefs() {
 	removeIcon = GET_BOOL(kHBFPPrefsRemoveIconKey, NO);
 	removeGrabber = GET_BOOL(kHBFPPrefsRemoveGrabberKey, YES);
 	removeDateLabel = GET_BOOL(kHBFPPrefsRemoveDateLabelKey, YES);
+	removeAction = GET_BOOL(kHBFPPrefsRemoveLockActionKey, NO);
 
 	if (oldTintNC && !tintNotificationCenter) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:HBFPNotificationCenterSettingsChangedNotification object:nil];
