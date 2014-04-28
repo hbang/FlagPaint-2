@@ -52,7 +52,7 @@ static const char *kHBFPBackgroundViewIdentifier;
 	if (tintLockScreen || biggerIcon) {
 		SBAwayBulletinListItem *listItem = [self.model listItemAtIndexPath:indexPath];
 
-		if (![listItem respondsToSelector:@selector(activeBulletin)]) {
+		if (![listItem respondsToSelector:@selector(activeBulletin)] || !listItem.activeBulletin) {
 			return cell;
 		}
 
@@ -116,7 +116,7 @@ static const char *kHBFPBackgroundViewIdentifier;
 		if (tintLockScreen) {
 			UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
 			backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-			backgroundView.alpha = lockGradient ? 1 : 0.55f;
+			backgroundView.alpha = lockOpacity / 100.f;
 			[self.realContentView insertSubview:backgroundView atIndex:0];
 
 			objc_setAssociatedObject(self, &kHBFPBackgroundViewIdentifier, backgroundView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -133,10 +133,10 @@ static const char *kHBFPBackgroundViewIdentifier;
 				gradientLayer.startPoint = CGPointMake(0, 0.5f);
 				gradientLayer.endPoint = CGPointMake(1.f, 0.5f);
 				gradientLayer.colors = @[
-					(id)[UIColor colorWithWhite:1 alpha:0.8f].CGColor,
-					(id)[UIColor colorWithWhite:1 alpha:0.5f].CGColor,
-					(id)[UIColor colorWithWhite:1 alpha:0.2f].CGColor,
-					(id)[UIColor colorWithWhite:1 alpha:0.05f].CGColor
+					(id)[UIColor colorWithWhite:1 alpha:1.f].CGColor,
+					(id)[UIColor colorWithWhite:1 alpha:0.625f].CGColor,
+					(id)[UIColor colorWithWhite:1 alpha:0.25f].CGColor,
+					(id)[UIColor colorWithWhite:1 alpha:0.0625f].CGColor
 				];
 				backgroundView.layer.mask = gradientLayer;
 

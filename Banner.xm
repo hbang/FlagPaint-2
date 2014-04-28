@@ -30,12 +30,15 @@ CGFloat bannerHeight = 64.f;
 
 			_UIBackdropViewSettingsAdaptiveLight *settings = [[%c(_UIBackdropViewSettingsAdaptiveLight) alloc] initWithDefaultValues];
 			settings.colorTint = [UIColor blackColor];
-			settings.colorTintAlpha = 0.4f;
-			settings.grayscaleTintLevel = 0;
-			settings.grayscaleTintAlpha = 0.2f;
+			settings.colorTintAlpha = bannerColorIntensity / 100.f;
 			[backdropView transitionToSettings:settings];
 
 			objc_setAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier, settings, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+
+			UIView *grayView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+			grayView.backgroundColor = [UIColor colorWithWhite:(100.f - bannerGrayscaleIntensity) / 255.f alpha:bannerGrayscaleIntensity / 200.f];
+			grayView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+			[backdropView.superview insertSubview:grayView aboveSubview:backdropView];
 
 			if (bannerGradient) {
 				UIView *gradientView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];

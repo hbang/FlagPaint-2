@@ -28,6 +28,7 @@ BOOL biggerIcon, albumArtIcon;
 BOOL bannerGradient, semiTransparent, borderRadius, textShadow;
 BOOL lockGradient, lockFade;
 BOOL removeIcon, removeGrabber, removeDateLabel, removeAction;
+CGFloat bannerColorIntensity, bannerGrayscaleIntensity, lockOpacity;
 
 NSMutableDictionary *tintCache = [[NSMutableDictionary alloc] init];
 NSMutableDictionary *iconCache = [[NSMutableDictionary alloc] init];
@@ -237,9 +238,12 @@ static NSString *const kHBFPPrefsBannerGradientKey = @"Gradient";
 static NSString *const kHBFPPrefsSemiTransparentKey = @"Semitransparent";
 static NSString *const kHBFPPrefsBorderRadiusKey = @"BorderRadius";
 static NSString *const kHBFPPrefsTextShadowKey = @"TextShadow";
+static NSString *const kHBFPPrefsBannerColorIntensityKey = @"BannerColorIntensity";
+static NSString *const kHBFPPrefsBannerGrayscaleIntensityKey = @"BannerGrayscaleIntensity";
 
 static NSString *const kHBFPPrefsLockGradientKey = @"LockGradient";
 static NSString *const kHBFPPrefsLockFadeKey = @"LockFade";
+static NSString *const kHBFPPrefsLockOpacityKey = @"LockOpacity";
 
 static NSString *const kHBFPPrefsRemoveIconKey = @"RemoveIcon";
 static NSString *const kHBFPPrefsRemoveGrabberKey = @"RemoveGrabber";
@@ -272,6 +276,10 @@ void HBFPLoadPrefs() {
 
 	lockGradient = GET_BOOL(kHBFPPrefsLockGradientKey, YES);
 	lockFade = GET_BOOL(kHBFPPrefsLockFadeKey, YES);
+	
+	bannerColorIntensity = GET_FLOAT(kHBFPPrefsBannerColorIntensityKey, 40.f);
+	bannerGrayscaleIntensity = GET_FLOAT(kHBFPPrefsBannerGrayscaleIntensityKey, 40.f);
+	lockOpacity = GET_FLOAT(kHBFPPrefsLockOpacityKey, 50.f);
 
 	removeIcon = GET_BOOL(kHBFPPrefsRemoveIconKey, NO);
 	removeGrabber = GET_BOOL(kHBFPPrefsRemoveGrabberKey, YES);

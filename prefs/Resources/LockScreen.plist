@@ -60,6 +60,32 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
+			<string>Background Opacity</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+			<key>default</key>
+			<real>50</real>
+			<key>defaults</key>
+			<string>ws.hbang.flagpaint</string>
+			<key>key</key>
+			<string>LockOpacity</string>
+			<key>label</key>
+			<string>Background Opacity</string>
+			<key>max</key>
+			<real>100</real>
+			<key>min</key>
+			<real>1</real>
+			<key>showValue</key>
+			<true/>
+			<key>PostNotification</key>
+			<string>ws.hbang.flagpaint/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
 			<string>Hide Elements</string>
 		</dict>
 		<dict>

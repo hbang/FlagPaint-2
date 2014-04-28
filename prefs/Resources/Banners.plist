@@ -116,6 +116,58 @@
 		</dict>
 		<dict>
 			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Color Intensity</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+			<key>default</key>
+			<real>40</real>
+			<key>defaults</key>
+			<string>ws.hbang.flagpaint</string>
+			<key>key</key>
+			<string>BannerColorIntensity</string>
+			<key>label</key>
+			<string>Color Intensity</string>
+			<key>max</key>
+			<real>100</real>
+			<key>min</key>
+			<real>0</real>
+			<key>showValue</key>
+			<true/>
+			<key>PostNotification</key>
+			<string>ws.hbang.flagpaint/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Grayscale Intensity</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+			<key>default</key>
+			<real>30</real>
+			<key>defaults</key>
+			<string>ws.hbang.flagpaint</string>
+			<key>key</key>
+			<string>BannerGrayscaleIntensity</string>
+			<key>label</key>
+			<string>Grayscale Intensity</string>
+			<key>max</key>
+			<real>100</real>
+			<key>min</key>
+			<real>0</real>
+			<key>showValue</key>
+			<true/>
+			<key>PostNotification</key>
+			<string>ws.hbang.flagpaint/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
 			<string>PSSwitchCell</string>
 			<key>default</key>
 			<false/>

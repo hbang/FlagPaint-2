@@ -3,6 +3,7 @@ extern BOOL biggerIcon, albumArtIcon;
 extern BOOL bannerGradient, semiTransparent, borderRadius, textShadow;
 extern BOOL lockGradient, lockFade;
 extern BOOL removeIcon, removeGrabber, removeDateLabel, removeAction;
+extern CGFloat bannerColorIntensity, bannerGrayscaleIntensity, lockOpacity;
 
 extern NSMutableDictionary *tintCache;
 extern NSMutableDictionary *iconCache;
