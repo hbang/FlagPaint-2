@@ -1,7 +1,5 @@
 #import "HBFPBannersListController.h"
-#import "HBFPHeaderView.h"
 #import <Preferences/PSSpecifier.h>
-#import <Preferences/PSTableCell.h>
 #include <notify.h>
 
 @implementation HBFPBannersListController {

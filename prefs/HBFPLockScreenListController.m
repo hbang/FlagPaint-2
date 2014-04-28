@@ -1,7 +1,4 @@
 #import "HBFPLockScreenListController.h"
-#import "HBFPHeaderView.h"
-#import <Preferences/PSSpecifier.h>
-#import <Preferences/PSTableCell.h>
 #include <notify.h>
 
 @implementation HBFPLockScreenListController
@@ -10,7 +7,7 @@
 
 - (NSArray *)specifiers {
 	if (!_specifiers) {
-		_specifiers = [self loadSpecifiersFromPlistName:@"LockScreen" target:self];
+		_specifiers = [[self loadSpecifiersFromPlistName:@"LockScreen" target:self] retain];
 	}
 
 	return _specifiers;
