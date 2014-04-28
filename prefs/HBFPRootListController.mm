@@ -11,12 +11,13 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 @implementation HBFPRootListController {
 	HBFPHeaderView *_headerView;
 	BOOL _hasStatusBarTweak;
+	BOOL _isVisible;
 }
 
 #pragma mark - Constants
 
 + (NSString *)hb_shareText {
-	return @"I'm using #FlagPaint to add color to my notifications!";
+	return @"I’m using #FlagPaint to add color to my notifications!";
 }
 
 + (NSURL *)hb_shareURL {
@@ -53,20 +54,31 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 
 	[self reloadSpecifier:[self specifierForID:@"Tint"]];
 	[self reloadSpecifier:[self specifierForID:@"TintLockScreen"]];
+
+	_isVisible = YES;
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
-	[super viewDidDisappear:animated];
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
 
 	UIView *titleView = MSHookIvar<UIView *>(self.navigationController.navigationBar, "_titleView");
 	titleView.alpha = 1;
+
+	_isVisible = NO;
 }
 
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+	if (!_isVisible) {
+		return;
+	}
+
 	UIView *titleView = MSHookIvar<UIView *>(self.navigationController.navigationBar, "_titleView");
-	titleView.alpha = (scrollView.contentOffset.y / kHBFPHeaderHeight) + 1;
+
+	if (titleView) {
+		titleView.alpha = (scrollView.contentOffset.y / kHBFPHeaderHeight) + 1;
+	}
 
 	if (scrollView.contentOffset.y >= -kHBFPHeaderTopInset - kHBFPHeaderHeight) {
 		return;
