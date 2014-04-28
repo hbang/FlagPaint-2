@@ -11,7 +11,6 @@
 #import <SpringBoard/SBNotificationCenterController.h>
 #import <SpringBoard/SBNotificationCenterViewController.h>
 #import <version.h>
-#import "HBFPShadowedLabel.h"
 #include <dlfcn.h>
 
 struct pixel {
@@ -142,7 +141,7 @@ UIImage *HBFPResizeImage(UIImage *oldImage, CGSize newSize) {
 BOOL HBFPIsMusic(NSString *sectionID) {
 	SBMediaController *mediaController = (SBMediaController *)[%c(SBMediaController) sharedInstance];
 
-	return albumArtIcon && mediaController.nowPlayingApplication && mediaController.nowPlayingApplication.class == %c(SBApplication) && ([sectionID isEqualToString:mediaController.nowPlayingApplication.bundleIdentifier] || [sectionID isEqualToString:@"com.apple.Music"]) && mediaController._nowPlayingInfo[@"artworkData"];
+	return albumArtIcon && mediaController.nowPlayingApplication && mediaController.nowPlayingApplication.class == %c(SBApplication) && ([sectionID isEqualToString:mediaController.nowPlayingApplication.bundleIdentifier] || [sectionID isEqualToString:@"com.apple.Music"]) && mediaController._nowPlayingInfo[kSBNowPlayingInfoArtworkDataKey];
 }
 
 NSString *HBFPGetKey(NSString *sectionID, BOOL isMusic) {
@@ -154,7 +153,7 @@ NSString *HBFPGetKey(NSString *sectionID, BOOL isMusic) {
 void HBFPGetIconIfNeeded(NSString *key, NSString *sectionID, BOOL isMusic) {
 	if (!iconCache[key]) {
 		if (isMusic) {
-			iconCache[key] = HBFPResizeImage([UIImage imageWithData:((SBMediaController *)[%c(SBMediaController) sharedInstance])._nowPlayingInfo[@"artworkData"]], CGSizeMake(120.f, 120.f));
+			iconCache[key] = HBFPResizeImage([UIImage imageWithData:((SBMediaController *)[%c(SBMediaController) sharedInstance])._nowPlayingInfo[kSBNowPlayingInfoArtworkDataKey]], CGSizeMake(120.f, 120.f));
 		} else {
 			SBApplication *app = [[(SBApplicationController *)[%c(SBApplicationController) sharedInstance] applicationWithDisplayIdentifier:sectionID] autorelease];
 
@@ -170,7 +169,7 @@ void HBFPGetIconIfNeeded(NSString *key, NSString *sectionID, BOOL isMusic) {
 	}
 }
 
-#pragma mark - The Guts(tm)
+#pragma mark - Hide now label
 
 %hook NSBundle
 
@@ -276,7 +275,7 @@ void HBFPLoadPrefs() {
 
 	lockGradient = GET_BOOL(kHBFPPrefsLockGradientKey, YES);
 	lockFade = GET_BOOL(kHBFPPrefsLockFadeKey, YES);
-	
+
 	bannerColorIntensity = GET_FLOAT(kHBFPPrefsBannerColorIntensityKey, 40.f);
 	bannerGrayscaleIntensity = GET_FLOAT(kHBFPPrefsBannerGrayscaleIntensityKey, 40.f);
 	lockOpacity = GET_FLOAT(kHBFPPrefsLockOpacityKey, 50.f);
@@ -336,8 +335,9 @@ void HBFPShowTestBanner() {
 void HBFPShowLockScreenBulletin(BBBulletin *bulletin) {
 	UIViewController *viewController = ((SBLockScreenManager *)[%c(SBLockScreenManager) sharedInstance]).lockScreenViewController;
 	SBLockScreenNotificationListController *notificationController = MSHookIvar<SBLockScreenNotificationListController *>(viewController, "_notificationController");
+	BBObserver *observer = MSHookIvar<BBObserver *>(notificationController, "_observer");
 
-	[notificationController observer:nil addBulletin:bulletin forFeed:2];
+	[notificationController observer:observer addBulletin:bulletin forFeed:2];
 }
 
 void HBFPShowTestLockScreenNotification() {
