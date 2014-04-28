@@ -249,13 +249,13 @@ static NSString *const kHBFPPrefsRemoveGrabberKey = @"RemoveGrabber";
 static NSString *const kHBFPPrefsRemoveDateLabelKey = @"RemoveDateLabel";
 static NSString *const kHBFPPrefsRemoveLockActionKey = @"RemoveLockAction";
 
-static NSString *const kHBFPPrefsNotFirstRunKey = @"NotFirstRun";
+static NSString *const kHBFPPrefsHadFirstRunKey = @"HadFirstRun";
 
 void HBFPLoadPrefs() {
 	NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:kHBFPPrefsPath];
 
 	if (prefs.allKeys.count == 0) {
-		[@{ kHBFPPrefsNotFirstRunKey: @YES } writeToFile:kHBFPPrefsPath atomically:YES];
+		[@{ kHBFPPrefsHadFirstRunKey: @YES } writeToFile:kHBFPPrefsPath atomically:YES];
 		%init(FirstRun);
 	}
 
