@@ -160,7 +160,7 @@ void HBFPGetIconIfNeeded(NSString *key, NSString *sectionID, BOOL isMusic) {
 
 			if (app) {
 				SBApplicationIcon *appIcon = [[[%c(SBApplicationIcon) alloc] initWithApplication:app] autorelease];
-				UIImage *icon = [appIcon getIconImage:SBApplicationIconFormatDefault];
+				UIImage *icon = [appIcon getIconImage:[sectionID isEqualToString:@"com.apple.mobilecal"] ? SBApplicationIconFormatSpotlight : SBApplicationIconFormatDefault];
 
 				if (icon) {
 					iconCache[key] = icon;
