@@ -1,3 +1,5 @@
+extern BOOL (*_UIAccessibilityEnhanceBackgroundContrast)();
+
 extern BOOL tintBanners, tintLockScreen, tintNotificationCenter;
 extern BOOL biggerIcon, albumArtIcon;
 extern BOOL bannerGradient, semiTransparent, borderRadius, textShadow;

@@ -22,6 +22,8 @@ static NSUInteger BitsPerComponent = 8;
 
 #pragma mark - Variables
 
+BOOL (*_UIAccessibilityEnhanceBackgroundContrast)();
+
 BOOL tintBanners, tintLockScreen, tintNotificationCenter;
 BOOL biggerIcon, albumArtIcon;
 BOOL bannerGradient, semiTransparent, borderRadius, textShadow;
@@ -61,14 +63,18 @@ UIColor *HBFPGetDominantColor(UIImage *image) {
 		blue += pixels[i].b;
 	}
 
-	red /= numberOfPixels;
-	green /= numberOfPixels;
-	blue /= numberOfPixels;
-
 	CGContextRelease(context);
 	free(pixels);
 
-	return [UIColor colorWithRed:red / 255.f green:green / 255.f blue:blue / 255.f alpha:1];
+	UIColor *color = [UIColor colorWithRed:red / numberOfPixels / 255.f green:green / numberOfPixels / 255.f blue:blue / numberOfPixels / 255.f alpha:1];
+
+	if (_UIAccessibilityEnhanceBackgroundContrast()) {
+		CGFloat hue, saturation, brightness;
+		[color getHue:&hue saturation:&saturation brightness:&brightness alpha:nil];
+		color = [UIColor colorWithHue:hue saturation:MIN(1.f, saturation + 0.2f) brightness:MAX(0, brightness - 0.15f) alpha:1];
+	}
+
+	return color;
 }
 
 #pragma mark - Resize image
@@ -276,7 +282,7 @@ void HBFPLoadPrefs() {
 	lockGradient = GET_BOOL(kHBFPPrefsLockGradientKey, YES);
 	lockFade = GET_BOOL(kHBFPPrefsLockFadeKey, YES);
 
-	bannerColorIntensity = GET_FLOAT(kHBFPPrefsBannerColorIntensityKey, 40.f);
+	bannerColorIntensity = GET_FLOAT(kHBFPPrefsBannerColorIntensityKey, _UIAccessibilityEnhanceBackgroundContrast() ? 80.f : 40.f);
 	bannerGrayscaleIntensity = GET_FLOAT(kHBFPPrefsBannerGrayscaleIntensityKey, 40.f);
 	lockOpacity = GET_FLOAT(kHBFPPrefsLockOpacityKey, 50.f);
 
@@ -358,6 +364,8 @@ void HBFPShowTestNotificationCenterBulletin() {
 
 %ctor {
 	%init;
+
+	_UIAccessibilityEnhanceBackgroundContrast = (BOOL (*)())dlsym(RTLD_DEFAULT, "_UIAccessibilityEnhanceBackgroundContrast");
 
 	HBFPLoadPrefs();
 	CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPLoadPrefs, CFSTR("ws.hbang.flagpaint/ReloadPrefs"), NULL, kNilOptions);
