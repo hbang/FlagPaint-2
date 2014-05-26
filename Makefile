@@ -16,5 +16,5 @@ else
 	install.exec "killall SpringBoard"
 endif
 
-#SUBPROJECTS += prefs
+SUBPROJECTS += prefs
 include $(THEOS_MAKE_PATH)/aggregate.mk
