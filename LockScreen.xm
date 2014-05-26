@@ -19,7 +19,7 @@ static const char *kHBFPBackgroundViewIdentifier;
 			UIView *containerView = MSHookIvar<UIView *>(self, "_containerView");
 
 			CAGradientLayer *gradientLayer = [[CAGradientLayer alloc] init];
-			gradientLayer.locations = IS_IPAD ? @[ @0, @0.1f, @0.9f, @1 ] : @[ @0, @0.04f, @0.96f, @1 ];
+			gradientLayer.locations = @[ @0, @0.04f, @0.96f, @1 ];
 			gradientLayer.colors = @[
 				(id)[UIColor colorWithWhite:1 alpha:0.05f].CGColor,
 				(id)[UIColor whiteColor].CGColor,
@@ -109,6 +109,10 @@ static const char *kHBFPBackgroundViewIdentifier;
 
 %hook SBLockScreenNotificationCell
 
++ (CGFloat)contentWidthWithRowWidth:(CGFloat)rowWidth andAttachmentSize:(CGSize)attachmentSize {
+	return %orig(biggerIcon && IS_IPAD ? rowWidth - 16.f : rowWidth, attachmentSize);
+}
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
 	self = %orig;
 
@@ -154,7 +158,37 @@ static const char *kHBFPBackgroundViewIdentifier;
 	if (tintLockScreen || biggerIcon) {
 		if (biggerIcon) {
 			UIImageView *iconImageView = MSHookIvar<UIImageView *>(self, "_iconImageView");
-			iconImageView.frame = CGRectMake(9.f, 12.5f, 30.f, 30.f);
+
+			if (IS_IPAD) {
+				iconImageView.frame = CGRectMake(9.f, 15.5f, 30.f, 30.f);
+
+				UILabel *primaryLabel = MSHookIvar<UILabel *>(self, "_primaryLabel");
+				CGRect primaryFrame = primaryLabel.frame;
+				primaryFrame.origin.x += 16.f;
+				primaryLabel.frame = primaryFrame;
+
+				UILabel *subtitleLabel = MSHookIvar<UILabel *>(self, "_subtitleLabel");
+				CGRect subtitleFrame = subtitleLabel.frame;
+				subtitleFrame.origin.x += 16.f;
+				subtitleLabel.frame = subtitleFrame;
+
+				UILabel *secondaryLabel = MSHookIvar<UILabel *>(self, "_secondaryLabel");
+				CGRect secondaryFrame = secondaryLabel.frame;
+				secondaryFrame.origin.x += 16.f;
+				secondaryLabel.frame = secondaryFrame;
+
+				UILabel *relevanceDateLabel = MSHookIvar<UILabel *>(self, "_relevanceDateLabel");
+				CGRect relevanceDateFrame = relevanceDateLabel.frame;
+				relevanceDateFrame.origin.x += 16.f;
+				relevanceDateLabel.frame = relevanceDateFrame;
+
+				UILabel *unlockTextLabel = MSHookIvar<UILabel *>(self, "_unlockTextLabel");
+				CGRect unlockTextFrame = unlockTextLabel.frame;
+				unlockTextFrame.origin.x += 16.f;
+				unlockTextLabel.frame = unlockTextFrame;
+			} else {
+				iconImageView.frame = CGRectMake(9.f, 12.5f, 30.f, 30.f);
+			}
 		}
 
 		if (tintLockScreen && lockGradient) {

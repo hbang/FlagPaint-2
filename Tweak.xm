@@ -211,8 +211,8 @@ BOOL firstRun = YES;
 
 			NSURL *url;
 
-			if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/PreferenceOrganizer2.dylib"]) {
-				url = [NSURL URLWithString:@"prefs:root=Cydia&path=FlagPaint7"];
+			if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/PreferenceOrganizer7.dylib"]) {
+				url = [NSURL URLWithString:@"prefs:root=Tweaks&path=FlagPaint7"];
 			} else {
 				url = [NSURL URLWithString:@"prefs:root=FlagPaint7"];
 			}
