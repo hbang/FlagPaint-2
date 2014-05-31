@@ -25,6 +25,12 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelectedHighContrast = 
 
 static CGFloat const kHBFPNotificaitonCenterIPadPadding = 1024.f; // lazy
 
+@interface SBNotificationsModeViewController (FlagPaint)
+
+- (void)_flagpaint_updateMask;
+
+@end
+
 #pragma mark - Fade effect
 
 %hook SBNotificationsModeViewController
@@ -32,7 +38,16 @@ static CGFloat const kHBFPNotificaitonCenterIPadPadding = 1024.f; // lazy
 - (void)loadView {
 	%orig;
 
-	if (notificationCenterFade) {
+	[self _flagpaint_updateMask];
+
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_flagpaint_updateMask) name:HBFPNotificationCenterSettingsChangedNotification object:nil];
+}
+
+%new - (void)_flagpaint_updateMask {
+	if (!notificationCenterFade) {
+		[self.view.layer.mask release];
+		self.view.layer.mask = nil;
+	} else {
 		CAGradientLayer *gradientLayer = [[CAGradientLayer alloc] init];
 		gradientLayer.locations = IS_IPAD ? @[ @0, @0.02f, @0.98f, @1 ] : @[ @0, @0.96f, @1 ];
 		gradientLayer.colors = IS_IPAD ? @[
