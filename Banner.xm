@@ -106,6 +106,7 @@ CGFloat bannerHeight = 64.f;
 	}
 
 	if (isMusic) {
+		iconImageView.image = iconCache[key];
 		iconImageView.layer.minificationFilter = kCAFilterTrilinear;
 	}
 
