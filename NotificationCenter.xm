@@ -4,9 +4,11 @@
 #import <SpringBoard/SBBBSectionInfo.h>
 #import <SpringBoard/SBBulletinViewController.h>
 #import <SpringBoard/SBNotificationsBulletinCell.h>
+#import <SpringBoard/SBNotificationsModeViewController.h>
 #import <SpringBoard/SBNotificationsSectionHeaderView.h>
 
 static const char *kHBFPBackdropViewSettingsIdentifier;
+static const char *kHBFPBackgroundGradientIdentifier;
 static const char *kHBFPBackgroundViewIdentifier;
 
 static CGFloat const kHBFPNotificationHeaderBackgroundAlphaNormal = 0.35f;
@@ -21,6 +23,55 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaHighlightedHighContrast
 static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 0.4f;
 static CGFloat const kHBFPNotificationCellBackgroundAlphaSelectedHighContrast = 0.8f;
 
+static CGFloat const kHBFPNotificaitonCenterIPadPadding = 1024.f; // lazy
+
+#pragma mark - Fade effect
+
+%hook SBNotificationsModeViewController
+
+- (void)loadView {
+	%orig;
+
+	if (YES) { // TODO
+		CAGradientLayer *gradientLayer = [[CAGradientLayer alloc] init];
+		gradientLayer.locations = IS_IPAD ? @[ @0, @0.02f, @0.98f, @1 ] : @[ @0, @0.96f, @1 ];
+		gradientLayer.colors = IS_IPAD ? @[
+			(id)[UIColor colorWithWhite:1 alpha:0.05f].CGColor,
+			(id)[UIColor whiteColor].CGColor,
+			(id)[UIColor whiteColor].CGColor,
+			(id)[UIColor colorWithWhite:1 alpha:0.05f].CGColor
+		] : @[
+			(id)[UIColor whiteColor].CGColor,
+			(id)[UIColor whiteColor].CGColor,
+			(id)[UIColor colorWithWhite:1 alpha:0.05f].CGColor
+		];
+		self.view.layer.mask = gradientLayer;
+
+		objc_setAssociatedObject(self, &kHBFPBackgroundGradientIdentifier, gradientLayer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+	}
+}
+
+- (void)viewWillLayoutSubviews {
+	%orig;
+
+	if (YES) { // TODO
+		CAGradientLayer *gradientLayer = objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier);
+
+		if (!CGRectEqualToRect(gradientLayer.frame, self.view.bounds)) {
+			gradientLayer.frame = self.view.bounds;
+		}
+	}
+}
+
+- (void)dealloc {
+	[objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier) release];
+	%orig;
+}
+
+%end
+
+#pragma mark - Header
+
 %hook SBNotificationsSectionHeaderView
 
 - (id)initWithFrame:(CGRect)frame {
@@ -28,6 +79,8 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelectedHighContrast = 
 
 	if (self) {
 		if (tintNotificationCenter) {
+			self.clipsToBounds = NO;
+
 			if (_UIAccessibilityEnhanceBackgroundContrast()) {
 				UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentView.frame.size.width, self.contentView.frame.size.height)];
 				backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -49,6 +102,19 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelectedHighContrast = 
 	}
 
 	return self;
+}
+
+- (void)layoutSubviews {
+	%orig;
+
+	if (IS_IPAD) {
+		_UIBackdropView *backdropView = MSHookIvar<_UIBackdropView *>(self, "_backdrop");
+
+		CGRect frame = backdropView.frame;
+		frame.origin.x = -kHBFPNotificaitonCenterIPadPadding;
+		frame.size.width = backdropView.superview.frame.size.width + kHBFPNotificaitonCenterIPadPadding * 2;
+		backdropView.frame = frame;
+	}
 }
 
 - (void)setFloating:(BOOL)floating {
@@ -74,13 +140,20 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelectedHighContrast = 
 
 %end
 
+#pragma mark - Cell
+
 %hook SBNotificationsBulletinCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
 	self = %orig;
 
 	if (self) {
-		UIView *backgroundView = [[UIView alloc] initWithFrame:self.frame];
+		UIScrollView *wrapperView = MSHookIvar<UIScrollView *>(self, "_wrapperView");;
+
+		self.clipsToBounds = NO;
+		wrapperView.clipsToBounds = NO;
+
+		UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(IS_IPAD ? -kHBFPNotificaitonCenterIPadPadding : 0, 0, self.realContentView.frame.size.width + (IS_IPAD ? kHBFPNotificaitonCenterIPadPadding * 2 : 0), self.realContentView.frame.size.height)];
 		backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 		backgroundView.alpha = _UIAccessibilityEnhanceBackgroundContrast() ? kHBFPNotificationCellBackgroundAlphaNormalHighContrast : kHBFPNotificationCellBackgroundAlphaNormal;
 		backgroundView.hidden = !tintNotificationCenter;
@@ -131,10 +204,15 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelectedHighContrast = 
 
 %end
 
+#pragma mark - View controller hooks
+
 %hook SBBulletinViewController
 
 - (void)loadView {
 	%orig;
+
+	self.view.clipsToBounds = NO;
+
 	[[NSNotificationCenter defaultCenter] addObserver:self.tableView selector:@selector(reloadData) name:HBFPNotificationCenterSettingsChangedNotification object:nil];
 }
 
