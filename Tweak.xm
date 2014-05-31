@@ -161,9 +161,17 @@ NSString *HBFPGetKey(NSString *sectionID, BOOL isMusic) {
 
 void HBFPGetIconIfNeeded(NSString *key, NSString *sectionID, BOOL isMusic) {
 	if (!iconCache[key]) {
+		BOOL hasIcon = NO;
+
 		if (isMusic) {
 			iconCache[key] = HBFPResizeImage([UIImage imageWithData:((SBMediaController *)[%c(SBMediaController) sharedInstance])._nowPlayingInfo[kSBNowPlayingInfoArtworkDataKey]], CGSizeMake(120.f, 120.f));
-		} else {
+
+			if (iconCache[key]) {
+				hasIcon = YES;
+			}
+		}
+
+		if (!hasIcon) {
 			SBApplication *app = [[(SBApplicationController *)[%c(SBApplicationController) sharedInstance] applicationWithDisplayIdentifier:sectionID] autorelease];
 
 			if (app) {
