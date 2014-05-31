@@ -220,51 +220,6 @@ CGFloat bannerHeight = 64.f;
 
 %end
 
-/*
-%group TinyBarHax
-@interface SBDefaultBannerTextView (TinyBar)
-
-- (UILabel *)tb_titleLabel;
-- (UILabel *)tb_secondaryLabel;
-
-@end
-
-@interface MarqueeLabel : UILabel
-@end
-
-%hook SBDefaultBannerTextView
-
-- (void)layoutSubviews {
-	%orig;
-
-	if (!textShadow || ![self respondsToSelector:@selector(tb_titleLabel)]) {
-		NSLog(@"!");
-		return;
-	}
-
-	NSLog(@"%@",self.tb_titleLabel);
-
-	object_setClass(self.tb_titleLabel, HBFPShadowedLabel.class);
-}
-
-%end
-
-%hook MarqueeLabel
-
-- (void)drawTextInRect:(CGRect)rect {
-	CGContextRef context = UIGraphicsGetCurrentContext();
-	CGContextSaveGState(context);
-	CGContextSetShadowWithColor(context, CGSizeMake(1.f, 1.f), 2.f, [UIColor colorWithWhite:0 alpha:0.8f].CGColor);
-
-	%orig;
-
-	CGContextRestoreGState(context);
-}
-
-%end
-%end
-*/
-
 %ctor {
 	if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/TinyBar.dylib"]) {
 		hasStatusBarTweak = YES;
