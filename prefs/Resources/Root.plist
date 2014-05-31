@@ -18,7 +18,7 @@
 			<key>detail</key>
 			<string>HBFPBannersListController</string>
 			<key>get</key>
-			<string>bannerTintEnabled:</string>
+			<string>specifierEnabledString:</string>
 			<key>id</key>
 			<string>Tint</string>
 			<key>key</key>
@@ -36,7 +36,7 @@
 			<key>detail</key>
 			<string>HBFPLockScreenListController</string>
 			<key>get</key>
-			<string>lockScreenTintEnabled:</string>
+			<string>specifierEnabledString:</string>
 			<key>id</key>
 			<string>TintLockScreen</string>
 			<key>key</key>
@@ -45,14 +45,18 @@
 			<string>Lock Screen</string>
 		</dict>
 		<dict>
-			<key>PostNotification</key>
-			<string>ws.hbang.flagpaint/ReloadPrefs</string>
 			<key>cell</key>
-			<string>PSSwitchCell</string>
+			<string>PSLinkListCell</string>
 			<key>default</key>
 			<true/>
 			<key>defaults</key>
 			<string>ws.hbang.flagpaint</string>
+			<key>detail</key>
+			<string>HBFPNotificationCenterListController</string>
+			<key>get</key>
+			<string>specifierEnabledString:</string>
+			<key>id</key>
+			<string>TintNotificationCenter</string>
 			<key>key</key>
 			<string>TintNotificationCenter</string>
 			<key>label</key>

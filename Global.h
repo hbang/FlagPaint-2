@@ -4,8 +4,10 @@ extern BOOL tintBanners, tintLockScreen, tintNotificationCenter;
 extern BOOL biggerIcon, albumArtIcon;
 extern BOOL bannerGradient, semiTransparent, borderRadius, textShadow;
 extern BOOL lockGradient, lockFade;
+extern BOOL notificationCenterFade;
 extern BOOL removeIcon, removeGrabber, removeDateLabel, removeAction;
-extern CGFloat bannerColorIntensity, bannerGrayscaleIntensity, lockOpacity;
+extern CGFloat bannerColorIntensity, bannerGrayscaleIntensity, bannerOpacity;
+extern CGFloat lockOpacity, notificationCenterOpacity;
 
 extern NSMutableDictionary *tintCache;
 extern NSMutableDictionary *iconCache;

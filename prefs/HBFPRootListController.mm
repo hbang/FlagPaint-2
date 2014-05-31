@@ -54,6 +54,7 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 
 	[self reloadSpecifier:[self specifierForID:@"Tint"]];
 	[self reloadSpecifier:[self specifierForID:@"TintLockScreen"]];
+	[self reloadSpecifier:[self specifierForID:@"TintNotificationCenter"]];
 
 	_isVisible = YES;
 }
@@ -102,11 +103,7 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 
 #pragma mark - Callbacks
 
-- (NSString *)bannerTintEnabled:(PSSpecifier *)specifier {
-	return ((NSNumber *)[self readPreferenceValue:specifier]).boolValue ? @"On" : @"Off";
-}
-
-- (NSString *)lockScreenTintEnabled:(PSSpecifier *)specifier {
+- (NSString *)specifierEnabledString:(PSSpecifier *)specifier {
 	return ((NSNumber *)[self readPreferenceValue:specifier]).boolValue ? @"On" : @"Off";
 }
 
@@ -118,15 +115,10 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 	notify_post("ws.hbang.flagpaint/TestLockScreenNotification");
 }
 
-- (void)showTestNotificationCenterBulletin {
-	notify_post("ws.hbang.flagpaint/TestNotificationCenterBulletin");
-}
-
 #pragma mark - Memory management
 
 - (void)dealloc {
 	[_headerView release];
-
 	[super dealloc];
 }
 

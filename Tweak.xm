@@ -28,8 +28,10 @@ BOOL tintBanners, tintLockScreen, tintNotificationCenter;
 BOOL biggerIcon, albumArtIcon;
 BOOL bannerGradient, semiTransparent, borderRadius, textShadow;
 BOOL lockGradient, lockFade;
+BOOL notificationCenterFade;
 BOOL removeIcon, removeGrabber, removeDateLabel, removeAction;
-CGFloat bannerColorIntensity, bannerGrayscaleIntensity, lockOpacity;
+CGFloat bannerColorIntensity, bannerGrayscaleIntensity, bannerOpacity;
+CGFloat lockOpacity, notificationCenterOpacity;
 
 NSMutableDictionary *tintCache = [[NSMutableDictionary alloc] init];
 NSMutableDictionary *iconCache = [[NSMutableDictionary alloc] init];
@@ -245,10 +247,14 @@ static NSString *const kHBFPPrefsBorderRadiusKey = @"BorderRadius";
 static NSString *const kHBFPPrefsTextShadowKey = @"TextShadow";
 static NSString *const kHBFPPrefsBannerColorIntensityKey = @"BannerColorIntensity";
 static NSString *const kHBFPPrefsBannerGrayscaleIntensityKey = @"BannerGrayscaleIntensity";
+static NSString *const kHBFPPrefsBannerOpacityKey = @"BannerOpacity";
 
 static NSString *const kHBFPPrefsLockGradientKey = @"LockGradient";
 static NSString *const kHBFPPrefsLockFadeKey = @"LockFade";
 static NSString *const kHBFPPrefsLockOpacityKey = @"LockOpacity";
+
+static NSString *const kHBFPPrefsNotificationCenterFadeKey = @"NotificationCenterFade";
+static NSString *const kHBFPPrefsNotificationCenterOpacityKey = @"NotificationCenterOpacity";
 
 static NSString *const kHBFPPrefsRemoveIconKey = @"RemoveIcon";
 static NSString *const kHBFPPrefsRemoveGrabberKey = @"RemoveGrabber";
@@ -282,9 +288,13 @@ void HBFPLoadPrefs() {
 	lockGradient = GET_BOOL(kHBFPPrefsLockGradientKey, YES);
 	lockFade = GET_BOOL(kHBFPPrefsLockFadeKey, YES);
 
+	notificationCenterFade = GET_BOOL(kHBFPPrefsNotificationCenterFadeKey, YES);
+
 	bannerColorIntensity = GET_FLOAT(kHBFPPrefsBannerColorIntensityKey, _UIAccessibilityEnhanceBackgroundContrast() ? 80.f : 40.f);
 	bannerGrayscaleIntensity = GET_FLOAT(kHBFPPrefsBannerGrayscaleIntensityKey, 40.f);
+	bannerOpacity = GET_FLOAT(kHBFPPrefsBannerOpacityKey, 100.f);
 	lockOpacity = GET_FLOAT(kHBFPPrefsLockOpacityKey, 50.f);
+	notificationCenterOpacity = GET_FLOAT(kHBFPPrefsNotificationCenterOpacityKey, 15.f);
 
 	removeIcon = GET_BOOL(kHBFPPrefsRemoveIconKey, NO);
 	removeGrabber = GET_BOOL(kHBFPPrefsRemoveGrabberKey, YES);

@@ -32,7 +32,7 @@ static CGFloat const kHBFPNotificaitonCenterIPadPadding = 1024.f; // lazy
 - (void)loadView {
 	%orig;
 
-	if (YES) { // TODO
+	if (notificationCenterFade) {
 		CAGradientLayer *gradientLayer = [[CAGradientLayer alloc] init];
 		gradientLayer.locations = IS_IPAD ? @[ @0, @0.02f, @0.98f, @1 ] : @[ @0, @0.96f, @1 ];
 		gradientLayer.colors = IS_IPAD ? @[
@@ -54,7 +54,7 @@ static CGFloat const kHBFPNotificaitonCenterIPadPadding = 1024.f; // lazy
 - (void)viewWillLayoutSubviews {
 	%orig;
 
-	if (YES) { // TODO
+	if (notificationCenterFade) {
 		CAGradientLayer *gradientLayer = objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier);
 
 		if (!CGRectEqualToRect(gradientLayer.frame, self.view.bounds)) {

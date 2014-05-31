@@ -26,6 +26,9 @@ CGFloat bannerHeight = 64.f;
 	self = %orig;
 
 	if (self) {
+		_UIBackdropView *backdropView = MSHookIvar<_UIBackdropView *>(self, "_backdropView");
+		backdropView.alpha = bannerOpacity / 100.f;
+
 		if (tintBanners) {
 			_UIBackdropView *backdropView = MSHookIvar<_UIBackdropView *>(self, "_backdropView");
 
@@ -52,10 +55,6 @@ CGFloat bannerHeight = 64.f;
 				];
 				[backdropView.superview insertSubview:gradientView aboveSubview:backdropView];
 			}
-		}
-
-		if (semiTransparent) {
-			self.alpha = 0.9f;
 		}
 
 		if (borderRadius) {
