@@ -116,6 +116,18 @@
 		</dict>
 		<dict>
 			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>enabled</key>
+			<false/>
+			<key>id</key>
+			<string>TextShadowDisabled</string>
+			<key>label</key>
+			<string>Text Shadow</string>
+		</dict>
+		<dict>
+			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
 			<string>Color Intensity</string>
@@ -165,18 +177,6 @@
 			<true/>
 			<key>PostNotification</key>
 			<string>ws.hbang.flagpaint/ReloadPrefs</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>default</key>
-			<false/>
-			<key>enabled</key>
-			<false/>
-			<key>id</key>
-			<string>TextShadowDisabled</string>
-			<key>label</key>
-			<string>Text Shadow</string>
 		</dict>
 		<dict>
 			<key>cell</key>
