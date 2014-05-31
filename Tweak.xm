@@ -37,7 +37,7 @@ CGFloat lockOpacity, notificationCenterOpacity;
 NSMutableDictionary *tintCache = [[NSMutableDictionary alloc] init];
 NSMutableDictionary *iconCache = [[NSMutableDictionary alloc] init];
 
-static NSString *const HBFPNotificationCenterSettingsChangedNotification = @"HBFPNotificationCenterSettingsChangedNotification";
+static NSString *const HBFPPreferencesChangedNotification = @"HBFPPreferencesChangedNotification";
 
 #pragma mark - Get dominant color
 
@@ -280,8 +280,6 @@ void HBFPLoadPrefs() {
 		%init(FirstRun);
 	}
 
-	BOOL oldTintNC = tintNotificationCenter;
-
 	tintBanners = GET_BOOL(kHBFPPrefsTintBannersKey, YES);
 	tintLockScreen = GET_BOOL(kHBFPPrefsTintLockScreenKey, YES);
 	tintNotificationCenter = GET_BOOL(kHBFPPrefsTintNotificationCenterKey, YES);
@@ -310,9 +308,7 @@ void HBFPLoadPrefs() {
 	removeDateLabel = GET_BOOL(kHBFPPrefsRemoveDateLabelKey, YES);
 	removeAction = GET_BOOL(kHBFPPrefsRemoveLockActionKey, NO);
 
-	if (oldTintNC && !tintNotificationCenter) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:HBFPNotificationCenterSettingsChangedNotification object:nil];
-	}
+	[[NSNotificationCenter defaultCenter] postNotificationName:HBFPPreferencesChangedNotification object:nil];
 }
 
 #pragma mark - Show test bulletin

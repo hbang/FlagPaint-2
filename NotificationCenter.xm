@@ -40,7 +40,7 @@ static CGFloat const kHBFPNotificaitonCenterIPadPadding = 1024.f; // lazy
 
 	[self _flagpaint_updateMask];
 
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_flagpaint_updateMask) name:HBFPNotificationCenterSettingsChangedNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_flagpaint_updateMask) name:HBFPPreferencesChangedNotification object:nil];
 }
 
 %new - (void)_flagpaint_updateMask {
@@ -80,6 +80,8 @@ static CGFloat const kHBFPNotificaitonCenterIPadPadding = 1024.f; // lazy
 
 - (void)dealloc {
 	[objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier) release];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:HBFPPreferencesChangedNotification object:nil];
+
 	%orig;
 }
 
@@ -176,7 +178,7 @@ static CGFloat const kHBFPNotificaitonCenterIPadPadding = 1024.f; // lazy
 
 		objc_setAssociatedObject(self, &kHBFPBackgroundViewIdentifier, backgroundView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
-		[[NSNotificationCenter defaultCenter] addObserverForName:HBFPNotificationCenterSettingsChangedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
+		[[NSNotificationCenter defaultCenter] addObserverForName:HBFPPreferencesChangedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
 			backgroundView.hidden = !tintNotificationCenter;
 		}];
 	}
@@ -228,7 +230,7 @@ static CGFloat const kHBFPNotificaitonCenterIPadPadding = 1024.f; // lazy
 
 	self.view.clipsToBounds = NO;
 
-	[[NSNotificationCenter defaultCenter] addObserver:self.tableView selector:@selector(reloadData) name:HBFPNotificationCenterSettingsChangedNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self.tableView selector:@selector(reloadData) name:HBFPPreferencesChangedNotification object:nil];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -285,7 +287,7 @@ static CGFloat const kHBFPNotificaitonCenterIPadPadding = 1024.f; // lazy
 }
 
 - (void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:HBFPNotificationCenterSettingsChangedNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:HBFPPreferencesChangedNotification object:nil];
 	%orig;
 }
 

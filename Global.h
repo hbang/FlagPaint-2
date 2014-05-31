@@ -17,4 +17,4 @@ extern BOOL HBFPIsMusic(NSString *sectionID);
 extern NSString *HBFPGetKey(NSString *sectionID, BOOL isMusic);
 extern void HBFPGetIconIfNeeded(NSString *key, NSString *sectionID, BOOL isMusic);
 
-static NSString *const HBFPNotificationCenterSettingsChangedNotification = @"HBFPNotificationCenterSettingsChangedNotification";
+static NSString *const HBFPPreferencesChangedNotification = @"HBFPPreferencesChangedNotification";
