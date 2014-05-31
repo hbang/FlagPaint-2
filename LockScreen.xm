@@ -84,8 +84,8 @@ static const char *kHBFPBackgroundViewIdentifier;
 				tintCache[key] = HBFPGetDominantColor(iconCache[key]);
 			}
 
-			HBFPGradientView *backgroundView = objc_getAssociatedObject(cell, &kHBFPBackgroundViewIdentifier);
-			backgroundView.layer.backgroundColor = ((UIColor *)tintCache[key]).CGColor;
+			UIView *backgroundView = objc_getAssociatedObject(cell, &kHBFPBackgroundViewIdentifier);
+			backgroundView.backgroundColor = tintCache[key];
 		}
 	}
 
@@ -122,7 +122,7 @@ static const char *kHBFPBackgroundViewIdentifier;
 
 	if (self) {
 		if (tintLockScreen) {
-			HBFPGradientView *backgroundView = [[HBFPGradientView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+			UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
 			backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 			backgroundView.alpha = lockOpacity / 100.f;
 			[self.realContentView insertSubview:backgroundView atIndex:0];
@@ -136,15 +136,21 @@ static const char *kHBFPBackgroundViewIdentifier;
 					isRTL = [NSLocale characterDirectionForLanguage:[[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode]] == NSLocaleLanguageDirectionRightToLeft;
 				});
 
-				backgroundView.layer.locations = isRTL ? @[ @1, @0.4f, @0.2f, @0 ] : @[ @0, @0.2f, @0.4f, @1 ];
-				backgroundView.layer.startPoint = CGPointMake(0, 0.5f);
-				backgroundView.layer.endPoint = CGPointMake(1.f, 0.5f);
-				backgroundView.layer.colors = @[
+				NSArray *locations = @[ @0, @0.2f, @0.4f, @1 ];
+
+				CAGradientLayer *gradientLayer = [CAGradientLayer layer];
+				gradientLayer.locations = isRTL ? locations.reverseObjectEnumerator.allObjects : locations;
+				gradientLayer.startPoint = CGPointMake(0, 0.5f);
+				gradientLayer.endPoint = CGPointMake(1.f, 0.5f);
+				gradientLayer.colors = @[
 					(id)[UIColor colorWithWhite:1 alpha:1.f].CGColor,
 					(id)[UIColor colorWithWhite:1 alpha:0.625f].CGColor,
 					(id)[UIColor colorWithWhite:1 alpha:0.25f].CGColor,
 					(id)[UIColor colorWithWhite:1 alpha:0.0625f].CGColor
 				];
+				backgroundView.layer.mask = gradientLayer;
+
+				objc_setAssociatedObject(self, &kHBFPBackgroundGradientIdentifier, gradientLayer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 			}
 		}
 	}
@@ -190,10 +196,16 @@ static const char *kHBFPBackgroundViewIdentifier;
 				iconImageView.frame = CGRectMake(9.f, 12.5f, 30.f, 30.f);
 			}
 		}
+
+		if (tintLockScreen && lockGradient) {
+			CAGradientLayer *gradientLayer = objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier);
+			gradientLayer.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+		}
 	}
 }
 
 - (void)dealloc {
+	[objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier) release];
 	[objc_getAssociatedObject(self, &kHBFPBackgroundViewIdentifier) release];
 	%orig;
 }
