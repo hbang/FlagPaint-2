@@ -1,4 +1,5 @@
 #import "Global.h"
+#import "HBFPGradientView.h"
 #import <BulletinBoard/BBBulletin.h>
 #import <SpringBoard/SBBannerContextView.h>
 #import <SpringBoard/SBDefaultBannerTextView.h>
@@ -41,20 +42,15 @@ CGFloat bannerHeight = 64.f;
 			[backdropView.superview insertSubview:grayView aboveSubview:backdropView];
 
 			if (bannerGradient) {
-				UIView *gradientView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+				HBFPGradientView *gradientView = [[[HBFPGradientView alloc] initWithFrame:CGRectZero] autorelease];
 				gradientView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-				[backdropView.superview insertSubview:gradientView aboveSubview:backdropView];
-
-				CAGradientLayer *gradientLayer = [[CAGradientLayer alloc] init];
-				gradientLayer.locations = @[ @0, @0.5f, @1 ];
-				gradientLayer.colors = @[
+				gradientView.layer.locations = @[ @0, @0.5f, @1 ];
+				gradientView.layer.colors = @[
 					(id)[UIColor colorWithWhite:1 alpha:0.25f].CGColor,
 					(id)[UIColor colorWithWhite:1 alpha:0.125f].CGColor,
 					(id)[UIColor colorWithWhite:1 alpha:0.00001f].CGColor
 				];
-				[gradientView.layer addSublayer:gradientLayer];
-
-				objc_setAssociatedObject(self, &kHBFPBackgroundGradientIdentifier, gradientLayer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+				[backdropView.superview insertSubview:gradientView aboveSubview:backdropView];
 			}
 		}
 
@@ -83,15 +79,7 @@ CGFloat bannerHeight = 64.f;
 
 - (void)layoutSubviews {
 	%orig;
-
 	[self _flagpaint_setHeightIfNeeded];
-
-	CAGradientLayer *gradientLayer = objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier);
-
-	if (gradientLayer) {
-		_UIBackdropView *backdropView = MSHookIvar<_UIBackdropView *>(self, "_backdropView");
-		gradientLayer.frame = CGRectMake(0, 0, backdropView.frame.size.width, backdropView.frame.size.height);
-	}
 }
 
 - (void)setBannerContext:(id)bannerContext withReplaceReason:(NSInteger)replaceReason {

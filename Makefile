@@ -3,7 +3,7 @@ ARCHS = armv7 arm64
 include theos/makefiles/common.mk
 
 TWEAK_NAME = FlagPaint7
-FlagPaint7_FILES = $(wildcard *.xm)
+FlagPaint7_FILES = $(wildcard *.xm) $(wildcard *.m)
 FlagPaint7_FRAMEWORKS = UIKit CoreGraphics QuartzCore Accelerate
 FlagPaint7_PRIVATE_FRAMEWORKS = BulletinBoard
 
