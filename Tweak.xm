@@ -339,7 +339,7 @@ void HBFPShowTestBanner() {
 }
 
 void HBFPShowLockScreenBulletin(BBBulletin *bulletin) {
-	UIViewController *viewController = ((SBLockScreenManager *)[%c(SBLockScreenManager) sharedInstance]).lockScreenViewController;
+	SBLockScreenViewController *viewController = ((SBLockScreenManager *)[%c(SBLockScreenManager) sharedInstance]).lockScreenViewController;
 	SBLockScreenNotificationListController *notificationController = MSHookIvar<SBLockScreenNotificationListController *>(viewController, "_notificationController");
 	BBObserver *observer = MSHookIvar<BBObserver *>(notificationController, "_observer");
 
@@ -354,12 +354,6 @@ void HBFPShowTestLockScreenNotification() {
 	});
 }
 
-void HBFPShowTestNotificationCenterBulletin() {
-	[(SBNotificationCenterController *)[%c(SBNotificationCenterController) sharedInstance] presentAnimated:YES completion:^{
-		[[((SBNotificationCenterController *)[%c(SBNotificationCenterController) sharedInstance]).viewController _allModeViewControllerCreateIfNecessary:YES] observer:nil addBulletin:HBFPGetTestBulletin(NO) forFeed:2];
-	}];
-}
-
 #pragma mark - Constructor
 
 %ctor {
@@ -371,5 +365,4 @@ void HBFPShowTestNotificationCenterBulletin() {
 	CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPLoadPrefs, CFSTR("ws.hbang.flagpaint/ReloadPrefs"), NULL, kNilOptions);
 	CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPShowTestBanner, CFSTR("ws.hbang.flagpaint/TestBanner"), NULL, kNilOptions);
 	CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPShowTestLockScreenNotification, CFSTR("ws.hbang.flagpaint/TestLockScreenNotification"), NULL, kNilOptions);
-	CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPShowTestNotificationCenterBulletin, CFSTR("ws.hbang.flagpaint/TestNotificationCenterBulletin"), NULL, kNilOptions);
 }
