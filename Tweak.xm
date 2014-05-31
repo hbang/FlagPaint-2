@@ -4,6 +4,7 @@
 #import <SpringBoard/SBApplication.h>
 #import <SpringBoard/SBApplicationController.h>
 #import <SpringBoard/SBApplicationIcon.h>
+#import <SpringBoard/SBBannerController.h>
 #import <SpringBoard/SBBulletinBannerController.h>
 #import <SpringBoard/SBLockScreenManager.h>
 #import <SpringBoard/SBLockScreenNotificationListController.h>
@@ -345,6 +346,7 @@ BBBulletin *HBFPGetTestBulletin(BOOL isLockScreen) {
 }
 
 void HBFPShowTestBanner() {
+	[(SBBannerController *)[%c(SBBannerController) sharedInstance] dismissBannerWithAnimation:YES reason:0 forceEvenIfBusy:YES];
 	[(SBBulletinBannerController *)[%c(SBBulletinBannerController) sharedInstance] observer:nil addBulletin:HBFPGetTestBulletin(NO) forFeed:2];
 }
 
