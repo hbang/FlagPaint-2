@@ -100,7 +100,7 @@ CGFloat bannerHeight = 64.f;
 	BOOL isMusic = HBFPIsMusic(bulletin.sectionID);
 	NSString *key = HBFPGetKey(bulletin.sectionID, isMusic);
 
-	if (biggerIcon) {
+	if (biggerIcon && !hasStatusBarTweak) {
 		HBFPGetIconIfNeeded(key, bulletin.sectionID, isMusic);
 		iconImageView.image = iconCache[key];
 	}
@@ -187,7 +187,7 @@ CGFloat bannerHeight = 64.f;
 
 		iconImageView.hidden = YES;
 		iconImageView.frame = CGRectZero;
-	} else if (biggerIcon) {
+	} else if (biggerIcon && !hasStatusBarTweak) {
 		iconImageView.frame = IS_IPAD ? CGRectMake(-4.f, iconImageView.frame.origin.y, 30.f, 30.f) : CGRectMake(8.f, 7.5f, 30.f, 30.f);
 	}
 
