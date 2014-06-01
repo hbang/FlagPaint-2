@@ -27,14 +27,14 @@ CGFloat bannerHeight = 64.f;
 
 	if (self) {
 		_UIBackdropView *backdropView = MSHookIvar<_UIBackdropView *>(self, "_backdropView");
-		backdropView.alpha = bannerOpacity / 100.f;
+		backdropView.alpha = bannerOpacity;
 
 		if (tintBanners) {
 			_UIBackdropView *backdropView = MSHookIvar<_UIBackdropView *>(self, "_backdropView");
 
 			_UIBackdropViewSettingsAdaptiveLight *settings = [[%c(_UIBackdropViewSettingsAdaptiveLight) alloc] initWithDefaultValues];
 			settings.colorTint = [UIColor blackColor];
-			settings.colorTintAlpha = bannerColorIntensity / 100.f;
+			settings.colorTintAlpha = bannerColorIntensity;
 			[backdropView transitionToSettings:settings];
 
 			objc_setAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier, settings, OBJC_ASSOCIATION_RETAIN_NONATOMIC);

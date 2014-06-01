@@ -124,7 +124,7 @@ static const char *kHBFPBackgroundViewIdentifier;
 		if (tintLockScreen) {
 			UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
 			backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-			backgroundView.alpha = lockOpacity / 100.f;
+			backgroundView.alpha = lockOpacity;
 			[self.realContentView insertSubview:backgroundView atIndex:0];
 
 			objc_setAssociatedObject(self, &kHBFPBackgroundViewIdentifier, backgroundView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);

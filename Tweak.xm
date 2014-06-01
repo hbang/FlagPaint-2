@@ -310,11 +310,11 @@ void HBFPLoadPrefs() {
 
 	notificationCenterFade = GET_BOOL(kHBFPPrefsNotificationCenterFadeKey, YES);
 
-	bannerColorIntensity = GET_FLOAT(kHBFPPrefsBannerColorIntensityKey, _UIAccessibilityEnhanceBackgroundContrast() ? 80.f : 40.f);
-	bannerGrayscaleIntensity = GET_FLOAT(kHBFPPrefsBannerGrayscaleIntensityKey, 40.f);
-	bannerOpacity = GET_FLOAT(kHBFPPrefsBannerOpacityKey, 100.f);
-	lockOpacity = GET_FLOAT(kHBFPPrefsLockOpacityKey, 50.f);
-	notificationCenterOpacity = GET_FLOAT(kHBFPPrefsNotificationCenterOpacityKey, _UIAccessibilityEnhanceBackgroundContrast() ? 77.f : 15.f);
+	bannerColorIntensity = GET_FLOAT(kHBFPPrefsBannerColorIntensityKey, _UIAccessibilityEnhanceBackgroundContrast() ? 80.f : 40.f) / 100.f;
+	bannerGrayscaleIntensity = GET_FLOAT(kHBFPPrefsBannerGrayscaleIntensityKey, 40.f) / 100.f;
+	bannerOpacity = GET_FLOAT(kHBFPPrefsBannerOpacityKey, 100.f) / 100.f;
+	lockOpacity = GET_FLOAT(kHBFPPrefsLockOpacityKey, 50.f) / 100.f;
+	notificationCenterOpacity = GET_FLOAT(kHBFPPrefsNotificationCenterOpacityKey, _UIAccessibilityEnhanceBackgroundContrast() ? 77.f : 15.f) / 100.f;
 
 	removeIcon = GET_BOOL(kHBFPPrefsRemoveIconKey, NO);
 	removeGrabber = GET_BOOL(kHBFPPrefsRemoveGrabberKey, YES);
