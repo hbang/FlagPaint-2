@@ -1,3 +1,5 @@
+@class BBBulletin;
+
 extern BOOL (*_UIAccessibilityEnhanceBackgroundContrast)();
 
 extern BOOL tintBanners, tintLockScreen, tintNotificationCenter;
@@ -15,6 +17,6 @@ extern NSMutableDictionary *iconCache;
 extern UIColor *HBFPGetDominantColor(UIImage *image);
 extern BOOL HBFPIsMusic(NSString *sectionID);
 extern NSString *HBFPGetKey(NSString *sectionID, BOOL isMusic);
-extern void HBFPGetIconIfNeeded(NSString *key, NSString *sectionID, BOOL isMusic);
+extern void HBFPGetIconIfNeeded(NSString *key, BBBulletin *bulletin, BOOL isMusic);
 
 static NSString *const HBFPPreferencesChangedNotification = @"HBFPPreferencesChangedNotification";

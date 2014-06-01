@@ -242,7 +242,7 @@ static CGFloat const kHBFPNotificaitonCenterIPadPadding = 1024.f; // lazy
 
 		if (sectionInfo && [sectionInfo respondsToSelector:@selector(identifier)] && sectionInfo.identifier) {
 			NSString *key = sectionInfo.identifier;
-			HBFPGetIconIfNeeded(key, key, NO);
+			HBFPGetIconIfNeeded(key, nil, NO);
 
 			if (!tintCache[key]) {
 				tintCache[key] = HBFPGetDominantColor(iconCache[key]);
@@ -268,7 +268,7 @@ static CGFloat const kHBFPNotificaitonCenterIPadPadding = 1024.f; // lazy
 
 	if (sectionInfo && [sectionInfo respondsToSelector:@selector(identifier)] && sectionInfo.identifier) {
 		NSString *key = sectionInfo.identifier;
-		HBFPGetIconIfNeeded(key, key, NO);
+		HBFPGetIconIfNeeded(key, nil, NO);
 
 		if (!tintCache[key]) {
 			tintCache[key] = HBFPGetDominantColor(iconCache[key]);

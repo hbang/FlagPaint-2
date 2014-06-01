@@ -159,7 +159,7 @@ NSString *HBFPGetKey(NSString *sectionID, BOOL isMusic) {
 	return isMusic ? [NSString stringWithFormat:@"_FPMusic_%@_%@_%@_%@", mediaController.nowPlayingApplication.bundleIdentifier, mediaController.nowPlayingTitle, mediaController.nowPlayingArtist, mediaController.nowPlayingAlbum] : sectionID;
 }
 
-void HBFPGetIconIfNeeded(NSString *key, NSString *sectionID, BOOL isMusic) {
+void HBFPGetIconIfNeeded(NSString *key, BBBulletin *bulletin, BOOL isMusic) {
 	if (!iconCache[key]) {
 		BOOL hasIcon = NO;
 
@@ -172,11 +172,24 @@ void HBFPGetIconIfNeeded(NSString *key, NSString *sectionID, BOOL isMusic) {
 		}
 
 		if (!hasIcon) {
-			SBApplication *app = [[(SBApplicationController *)[%c(SBApplicationController) sharedInstance] applicationWithDisplayIdentifier:sectionID] autorelease];
+			SBApplication *app = [[(SBApplicationController *)[%c(SBApplicationController) sharedInstance] applicationWithDisplayIdentifier:bulletin ? bulletin.sectionID : key] autorelease];
+
+			if (!app && bulletin) {
+				app = [[(SBApplicationController *)[%c(SBApplicationController) sharedInstance] applicationWithDisplayIdentifier:bulletin.section] autorelease];
+			}
+
+			if (!app && bulletin && bulletin.defaultAction) {
+				app = [[(SBApplicationController *)[%c(SBApplicationController) sharedInstance] applicationWithDisplayIdentifier:bulletin.defaultAction.bundleID] autorelease];
+			}
+
+			if (!app) {
+				NSLog(@"flagpaint: couldn't get icon for key %@, bulletin %@", key, bulletin);
+				return;
+			}
 
 			if (app) {
 				SBApplicationIcon *appIcon = [[[%c(SBApplicationIcon) alloc] initWithApplication:app] autorelease];
-				UIImage *icon = [appIcon getIconImage:[sectionID isEqualToString:@"com.apple.mobilecal"] ? SBApplicationIconFormatSpotlight : SBApplicationIconFormatDefault];
+				UIImage *icon = [appIcon getIconImage:[key isEqualToString:@"com.apple.mobilecal"] ? SBApplicationIconFormatSpotlight : SBApplicationIconFormatDefault];
 
 				if (icon) {
 					iconCache[key] = icon;

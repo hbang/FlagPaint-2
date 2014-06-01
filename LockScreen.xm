@@ -67,7 +67,7 @@ static const char *kHBFPBackgroundViewIdentifier;
 		NSString *key = HBFPGetKey(bulletin.sectionID, isMusic);
 
 		if (biggerIcon) {
-			HBFPGetIconIfNeeded(key, bulletin.sectionID, isMusic);
+			HBFPGetIconIfNeeded(key, bulletin, isMusic);
 			iconImageView.image = iconCache[key];
 		}
 
