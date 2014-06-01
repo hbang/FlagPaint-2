@@ -165,7 +165,7 @@ static CGFloat const kHBFPNotificaitonCenterIPadPadding = 1024.f; // lazy
 		self.clipsToBounds = NO;
 		wrapperView.clipsToBounds = NO;
 
-		UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(IS_IPAD ? -kHBFPNotificaitonCenterIPadPadding : 0, 0, self.realContentView.frame.size.width + (IS_IPAD ? kHBFPNotificaitonCenterIPadPadding * 2 : 0), self.realContentView.frame.size.height)];
+		UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(IS_IPAD ? -kHBFPNotificaitonCenterIPadPadding : 0, 0, self.realContentView.frame.size.width + (IS_IPAD ? kHBFPNotificaitonCenterIPadPadding * 2 : 0), self.realContentView.frame.size.height + 0.5f)];
 		backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 		backgroundView.alpha = notificationCenterOpacity * kHBFPNotificationCellBackgroundAlphaNormal;
 		backgroundView.hidden = !tintNotificationCenter;
