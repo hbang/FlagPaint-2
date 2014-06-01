@@ -37,74 +37,58 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 
 	_headerView = [[HBFPHeaderView alloc] initWithTopInset:kHBFPHeaderTopInset];
 	_headerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-	[self.view addSubview:_headerView];
+	[self.table addSubview:_headerView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-NSLog(@"");
 	[super viewWillAppear:animated];
-NSLog(@"");
 
 	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
 		CGFloat headerHeight = kHBFPHeaderTopInset + kHBFPHeaderHeight;
 
-		self.view.contentInset = UIEdgeInsetsMake(headerHeight, 0, 0, 0);
-		self.view.contentOffset = CGPointMake(0, -headerHeight);
-NSLog(@"");
+		self.table.contentInset = UIEdgeInsetsMake(headerHeight, 0, 0, 0);
+		self.table.contentOffset = CGPointMake(0, -headerHeight);
 
 		_headerView.frame = CGRectMake(0, -headerHeight, self.view.frame.size.width, headerHeight);
-NSLog(@"");
 	});
 
 	[self reloadSpecifier:[self specifierForID:@"Tint"]];
 	[self reloadSpecifier:[self specifierForID:@"TintLockScreen"]];
 	[self reloadSpecifier:[self specifierForID:@"TintNotificationCenter"]];
-NSLog(@"");
 
 	_isVisible = YES;
-NSLog(@"");
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-NSLog(@"");
 	[super viewWillDisappear:animated];
 
-NSLog(@"");
 	UIView *titleView = MSHookIvar<UIView *>(self.navigationController.navigationBar, "_titleView");
 	titleView.alpha = 1;
 
 	_isVisible = NO;
-NSLog(@"");
 }
 
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-NSLog(@"");
 	if (!_isVisible) {
 		return;
 	}
 
-NSLog(@"");
 	UIView *titleView = MSHookIvar<UIView *>(self.navigationController.navigationBar, "_titleView");
 
 	if (titleView) {
-NSLog(@"");
 		titleView.alpha = (scrollView.contentOffset.y / kHBFPHeaderHeight) + 1;
-NSLog(@"");
 	}
 
 	if (scrollView.contentOffset.y >= -kHBFPHeaderTopInset - kHBFPHeaderHeight) {
-NSLog(@"");
 		return;
 	}
 
-NSLog(@"");
 	CGRect headerFrame = _headerView.frame;
 	headerFrame.origin.y = scrollView.contentOffset.y;
 	headerFrame.size.height = -scrollView.contentOffset.y;
 	_headerView.frame = headerFrame;
-NSLog(@"");
 }
 
 #pragma mark - PSListController
