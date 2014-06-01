@@ -314,7 +314,7 @@ void HBFPLoadPrefs() {
 	bannerGrayscaleIntensity = GET_FLOAT(kHBFPPrefsBannerGrayscaleIntensityKey, 40.f);
 	bannerOpacity = GET_FLOAT(kHBFPPrefsBannerOpacityKey, 100.f);
 	lockOpacity = GET_FLOAT(kHBFPPrefsLockOpacityKey, 50.f);
-	notificationCenterOpacity = GET_FLOAT(kHBFPPrefsNotificationCenterOpacityKey, 15.f);
+	notificationCenterOpacity = GET_FLOAT(kHBFPPrefsNotificationCenterOpacityKey, _UIAccessibilityEnhanceBackgroundContrast() ? 77.f : 15.f);
 
 	removeIcon = GET_BOOL(kHBFPPrefsRemoveIconKey, NO);
 	removeGrabber = GET_BOOL(kHBFPPrefsRemoveGrabberKey, YES);

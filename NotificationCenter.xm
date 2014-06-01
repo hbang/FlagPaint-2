@@ -11,17 +11,11 @@ static const char *kHBFPBackdropViewSettingsIdentifier;
 static const char *kHBFPBackgroundGradientIdentifier;
 static const char *kHBFPBackgroundViewIdentifier;
 
-static CGFloat const kHBFPNotificationHeaderBackgroundAlphaNormal = 0.35f;
-static CGFloat const kHBFPNotificationHeaderBackgroundAlphaNormalHighContrast = 0.77f;
-static CGFloat const kHBFPNotificationHeaderBackgroundAlphaFloating = 0.15f;
-static CGFloat const kHBFPNotificationHeaderBackgroundAlphaFloatingHighContrast = 0.78f;
+static CGFloat const kHBFPNotificationHeaderBackgroundAlphaFloating = 0.43f;
 
-static CGFloat const kHBFPNotificationCellBackgroundAlphaNormal = 0.15f;
-static CGFloat const kHBFPNotificationCellBackgroundAlphaNormalHighContrast = 0.85f;
-static CGFloat const kHBFPNotificationCellBackgroundAlphaHighlighted = 0.3f;
-static CGFloat const kHBFPNotificationCellBackgroundAlphaHighlightedHighContrast = 0.8f;
-static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 0.4f;
-static CGFloat const kHBFPNotificationCellBackgroundAlphaSelectedHighContrast = 0.8f;
+static CGFloat const kHBFPNotificationCellBackgroundAlphaNormal = 0.43f;
+static CGFloat const kHBFPNotificationCellBackgroundAlphaHighlighted = 0.86f;
+static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 
 static CGFloat const kHBFPNotificaitonCenterIPadPadding = 1024.f; // lazy
 
@@ -101,7 +95,7 @@ static CGFloat const kHBFPNotificaitonCenterIPadPadding = 1024.f; // lazy
 			if (_UIAccessibilityEnhanceBackgroundContrast()) {
 				UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentView.frame.size.width, self.contentView.frame.size.height)];
 				backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-				backgroundView.alpha = _UIAccessibilityEnhanceBackgroundContrast() ? kHBFPNotificationHeaderBackgroundAlphaNormalHighContrast : kHBFPNotificationHeaderBackgroundAlphaNormal;
+				backgroundView.alpha = notificationCenterOpacity;
 				[self.contentView insertSubview:backgroundView atIndex:0];
 
 				objc_setAssociatedObject(self, &kHBFPBackgroundViewIdentifier, backgroundView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -110,7 +104,7 @@ static CGFloat const kHBFPNotificaitonCenterIPadPadding = 1024.f; // lazy
 
 				_UIBackdropViewSettingsAdaptiveLight *settings = [[%c(_UIBackdropViewSettingsAdaptiveLight) alloc] initWithDefaultValues];
 				settings.colorTint = [UIColor blackColor];
-				settings.colorTintAlpha = _UIAccessibilityEnhanceBackgroundContrast() ? kHBFPNotificationHeaderBackgroundAlphaNormalHighContrast : kHBFPNotificationHeaderBackgroundAlphaNormal;
+				settings.colorTintAlpha = notificationCenterOpacity;
 				[backdropView transitionToSettings:settings];
 
 				objc_setAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier, settings, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -136,13 +130,14 @@ static CGFloat const kHBFPNotificaitonCenterIPadPadding = 1024.f; // lazy
 
 - (void)setFloating:(BOOL)floating {
 	if (tintNotificationCenter) {
+		CGFloat alpha = notificationCenterOpacity * (floating ? kHBFPNotificationHeaderBackgroundAlphaFloating : 1.f);
 
 		if (_UIAccessibilityEnhanceBackgroundContrast()) {
 			UIView *backgroundView = objc_getAssociatedObject(self, &kHBFPBackgroundViewIdentifier);
-			backgroundView.alpha = floating ? kHBFPNotificationHeaderBackgroundAlphaFloatingHighContrast : kHBFPNotificationHeaderBackgroundAlphaNormalHighContrast;
+			backgroundView.alpha = alpha;
 		} else {
 			_UIBackdropViewSettings *settings = objc_getAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier);
-			settings.grayscaleTintAlpha = floating ? kHBFPNotificationHeaderBackgroundAlphaFloating : kHBFPNotificationHeaderBackgroundAlphaNormal;
+			settings.grayscaleTintAlpha = alpha;
 		}
 	} else {
 		%orig;
@@ -172,7 +167,7 @@ static CGFloat const kHBFPNotificaitonCenterIPadPadding = 1024.f; // lazy
 
 		UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(IS_IPAD ? -kHBFPNotificaitonCenterIPadPadding : 0, 0, self.realContentView.frame.size.width + (IS_IPAD ? kHBFPNotificaitonCenterIPadPadding * 2 : 0), self.realContentView.frame.size.height)];
 		backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-		backgroundView.alpha = _UIAccessibilityEnhanceBackgroundContrast() ? kHBFPNotificationCellBackgroundAlphaNormalHighContrast : kHBFPNotificationCellBackgroundAlphaNormal;
+		backgroundView.alpha = notificationCenterOpacity * kHBFPNotificationCellBackgroundAlphaNormal;
 		backgroundView.hidden = !tintNotificationCenter;
 		[self.realContentView insertSubview:backgroundView atIndex:0];
 
@@ -189,12 +184,7 @@ static CGFloat const kHBFPNotificaitonCenterIPadPadding = 1024.f; // lazy
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
 	if (tintNotificationCenter) {
 		UIView *backgroundView = objc_getAssociatedObject(self, &kHBFPBackgroundViewIdentifier);
-
-		if (_UIAccessibilityEnhanceBackgroundContrast()) {
-			backgroundView.alpha = highlighted ? kHBFPNotificationCellBackgroundAlphaHighlightedHighContrast : kHBFPNotificationCellBackgroundAlphaNormalHighContrast;
-		} else {
-			backgroundView.alpha = highlighted ? kHBFPNotificationCellBackgroundAlphaHighlighted : kHBFPNotificationCellBackgroundAlphaNormal;
-		}
+		backgroundView.alpha = notificationCenterOpacity * (highlighted ? kHBFPNotificationCellBackgroundAlphaHighlighted : 1.f);
 	} else {
 		%orig;
 	}
@@ -203,12 +193,7 @@ static CGFloat const kHBFPNotificaitonCenterIPadPadding = 1024.f; // lazy
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
 	if (tintNotificationCenter) {
 		UIView *backgroundView = objc_getAssociatedObject(self, &kHBFPBackgroundViewIdentifier);
-
-		if (_UIAccessibilityEnhanceBackgroundContrast()) {
-			backgroundView.alpha = selected ? kHBFPNotificationCellBackgroundAlphaSelectedHighContrast : kHBFPNotificationCellBackgroundAlphaNormalHighContrast;
-		} else {
-			backgroundView.alpha = selected ? kHBFPNotificationCellBackgroundAlphaSelected : kHBFPNotificationCellBackgroundAlphaNormal;
-		}
+		backgroundView.alpha = notificationCenterOpacity * (selected ? kHBFPNotificationCellBackgroundAlphaSelected : 1.f);
 	} else {
 		%orig;
 	}
