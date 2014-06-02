@@ -138,7 +138,7 @@ static const char *kHBFPBackgroundViewIdentifier;
 
 				NSArray *locations = @[ @0, @0.2f, @0.4f, @1 ];
 
-				CAGradientLayer *gradientLayer = [CAGradientLayer layer];
+				CAGradientLayer *gradientLayer = [[CAGradientLayer alloc] init];
 				gradientLayer.locations = isRTL ? locations.reverseObjectEnumerator.allObjects : locations;
 				gradientLayer.startPoint = CGPointMake(0, 0.5f);
 				gradientLayer.endPoint = CGPointMake(1.f, 0.5f);
