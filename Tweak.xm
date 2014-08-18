@@ -34,6 +34,8 @@ BOOL removeIcon, removeGrabber, removeDateLabel, removeAction;
 CGFloat bannerColorIntensity, bannerGrayscaleIntensity, bannerOpacity;
 CGFloat lockOpacity, notificationCenterOpacity;
 
+BOOL hasBlurredClock;
+
 NSMutableDictionary *tintCache = [[NSMutableDictionary alloc] init];
 NSMutableDictionary *iconCache = [[NSMutableDictionary alloc] init];
 
@@ -286,6 +288,9 @@ static NSString *const kHBFPPrefsRemoveLockActionKey = @"RemoveLockAction";
 
 static NSString *const kHBFPPrefsHadFirstRunKey = @"HadFirstRun";
 
+static NSString *const kHBFPSubtleLockPrefsPath = @"/var/mobile/Library/Preferences/com.michaelpoole.subtlelock.plist";
+static NSString *const kHBFPSubtleLockBlurredClockBGKey = @"BlurredClockBG";
+
 void HBFPLoadPrefs() {
 	NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:kHBFPPrefsPath];
 
@@ -323,6 +328,9 @@ void HBFPLoadPrefs() {
 	removeAction = GET_BOOL(kHBFPPrefsRemoveLockActionKey, NO);
 
 	[[NSNotificationCenter defaultCenter] postNotificationName:HBFPPreferencesChangedNotification object:nil];
+
+	NSDictionary *subtlelockPrefs = [NSDictionary dictionaryWithContentsOfFile:kHBFPSubtleLockPrefsPath];
+	hasBlurredClock = subtlelockPrefs && subtlelockPrefs[kHBFPSubtleLockBlurredClockBGKey] ? ((NSNumber *)subtlelockPrefs[kHBFPSubtleLockBlurredClockBGKey]).boolValue : NO;
 }
 
 #pragma mark - Show test bulletin
@@ -392,7 +400,10 @@ void HBFPShowTestLockScreenNotification() {
 	_UIAccessibilityEnhanceBackgroundContrast = (BOOL (*)())dlsym(RTLD_DEFAULT, "_UIAccessibilityEnhanceBackgroundContrast");
 
 	HBFPLoadPrefs();
+
 	CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPLoadPrefs, CFSTR("ws.hbang.flagpaint/ReloadPrefs"), NULL, kNilOptions);
+	CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPLoadPrefs, CFSTR("com.michaelpoole.subtlelock.settingsChanged"), NULL, kNilOptions);
+
 	CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPShowTestBanner, CFSTR("ws.hbang.flagpaint/TestBanner"), NULL, kNilOptions);
 	CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPShowTestLockScreenNotification, CFSTR("ws.hbang.flagpaint/TestLockScreenNotification"), NULL, kNilOptions);
 }

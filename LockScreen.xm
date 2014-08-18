@@ -24,8 +24,12 @@ static const char *kHBFPBackgroundViewIdentifier;
 				? @[ @0, @0.01f, @0.02f, @0.92f, @1 ]
 				: @[ @0, @0.02f, @0.04f, @0.9f,  @1 ];
 			gradientLayer.colors = @[
-				(id)[UIColor colorWithWhite:1 alpha:0.02f].CGColor,
-				(id)[UIColor colorWithWhite:1 alpha:0.7f].CGColor,
+				hasBlurredClock
+					? (id)[UIColor whiteColor].CGColor
+					: (id)[UIColor colorWithWhite:1 alpha:0.02f].CGColor,
+				hasBlurredClock
+					? (id)[UIColor whiteColor].CGColor
+					: (id)[UIColor colorWithWhite:1 alpha:0.7f].CGColor,
 				(id)[UIColor whiteColor].CGColor,
 				(id)[UIColor whiteColor].CGColor,
 				(id)[UIColor colorWithWhite:1 alpha:0.000001f].CGColor

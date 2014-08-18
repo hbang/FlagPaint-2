@@ -11,6 +11,8 @@ extern BOOL removeIcon, removeGrabber, removeDateLabel, removeAction;
 extern CGFloat bannerColorIntensity, bannerGrayscaleIntensity, bannerOpacity;
 extern CGFloat lockOpacity, notificationCenterOpacity;
 
+extern BOOL hasBlurredClock;
+
 extern NSMutableDictionary *tintCache;
 extern NSMutableDictionary *iconCache;
 
