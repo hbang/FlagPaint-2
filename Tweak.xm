@@ -164,9 +164,10 @@ void HBFPGetIconIfNeeded(NSString *key, BBBulletin *bulletin, BOOL isMusic) {
 		BOOL hasIcon = NO;
 
 		if (isMusic) {
-			iconCache[key] = HBFPResizeImage([UIImage imageWithData:((SBMediaController *)[%c(SBMediaController) sharedInstance])._nowPlayingInfo[kSBNowPlayingInfoArtworkDataKey]], CGSizeMake(120.f, 120.f));
+			UIImage *icon = HBFPResizeImage([UIImage imageWithData:((SBMediaController *)[%c(SBMediaController) sharedInstance])._nowPlayingInfo[kSBNowPlayingInfoArtworkDataKey]], CGSizeMake(120.f, 120.f));
 
-			if (iconCache[key]) {
+			if (icon) {
+				iconCache[key] = icon;
 				hasIcon = YES;
 			}
 		}
