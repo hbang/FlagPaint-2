@@ -17,11 +17,12 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaNormal = 0.43f;
 static CGFloat const kHBFPNotificationCellBackgroundAlphaHighlighted = 0.86f;
 static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 
-static CGFloat const kHBFPNotificaitonCenterIPadPadding = 1024.f; // lazy
+static CGFloat const kHBFPNotificationCenterIPadPadding = 1024.f; // lazy
 
 @interface SBNotificationsModeViewController (FlagPaint)
 
 - (void)_flagpaint_updateMask;
+- (void)_flagpaint_updateMaskWithOffset:(CGFloat)offset height:(CGFloat)height;
 
 @end
 
@@ -38,26 +39,46 @@ static CGFloat const kHBFPNotificaitonCenterIPadPadding = 1024.f; // lazy
 }
 
 %new - (void)_flagpaint_updateMask {
-	if (!notificationCenterFade) {
-		[self.view.layer.mask release];
-		self.view.layer.mask = nil;
-	} else {
+	CAGradientLayer *gradientLayer = objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier);
+	[gradientLayer release];
+
+	self.view.layer.mask = nil;
+
+	if (notificationCenterFade) {
 		CAGradientLayer *gradientLayer = [[CAGradientLayer alloc] init];
-		gradientLayer.locations = IS_IPAD ? @[ @0, @0.02f, @0.98f, @1 ] : @[ @0, @0.96f, @1 ];
-		gradientLayer.colors = IS_IPAD ? @[
-			(id)[UIColor colorWithWhite:1 alpha:0.05f].CGColor,
-			(id)[UIColor whiteColor].CGColor,
-			(id)[UIColor whiteColor].CGColor,
-			(id)[UIColor colorWithWhite:1 alpha:0.05f].CGColor
-		] : @[
-			(id)[UIColor whiteColor].CGColor,
-			(id)[UIColor whiteColor].CGColor,
-			(id)[UIColor colorWithWhite:1 alpha:0.05f].CGColor
-		];
 		self.view.layer.mask = gradientLayer;
 
 		objc_setAssociatedObject(self, &kHBFPBackgroundGradientIdentifier, gradientLayer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+
+		gradientLayer.colors = @[
+			(id)[UIColor colorWithWhite:1 alpha:0.05f].CGColor,
+			(id)[UIColor whiteColor].CGColor,
+			(id)[UIColor whiteColor].CGColor,
+			(id)[UIColor colorWithWhite:1 alpha:0.1f].CGColor
+		];
+
+		[self _flagpaint_updateMaskWithOffset:0.f height:self.view.frame.size.height];
 	}
+}
+
+%new - (void)_flagpaint_updateMaskWithOffset:(CGFloat)offset height:(CGFloat)height {
+	if (!notificationCenterFade) {
+		return;
+	}
+
+	CGFloat viewport = IS_IPAD ? 1000.f : 500.f, topMax = 0.2f, bottomMin = 0.9f;
+	CGFloat top = IS_IPAD ? MAX(offset / viewport * topMax, topMax) : 0, bottom = MAX(bottomMin + ((offset - viewport) / height), bottomMin);
+
+	if (top < 0) {
+		top = 0;
+	}
+
+	if (bottom < 0) {
+		bottom = bottomMin;
+	}
+
+	CAGradientLayer *gradientLayer = objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier);
+	gradientLayer.locations = @[ @0, @(top), @(bottom), @1 ];
 }
 
 - (void)viewWillLayoutSubviews {
@@ -122,8 +143,8 @@ static CGFloat const kHBFPNotificaitonCenterIPadPadding = 1024.f; // lazy
 		_UIBackdropView *backdropView = MSHookIvar<_UIBackdropView *>(self, "_backdrop");
 
 		CGRect frame = backdropView.frame;
-		frame.origin.x = -kHBFPNotificaitonCenterIPadPadding;
-		frame.size.width = backdropView.superview.frame.size.width + kHBFPNotificaitonCenterIPadPadding * 2;
+		frame.origin.x = -kHBFPNotificationCenterIPadPadding;
+		frame.size.width = backdropView.superview.frame.size.width + kHBFPNotificationCenterIPadPadding * 2;
 		backdropView.frame = frame;
 	}
 }
@@ -160,12 +181,12 @@ static CGFloat const kHBFPNotificaitonCenterIPadPadding = 1024.f; // lazy
 	self = %orig;
 
 	if (self) {
-		UIScrollView *wrapperView = MSHookIvar<UIScrollView *>(self, "_wrapperView");;
+		UIScrollView *wrapperView = MSHookIvar<UIScrollView *>(self, "_wrapperView");
 
 		self.clipsToBounds = NO;
 		wrapperView.clipsToBounds = NO;
 
-		UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(IS_IPAD ? -kHBFPNotificaitonCenterIPadPadding : 0, 0, self.realContentView.frame.size.width + (IS_IPAD ? kHBFPNotificaitonCenterIPadPadding * 2 : 0), self.realContentView.frame.size.height + 0.5f)];
+		UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(IS_IPAD ? -kHBFPNotificationCenterIPadPadding : 0, 0, self.realContentView.frame.size.width + (IS_IPAD ? kHBFPNotificationCenterIPadPadding * 2 : 0), self.realContentView.frame.size.height + 0.5f)];
 		backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 		backgroundView.alpha = notificationCenterOpacity * kHBFPNotificationCellBackgroundAlphaNormal;
 		backgroundView.hidden = !tintNotificationCenter;
@@ -269,6 +290,14 @@ static CGFloat const kHBFPNotificaitonCenterIPadPadding = 1024.f; // lazy
 	}
 
 	return header;
+}
+
+%new - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+	SBNotificationsModeViewController *parentViewController = (SBNotificationsModeViewController *)self.parentViewController;
+
+	if (parentViewController && [parentViewController isKindOfClass:%c(SBNotificationsModeViewController)]) {
+		[parentViewController _flagpaint_updateMaskWithOffset:scrollView.contentOffset.y height:scrollView.contentSize.height];
+	}
 }
 
 - (void)dealloc {
