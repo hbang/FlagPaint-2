@@ -10,34 +10,20 @@
 static const char *kHBFPBackgroundGradientIdentifier;
 static const char *kHBFPBackgroundViewIdentifier;
 
+@interface SBLockScreenNotificationListView (FlagPaint)
+
+- (void)_flagpaint_updateMask;
+- (void)_flagpaint_updateMaskWithOffset:(CGFloat)offset height:(CGFloat)height;
+
+@end
+
 %hook SBLockScreenNotificationListView
 
 - (id)initWithFrame:(CGRect)frame {
 	self = %orig;
 
 	if (self) {
-		if (lockFade) {
-			UIView *containerView = MSHookIvar<UIView *>(self, "_containerView");
-
-			CAGradientLayer *gradientLayer = [[CAGradientLayer alloc] init];
-			gradientLayer.locations = IS_IPAD
-				? @[ @0, @0.01f, @0.02f, @0.92f, @1 ]
-				: @[ @0, @0.02f, @0.04f, @0.9f,  @1 ];
-			gradientLayer.colors = @[
-				hasBlurredClock
-					? (id)[UIColor whiteColor].CGColor
-					: (id)[UIColor colorWithWhite:1 alpha:0.02f].CGColor,
-				hasBlurredClock
-					? (id)[UIColor whiteColor].CGColor
-					: (id)[UIColor colorWithWhite:1 alpha:0.7f].CGColor,
-				(id)[UIColor whiteColor].CGColor,
-				(id)[UIColor whiteColor].CGColor,
-				(id)[UIColor colorWithWhite:1 alpha:0.000001f].CGColor
-			];
-			containerView.layer.mask = gradientLayer;
-
-			objc_setAssociatedObject(self, &kHBFPBackgroundGradientIdentifier, gradientLayer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-		}
+		[self _flagpaint_updateMask];
 	}
 
 	return self;
@@ -48,9 +34,11 @@ static const char *kHBFPBackgroundViewIdentifier;
 
 	if (lockFade) {
 		UIView *containerView = MSHookIvar<UIView *>(self, "_containerView");
-
 		CAGradientLayer *gradientLayer = objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier);
-		gradientLayer.frame = CGRectMake(0, 0, containerView.frame.size.width, containerView.frame.size.height);
+
+		if (!CGRectEqualToRect(gradientLayer.frame, containerView.bounds)) {
+			gradientLayer.frame = containerView.bounds;
+		}
 	}
 }
 
@@ -94,6 +82,56 @@ static const char *kHBFPBackgroundViewIdentifier;
 	}
 
 	return cell;
+}
+
+%new - (void)_flagpaint_updateMask {
+	UIView *containerView = MSHookIvar<UIView *>(self, "_containerView");
+	CAGradientLayer *gradientLayer = objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier);
+	[gradientLayer release];
+
+	if (lockFade) {
+		CAGradientLayer *gradientLayer = [[CAGradientLayer alloc] init];
+		containerView.layer.mask = gradientLayer;
+
+		objc_setAssociatedObject(self, &kHBFPBackgroundGradientIdentifier, gradientLayer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+
+		gradientLayer.colors = @[
+			hasBlurredClock ? (id)[UIColor whiteColor].CGColor : (id)[UIColor colorWithWhite:1 alpha:0.05f].CGColor,
+			(id)[UIColor whiteColor].CGColor,
+			(id)[UIColor whiteColor].CGColor,
+			(id)[UIColor colorWithWhite:1 alpha:0.1f].CGColor
+		];
+
+		[self _flagpaint_updateMaskWithOffset:0.f height:containerView.frame.size.height];
+	}
+}
+
+%new - (void)_flagpaint_updateMaskWithOffset:(CGFloat)offset height:(CGFloat)height {
+	if (!lockFade) {
+		return;
+	}
+
+	CGFloat viewport = IS_IPAD ? 1000.f : 500.f, topMax = 0.2f, bottomMin = 0.9f;
+	CGFloat top = MAX(offset / viewport * topMax, topMax), bottom = MAX(bottomMin + ((offset - viewport) / height), bottomMin);
+
+	if (top < 0 || hasBlurredClock) {
+		top = 0;
+	}
+
+	if (bottom < 0) {
+		bottom = bottomMin;
+	}
+
+	CAGradientLayer *gradientLayer = objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier);
+	gradientLayer.locations = @[ @0, @(top), @(bottom), @1 ];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+	%orig;
+
+	if (scrollView.class == %c(SBLockScreenNotificationTableView)) {
+		[self _flagpaint_updateMaskWithOffset:scrollView.contentOffset.y height:scrollView.contentSize.height];
+	}
 }
 
 - (void)dealloc {
