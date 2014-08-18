@@ -28,7 +28,7 @@ BOOL (*_UIAccessibilityEnhanceBackgroundContrast)();
 BOOL tintBanners, tintLockScreen, tintNotificationCenter;
 BOOL biggerIcon, albumArtIcon;
 BOOL bannerGradient, semiTransparent, borderRadius, textShadow;
-BOOL lockGradient, lockFade;
+BOOL lockGradient, lockFade, lockDisableDimming;
 BOOL notificationCenterFade;
 BOOL removeIcon, removeGrabber, removeDateLabel, removeAction;
 CGFloat bannerColorIntensity, bannerGrayscaleIntensity, bannerOpacity;
@@ -277,6 +277,7 @@ static NSString *const kHBFPPrefsBannerOpacityKey = @"BannerOpacity";
 static NSString *const kHBFPPrefsLockGradientKey = @"LockGradient";
 static NSString *const kHBFPPrefsLockFadeKey = @"LockFade";
 static NSString *const kHBFPPrefsLockOpacityKey = @"LockOpacity";
+static NSString *const kHBFPPrefsLockDisableDimmingKey = @"LockDisableDimming";
 
 static NSString *const kHBFPPrefsNotificationCenterFadeKey = @"NotificationCenterFade";
 static NSString *const kHBFPPrefsNotificationCenterOpacityKey = @"NotificationCenterOpacity";
@@ -313,6 +314,7 @@ void HBFPLoadPrefs() {
 
 	lockGradient = GET_BOOL(kHBFPPrefsLockGradientKey, YES);
 	lockFade = GET_BOOL(kHBFPPrefsLockFadeKey, YES);
+	lockDisableDimming = GET_BOOL(kHBFPPrefsLockDisableDimmingKey, YES);
 
 	notificationCenterFade = GET_BOOL(kHBFPPrefsNotificationCenterFadeKey, YES);
 

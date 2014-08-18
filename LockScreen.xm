@@ -208,6 +208,10 @@ static const char *kHBFPBackgroundViewIdentifier;
 	}
 }
 
+- (void)setContentAlpha:(CGFloat)contentAlpha {
+	%orig(lockDisableDimming ? 1 : contentAlpha);
+}
+
 - (void)dealloc {
 	[objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier) release];
 	[objc_getAssociatedObject(self, &kHBFPBackgroundViewIdentifier) release];

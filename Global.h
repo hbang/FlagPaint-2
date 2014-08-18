@@ -5,7 +5,7 @@ extern BOOL (*_UIAccessibilityEnhanceBackgroundContrast)();
 extern BOOL tintBanners, tintLockScreen, tintNotificationCenter;
 extern BOOL biggerIcon, albumArtIcon;
 extern BOOL bannerGradient, semiTransparent, borderRadius, textShadow;
-extern BOOL lockGradient, lockFade;
+extern BOOL lockGradient, lockFade, lockDisableDimming;
 extern BOOL notificationCenterFade;
 extern BOOL removeIcon, removeGrabber, removeDateLabel, removeAction;
 extern CGFloat bannerColorIntensity, bannerGrayscaleIntensity, bannerOpacity;
