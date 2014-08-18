@@ -100,13 +100,12 @@ CGFloat bannerHeight = 64.f;
 	BOOL isMusic = HBFPIsMusic(bulletin.sectionID);
 	NSString *key = HBFPGetKey(bulletin.sectionID, isMusic);
 
-	if (biggerIcon && !hasStatusBarTweak) {
+	if (biggerIcon || isMusic) {
 		HBFPGetIconIfNeeded(key, bulletin, isMusic);
 		iconImageView.image = iconCache[key];
 	}
 
 	if (isMusic) {
-		iconImageView.image = iconCache[key];
 		iconImageView.layer.minificationFilter = kCAFilterTrilinear;
 	}
 
