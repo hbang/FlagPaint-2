@@ -1,4 +1,4 @@
-#import <libhbangcommon/HBRootListController.h>
+#import <libhbangcommon/prefs/HBRootListController.h>
 
 @interface HBFPRootListController : HBRootListController
 
