@@ -111,7 +111,7 @@ static const char *kHBFPBackgroundViewIdentifier;
 		return;
 	}
 
-	CGFloat viewport = IS_IPAD ? 1000.f : 500.f, topMax = 0.2f, bottomMin = 0.9f;
+	CGFloat viewport = 50.f, topMax = 0.2f, bottomMin = 0.9f;
 	CGFloat top = MAX(offset / viewport * topMax, topMax), bottom = MAX(bottomMin + ((offset - viewport) / height), bottomMin);
 
 	if (top < 0 || hasBlurredClock) {
