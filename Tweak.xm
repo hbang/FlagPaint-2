@@ -159,7 +159,14 @@ BOOL HBFPIsMusic(NSString *sectionID) {
 NSString *HBFPGetKey(NSString *sectionID, BOOL isMusic) {
 	SBMediaController *mediaController = (SBMediaController *)[%c(SBMediaController) sharedInstance];
 
-	return isMusic ? [NSString stringWithFormat:@"_FPMusic_%@_%@_%@_%@", mediaController.nowPlayingApplication.bundleIdentifier, mediaController.nowPlayingTitle, mediaController.nowPlayingArtist, mediaController.nowPlayingAlbum] : sectionID;
+	if (isMusic) {
+		return [NSString stringWithFormat:@"_FPMusic_%@_%@_%@_%@", mediaController.nowPlayingApplication.bundleIdentifier, mediaController.nowPlayingTitle, mediaController.nowPlayingArtist, mediaController.nowPlayingAlbum];
+	} else if (sectionID) {
+		return sectionID;
+	} else {
+		NSLog(@"flagpaint: nil section identifier (%@, %i)", sectionID, isMusic);
+		return [NSString stringWithFormat:@"_FPUnknown_%f", [NSDate date].timeIntervalSince1970];
+	}
 }
 
 void HBFPGetIconIfNeeded(NSString *key, BBBulletin *bulletin, BOOL isMusic) {
