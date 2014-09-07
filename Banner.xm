@@ -54,6 +54,20 @@ CGFloat bannerHeight = 64.f;
 					(id)[UIColor colorWithWhite:1 alpha:0.00001f].CGColor
 				];
 				[backdropView.superview insertSubview:gradientView aboveSubview:backdropView];
+			} else if (fonz) {
+				HBFPGradientView *gradientView = [[[HBFPGradientView alloc] initWithFrame:CGRectZero] autorelease];
+				gradientView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+				CGFloat division = 1.f / 6.f;
+				gradientView.layer.locations = @[ @(division), @(division * 2.f), @(division * 3.f), @(division * 4.f), @(division * 5.f), @(division * 6.f) ];
+				gradientView.layer.colors = @[
+					(id)[UIColor redColor].CGColor,
+					(id)[UIColor orangeColor].CGColor,
+					(id)[UIColor yellowColor].CGColor,
+					(id)[UIColor greenColor].CGColor,
+					(id)[UIColor colorWithRed:111.f / 255.f green:0 blue:1 alpha:1].CGColor,
+					(id)[UIColor colorWithRed:238.f / 255.f green:130.f / 255.f blue:238.f / 255.f alpha:1].CGColor
+				];
+				[backdropView.superview insertSubview:gradientView aboveSubview:backdropView];
 			}
 		}
 
@@ -223,7 +237,6 @@ CGFloat bannerHeight = 64.f;
 	if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/TinyBar.dylib"]) {
 		hasStatusBarTweak = YES;
 		dlopen("/Library/MobileSubstrate/DynamicLibraries/TinyBar.dylib", RTLD_NOW);
-		// %init(TinyBarHax);
 	}
 
 	%init;

@@ -31,6 +31,7 @@ BOOL bannerGradient, semiTransparent, borderRadius, textShadow;
 BOOL lockGradient, lockFade, lockDisableDimming;
 BOOL notificationCenterFade;
 BOOL removeIcon, removeGrabber, removeDateLabel, removeAction;
+BOOL fonz;
 CGFloat bannerColorIntensity, bannerGrayscaleIntensity, bannerOpacity;
 CGFloat lockOpacity, notificationCenterOpacity;
 
@@ -287,6 +288,7 @@ static NSString *const kHBFPPrefsRemoveGrabberKey = @"RemoveGrabber";
 static NSString *const kHBFPPrefsRemoveDateLabelKey = @"RemoveDateLabel";
 static NSString *const kHBFPPrefsRemoveLockActionKey = @"RemoveLockAction";
 
+static NSString *const kHBFPPrefsFonzKey = @"Fonz";
 static NSString *const kHBFPPrefsHadFirstRunKey = @"HadFirstRun";
 
 static NSString *const kHBFPSubtleLockPrefsPath = @"/var/mobile/Library/Preferences/com.michaelpoole.subtlelock.plist";
@@ -328,6 +330,8 @@ void HBFPLoadPrefs() {
 	removeGrabber = GET_BOOL(kHBFPPrefsRemoveGrabberKey, YES);
 	removeDateLabel = GET_BOOL(kHBFPPrefsRemoveDateLabelKey, YES);
 	removeAction = GET_BOOL(kHBFPPrefsRemoveLockActionKey, NO);
+
+	fonz = GET_BOOL(kHBFPPrefsFonzKey, NO);
 
 	[[NSNotificationCenter defaultCenter] postNotificationName:HBFPPreferencesChangedNotification object:nil];
 

@@ -8,6 +8,7 @@ extern BOOL bannerGradient, semiTransparent, borderRadius, textShadow;
 extern BOOL lockGradient, lockFade, lockDisableDimming;
 extern BOOL notificationCenterFade;
 extern BOOL removeIcon, removeGrabber, removeDateLabel, removeAction;
+extern BOOL fonz;
 extern CGFloat bannerColorIntensity, bannerGrayscaleIntensity, bannerOpacity;
 extern CGFloat lockOpacity, notificationCenterOpacity;
 
