@@ -14,8 +14,8 @@ extern CGFloat lockOpacity, notificationCenterOpacity;
 
 extern BOOL hasBlurredClock;
 
-extern NSMutableDictionary *tintCache;
-extern NSMutableDictionary *iconCache;
+extern NSCache *tintCache;
+extern NSCache *iconCache;
 
 extern UIColor *HBFPGetDominantColor(UIImage *image);
 extern BOOL HBFPIsMusic(NSString *sectionID);

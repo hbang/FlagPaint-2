@@ -1,3 +1,4 @@
+#import "NSCache+Subscripting.h"
 #import <Accelerate/Accelerate.h>
 #import <BulletinBoard/BBAction.h>
 #import <BulletinBoard/BBBulletin.h>
@@ -37,8 +38,8 @@ CGFloat lockOpacity, notificationCenterOpacity;
 
 BOOL hasBlurredClock;
 
-NSMutableDictionary *tintCache = [[NSMutableDictionary alloc] init];
-NSMutableDictionary *iconCache = [[NSMutableDictionary alloc] init];
+NSCache *tintCache = [[NSCache alloc] init];
+NSCache *iconCache = [[NSCache alloc] init];
 
 static NSString *const HBFPPreferencesChangedNotification = @"HBFPPreferencesChangedNotification";
 

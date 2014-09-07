@@ -1,4 +1,5 @@
 #import "Global.h"
+#import "NSCache+Subscripting.h"
 #import <UIKit/_UIBackdropView.h>
 #import <UIKit/_UIBackdropViewSettingsAdaptiveLight.h>
 #import <SpringBoard/SBBBSectionInfo.h>
