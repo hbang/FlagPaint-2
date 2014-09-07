@@ -1,5 +1,6 @@
 #import "Global.h"
 #import "HBFPGradientView.h"
+#import "NSCache+Subscripting.h"
 #import <BulletinBoard/BBBulletin.h>
 #import <SpringBoard/SBBannerContextView.h>
 #import <SpringBoard/SBDefaultBannerTextView.h>
