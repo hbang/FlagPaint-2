@@ -44,9 +44,13 @@ static const char *kHBFPBackgroundViewIdentifier;
 
 - (SBLockScreenNotificationCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	SBLockScreenNotificationCell *cell = %orig;
+	SBAwayBulletinListItem *listItem = [self.model listItemAtIndexPath:indexPath];
+
+	if (![listItem isKindOfClass:%c(SBAwayBulletinListItem)]) {
+		return cell;
+	}
 
 	if (tintLockScreen || biggerIcon) {
-		SBAwayBulletinListItem *listItem = [self.model listItemAtIndexPath:indexPath];
 
 		if (![listItem respondsToSelector:@selector(activeBulletin)] || !listItem.activeBulletin) {
 			return cell;
