@@ -10,6 +10,7 @@
 static const char *kHBFPBackdropViewSettingsIdentifier;
 static const char *kHBFPBackgroundGradientIdentifier;
 static const char *kHBFPBackgroundViewIdentifier;
+static const char *kHBFPPreferencesChangedIdentifier;
 
 static CGFloat const kHBFPNotificationHeaderBackgroundAlphaFloating = 0.43f;
 
@@ -33,7 +34,21 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 
 	[self _flagpaint_updateMask];
 
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_flagpaint_updateMask) name:HBFPPreferencesChangedNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserverForName:HBFPPreferencesChangedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
+		objc_setAssociatedObject(self, &kHBFPPreferencesChangedIdentifier, @YES, OBJC_ASSOCIATION_ASSIGN);
+	}];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+	%log;
+	%orig;
+
+	if (((NSNumber *)objc_getAssociatedObject(self, &kHBFPPreferencesChangedIdentifier)).boolValue) {
+		objc_setAssociatedObject(self, &kHBFPPreferencesChangedIdentifier, @NO, OBJC_ASSOCIATION_ASSIGN);
+
+		[(UITableView *)self.view.subviews[0] reloadData];
+		[self _flagpaint_updateMask];
+	}
 }
 
 %new - (void)_flagpaint_updateMask {
@@ -49,13 +64,14 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 		objc_setAssociatedObject(self, &kHBFPBackgroundGradientIdentifier, gradientLayer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
 		gradientLayer.colors = @[
-			(id)[UIColor colorWithWhite:1 alpha:0.05f].CGColor,
 			(id)[UIColor whiteColor].CGColor,
 			(id)[UIColor whiteColor].CGColor,
 			(id)[UIColor colorWithWhite:1 alpha:0.1f].CGColor
 		];
 
 		[self _flagpaint_updateMaskWithOffset:0.f height:self.view.frame.size.height];
+	} else {
+		self.view.layer.mask = nil;
 	}
 }
 
@@ -64,19 +80,15 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 		return;
 	}
 
-	CGFloat viewport = IS_IPAD ? 1000.f : 500.f, topMax = 0.2f, bottomMin = 0.9f;
-	CGFloat top = IS_IPAD ? MAX(offset / viewport * topMax, topMax) : 0, bottom = MAX(bottomMin + ((offset - viewport) / height), bottomMin);
-
-	if (top < 0) {
-		top = 0;
-	}
+	CGFloat viewport = IS_IPAD ? 1000.f : 500.f, bottomMin = 0.9f;
+	CGFloat bottom = MAX(bottomMin + ((offset - viewport) / height), bottomMin);
 
 	if (bottom < 0) {
 		bottom = bottomMin;
 	}
 
 	CAGradientLayer *gradientLayer = objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier);
-	gradientLayer.locations = @[ @0, @(top), @(bottom), @1 ];
+	gradientLayer.locations = @[ @0, @(bottom), @1 ];
 }
 
 - (void)viewWillLayoutSubviews {
@@ -93,8 +105,6 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 
 - (void)dealloc {
 	[objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier) release];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:HBFPPreferencesChangedNotification object:nil];
-
 	%orig;
 }
 
@@ -239,10 +249,7 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 
 - (void)loadView {
 	%orig;
-
 	self.view.clipsToBounds = NO;
-
-	[[NSNotificationCenter defaultCenter] addObserver:self.tableView selector:@selector(reloadData) name:HBFPPreferencesChangedNotification object:nil];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
