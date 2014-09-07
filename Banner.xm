@@ -188,7 +188,7 @@ CGFloat bannerHeight = 64.f;
 		iconImageView.hidden = YES;
 		iconImageView.frame = CGRectZero;
 	} else if (biggerIcon && !hasStatusBarTweak) {
-		iconImageView.frame = IS_IPAD ? CGRectMake(-4.f, iconImageView.frame.origin.y, 30.f, 30.f) : CGRectMake(8.f, 7.5f, 30.f, 30.f);
+		iconImageView.frame = IS_IPAD ? CGRectMake(-4.f, iconImageView.frame.origin.y, 29.f, 29.f) : CGRectMake(8.f, 7.5f, 29.f, 29.f);
 	}
 
 	if (removeGrabber) {

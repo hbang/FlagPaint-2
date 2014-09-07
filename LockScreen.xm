@@ -212,7 +212,7 @@ static const char *kHBFPBackgroundViewIdentifier;
 			UIImageView *iconImageView = MSHookIvar<UIImageView *>(self, "_iconImageView");
 
 			if (IS_IPAD) {
-				iconImageView.frame = CGRectMake(9.f, 15.5f, 30.f, 30.f);
+				iconImageView.frame = CGRectMake(9.f, 15.5f, 29.f, 29.f);
 
 				UILabel *primaryLabel = MSHookIvar<UILabel *>(self, "_primaryLabel");
 				CGRect primaryFrame = primaryLabel.frame;
@@ -239,7 +239,7 @@ static const char *kHBFPBackgroundViewIdentifier;
 				unlockTextFrame.origin.x += 16.f;
 				unlockTextLabel.frame = unlockTextFrame;
 			} else {
-				iconImageView.frame = CGRectMake(9.f, 12.5f, 30.f, 30.f);
+				iconImageView.frame = CGRectMake(9.f, 12.5f, 29.f, 29.f);
 			}
 		}
 
