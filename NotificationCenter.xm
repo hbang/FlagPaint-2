@@ -17,8 +17,6 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaNormal = 0.43f;
 static CGFloat const kHBFPNotificationCellBackgroundAlphaHighlighted = 0.86f;
 static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 
-static CGFloat const kHBFPNotificationCenterIPadPadding = 1024.f; // lazy
-
 @interface SBNotificationsModeViewController (FlagPaint)
 
 - (void)_flagpaint_updateMask;
@@ -143,8 +141,8 @@ static CGFloat const kHBFPNotificationCenterIPadPadding = 1024.f; // lazy
 		_UIBackdropView *backdropView = MSHookIvar<_UIBackdropView *>(self, "_backdrop");
 
 		CGRect frame = backdropView.frame;
-		frame.origin.x = -kHBFPNotificationCenterIPadPadding;
-		frame.size.width = backdropView.superview.frame.size.width + kHBFPNotificationCenterIPadPadding * 2;
+		frame.origin.x = -self.superview.frame.origin.x;
+		frame.size.width = backdropView.superview.frame.size.width + self.superview.frame.origin.x * 2;
 		backdropView.frame = frame;
 	}
 }
@@ -186,7 +184,7 @@ static CGFloat const kHBFPNotificationCenterIPadPadding = 1024.f; // lazy
 		self.clipsToBounds = NO;
 		wrapperView.clipsToBounds = NO;
 
-		UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(IS_IPAD ? -kHBFPNotificationCenterIPadPadding : 0, 0, self.realContentView.frame.size.width + (IS_IPAD ? kHBFPNotificationCenterIPadPadding * 2 : 0), self.realContentView.frame.size.height + 0.5f)];
+		UIView *backgroundView = [[UIView alloc] init];
 		backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 		backgroundView.alpha = notificationCenterOpacity * kHBFPNotificationCellBackgroundAlphaNormal;
 		backgroundView.hidden = !tintNotificationCenter;
@@ -200,6 +198,14 @@ static CGFloat const kHBFPNotificationCenterIPadPadding = 1024.f; // lazy
 	}
 
 	return self;
+}
+
+- (void)layoutSubviews {
+	%orig;
+
+	CGFloat padding = IS_IPAD ? self.superview.superview.frame.origin.x : 0;
+	UIView *backgroundView = objc_getAssociatedObject(self, &kHBFPBackgroundViewIdentifier);
+	backgroundView.frame = CGRectMake(-padding, 0, self.frame.size.width + padding * 2, self.frame.size.height);
 }
 
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
