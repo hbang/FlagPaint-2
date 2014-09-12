@@ -75,7 +75,7 @@ CGFloat bannerHeight = 64.f;
 		if (borderRadius) {
 			_UIBackdropView *backdropView = MSHookIvar<_UIBackdropView *>(self, "_backdropView");
 
-			self.layer.cornerRadius = 8.f;
+			self.layer.cornerRadius = hasStatusBarTweak ? 4.f : 8.f;
 			backdropView.layer.cornerRadius = self.layer.cornerRadius;
 
 			for (CALayer *layer in backdropView.layer.sublayers) {
