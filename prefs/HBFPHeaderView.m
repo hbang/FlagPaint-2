@@ -20,7 +20,7 @@
 			(id)[UIColor colorWithRed:103.f / 255.f green:147.f / 255.f blue:35.f / 255.f alpha:1].CGColor
 		];
 
-		NSMutableAttributedString *attributedString = [[[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"FlagPaint7\nby HASHBANG Productions\nVersion %@", @"1.1"]] autorelease];
+		NSMutableAttributedString *attributedString = [[[NSMutableAttributedString alloc] initWithString:@"FlagPaint7\nby HASHBANG Productions"] autorelease];
 
 		NSMutableParagraphStyle *paragraphStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
 		paragraphStyle.lineSpacing = 10.f;
