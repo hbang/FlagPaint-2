@@ -96,7 +96,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>If you experience problems, try a respring.</string>
+			<string>If your notifications disappear after toggling settings here, try a respring. This will be fixed in a future release.</string>
 		</dict>
 		<dict>
 			<key>cell</key>
