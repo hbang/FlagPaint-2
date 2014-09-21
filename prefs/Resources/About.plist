@@ -68,6 +68,20 @@
 			<key>label</key>
 			<string>Email Support</string>
 		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Translators</string>
+		</dict>
+		<dict>
+			<key>label</key>
+			<string>French: Spydar007</string>
+		</dict>
+		<dict>
+			<key>label</key>
+			<string>Swedish: iDaniel</string>
+		</dict>
 	</array>
 	<key>title</key>
 	<string>About</string>

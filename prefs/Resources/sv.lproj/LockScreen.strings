@@ -1,0 +1,10 @@
+"Enabled" = "Aktiverad";
+"Gradient" = "Gradient";
+"Fade Top and Bottom" = "Tona ut övre och nedre sidan";
+"Adds a subtle fade effect effect to the top and bottom of the notification list." = "Lägger till en svag övergångseffekt till början och slutet av notifierings listan.";
+"Disable Dimming" = "Avaktivera dimning";
+"Disables the default behavior of all but the first notification being dimmed." = "Avaktiverar det normala beteendet av alla förutom den första notifikationen som dimmas.";
+"Background Opacity" = "Bakgrunds genomskinlighet";
+"Hide Elements" = "Göm element";
+"Hide “Slide To”" = "Göm “Dra för att”";
+"Test Lock Screen Notification" = "Test låsskärms notifiering";
