@@ -305,6 +305,16 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 	return header;
 }
 
+- (void)dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:HBFPPreferencesChangedNotification object:nil];
+	%orig;
+}
+
+%end
+
+%group NotAukiHax
+%hook SBBulletinViewController
+
 %new - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
 	SBNotificationsModeViewController *parentViewController = (SBNotificationsModeViewController *)self.parentViewController;
 
@@ -313,9 +323,13 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 	}
 }
 
-- (void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:HBFPPreferencesChangedNotification object:nil];
-	%orig;
-}
-
 %end
+%end
+
+%ctor {
+	if (![%c(SBBulletinViewController) instancesRespondToSelector:@selector(scrollViewDidScroll:)] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/auki.dylib"]) {
+		%init(NotAukiHax);
+	}
+
+	%init;
+}
