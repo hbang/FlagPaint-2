@@ -243,13 +243,44 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 
 %end
 
+#pragma mark - KVO hax
+
+// TODO: move to own files
+
+@interface HBFPBulletinViewControllerKVOObserver : NSObject
+
+@end
+
+@implementation HBFPBulletinViewControllerKVOObserver
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+	if (![keyPath isEqualToString:@"contentOffset"]) {
+		return;
+	}
+
+	SBBulletinViewController *viewController = (id)context;
+	UIScrollView *scrollView = object;
+
+	SBNotificationsModeViewController *parentViewController = (SBNotificationsModeViewController *)viewController.parentViewController;
+
+	if (parentViewController && [parentViewController isKindOfClass:%c(SBNotificationsModeViewController)]) {
+		[parentViewController _flagpaint_updateMaskWithOffset:scrollView.contentOffset.y height:scrollView.contentSize.height];
+	}
+}
+
+@end
+
 #pragma mark - View controller hooks
 
 %hook SBBulletinViewController
 
 - (void)loadView {
 	%orig;
+
 	self.view.clipsToBounds = NO;
+
+	HBFPBulletinViewControllerKVOObserver *observer = [[HBFPBulletinViewControllerKVOObserver alloc] init];
+	[self.view addObserver:observer forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:self];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -311,25 +342,3 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 }
 
 %end
-
-%group NotAukiHax
-%hook SBBulletinViewController
-
-%new - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-	SBNotificationsModeViewController *parentViewController = (SBNotificationsModeViewController *)self.parentViewController;
-
-	if (parentViewController && [parentViewController isKindOfClass:%c(SBNotificationsModeViewController)]) {
-		[parentViewController _flagpaint_updateMaskWithOffset:scrollView.contentOffset.y height:scrollView.contentSize.height];
-	}
-}
-
-%end
-%end
-
-%ctor {
-	if (![%c(SBBulletinViewController) instancesRespondToSelector:@selector(scrollViewDidScroll:)] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/auki.dylib"]) {
-		%init(NotAukiHax);
-	}
-
-	%init;
-}
