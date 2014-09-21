@@ -380,7 +380,6 @@ BBBulletin *HBFPGetTestBulletin(BOOL isLockScreen) {
 		bulletin.subtitle = @"Test notification";
 	} else {
 		bulletin.message = @"Test notification";
-		bulletin.accessoryStyle = BBBulletinAccessoryStyleVIP;
 	}
 
 	return bulletin;
