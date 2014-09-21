@@ -9,7 +9,11 @@
 
 - (NSArray *)specifiers {
 	if (!_specifiers) {
-		BOOL (*_UIAccessibilityEnhanceBackgroundContrast)() = (BOOL (*)())dlsym(RTLD_DEFAULT, "_UIAccessibilityEnhanceBackgroundContrast");
+		static BOOL (*_UIAccessibilityEnhanceBackgroundContrast)();
+		static dispatch_once_t onceToken;
+		dispatch_once(&onceToken, ^{
+			_UIAccessibilityEnhanceBackgroundContrast = (BOOL (*)())dlsym(RTLD_DEFAULT, "_UIAccessibilityEnhanceBackgroundContrast");
+		});
 
 		NSArray *oldSpecifiers = [self loadSpecifiersFromPlistName:@"NotificationCenter" target:self];
 		NSMutableArray *specifiers = [[NSMutableArray alloc] init];
