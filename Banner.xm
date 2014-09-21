@@ -91,7 +91,19 @@ CGFloat bannerHeight = 64.f;
 
 - (void)layoutSubviews {
 	%orig;
+
 	[self _flagpaint_setHeightIfNeeded];
+
+	SBDefaultBannerView *contentView = MSHookIvar<SBDefaultBannerView *>(self, "_contentView");
+
+	if (!contentView || ![contentView isKindOfClass:%c(SBDefaultBannerView)]) {
+		return;
+	}
+
+	// this fixes the weird anti-antialiased (pro-aliased?) date label for some reason
+	SBDefaultBannerTextView *textView = MSHookIvar<SBDefaultBannerTextView *>(contentView, "_textView");
+	UILabel *relevanceDateLabel = MSHookIvar<UILabel *>(textView, "_relevanceDateLabel");
+	relevanceDateLabel.textColor = [UIColor whiteColor];
 }
 
 - (void)setBannerContext:(id)bannerContext withReplaceReason:(NSInteger)replaceReason {
