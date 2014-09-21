@@ -1,6 +1,7 @@
 #import "HBFPNotificationCenterListController.h"
 #import <Preferences/PSSpecifier.h>
 #include <dlfcn.h>
+#include <notify.h>
 
 @implementation HBFPNotificationCenterListController
 
@@ -26,6 +27,12 @@
 	}
 
 	return _specifiers;
+}
+
+#pragma mark - Callbacks
+
+- (void)respring {
+	notify_post("ws.hbang.flagpaint/Respring");
 }
 
 @end

@@ -2,6 +2,7 @@
 #import <Accelerate/Accelerate.h>
 #import <BulletinBoard/BBAction.h>
 #import <BulletinBoard/BBBulletin.h>
+#import <SpringBoard/SpringBoard.h>
 #import <SpringBoard/SBApplication.h>
 #import <SpringBoard/SBApplicationController.h>
 #import <SpringBoard/SBApplicationIcon.h>
@@ -406,6 +407,10 @@ void HBFPShowTestLockScreenNotification() {
 	});
 }
 
+void HBFPRespring() {
+	[(SpringBoard *)[UIApplication sharedApplication] _relaunchSpringBoardNow];
+}
+
 #pragma mark - Constructor
 
 %ctor {
@@ -420,4 +425,5 @@ void HBFPShowTestLockScreenNotification() {
 
 	CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPShowTestBanner, CFSTR("ws.hbang.flagpaint/TestBanner"), NULL, kNilOptions);
 	CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPShowTestLockScreenNotification, CFSTR("ws.hbang.flagpaint/TestLockScreenNotification"), NULL, kNilOptions);
+	CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPRespring, CFSTR("ws.hbang.flagpaint/Respring"), NULL, kNilOptions);
 }
