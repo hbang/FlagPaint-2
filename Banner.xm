@@ -31,8 +31,6 @@ CGFloat bannerHeight = 64.f;
 		backdropView.alpha = bannerOpacity;
 
 		if (tintBanners) {
-			_UIBackdropView *backdropView = MSHookIvar<_UIBackdropView *>(self, "_backdropView");
-
 			_UIBackdropViewSettingsAdaptiveLight *settings = [[%c(_UIBackdropViewSettingsAdaptiveLight) alloc] initWithDefaultValues];
 			settings.colorTint = [UIColor blackColor];
 			settings.colorTintAlpha = bannerColorIntensity;
