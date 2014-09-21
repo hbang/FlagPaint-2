@@ -41,7 +41,6 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-	%log;
 	%orig;
 
 	if (((NSNumber *)objc_getAssociatedObject(self, &kHBFPPreferencesChangedIdentifier)).boolValue) {
