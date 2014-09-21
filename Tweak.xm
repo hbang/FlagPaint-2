@@ -37,6 +37,8 @@ BOOL fonz;
 CGFloat bannerColorIntensity, bannerGrayscaleIntensity, bannerOpacity;
 CGFloat lockOpacity, notificationCenterOpacity;
 
+NSBundle *bundle;
+
 BOOL hasBlurredClock;
 
 NSCache *tintCache = [[NSCache alloc] init];
@@ -243,8 +245,8 @@ BOOL firstRun = YES;
 			BBBulletin *bulletin = [[[BBBulletin alloc] init] autorelease];
 			bulletin.bulletinID = @"ws.hbang.flagpaint";
 			bulletin.sectionID = @"com.apple.Preferences";
-			bulletin.title = @"Thanks for purchasing FlagPaint!";
-			bulletin.unlockActionLabelOverride = @"configure";
+			bulletin.title = [bundle localizedStringForKey:@"Thanks for purchasing FlagPaint!" value:@"Thanks for purchasing FlagPaint!" table:@"Localizable"];
+			bulletin.unlockActionLabelOverride = [bundle localizedStringForKey:@"configure" value:@"configure" table:@"Localizable"];
 
 			NSURL *url;
 
@@ -376,10 +378,12 @@ BBBulletin *HBFPGetTestBulletin(BOOL isLockScreen) {
 	bulletin.sectionID = TestApps[testIndex];
 	bulletin.title = @"FlagPaint";
 
+	NSString *message = [bundle localizedStringForKey:@"Test notification" value:@"Test notification" table:@"Localizable"];
+
 	if (isLockScreen) {
-		bulletin.subtitle = @"Test notification";
+		bulletin.subtitle = message;
 	} else {
-		bulletin.message = @"Test notification";
+		bulletin.message = message;
 	}
 
 	return bulletin;
@@ -416,6 +420,7 @@ void HBFPRespring() {
 	%init;
 
 	_UIAccessibilityEnhanceBackgroundContrast = (BOOL (*)())dlsym(RTLD_DEFAULT, "_UIAccessibilityEnhanceBackgroundContrast");
+	bundle = [[NSBundle bundleWithPath:@"/Library/PreferenceBundles/FlagPaint7.bundle"] retain];
 
 	HBFPLoadPrefs();
 
