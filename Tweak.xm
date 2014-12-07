@@ -362,11 +362,11 @@ void HBFPRespring() {
 
 		kHBFPPreferencesNotificationCenterFadeKey: @YES,
 
-		kHBFPPreferencesBannerColorIntensityKey: _UIAccessibilityEnhanceBackgroundContrast() ? @0.8f : @0.4f,
-		kHBFPPreferencesBannerGrayscaleIntensityKey: @0.4f,
-		kHBFPPreferencesBannerOpacityKey: @1.f,
-		kHBFPPreferencesLockOpacityKey: @0.5f,
-		kHBFPPreferencesNotificationCenterOpacityKey: _UIAccessibilityEnhanceBackgroundContrast() ? @0.77 : @0.15f,
+		kHBFPPreferencesBannerColorIntensityKey: _UIAccessibilityEnhanceBackgroundContrast() ? @80.f : @40.f,
+		kHBFPPreferencesBannerGrayscaleIntensityKey: @40.f,
+		kHBFPPreferencesBannerOpacityKey: @100.f,
+		kHBFPPreferencesLockOpacityKey: @50.f,
+		kHBFPPreferencesNotificationCenterOpacityKey: _UIAccessibilityEnhanceBackgroundContrast() ? @77.f : @15.f,
 
 		kHBFPPreferencesRemoveIconKey: @NO,
 		kHBFPPreferencesRemoveGrabberKey: @YES,
