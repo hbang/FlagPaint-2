@@ -13,9 +13,9 @@
 		<key>icon</key>
 		<string>icon.png</string>
 		<key>isController</key>
-		<string>1</string>
+		<true/>
 		<key>label</key>
-		<string>FlagPaint7</string>
+		<string>FlagPaint</string>
 	</dict>
 </dict>
 </plist>

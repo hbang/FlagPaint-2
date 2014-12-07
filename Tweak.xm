@@ -1,3 +1,5 @@
+#define _FLAGPAINT_TWEAK_XM
+#import "Global.h"
 #import "NSCache+Subscripting.h"
 #import <Accelerate/Accelerate.h>
 #import <BulletinBoard/BBAction.h>
@@ -27,24 +29,13 @@ static NSUInteger BitsPerComponent = 8;
 
 BOOL (*_UIAccessibilityEnhanceBackgroundContrast)();
 
-BOOL tintBanners, tintLockScreen, tintNotificationCenter;
-BOOL biggerIcon, albumArtIcon;
-BOOL bannerGradient, semiTransparent, borderRadius, textShadow;
-BOOL lockGradient, lockFade, lockDisableDimming;
-BOOL notificationCenterFade;
-BOOL removeIcon, removeGrabber, removeDateLabel, removeAction;
-BOOL fonz;
-CGFloat bannerColorIntensity, bannerGrayscaleIntensity, bannerOpacity;
-CGFloat lockOpacity, notificationCenterOpacity;
-
+NSUserDefaults *userDefaults;
 NSBundle *bundle;
 
 BOOL hasBlurredClock;
 
 NSCache *tintCache = [[NSCache alloc] init];
 NSCache *iconCache = [[NSCache alloc] init];
-
-static NSString *const HBFPPreferencesChangedNotification = @"HBFPPreferencesChangedNotification";
 
 #pragma mark - Get dominant color
 
@@ -155,9 +146,13 @@ UIImage *HBFPResizeImage(UIImage *oldImage, CGSize newSize) {
 #pragma mark - Various helper functions
 
 BOOL HBFPIsMusic(NSString *sectionID) {
+	if (IS_IOS_OR_NEWER(iOS_8_0)) {
+		return NO; // TODO: support ios 8's changes
+	}
+
 	SBMediaController *mediaController = (SBMediaController *)[%c(SBMediaController) sharedInstance];
 
-	return albumArtIcon && mediaController.nowPlayingApplication && mediaController.nowPlayingApplication.class == %c(SBApplication) && ([sectionID isEqualToString:mediaController.nowPlayingApplication.bundleIdentifier] || [sectionID isEqualToString:@"com.apple.Music"]) && mediaController._nowPlayingInfo[kSBNowPlayingInfoArtworkDataKey];
+	return [userDefaults boolForKey:kHBFPPreferencesAlbumArtIconKey] && mediaController.nowPlayingApplication && mediaController.nowPlayingApplication.class == %c(SBApplication) && ([sectionID isEqualToString:mediaController.nowPlayingApplication.bundleIdentifier] || [sectionID isEqualToString:@"com.apple.Music"]) && mediaController._nowPlayingInfo[kSBNowPlayingInfoArtworkDataKey];
 }
 
 NSString *HBFPGetKey(NSString *sectionID, BOOL isMusic) {
@@ -171,6 +166,11 @@ NSString *HBFPGetKey(NSString *sectionID, BOOL isMusic) {
 		NSLog(@"flagpaint: nil section identifier (%@, %i)", sectionID, isMusic);
 		return [NSString stringWithFormat:@"_FPUnknown_%f", [NSDate date].timeIntervalSince1970];
 	}
+}
+
+SBApplication *HBFPGetApplicationWithBundleIdentifier(NSString *bundleIdentifier) {
+	SBApplicationController *appController = [%c(SBApplicationController) sharedInstance];
+	return [appController respondsToSelector:@selector(applicationWithBundleIdentifier:)] ? [appController applicationWithBundleIdentifier:bundleIdentifier] : [appController applicationWithDisplayIdentifier:bundleIdentifier];
 }
 
 void HBFPGetIconIfNeeded(NSString *key, BBBulletin *bulletin, BOOL isMusic) {
@@ -187,14 +187,14 @@ void HBFPGetIconIfNeeded(NSString *key, BBBulletin *bulletin, BOOL isMusic) {
 		}
 
 		if (!hasIcon) {
-			SBApplication *app = [[(SBApplicationController *)[%c(SBApplicationController) sharedInstance] applicationWithDisplayIdentifier:bulletin ? bulletin.sectionID : key] autorelease];
+			SBApplication *app = [HBFPGetApplicationWithBundleIdentifier(bulletin ? bulletin.sectionID : key) autorelease];
 
 			if (!app && bulletin) {
-				app = [[(SBApplicationController *)[%c(SBApplicationController) sharedInstance] applicationWithDisplayIdentifier:bulletin.section] autorelease];
+				app = [HBFPGetApplicationWithBundleIdentifier(bulletin.section) autorelease];
 			}
 
 			if (!app && bulletin && bulletin.defaultAction) {
-				app = [[(SBApplicationController *)[%c(SBApplicationController) sharedInstance] applicationWithDisplayIdentifier:bulletin.defaultAction.bundleID] autorelease];
+				app = [HBFPGetApplicationWithBundleIdentifier(bulletin.defaultAction.bundleID) autorelease];
 			}
 
 			if (!app) {
@@ -220,7 +220,7 @@ void HBFPGetIconIfNeeded(NSString *key, BBBulletin *bulletin, BOOL isMusic) {
 
 - (NSString *)localizedStringForKey:(NSString *)key value:(NSString *)value table:(NSString *)table {
 	// broad hook, yes i know. sue me.
-	return [key isEqualToString:@"RELATIVE_DATE_NOW"] && [table isEqualToString:@"SpringBoard"] && removeDateLabel ? @"" : %orig;
+	return [key isEqualToString:@"RELATIVE_DATE_NOW"] && [table isEqualToString:@"SpringBoard"] && [userDefaults boolForKey:kHBFPPreferencesRemoveDateLabelKey] ? @"" : %orig;
 }
 
 %end
@@ -251,9 +251,9 @@ BOOL firstRun = YES;
 			NSURL *url;
 
 			if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/PreferenceOrganizer7.dylib"]) {
-				url = [NSURL URLWithString:@"prefs:root=Tweaks&path=FlagPaint7"];
+				url = [NSURL URLWithString:@"prefs:root=Tweaks&path=FlagPaint"];
 			} else {
-				url = [NSURL URLWithString:@"prefs:root=FlagPaint7"];
+				url = [NSURL URLWithString:@"prefs:root=FlagPaint"];
 			}
 
 			bulletin.defaultAction = [BBAction actionWithLaunchURL:url callblock:nil];
@@ -267,116 +267,32 @@ BOOL firstRun = YES;
 
 %end
 
-#pragma mark - Preferences
-
-static NSString *const kHBFPPrefsPath = @"/var/mobile/Library/Preferences/ws.hbang.flagpaint.plist";
-
-static NSString *const kHBFPPrefsTintBannersKey = @"Tint";
-static NSString *const kHBFPPrefsTintLockScreenKey = @"TintLockScreen";
-static NSString *const kHBFPPrefsTintNotificationCenterKey = @"TintNotificationCenter";
-
-static NSString *const kHBFPPrefsBiggerIconKey = @"BigIcon";
-static NSString *const kHBFPPrefsAlbumArtIconKey = @"AlbumArt";
-
-static NSString *const kHBFPPrefsBannerGradientKey = @"Gradient";
-static NSString *const kHBFPPrefsSemiTransparentKey = @"Semitransparent";
-static NSString *const kHBFPPrefsBorderRadiusKey = @"BorderRadius";
-static NSString *const kHBFPPrefsTextShadowKey = @"TextShadow";
-static NSString *const kHBFPPrefsBannerColorIntensityKey = @"BannerColorIntensity";
-static NSString *const kHBFPPrefsBannerGrayscaleIntensityKey = @"BannerGrayscaleIntensity";
-static NSString *const kHBFPPrefsBannerOpacityKey = @"BannerOpacity";
-
-static NSString *const kHBFPPrefsLockGradientKey = @"LockGradient";
-static NSString *const kHBFPPrefsLockFadeKey = @"LockFade";
-static NSString *const kHBFPPrefsLockOpacityKey = @"LockOpacity";
-static NSString *const kHBFPPrefsLockDisableDimmingKey = @"LockDisableDimming";
-
-static NSString *const kHBFPPrefsNotificationCenterFadeKey = @"NotificationCenterFade";
-static NSString *const kHBFPPrefsNotificationCenterOpacityKey = @"NotificationCenterOpacity";
-
-static NSString *const kHBFPPrefsRemoveIconKey = @"RemoveIcon";
-static NSString *const kHBFPPrefsRemoveGrabberKey = @"RemoveGrabber";
-static NSString *const kHBFPPrefsRemoveDateLabelKey = @"RemoveDateLabel";
-static NSString *const kHBFPPrefsRemoveLockActionKey = @"RemoveLockAction";
-
-static NSString *const kHBFPPrefsFonzKey = @"Fonz";
-static NSString *const kHBFPPrefsHadFirstRunKey = @"HadFirstRun";
-
-static NSString *const kHBFPSubtleLockPrefsPath = @"/var/mobile/Library/Preferences/com.michaelpoole.subtlelock.plist";
-static NSString *const kHBFPSubtleLockBlurredClockBGKey = @"BlurredClockBG";
-
-void HBFPLoadPrefs() {
-	NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:kHBFPPrefsPath];
-
-	if (prefs.allKeys.count == 0) {
-		[@{ kHBFPPrefsHadFirstRunKey: @YES } writeToFile:kHBFPPrefsPath atomically:YES];
-		%init(FirstRun);
-	}
-
-	tintBanners = GET_BOOL(kHBFPPrefsTintBannersKey, YES);
-	tintLockScreen = GET_BOOL(kHBFPPrefsTintLockScreenKey, YES);
-	tintNotificationCenter = GET_BOOL(kHBFPPrefsTintNotificationCenterKey, YES);
-
-	biggerIcon = GET_BOOL(kHBFPPrefsBiggerIconKey, YES);
-	albumArtIcon = GET_BOOL(kHBFPPrefsAlbumArtIconKey, YES);
-
-	bannerGradient = GET_BOOL(kHBFPPrefsBannerGradientKey, NO);
-	semiTransparent = GET_BOOL(kHBFPPrefsSemiTransparentKey, YES);
-	borderRadius = GET_BOOL(kHBFPPrefsBorderRadiusKey, NO);
-	textShadow = GET_BOOL(kHBFPPrefsTextShadowKey, NO);
-
-	lockGradient = GET_BOOL(kHBFPPrefsLockGradientKey, YES);
-	lockFade = GET_BOOL(kHBFPPrefsLockFadeKey, YES);
-	lockDisableDimming = GET_BOOL(kHBFPPrefsLockDisableDimmingKey, YES);
-
-	notificationCenterFade = GET_BOOL(kHBFPPrefsNotificationCenterFadeKey, YES);
-
-	bannerColorIntensity = GET_FLOAT(kHBFPPrefsBannerColorIntensityKey, _UIAccessibilityEnhanceBackgroundContrast() ? 80.f : 40.f) / 100.f;
-	bannerGrayscaleIntensity = GET_FLOAT(kHBFPPrefsBannerGrayscaleIntensityKey, 40.f) / 100.f;
-	bannerOpacity = GET_FLOAT(kHBFPPrefsBannerOpacityKey, 100.f) / 100.f;
-	lockOpacity = GET_FLOAT(kHBFPPrefsLockOpacityKey, 50.f) / 100.f;
-	notificationCenterOpacity = GET_FLOAT(kHBFPPrefsNotificationCenterOpacityKey, _UIAccessibilityEnhanceBackgroundContrast() ? 77.f : 15.f) / 100.f;
-
-	removeIcon = GET_BOOL(kHBFPPrefsRemoveIconKey, NO);
-	removeGrabber = GET_BOOL(kHBFPPrefsRemoveGrabberKey, YES);
-	removeDateLabel = GET_BOOL(kHBFPPrefsRemoveDateLabelKey, YES);
-	removeAction = GET_BOOL(kHBFPPrefsRemoveLockActionKey, NO);
-
-	fonz = GET_BOOL(kHBFPPrefsFonzKey, NO);
-
-	[[NSNotificationCenter defaultCenter] postNotificationName:HBFPPreferencesChangedNotification object:nil];
-
-	NSDictionary *subtlelockPrefs = [NSDictionary dictionaryWithContentsOfFile:kHBFPSubtleLockPrefsPath];
-	hasBlurredClock = subtlelockPrefs && subtlelockPrefs[kHBFPSubtleLockBlurredClockBGKey] ? ((NSNumber *)subtlelockPrefs[kHBFPSubtleLockBlurredClockBGKey]).boolValue : NO;
-}
-
 #pragma mark - Show test bulletin
-
-NSUInteger testIndex = 0;
 
 BBBulletin *HBFPGetTestBulletin(BOOL isLockScreen) {
 	static NSArray *TestApps;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		TestApps = [@[
-			@"com.apple.MobileSMS", @"com.apple.mobilecal", @"com.apple.mobileslideshow", @"com.apple.camera",
-			@"com.apple.weather", @"com.apple.mobiletimer", @"com.apple.Maps", @"com.apple.videos",
-			@"com.apple.mobilenotes", @"com.apple.reminders", @"com.apple.stocks", @"com.apple.gamecenter",
-			@"com.apple.Passbook", @"com.apple.MobileStore", @"com.apple.AppStore", @"com.apple.Preferences",
-			@"com.apple.mobilephone", @"com.apple.mobilemail", @"com.apple.mobilesafari", @"com.apple.Music",
-			@"com.apple.MobileAddressBook", @"com.apple.calculator", @"com.apple.compass", @"com.apple.VoiceMemos",
-			@"com.apple.facetime", @"com.apple.nike"
-		] retain];
+		NSArray *apps = [%c(SBApplicationController) sharedInstance].allApplications;
+		NSMutableArray *mutableApps = [NSMutableArray array];
+
+		for (SBApplication *app in apps) {
+			if (app.tags && [app.tags containsObject:kSBAppTagsHidden]) {
+				continue;
+			}
+
+			[mutableApps addObject:app];
+		}
+
+		TestApps = [mutableApps copy];
 	});
 
-	do {
-		testIndex = arc4random_uniform(TestApps.count);
-	} while (![(SBApplicationController *)[%c(SBApplicationController) sharedInstance] applicationWithDisplayIdentifier:TestApps[testIndex]]);
+	SBApplication *app = TestApps[arc4random_uniform(TestApps.count)];
 
 	BBBulletin *bulletin = [[[BBBulletin alloc] init] autorelease];
 	bulletin.bulletinID = @"ws.hbang.flagpaint";
-	bulletin.sectionID = TestApps[testIndex];
-	bulletin.title = @"FlagPaint";
+	bulletin.sectionID = [app respondsToSelector:@selector(bundleIdentifier)] ? app.bundleIdentifier : app.displayIdentifier;
+	bulletin.title = app.displayName;
 
 	NSString *message = [bundle localizedStringForKey:@"Test notification" value:@"Test notification" table:@"Localizable"];
 
@@ -399,7 +315,11 @@ void HBFPShowLockScreenBulletin(BBBulletin *bulletin) {
 	SBLockScreenNotificationListController *notificationController = MSHookIvar<SBLockScreenNotificationListController *>(viewController, "_notificationController");
 	BBObserver *observer = MSHookIvar<BBObserver *>(notificationController, "_observer");
 
-	[notificationController observer:observer addBulletin:bulletin forFeed:2];
+	if ([notificationController respondsToSelector:@selector(observer:addBulletin:forFeed:playLightsAndSirens:withReply:)]) {
+		[notificationController observer:observer addBulletin:bulletin forFeed:2 playLightsAndSirens:NO withReply:nil];
+	} else {
+		[notificationController observer:observer addBulletin:bulletin forFeed:2];
+	}
 }
 
 void HBFPShowTestLockScreenNotification() {
@@ -422,10 +342,49 @@ void HBFPRespring() {
 	_UIAccessibilityEnhanceBackgroundContrast = (BOOL (*)())dlsym(RTLD_DEFAULT, "_UIAccessibilityEnhanceBackgroundContrast");
 	bundle = [[NSBundle bundleWithPath:@"/Library/PreferenceBundles/FlagPaint7.bundle"] retain];
 
-	HBFPLoadPrefs();
+	userDefaults = [[NSUserDefaults alloc] initWithSuiteName:kHBFPPreferencesSuiteName];
+	[userDefaults registerDefaults:@{
+		kHBFPPreferencesHadFirstRunKey: @NO,
+		kHBFPPreferencesTintBannersKey: @YES,
+		kHBFPPreferencesTintLockScreenKey: @YES,
+		kHBFPPreferencesTintNotificationCenterKey: @YES,
 
-	CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPLoadPrefs, CFSTR("ws.hbang.flagpaint/ReloadPrefs"), NULL, kNilOptions);
-	CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPLoadPrefs, CFSTR("com.michaelpoole.subtlelock.settingsChanged"), NULL, kNilOptions);
+		kHBFPPreferencesBiggerIconKey: @YES,
+		kHBFPPreferencesAlbumArtIconKey: @YES,
+
+		kHBFPPreferencesBannerGradientKey: @NO,
+		kHBFPPreferencesBannerBorderRadiusKey: @NO,
+		kHBFPPreferencesBannerTextShadowKey: @NO,
+
+		kHBFPPreferencesLockGradientKey: @YES,
+		kHBFPPreferencesLockFadeKey: @YES,
+		kHBFPPreferencesLockDisableDimmingKey: @YES,
+
+		kHBFPPreferencesNotificationCenterFadeKey: @YES,
+
+		kHBFPPreferencesBannerColorIntensityKey: _UIAccessibilityEnhanceBackgroundContrast() ? @0.8f : @0.4f,
+		kHBFPPreferencesBannerGrayscaleIntensityKey: @0.4f,
+		kHBFPPreferencesBannerOpacityKey: @1.f,
+		kHBFPPreferencesLockOpacityKey: @0.5f,
+		kHBFPPreferencesNotificationCenterOpacityKey: _UIAccessibilityEnhanceBackgroundContrast() ? @0.77 : @0.15f,
+
+		kHBFPPreferencesRemoveIconKey: @NO,
+		kHBFPPreferencesRemoveGrabberKey: @YES,
+		kHBFPPreferencesRemoveDateLabelKey: @YES,
+		kHBFPPreferencesRemoveLockActionKey: @NO,
+
+		kHBFPPreferencesFonzKey: @NO
+
+		// [[NSNotificationCenter defaultCenter] postNotificationName:HBFPPreferencesChangedNotification object:nil];
+	}];
+
+	if (![userDefaults boolForKey:kHBFPPreferencesHadFirstRunKey]) {
+		%init(FirstRun);
+		[userDefaults setBool:YES forKey:kHBFPPreferencesHadFirstRunKey];
+	}
+
+	// CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPLoadPrefs, CFSTR("ws.hbang.flagpaint/ReloadPrefs"), NULL, kNilOptions);
+	// CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPLoadPrefs, CFSTR("com.michaelpoole.subtlelock.settingsChanged"), NULL, kNilOptions);
 
 	CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPShowTestBanner, CFSTR("ws.hbang.flagpaint/TestBanner"), NULL, kNilOptions);
 	CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPShowTestLockScreenNotification, CFSTR("ws.hbang.flagpaint/TestLockScreenNotification"), NULL, kNilOptions);

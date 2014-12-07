@@ -57,7 +57,7 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 
 	self.view.layer.mask = nil;
 
-	if (notificationCenterFade) {
+	if ([userDefaults boolForKey:kHBFPPreferencesNotificationCenterFadeKey]) {
 		CAGradientLayer *gradientLayer = [[CAGradientLayer alloc] init];
 		self.view.layer.mask = gradientLayer;
 
@@ -76,7 +76,7 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 }
 
 %new - (void)_flagpaint_updateMaskWithOffset:(CGFloat)offset height:(CGFloat)height {
-	if (!notificationCenterFade) {
+	if (![userDefaults boolForKey:kHBFPPreferencesNotificationCenterFadeKey]) {
 		return;
 	}
 
@@ -94,7 +94,7 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 - (void)viewWillLayoutSubviews {
 	%orig;
 
-	if (notificationCenterFade) {
+	if ([userDefaults boolForKey:kHBFPPreferencesNotificationCenterFadeKey]) {
 		CAGradientLayer *gradientLayer = objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier);
 
 		if (!CGRectEqualToRect(gradientLayer.frame, self.view.bounds)) {
@@ -118,14 +118,16 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 	self = %orig;
 
 	if (self) {
-		if (tintNotificationCenter) {
-			self.clipsToBounds = NO;
+		if ([userDefaults boolForKey:kHBFPPreferencesTintNotificationCenterKey]) {
+			((SBNotificationsSectionHeaderView *)self).clipsToBounds = NO;
+
+			CGFloat notificationCenterOpacity = [userDefaults floatForKey:kHBFPPreferencesNotificationCenterOpacityKey] / 100.f;
 
 			if (_UIAccessibilityEnhanceBackgroundContrast()) {
-				UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.contentView.frame.size.width, self.contentView.frame.size.height)];
+				UIView *backgroundView = [[UIView alloc] initWithFrame:((SBNotificationsSectionHeaderView *)self).contentView.bounds];
 				backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 				backgroundView.alpha = notificationCenterOpacity;
-				[self.contentView insertSubview:backgroundView atIndex:0];
+				[((SBNotificationsSectionHeaderView *)self).contentView insertSubview:backgroundView atIndex:0];
 
 				objc_setAssociatedObject(self, &kHBFPBackgroundViewIdentifier, backgroundView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 			} else {
@@ -151,15 +153,15 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 		_UIBackdropView *backdropView = MSHookIvar<_UIBackdropView *>(self, "_backdrop");
 
 		CGRect frame = backdropView.frame;
-		frame.origin.x = -self.superview.frame.origin.x;
-		frame.size.width = backdropView.superview.frame.size.width + self.superview.frame.origin.x * 2;
+		frame.origin.x = -((SBNotificationsSectionHeaderView *)self).superview.frame.origin.x;
+		frame.size.width = backdropView.superview.frame.size.width + ((SBNotificationsSectionHeaderView *)self).superview.frame.origin.x * 2;
 		backdropView.frame = frame;
 	}
 }
 
 - (void)setFloating:(BOOL)floating {
-	if (tintNotificationCenter) {
-		CGFloat alpha = notificationCenterOpacity * (floating ? kHBFPNotificationHeaderBackgroundAlphaFloating : 1.f);
+	if ([userDefaults boolForKey:kHBFPPreferencesTintNotificationCenterKey]) {
+		CGFloat alpha = ([userDefaults floatForKey:kHBFPPreferencesNotificationCenterOpacityKey] / 100.f) * (floating ? kHBFPNotificationHeaderBackgroundAlphaFloating : 1.f);
 
 		if (_UIAccessibilityEnhanceBackgroundContrast()) {
 			UIView *backgroundView = objc_getAssociatedObject(self, &kHBFPBackgroundViewIdentifier);
@@ -196,14 +198,14 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 
 		UIView *backgroundView = [[UIView alloc] init];
 		backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-		backgroundView.alpha = notificationCenterOpacity * kHBFPNotificationCellBackgroundAlphaNormal;
-		backgroundView.hidden = !tintNotificationCenter;
+		backgroundView.alpha = ([userDefaults boolForKey:kHBFPPreferencesNotificationCenterOpacityKey] / 100.f) * kHBFPNotificationCellBackgroundAlphaNormal;
+		backgroundView.hidden = ![userDefaults boolForKey:kHBFPPreferencesTintNotificationCenterKey];
 		[self.realContentView insertSubview:backgroundView atIndex:0];
 
 		objc_setAssociatedObject(self, &kHBFPBackgroundViewIdentifier, backgroundView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
 		[[NSNotificationCenter defaultCenter] addObserverForName:HBFPPreferencesChangedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
-			backgroundView.hidden = !tintNotificationCenter;
+			backgroundView.hidden = ![userDefaults boolForKey:kHBFPPreferencesTintNotificationCenterKey];
 		}];
 	}
 
@@ -219,18 +221,18 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 }
 
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
-	if (tintNotificationCenter) {
+	if ([userDefaults boolForKey:kHBFPPreferencesTintNotificationCenterKey]) {
 		UIView *backgroundView = objc_getAssociatedObject(self, &kHBFPBackgroundViewIdentifier);
-		backgroundView.alpha = notificationCenterOpacity * (highlighted ? kHBFPNotificationCellBackgroundAlphaHighlighted : 1.f);
+		backgroundView.alpha = ([userDefaults floatForKey:kHBFPPreferencesNotificationCenterOpacityKey] / 100.f) * (highlighted ? kHBFPNotificationCellBackgroundAlphaHighlighted : 1.f);
 	} else {
 		%orig;
 	}
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-	if (tintNotificationCenter) {
+	if ([userDefaults boolForKey:kHBFPPreferencesTintNotificationCenterKey]) {
 		UIView *backgroundView = objc_getAssociatedObject(self, &kHBFPBackgroundViewIdentifier);
-		backgroundView.alpha = notificationCenterOpacity * (selected ? kHBFPNotificationCellBackgroundAlphaSelected : 1.f);
+		backgroundView.alpha = ([userDefaults floatForKey:kHBFPPreferencesNotificationCenterOpacityKey] / 100.f) * (selected ? kHBFPNotificationCellBackgroundAlphaSelected : 1.f);
 	} else {
 		%orig;
 	}
@@ -286,7 +288,7 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	UITableViewCell *cell = %orig;
 
-	if (tintNotificationCenter) {
+	if ([userDefaults boolForKey:kHBFPPreferencesTintNotificationCenterKey]) {
 		NSMutableArray *orderedSections = MSHookIvar<NSMutableArray *>(self, "_orderedSections");
 		SBBBSectionInfo *sectionInfo = orderedSections[indexPath.section];
 
@@ -309,7 +311,7 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 	UIView *header = %orig;
 
-	if (!header || !tintNotificationCenter) {
+	if (!header || ![userDefaults boolForKey:kHBFPPreferencesTintNotificationCenterKey]) {
 		return header;
 	}
 
@@ -342,3 +344,10 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 }
 
 %end
+
+#pragma mark - Constructor
+
+%ctor {
+	Class headerClass = %c(SBNotificationCenterHeaderView) ?: %c(SBNotificationsSectionHeaderView);
+	%init(_ungrouped, SBNotificationsSectionHeaderView = headerClass);
+}

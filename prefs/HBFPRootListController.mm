@@ -33,7 +33,7 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 - (void)loadView {
 	[super loadView];
 
-	self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"FlagPaint7" style:UIBarButtonItemStyleBordered target:nil action:nil] autorelease];
+	self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"FlagPaint7" style:UIBarButtonItemStylePlain target:nil action:nil] autorelease];
 
 	_headerView = [[HBFPHeaderView alloc] initWithTopInset:kHBFPHeaderTopInset];
 	_headerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;

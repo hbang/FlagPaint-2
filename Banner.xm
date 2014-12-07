@@ -12,7 +12,7 @@
 static const char *kHBFPBackdropViewSettingsIdentifier;
 static const char *kHBFPBackgroundGradientIdentifier;
 
-BOOL hasStatusBarTweak;
+BOOL hasStatusBarTweak, hasMessagesAvatarTweak;
 CGFloat bannerHeight = 64.f;
 
 @interface SBBannerContextView (FlagPaint)
@@ -28,22 +28,24 @@ CGFloat bannerHeight = 64.f;
 
 	if (self) {
 		_UIBackdropView *backdropView = MSHookIvar<_UIBackdropView *>(self, "_backdropView");
-		backdropView.alpha = bannerOpacity;
+		backdropView.alpha = [userDefaults floatForKey:kHBFPPreferencesBannerOpacityKey] / 100.f;
 
-		if (tintBanners) {
+		if ([userDefaults boolForKey:kHBFPPreferencesTintBannersKey]) {
 			_UIBackdropViewSettingsAdaptiveLight *settings = [[%c(_UIBackdropViewSettingsAdaptiveLight) alloc] initWithDefaultValues];
 			settings.colorTint = [UIColor blackColor];
-			settings.colorTintAlpha = bannerColorIntensity;
+			settings.colorTintAlpha = [userDefaults floatForKey:kHBFPPreferencesBannerColorIntensityKey] / 100.f;
 			[backdropView transitionToSettings:settings];
 
 			objc_setAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier, settings, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
+			CGFloat grayscaleIntensity = [userDefaults floatForKey:kHBFPPreferencesBannerGrayscaleIntensityKey] / 100.f;
+
 			UIView *grayView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
-			grayView.backgroundColor = [UIColor colorWithWhite:(100.f - bannerGrayscaleIntensity) / 255.f alpha:bannerGrayscaleIntensity / 200.f];
+			grayView.backgroundColor = [UIColor colorWithWhite:(100.f - grayscaleIntensity) / 255.f alpha:grayscaleIntensity / 200.f];
 			grayView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 			[backdropView.superview insertSubview:grayView aboveSubview:backdropView];
 
-			if (bannerGradient) {
+			if ([userDefaults boolForKey:kHBFPPreferencesBannerGradientKey]) {
 				HBFPGradientView *gradientView = [[[HBFPGradientView alloc] initWithFrame:CGRectZero] autorelease];
 				gradientView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 				gradientView.layer.locations = @[ @0, @0.5f, @1 ];
@@ -53,10 +55,11 @@ CGFloat bannerHeight = 64.f;
 					(id)[UIColor colorWithWhite:1 alpha:0.00001f].CGColor
 				];
 				[backdropView.superview insertSubview:gradientView aboveSubview:backdropView];
-			} else if (fonz) {
+			} else if ([userDefaults boolForKey:kHBFPPreferencesFonzKey]) {
+				CGFloat division = 1.f / 6.f;
+
 				HBFPGradientView *gradientView = [[[HBFPGradientView alloc] initWithFrame:CGRectZero] autorelease];
 				gradientView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-				CGFloat division = 1.f / 6.f;
 				gradientView.layer.locations = @[ @(division), @(division * 2.f), @(division * 3.f), @(division * 4.f), @(division * 5.f), @(division * 6.f) ];
 				gradientView.layer.colors = @[
 					(id)[UIColor redColor].CGColor,
@@ -70,7 +73,7 @@ CGFloat bannerHeight = 64.f;
 			}
 		}
 
-		if (borderRadius) {
+		if ([userDefaults boolForKey:kHBFPPreferencesBannerBorderRadiusKey]) {
 			_UIBackdropView *backdropView = MSHookIvar<_UIBackdropView *>(self, "_backdropView");
 
 			self.layer.cornerRadius = hasStatusBarTweak ? 4.f : 8.f;
@@ -81,7 +84,7 @@ CGFloat bannerHeight = 64.f;
 			}
 		}
 
-		if (removeGrabber && !hasStatusBarTweak) {
+		if ([userDefaults boolForKey:kHBFPPreferencesRemoveGrabberKey] && !hasStatusBarTweak) {
 			self.clipsToBounds = YES;
 		}
 	}
@@ -93,19 +96,6 @@ CGFloat bannerHeight = 64.f;
 	%orig;
 
 	[self _flagpaint_setHeightIfNeeded];
-
-	if (IS_IOS_OR_NEWER(iOS_7_1)) {
-		SBDefaultBannerView *contentView = MSHookIvar<SBDefaultBannerView *>(self, "_contentView");
-
-		if (!contentView || ![contentView isKindOfClass:%c(SBDefaultBannerView)]) {
-			return;
-		}
-
-		// this fixes the weird anti-antialiased (pro-aliased?) date label for some reason
-		SBDefaultBannerTextView *textView = MSHookIvar<SBDefaultBannerTextView *>(contentView, "_textView");
-		UILabel *relevanceDateLabel = MSHookIvar<UILabel *>(textView, "_relevanceDateLabel");
-		relevanceDateLabel.textColor = [UIColor whiteColor];
-	}
 }
 
 - (void)setBannerContext:(id)bannerContext withReplaceReason:(NSInteger)replaceReason {
@@ -125,9 +115,10 @@ CGFloat bannerHeight = 64.f;
 	BBBulletin *bulletin = MSHookIvar<BBBulletin *>(viewSource, "_seedBulletin");
 
 	BOOL isMusic = HBFPIsMusic(bulletin.sectionID);
+	BOOL isAvatar = hasMessagesAvatarTweak && [bulletin.sectionID isEqualToString:@"com.apple.MobileSMS"];
 	NSString *key = HBFPGetKey(bulletin.sectionID, isMusic);
 
-	if (biggerIcon || isMusic) {
+	if (([userDefaults boolForKey:kHBFPPreferencesBiggerIconKey] || isMusic) && !isAvatar) {
 		HBFPGetIconIfNeeded(key, bulletin, isMusic);
 		iconImageView.image = iconCache[key];
 	}
@@ -136,7 +127,12 @@ CGFloat bannerHeight = 64.f;
 		iconImageView.layer.minificationFilter = kCAFilterTrilinear;
 	}
 
-	if (tintBanners) {
+	if (isAvatar) {
+		iconImageView.layer.cornerRadius = 6.f;
+		iconImageView.clipsToBounds = YES;
+	}
+
+	if ([userDefaults boolForKey:kHBFPPreferencesTintBannersKey]) {
 		_UIBackdropViewSettings *settings = objc_getAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier);
 
 		if (!tintCache[key]) {
@@ -145,12 +141,21 @@ CGFloat bannerHeight = 64.f;
 
 		settings.colorTint = tintCache[key];
 	}
+
+	if ([userDefaults boolForKey:kHBFPPreferencesRemoveGrabberKey] && IS_IOS_OR_NEWER(iOS_8_0)) {
+		UIImageView *grabberView = MSHookIvar<UIImageView *>(self, "_grabberView");
+		grabberView.hidden = YES;
+	}
 }
 
 - (void)setBackgroundImage:(UIImage *)backgroundImage {}
 
 %new - (void)_flagpaint_setHeightIfNeeded {
-	if (removeGrabber && !hasStatusBarTweak && !IS_IPAD) {
+	if (IS_IOS_OR_NEWER(iOS_8_0)) {
+		return;
+	}
+
+	if ([userDefaults boolForKey:kHBFPPreferencesRemoveGrabberKey] && !hasStatusBarTweak && !IS_IPAD) {
 		SBDefaultBannerView *contentView = MSHookIvar<SBDefaultBannerView *>(self, "_contentView");
 
 		if (!contentView || ![contentView isKindOfClass:%c(SBDefaultBannerView)]) {
@@ -188,6 +193,7 @@ CGFloat bannerHeight = 64.f;
 
 %end
 
+%group JonyIve
 %hook SBBannerController
 
 - (CGRect)_bannerFrameForOrientation:(UIInterfaceOrientation)orientation {
@@ -196,6 +202,7 @@ CGFloat bannerHeight = 64.f;
 	return bannerFrame;
 }
 
+%end
 %end
 
 %hook SBDefaultBannerView
@@ -206,7 +213,7 @@ CGFloat bannerHeight = 64.f;
 	UIImageView *iconImageView = MSHookIvar<UIImageView *>(self, "_iconImageView");
 	SBDefaultBannerTextView *textView = MSHookIvar<SBDefaultBannerTextView *>(self, "_textView");
 
-	if (removeIcon) {
+	if ([userDefaults boolForKey:kHBFPPreferencesRemoveIconKey]) {
 		CGRect textFrame = textView.frame;
 		textFrame.origin.x = iconImageView.frame.origin.x;
 		textFrame.size.width += iconImageView.frame.size.width + (textView.frame.origin.x - iconImageView.frame.origin.x - iconImageView.frame.size.width);
@@ -214,11 +221,11 @@ CGFloat bannerHeight = 64.f;
 
 		iconImageView.hidden = YES;
 		iconImageView.frame = CGRectZero;
-	} else if (biggerIcon && !hasStatusBarTweak) {
+	} else if ([userDefaults boolForKey:kHBFPPreferencesBiggerIconKey] && !hasStatusBarTweak) {
 		iconImageView.frame = IS_IPAD ? CGRectMake(-4.f, iconImageView.frame.origin.y, 29.f, 29.f) : CGRectMake(8.f, 7.5f, 29.f, 29.f);
 	}
 
-	if (removeGrabber) {
+	if ([userDefaults boolForKey:kHBFPPreferencesRemoveGrabberKey] && !IS_IOS_OR_NEWER(iOS_8_0)) {
 		UIView *grabberView = MSHookIvar<UIImageView *>(self, IS_IOS_OR_NEWER(iOS_7_0_3) ? "_grabberView" : "_grabberImageView");
 		grabberView.hidden = YES;
 	}
@@ -228,13 +235,31 @@ CGFloat bannerHeight = 64.f;
 
 %hook SBDefaultBannerTextView
 
+- (id)initWithFrame:(CGRect)frame {
+	if (IS_IOS_OR_NEWER(iOS_8_0)) {
+		frame.origin.y -= 1.f;
+	}
+
+	self = %orig;
+
+	if (self) {
+		if (IS_IOS_OR_NEWER(iOS_7_1)) {
+			// this fixes the weird anti-anti-aliased (pro-aliased?) date label for some reason
+			UILabel *relevanceDateLabel = MSHookIvar<UILabel *>(self, "_relevanceDateLabel");
+			relevanceDateLabel.textColor = [UIColor whiteColor];
+		}
+	}
+
+	return self;
+}
+
 - (void)drawRect:(CGRect)rect {
-	if (textShadow) {
-		// http://stackoverflow.com/a/1537079/709376
+	if ([userDefaults boolForKey:kHBFPPreferencesBannerTextShadowKey]) {
+		// https://stackoverflow.com/a/1537079/709376
 
 		CGContextRef context = UIGraphicsGetCurrentContext();
 		CGContextSaveGState(context);
-		CGContextSetShadowWithColor(context, CGSizeMake(1.f, 1.f), 2.f, [UIColor colorWithWhite:0 alpha:0.8f].CGColor);
+		CGContextSetShadowWithColor(context, CGSizeMake(1.f, 1.f), 2.f, [UIColor colorWithWhite:0 alpha:0.6f].CGColor);
 
 		%orig;
 
@@ -252,5 +277,14 @@ CGFloat bannerHeight = 64.f;
 		dlopen("/Library/MobileSubstrate/DynamicLibraries/TinyBar.dylib", RTLD_NOW);
 	}
 
+	if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/PrettierBanners.dylib"]) {
+		hasMessagesAvatarTweak = YES;
+		dlopen("/Library/MobileSubstrate/DynamicLibraries/PrettierBanners.dylib", RTLD_NOW);
+	}
+
 	%init;
+
+	if (!IS_IOS_OR_NEWER(iOS_8_0)) {
+		%init(JonyIve);
+	}
 }
