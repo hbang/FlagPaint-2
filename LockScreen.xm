@@ -34,7 +34,7 @@ static const char *kHBFPBackgroundViewIdentifier;
 - (void)layoutSubviews {
 	%orig;
 
-	if ([userDefaults boolForKey:kHBFPPreferencesLockFadeKey]) {
+	if ([preferences boolForKey:kHBFPPreferencesLockFadeKey]) {
 		UIView *containerView = MSHookIvar<UIView *>(self, "_containerView");
 		CAGradientLayer *gradientLayer = objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier);
 
@@ -52,7 +52,7 @@ static const char *kHBFPBackgroundViewIdentifier;
 		return cell;
 	}
 
-	if ([userDefaults boolForKey:kHBFPPreferencesTintLockScreenKey] || [userDefaults boolForKey:kHBFPPreferencesBiggerIconKey]) {
+	if ([preferences boolForKey:kHBFPPreferencesTintLockScreenKey] || [preferences boolForKey:kHBFPPreferencesBiggerIconKey]) {
 		if (![listItem respondsToSelector:@selector(activeBulletin)] || !listItem.activeBulletin) {
 			return cell;
 		}
@@ -63,7 +63,7 @@ static const char *kHBFPBackgroundViewIdentifier;
 		BOOL isMusic = HBFPIsMusic(bulletin.sectionID);
 		NSString *key = HBFPGetKey(bulletin.sectionID, isMusic);
 
-		if ([userDefaults boolForKey:kHBFPPreferencesBiggerIconKey]) {
+		if ([preferences boolForKey:kHBFPPreferencesBiggerIconKey]) {
 			HBFPGetIconIfNeeded(key, bulletin, isMusic);
 			iconImageView.image = iconCache[key];
 		}
@@ -72,7 +72,7 @@ static const char *kHBFPBackgroundViewIdentifier;
 			iconImageView.layer.minificationFilter = kCAFilterTrilinear;
 		}
 
-		if ([userDefaults boolForKey:kHBFPPreferencesTintLockScreenKey]) {
+		if ([preferences boolForKey:kHBFPPreferencesTintLockScreenKey]) {
 			if (!iconCache[key]) {
 				iconCache[key] = iconImageView.image;
 			}
@@ -94,7 +94,7 @@ static const char *kHBFPBackgroundViewIdentifier;
 	CAGradientLayer *gradientLayer = objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier);
 	[gradientLayer release];
 
-	if ([userDefaults boolForKey:kHBFPPreferencesLockFadeKey]) {
+	if ([preferences boolForKey:kHBFPPreferencesLockFadeKey]) {
 		CAGradientLayer *gradientLayer = [[CAGradientLayer alloc] init];
 		containerView.layer.mask = gradientLayer;
 
@@ -112,7 +112,7 @@ static const char *kHBFPBackgroundViewIdentifier;
 }
 
 %new - (void)_flagpaint_updateMaskWithOffset:(CGFloat)offset height:(CGFloat)height {
-	if (![userDefaults boolForKey:kHBFPPreferencesLockFadeKey]) {
+	if (![preferences boolForKey:kHBFPPreferencesLockFadeKey]) {
 		return;
 	}
 
@@ -149,13 +149,13 @@ static const char *kHBFPBackgroundViewIdentifier;
 %hook SBLockScreenBulletinCell
 
 + (BOOL)wantsUnlockActionText {
-	return [userDefaults boolForKey:kHBFPPreferencesRemoveLockActionKey] ? NO : %orig;
+	return [preferences boolForKey:kHBFPPreferencesRemoveLockActionKey] ? NO : %orig;
 }
 
 %group LockScreenBulletinCellIve
 
 + (CGFloat)rowHeightForTitle:(NSString *)title subtitle:(NSString *)subtitle body:(NSString *)body maxLines:(NSUInteger)maxLines attachmentSize:(CGSize)attachmentSize datesVisible:(BOOL)datesVisible rowWidth:(CGFloat)rowWidth includeUnlockActionText:(BOOL)includeUnlockActionText {
-	return %orig(title, subtitle, body, maxLines, attachmentSize, datesVisible, rowWidth, [userDefaults boolForKey:kHBFPPreferencesRemoveLockActionKey] ? NO : includeUnlockActionText);
+	return %orig(title, subtitle, body, maxLines, attachmentSize, datesVisible, rowWidth, [preferences boolForKey:kHBFPPreferencesRemoveLockActionKey] ? NO : includeUnlockActionText);
 }
 
 %end
@@ -163,7 +163,7 @@ static const char *kHBFPBackgroundViewIdentifier;
 %group LockScreenBulletinCellFederighi
 
 + (CGFloat)rowHeightForTitle:(NSString *)title subtitle:(NSString *)subtitle body:(NSString *)body maxLines:(NSUInteger)maxLines attachmentSize:(CGSize)attachmentSize secondaryContentSize:(CGSize)secondaryContentSize datesVisible:(BOOL)datesVisible rowWidth:(CGFloat)rowWidth includeUnlockActionText:(BOOL)includeUnlockActionText {
-	return %orig(title, subtitle, body, maxLines, attachmentSize, secondaryContentSize, datesVisible, rowWidth, [userDefaults boolForKey:kHBFPPreferencesRemoveLockActionKey] ? NO : includeUnlockActionText);
+	return %orig(title, subtitle, body, maxLines, attachmentSize, secondaryContentSize, datesVisible, rowWidth, [preferences boolForKey:kHBFPPreferencesRemoveLockActionKey] ? NO : includeUnlockActionText);
 }
 
 %end
@@ -173,22 +173,22 @@ static const char *kHBFPBackgroundViewIdentifier;
 %hook SBLockScreenNotificationCell
 
 + (CGFloat)contentWidthWithRowWidth:(CGFloat)rowWidth andAttachmentSize:(CGSize)attachmentSize {
-	return %orig([userDefaults boolForKey:kHBFPPreferencesBiggerIconKey] && IS_IPAD ? rowWidth - 16.f : rowWidth, attachmentSize);
+	return %orig([preferences boolForKey:kHBFPPreferencesBiggerIconKey] && IS_IPAD ? rowWidth - 16.f : rowWidth, attachmentSize);
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
 	self = %orig;
 
 	if (self) {
-		if ([userDefaults boolForKey:kHBFPPreferencesTintLockScreenKey]) {
+		if ([preferences boolForKey:kHBFPPreferencesTintLockScreenKey]) {
 			UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
 			backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-			backgroundView.alpha = [userDefaults floatForKey:kHBFPPreferencesLockOpacityKey] / 100.f;
+			backgroundView.alpha = [preferences floatForKey:kHBFPPreferencesLockOpacityKey] / 100.f;
 			[self.realContentView insertSubview:backgroundView atIndex:0];
 
 			objc_setAssociatedObject(self, &kHBFPBackgroundViewIdentifier, backgroundView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
-			if ([userDefaults boolForKey:kHBFPPreferencesLockGradientKey]) {
+			if ([preferences boolForKey:kHBFPPreferencesLockGradientKey]) {
 				static BOOL isRTL;
 				static dispatch_once_t onceToken;
 				dispatch_once(&onceToken, ^{
@@ -220,8 +220,8 @@ static const char *kHBFPBackgroundViewIdentifier;
 - (void)layoutSubviews {
 	%orig;
 
-	if ([userDefaults boolForKey:kHBFPPreferencesTintLockScreenKey] || [userDefaults boolForKey:kHBFPPreferencesBiggerIconKey]) {
-		if ([userDefaults boolForKey:kHBFPPreferencesBiggerIconKey]) {
+	if ([preferences boolForKey:kHBFPPreferencesTintLockScreenKey] || [preferences boolForKey:kHBFPPreferencesBiggerIconKey]) {
+		if ([preferences boolForKey:kHBFPPreferencesBiggerIconKey]) {
 			UIImageView *iconImageView = MSHookIvar<UIImageView *>(self, "_iconImageView");
 
 			if (IS_IPAD) {
@@ -256,7 +256,7 @@ static const char *kHBFPBackgroundViewIdentifier;
 			}
 		}
 
-		if ([userDefaults boolForKey:kHBFPPreferencesTintLockScreenKey] && [userDefaults boolForKey:kHBFPPreferencesLockGradientKey]) {
+		if ([preferences boolForKey:kHBFPPreferencesTintLockScreenKey] && [preferences boolForKey:kHBFPPreferencesLockGradientKey]) {
 			CAGradientLayer *gradientLayer = objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier);
 			gradientLayer.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
 		}
@@ -264,7 +264,7 @@ static const char *kHBFPBackgroundViewIdentifier;
 }
 
 - (void)setContentAlpha:(CGFloat)contentAlpha {
-	%orig([userDefaults boolForKey:kHBFPPreferencesLockDisableDimmingKey] ? 1 : contentAlpha);
+	%orig([preferences boolForKey:kHBFPPreferencesLockDisableDimmingKey] ? 1 : contentAlpha);
 }
 
 - (void)dealloc {
@@ -281,7 +281,7 @@ static const char *kHBFPBackgroundViewIdentifier;
 - (SBAwayNotificationListCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	SBAwayNotificationListCell *cell = %orig;
 
-	if ([userDefaults boolForKey:kHBFPPreferencesTintLockScreenKey]) {
+	if ([preferences boolForKey:kHBFPPreferencesTintLockScreenKey]) {
 		BOOL isMusic = HBFPIsMusic(cell.bulletin.sectionID);
 		NSString *key = HBFPGetKey(cell.bulletin.sectionID, isMusic);
 

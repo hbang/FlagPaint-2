@@ -1,3 +1,5 @@
+#import <Cephei/HBPreferences.h>
+
 @class BBBulletin;
 
 #pragma mark - Preferences
@@ -42,7 +44,7 @@ static NSString *const kHBFPSubtleLockPreferencesBlurredClockBGKey = @"BlurredCl
 #ifndef _FLAGPAINT_TWEAK_XM
 extern BOOL (*_UIAccessibilityEnhanceBackgroundContrast)();
 
-extern NSUserDefaults *userDefaults;
+extern HBPreferences *preferences;
 extern BOOL hasBlurredClock;
 
 extern NSCache *tintCache;

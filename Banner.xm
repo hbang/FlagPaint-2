@@ -28,24 +28,24 @@ CGFloat bannerHeight = 64.f;
 
 	if (self) {
 		_UIBackdropView *backdropView = MSHookIvar<_UIBackdropView *>(self, "_backdropView");
-		backdropView.alpha = [userDefaults floatForKey:kHBFPPreferencesBannerOpacityKey] / 100.f;
+		backdropView.alpha = [preferences floatForKey:kHBFPPreferencesBannerOpacityKey] / 100.f;
 
-		if ([userDefaults boolForKey:kHBFPPreferencesTintBannersKey]) {
+		if ([preferences boolForKey:kHBFPPreferencesTintBannersKey]) {
 			_UIBackdropViewSettingsAdaptiveLight *settings = [[%c(_UIBackdropViewSettingsAdaptiveLight) alloc] initWithDefaultValues];
 			settings.colorTint = [UIColor blackColor];
-			settings.colorTintAlpha = [userDefaults floatForKey:kHBFPPreferencesBannerColorIntensityKey] / 100.f;
+			settings.colorTintAlpha = [preferences floatForKey:kHBFPPreferencesBannerColorIntensityKey] / 100.f;
 			[backdropView transitionToSettings:settings];
 
 			objc_setAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier, settings, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
-			CGFloat grayscaleIntensity = [userDefaults floatForKey:kHBFPPreferencesBannerGrayscaleIntensityKey] / 100.f;
+			CGFloat grayscaleIntensity = [preferences floatForKey:kHBFPPreferencesBannerGrayscaleIntensityKey] / 100.f;
 
 			UIView *grayView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
 			grayView.backgroundColor = [UIColor colorWithWhite:(100.f - grayscaleIntensity) / 255.f alpha:grayscaleIntensity / 200.f];
 			grayView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 			[backdropView.superview insertSubview:grayView aboveSubview:backdropView];
 
-			if ([userDefaults boolForKey:kHBFPPreferencesBannerGradientKey]) {
+			if ([preferences boolForKey:kHBFPPreferencesBannerGradientKey]) {
 				HBFPGradientView *gradientView = [[[HBFPGradientView alloc] initWithFrame:CGRectZero] autorelease];
 				gradientView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 				gradientView.layer.locations = @[ @0, @0.5f, @1 ];
@@ -55,7 +55,7 @@ CGFloat bannerHeight = 64.f;
 					(id)[UIColor colorWithWhite:1 alpha:0.00001f].CGColor
 				];
 				[backdropView.superview insertSubview:gradientView aboveSubview:backdropView];
-			} else if ([userDefaults boolForKey:kHBFPPreferencesFonzKey]) {
+			} else if ([preferences boolForKey:kHBFPPreferencesFonzKey]) {
 				CGFloat division = 1.f / 6.f;
 
 				HBFPGradientView *gradientView = [[[HBFPGradientView alloc] initWithFrame:CGRectZero] autorelease];
@@ -73,7 +73,7 @@ CGFloat bannerHeight = 64.f;
 			}
 		}
 
-		if ([userDefaults boolForKey:kHBFPPreferencesBannerBorderRadiusKey]) {
+		if ([preferences boolForKey:kHBFPPreferencesBannerBorderRadiusKey]) {
 			_UIBackdropView *backdropView = MSHookIvar<_UIBackdropView *>(self, "_backdropView");
 
 			self.layer.cornerRadius = hasStatusBarTweak ? 4.f : 8.f;
@@ -84,7 +84,7 @@ CGFloat bannerHeight = 64.f;
 			}
 		}
 
-		if ([userDefaults boolForKey:kHBFPPreferencesRemoveGrabberKey] && !hasStatusBarTweak) {
+		if ([preferences boolForKey:kHBFPPreferencesRemoveGrabberKey] && !hasStatusBarTweak) {
 			self.clipsToBounds = YES;
 		}
 	}
@@ -118,7 +118,7 @@ CGFloat bannerHeight = 64.f;
 	BOOL isAvatar = hasMessagesAvatarTweak && [bulletin.sectionID isEqualToString:@"com.apple.MobileSMS"];
 	NSString *key = HBFPGetKey(bulletin.sectionID, isMusic);
 
-	if (([userDefaults boolForKey:kHBFPPreferencesBiggerIconKey] || isMusic) && !isAvatar) {
+	if (([preferences boolForKey:kHBFPPreferencesBiggerIconKey] || isMusic) && !isAvatar) {
 		HBFPGetIconIfNeeded(key, bulletin, isMusic);
 		iconImageView.image = iconCache[key];
 	}
@@ -132,7 +132,7 @@ CGFloat bannerHeight = 64.f;
 		iconImageView.clipsToBounds = YES;
 	}
 
-	if ([userDefaults boolForKey:kHBFPPreferencesTintBannersKey]) {
+	if ([preferences boolForKey:kHBFPPreferencesTintBannersKey]) {
 		_UIBackdropViewSettings *settings = objc_getAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier);
 
 		if (!tintCache[key]) {
@@ -142,7 +142,7 @@ CGFloat bannerHeight = 64.f;
 		settings.colorTint = tintCache[key];
 	}
 
-	if ([userDefaults boolForKey:kHBFPPreferencesRemoveGrabberKey] && IS_IOS_OR_NEWER(iOS_8_0)) {
+	if ([preferences boolForKey:kHBFPPreferencesRemoveGrabberKey] && IS_IOS_OR_NEWER(iOS_8_0)) {
 		UIImageView *grabberView = MSHookIvar<UIImageView *>(self, "_grabberView");
 		grabberView.hidden = YES;
 	}
@@ -155,7 +155,7 @@ CGFloat bannerHeight = 64.f;
 		return;
 	}
 
-	if ([userDefaults boolForKey:kHBFPPreferencesRemoveGrabberKey] && !hasStatusBarTweak && !IS_IPAD) {
+	if ([preferences boolForKey:kHBFPPreferencesRemoveGrabberKey] && !hasStatusBarTweak && !IS_IPAD) {
 		SBDefaultBannerView *contentView = MSHookIvar<SBDefaultBannerView *>(self, "_contentView");
 
 		if (!contentView || ![contentView isKindOfClass:%c(SBDefaultBannerView)]) {
@@ -213,7 +213,7 @@ CGFloat bannerHeight = 64.f;
 	UIImageView *iconImageView = MSHookIvar<UIImageView *>(self, "_iconImageView");
 	SBDefaultBannerTextView *textView = MSHookIvar<SBDefaultBannerTextView *>(self, "_textView");
 
-	if ([userDefaults boolForKey:kHBFPPreferencesRemoveIconKey]) {
+	if ([preferences boolForKey:kHBFPPreferencesRemoveIconKey]) {
 		CGRect textFrame = textView.frame;
 		textFrame.origin.x = iconImageView.frame.origin.x;
 		textFrame.size.width += iconImageView.frame.size.width + (textView.frame.origin.x - iconImageView.frame.origin.x - iconImageView.frame.size.width);
@@ -221,11 +221,11 @@ CGFloat bannerHeight = 64.f;
 
 		iconImageView.hidden = YES;
 		iconImageView.frame = CGRectZero;
-	} else if ([userDefaults boolForKey:kHBFPPreferencesBiggerIconKey] && !hasStatusBarTweak) {
+	} else if ([preferences boolForKey:kHBFPPreferencesBiggerIconKey] && !hasStatusBarTweak) {
 		iconImageView.frame = IS_IPAD ? CGRectMake(-4.f, iconImageView.frame.origin.y, 29.f, 29.f) : CGRectMake(8.f, 7.5f, 29.f, 29.f);
 	}
 
-	if ([userDefaults boolForKey:kHBFPPreferencesRemoveGrabberKey] && !IS_IOS_OR_NEWER(iOS_8_0)) {
+	if ([preferences boolForKey:kHBFPPreferencesRemoveGrabberKey] && !IS_IOS_OR_NEWER(iOS_8_0)) {
 		UIView *grabberView = MSHookIvar<UIImageView *>(self, IS_IOS_OR_NEWER(iOS_7_0_3) ? "_grabberView" : "_grabberImageView");
 		grabberView.hidden = YES;
 	}
@@ -254,7 +254,7 @@ CGFloat bannerHeight = 64.f;
 }
 
 - (void)drawRect:(CGRect)rect {
-	if ([userDefaults boolForKey:kHBFPPreferencesBannerTextShadowKey]) {
+	if ([preferences boolForKey:kHBFPPreferencesBannerTextShadowKey]) {
 		// https://stackoverflow.com/a/1537079/709376
 
 		CGContextRef context = UIGraphicsGetCurrentContext();

@@ -4,6 +4,7 @@
 #import <Accelerate/Accelerate.h>
 #import <BulletinBoard/BBAction.h>
 #import <BulletinBoard/BBBulletin.h>
+#import <Cephei/HBPreferences.h>
 #import <SpringBoard/SpringBoard.h>
 #import <SpringBoard/SBApplication.h>
 #import <SpringBoard/SBApplicationController.h>
@@ -29,7 +30,7 @@ static NSUInteger BitsPerComponent = 8;
 
 BOOL (*_UIAccessibilityEnhanceBackgroundContrast)();
 
-NSUserDefaults *userDefaults;
+HBPreferences *preferences;
 NSBundle *bundle;
 
 BOOL hasBlurredClock;
@@ -152,7 +153,7 @@ BOOL HBFPIsMusic(NSString *sectionID) {
 
 	SBMediaController *mediaController = (SBMediaController *)[%c(SBMediaController) sharedInstance];
 
-	return [userDefaults boolForKey:kHBFPPreferencesAlbumArtIconKey] && mediaController.nowPlayingApplication && mediaController.nowPlayingApplication.class == %c(SBApplication) && ([sectionID isEqualToString:mediaController.nowPlayingApplication.bundleIdentifier] || [sectionID isEqualToString:@"com.apple.Music"]) && mediaController._nowPlayingInfo[kSBNowPlayingInfoArtworkDataKey];
+	return [preferences boolForKey:kHBFPPreferencesAlbumArtIconKey] && mediaController.nowPlayingApplication && mediaController.nowPlayingApplication.class == %c(SBApplication) && ([sectionID isEqualToString:mediaController.nowPlayingApplication.bundleIdentifier] || [sectionID isEqualToString:@"com.apple.Music"]) && mediaController._nowPlayingInfo[kSBNowPlayingInfoArtworkDataKey];
 }
 
 NSString *HBFPGetKey(NSString *sectionID, BOOL isMusic) {
@@ -220,7 +221,7 @@ void HBFPGetIconIfNeeded(NSString *key, BBBulletin *bulletin, BOOL isMusic) {
 
 - (NSString *)localizedStringForKey:(NSString *)key value:(NSString *)value table:(NSString *)table {
 	// broad hook, yes i know. sue me.
-	return [key isEqualToString:@"RELATIVE_DATE_NOW"] && [table isEqualToString:@"SpringBoard"] && [userDefaults boolForKey:kHBFPPreferencesRemoveDateLabelKey] ? @"" : %orig;
+	return [key isEqualToString:@"RELATIVE_DATE_NOW"] && [table isEqualToString:@"SpringBoard"] && [preferences boolForKey:kHBFPPreferencesRemoveDateLabelKey] ? @"" : %orig;
 }
 
 %end
@@ -342,8 +343,8 @@ void HBFPRespring() {
 	_UIAccessibilityEnhanceBackgroundContrast = (BOOL (*)())dlsym(RTLD_DEFAULT, "_UIAccessibilityEnhanceBackgroundContrast");
 	bundle = [[NSBundle bundleWithPath:@"/Library/PreferenceBundles/FlagPaint7.bundle"] retain];
 
-	userDefaults = [[NSUserDefaults alloc] initWithSuiteName:kHBFPPreferencesSuiteName];
-	[userDefaults registerDefaults:@{
+	preferences = [[HBPreferences alloc] initWithIdentifier:kHBFPPreferencesSuiteName];
+	[preferences registerDefaults:@{
 		kHBFPPreferencesHadFirstRunKey: @NO,
 		kHBFPPreferencesTintBannersKey: @YES,
 		kHBFPPreferencesTintLockScreenKey: @YES,
@@ -378,9 +379,9 @@ void HBFPRespring() {
 		// [[NSNotificationCenter defaultCenter] postNotificationName:HBFPPreferencesChangedNotification object:nil];
 	}];
 
-	if (![userDefaults boolForKey:kHBFPPreferencesHadFirstRunKey]) {
+	if (![preferences boolForKey:kHBFPPreferencesHadFirstRunKey]) {
 		%init(FirstRun);
-		[userDefaults setBool:YES forKey:kHBFPPreferencesHadFirstRunKey];
+		[preferences setBool:YES forKey:kHBFPPreferencesHadFirstRunKey];
 	}
 
 	// CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPLoadPrefs, CFSTR("ws.hbang.flagpaint/ReloadPrefs"), NULL, kNilOptions);
