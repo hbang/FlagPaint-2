@@ -7,6 +7,7 @@
 #import <SpringBoard/SBNotificationsBulletinCell.h>
 #import <SpringBoard/SBNotificationsModeViewController.h>
 #import <SpringBoard/SBNotificationsSectionHeaderView.h>
+#import <version.h>
 
 static const char *kHBFPBackdropViewSettingsIdentifier;
 static const char *kHBFPBackgroundGradientIdentifier;
@@ -191,16 +192,18 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 	self = %orig;
 
 	if (self) {
-		UIScrollView *wrapperView = MSHookIvar<UIScrollView *>(self, "_wrapperView");
-
 		self.clipsToBounds = NO;
-		wrapperView.clipsToBounds = NO;
+
+		if (!IS_IOS_OR_NEWER(iOS_8_0)) {
+			UIScrollView *wrapperView = MSHookIvar<UIScrollView *>(self, "_wrapperView");
+			wrapperView.clipsToBounds = NO;
+		}
 
 		UIView *backgroundView = [[UIView alloc] init];
 		backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 		backgroundView.alpha = ([preferences boolForKey:kHBFPPreferencesNotificationCenterOpacityKey] / 100.f) * kHBFPNotificationCellBackgroundAlphaNormal;
 		backgroundView.hidden = ![preferences boolForKey:kHBFPPreferencesTintNotificationCenterKey];
-		[self.realContentView insertSubview:backgroundView atIndex:0];
+		[self.contentView insertSubview:backgroundView atIndex:0];
 
 		objc_setAssociatedObject(self, &kHBFPBackgroundViewIdentifier, backgroundView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
