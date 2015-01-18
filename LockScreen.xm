@@ -65,7 +65,11 @@ static const char *kHBFPBackgroundViewIdentifier;
 		BOOL isAvatar = hasMessagesAvatarTweak && [bulletin.sectionID isEqualToString:@"com.apple.MobileSMS"];
 
 		if ([preferences boolForKey:kHBFPPreferencesBiggerIconKey]) {
-			iconImageView.image = HBFPIconForKey(key);
+			UIImage *icon = HBFPIconForKey(key);
+
+			if (icon) {
+				iconImageView.image = icon;
+			}
 		}
 
 		if (isMusic) {

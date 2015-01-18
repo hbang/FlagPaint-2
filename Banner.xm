@@ -119,7 +119,11 @@ CGFloat bannerHeight = 64.f;
 	BOOL isAvatar = hasMessagesAvatarTweak && [bulletin.sectionID isEqualToString:@"com.apple.MobileSMS"];
 
 	if (([preferences boolForKey:kHBFPPreferencesBiggerIconKey] || isMusic) && !isAvatar) {
-		iconImageView.image = HBFPIconForKey(key);
+		UIImage *icon = HBFPIconForKey(key);
+
+		if (icon) {
+			iconImageView.image = icon;
+		}
 	}
 
 	if (isMusic) {

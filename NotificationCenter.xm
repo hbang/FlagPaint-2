@@ -4,6 +4,7 @@
 #import <UIKit/_UIBackdropViewSettingsAdaptiveLight.h>
 #import <SpringBoard/SBBBSectionInfo.h>
 #import <SpringBoard/SBBulletinViewController.h>
+#import <SpringBoard/SBNotificationsAllModeBulletinInfo.h>
 #import <SpringBoard/SBNotificationsBulletinCell.h>
 #import <SpringBoard/SBNotificationsModeViewController.h>
 #import <SpringBoard/SBNotificationsSectionHeaderView.h>
@@ -56,8 +57,6 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 	CAGradientLayer *gradientLayer = objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier);
 	[gradientLayer release];
 
-	self.view.layer.mask = nil;
-
 	if ([preferences boolForKey:kHBFPPreferencesNotificationCenterFadeKey]) {
 		CAGradientLayer *gradientLayer = [[CAGradientLayer alloc] init];
 		self.view.layer.mask = gradientLayer;
@@ -72,6 +71,7 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 
 		[self _flagpaint_updateMaskWithOffset:0.f height:self.view.frame.size.height];
 	} else {
+		[self.view.layer.mask release];
 		self.view.layer.mask = nil;
 	}
 }
@@ -277,6 +277,19 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 
 #pragma mark - View controller hooks
 
+%hook SBNotificationsAllModeBulletinInfo
+
+- (void)populateReusableView:(UITableViewCell *)cell {
+	%orig;
+
+	//NSString *key = HBFPGetKey(self.representedBulletin, nil);
+
+	UIView *backgroundView = objc_getAssociatedObject(cell, &kHBFPBackgroundViewIdentifier);
+	backgroundView.backgroundColor = HBFPTintForKey([(id)self.representedBulletin performSelector:@selector(sectionID)]);
+}
+
+%end
+
 %hook SBBulletinViewController
 
 - (void)loadView {
@@ -286,24 +299,6 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 
 	HBFPBulletinViewControllerKVOObserver *observer = [[HBFPBulletinViewControllerKVOObserver alloc] init];
 	[self.view addObserver:observer forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:self];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	UITableViewCell *cell = %orig;
-
-	if ([preferences boolForKey:kHBFPPreferencesTintNotificationCenterKey]) {
-		NSMutableArray *orderedSections = MSHookIvar<NSMutableArray *>(self, "_orderedSections");
-		SBBBSectionInfo *sectionInfo = orderedSections[indexPath.section];
-
-		if (sectionInfo && [sectionInfo respondsToSelector:@selector(identifier)] && sectionInfo.identifier) {
-			NSString *key = HBFPGetKey(nil, sectionInfo.identifier);
-
-			UIView *backgroundView = objc_getAssociatedObject(cell, &kHBFPBackgroundViewIdentifier);
-			backgroundView.backgroundColor = HBFPTintForKey(key);
-		}
-	}
-
-	return cell;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {

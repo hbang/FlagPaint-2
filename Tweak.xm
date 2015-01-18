@@ -39,6 +39,7 @@ BOOL hasMessagesAvatarTweak;
 
 NSCache *tintCache = [[NSCache alloc] init];
 NSCache *iconCache = [[NSCache alloc] init];
+NSCache *appsCache = [[NSCache alloc] init];
 NSDictionary *themeTints;
 
 BOOL isPlaying;
@@ -165,14 +166,28 @@ SBApplication *HBFPGetApplicationWithBundleIdentifier(NSString *bundleIdentifier
 }
 
 NSString *HBFPGetBundleIdentifier(BBBulletin *bulletin, NSString *sectionID) {
-	SBApplication *app = [HBFPGetApplicationWithBundleIdentifier(bulletin ? bulletin.sectionID : sectionID) autorelease];
+	NSString *sectionID_ = bulletin ? bulletin.sectionID : sectionID;
 
-	if (!app && bulletin) {
-		app = [HBFPGetApplicationWithBundleIdentifier(bulletin.section) autorelease];
+	if (appsCache[sectionID_]) {
+		return appsCache[sectionID_];
 	}
 
-	if (!app && bulletin && bulletin.defaultAction) {
-		app = [HBFPGetApplicationWithBundleIdentifier(bulletin.defaultAction.bundleID) autorelease];
+	SBApplication *app = [HBFPGetApplicationWithBundleIdentifier(sectionID_) autorelease];
+
+	if (app) {
+		appsCache[sectionID_] = app.bundleIdentifier;
+	} else if (bulletin) {
+		app = [HBFPGetApplicationWithBundleIdentifier(bulletin.section) autorelease];
+
+		if (app) {
+			appsCache[sectionID_] = app.bundleIdentifier;
+		} else if (bulletin.defaultAction) {
+			app = [HBFPGetApplicationWithBundleIdentifier(bulletin.defaultAction.bundleID) autorelease];
+
+			if (app) {
+				appsCache[sectionID_] = app.bundleIdentifier;
+			}
+		}
 	}
 
 	if (!app) {
@@ -426,13 +441,12 @@ void HBFPRespring() {
 			SBApplication *app = [[%c(SBApplicationController) sharedInstance] applicationWithPid:((NSNumber *)info[(NSString *)kMRMediaRemoteNowPlayingApplicationPIDUserInfoKey]).integerValue];
 
 			isPlaying = ((NSNumber *)info[(NSString *)kMRMediaRemoteNowPlayingApplicationIsPlayingUserInfoKey]).boolValue;
-
 			[cachedMusicKey release];
 
 			if (isPlaying) {
 				cachedMusicKey = [[NSString alloc] initWithFormat:@"_FPMusic_%@_%@_%@_%@", app.bundleIdentifier, info[(NSString *)kMRMediaRemoteNowPlayingInfoTitle], info[(NSString *)kMRMediaRemoteNowPlayingInfoAlbum], info[(NSString *)kMRMediaRemoteNowPlayingInfoArtist]];
 
-				if (!iconCache[cachedMusicKey]) {
+				if (!iconCache[cachedMusicKey] && info[(NSString *)kMRMediaRemoteNowPlayingInfoArtworkData]) {
 					iconCache[cachedMusicKey] = [HBFPResizeImage([UIImage imageWithData:info[(NSString *)kMRMediaRemoteNowPlayingInfoArtworkData]], CGSizeMake(120.f, 120.f)) retain];
 				}
 			} else {
