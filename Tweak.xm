@@ -5,6 +5,7 @@
 #import <BulletinBoard/BBAction.h>
 #import <BulletinBoard/BBBulletin.h>
 #import <Cephei/HBPreferences.h>
+#import <MediaRemote/MediaRemote.h>
 #import <SpringBoard/SpringBoard.h>
 #import <SpringBoard/SBApplication.h>
 #import <SpringBoard/SBApplicationController.h>
@@ -34,9 +35,21 @@ HBPreferences *preferences;
 NSBundle *bundle;
 
 BOOL hasBlurredClock;
+BOOL hasMessagesAvatarTweak;
 
 NSCache *tintCache = [[NSCache alloc] init];
 NSCache *iconCache = [[NSCache alloc] init];
+NSDictionary *themeTints;
+
+BOOL isPlaying;
+NSString *nowPlayingBundleIdentifier;
+NSString *cachedMusicKey;
+
+#pragma mark - Debug
+
+extern "C" NSArray *HBFPDebugPlz() {
+	return @[ tintCache, iconCache ];
+}
 
 #pragma mark - Get dominant color
 
@@ -146,73 +159,93 @@ UIImage *HBFPResizeImage(UIImage *oldImage, CGSize newSize) {
 
 #pragma mark - Various helper functions
 
-BOOL HBFPIsMusic(NSString *sectionID) {
-	if (IS_IOS_OR_NEWER(iOS_8_0)) {
-		return NO; // TODO: support ios 8's changes
-	}
-
-	SBMediaController *mediaController = (SBMediaController *)[%c(SBMediaController) sharedInstance];
-
-	return [preferences boolForKey:kHBFPPreferencesAlbumArtIconKey] && mediaController.nowPlayingApplication && mediaController.nowPlayingApplication.class == %c(SBApplication) && ([sectionID isEqualToString:mediaController.nowPlayingApplication.bundleIdentifier] || [sectionID isEqualToString:@"com.apple.Music"]) && mediaController._nowPlayingInfo[kSBNowPlayingInfoArtworkDataKey];
-}
-
-NSString *HBFPGetKey(NSString *sectionID, BOOL isMusic) {
-	SBMediaController *mediaController = (SBMediaController *)[%c(SBMediaController) sharedInstance];
-
-	if (isMusic) {
-		return [NSString stringWithFormat:@"_FPMusic_%@_%@_%@_%@", mediaController.nowPlayingApplication.bundleIdentifier, mediaController.nowPlayingTitle, mediaController.nowPlayingArtist, mediaController.nowPlayingAlbum];
-	} else if (sectionID) {
-		return sectionID;
-	} else {
-		NSLog(@"flagpaint: nil section identifier (%@, %i)", sectionID, isMusic);
-		return [NSString stringWithFormat:@"_FPUnknown_%f", [NSDate date].timeIntervalSince1970];
-	}
-}
-
 SBApplication *HBFPGetApplicationWithBundleIdentifier(NSString *bundleIdentifier) {
 	SBApplicationController *appController = [%c(SBApplicationController) sharedInstance];
 	return [appController respondsToSelector:@selector(applicationWithBundleIdentifier:)] ? [appController applicationWithBundleIdentifier:bundleIdentifier] : [appController applicationWithDisplayIdentifier:bundleIdentifier];
 }
 
-void HBFPGetIconIfNeeded(NSString *key, BBBulletin *bulletin, BOOL isMusic) {
-	if (!iconCache[key]) {
-		BOOL hasIcon = NO;
+NSString *HBFPGetBundleIdentifier(BBBulletin *bulletin, NSString *sectionID) {
+	SBApplication *app = [HBFPGetApplicationWithBundleIdentifier(bulletin ? bulletin.sectionID : sectionID) autorelease];
 
-		if (isMusic) {
-			UIImage *icon = HBFPResizeImage([UIImage imageWithData:((SBMediaController *)[%c(SBMediaController) sharedInstance])._nowPlayingInfo[kSBNowPlayingInfoArtworkDataKey]], CGSizeMake(120.f, 120.f));
+	if (!app && bulletin) {
+		app = [HBFPGetApplicationWithBundleIdentifier(bulletin.section) autorelease];
+	}
 
-			if (icon) {
-				iconCache[key] = icon;
-				hasIcon = YES;
-			}
-		}
+	if (!app && bulletin && bulletin.defaultAction) {
+		app = [HBFPGetApplicationWithBundleIdentifier(bulletin.defaultAction.bundleID) autorelease];
+	}
 
-		if (!hasIcon) {
-			SBApplication *app = [HBFPGetApplicationWithBundleIdentifier(bulletin ? bulletin.sectionID : key) autorelease];
+	if (!app) {
+		NSLog(@"flagpaint: couldn't get application (%@, %@)", bulletin, sectionID);
+		return nil;
+	}
 
-			if (!app && bulletin) {
-				app = [HBFPGetApplicationWithBundleIdentifier(bulletin.section) autorelease];
-			}
+	return app.bundleIdentifier;
+}
 
-			if (!app && bulletin && bulletin.defaultAction) {
-				app = [HBFPGetApplicationWithBundleIdentifier(bulletin.defaultAction.bundleID) autorelease];
-			}
+BOOL HBFPIsMusic(NSString *key) {
+	return isPlaying && [key isEqualToString:cachedMusicKey];
+}
 
-			if (!app) {
-				NSLog(@"flagpaint: couldn't get icon for key %@, bulletin %@", key, bulletin);
-				return;
-			}
+NSString *HBFPGetKey(BBBulletin *bulletin, NSString *sectionID) {
+	NSString *key = HBFPGetBundleIdentifier(bulletin, sectionID);
 
-			if (app) {
-				SBApplicationIcon *appIcon = [[[%c(SBApplicationIcon) alloc] initWithApplication:app] autorelease];
-				UIImage *icon = [appIcon getIconImage:[key isEqualToString:@"com.apple.mobilecal"] ? SBApplicationIconFormatSpotlight : SBApplicationIconFormatDefault];
+	if (isPlaying && [key isEqualToString:nowPlayingBundleIdentifier]) {
+		key = cachedMusicKey;
+	} else if ([key isEqualToString:@"com.apple.MobileSMS"] && hasMessagesAvatarTweak) {
+		key = [NSString stringWithFormat:@"_FPMessagesAvatar_%@_%d", key, bulletin.addressBookRecordID];
+	}
 
-				if (icon) {
-					iconCache[key] = icon;
-				}
-			}
+	if (!key) {
+		NSLog(@"flagpaint: nil section identifier (%@, %@)", bulletin, sectionID);
+		return [NSString stringWithFormat:@"_FPUnknown_%f", [NSDate date].timeIntervalSince1970];
+	}
+
+	return key;
+}
+
+UIColor *HBFPColorFromArray(NSArray *array) {
+	return [UIColor colorWithRed:((NSNumber *)array[0]).integerValue / 255.f green:((NSNumber *)array[0]).integerValue / 255.f blue:((NSNumber *)array[0]).integerValue / 255.f alpha:1];
+}
+
+UIImage *HBFPIconForKey(NSString *key) {
+	if (iconCache[key]) {
+		return iconCache[key];
+	}
+
+	SBApplication *app = [HBFPGetApplicationWithBundleIdentifier(key) autorelease];
+
+	if (app) {
+		SBApplicationIcon *appIcon = [[[%c(SBApplicationIcon) alloc] initWithApplication:app] autorelease];
+		UIImage *icon = [appIcon getIconImage:[key isEqualToString:@"com.apple.mobilecal"] ? SBApplicationIconFormatSpotlight : SBApplicationIconFormatDefault];
+
+		if (icon) {
+			iconCache[key] = [icon retain];
 		}
 	}
+
+	return iconCache[key];
+}
+
+UIColor *HBFPTintForKey(NSString *key) {
+	NSString *prefsKey = [@"CustomTint-" stringByAppendingString:key];
+
+	if (tintCache[key]) {
+		return tintCache[key];
+	} else if (preferences[prefsKey] && [preferences[prefsKey] isKindOfClass:NSArray.class] && ((NSArray *)preferences[prefsKey]).count == 3) {
+		return HBFPColorFromArray(preferences[prefsKey]);
+	} else if (themeTints[key] && [themeTints[key] isKindOfClass:NSArray.class] && ((NSArray *)themeTints[key]).count == 3) {
+		return HBFPColorFromArray(themeTints[key]);
+	}
+
+	UIImage *icon = HBFPIconForKey(key);
+
+	if (!icon) {
+		return [UIColor whiteColor];
+	}
+
+	tintCache[key] = [HBFPGetDominantColor(icon) retain];
+	return tintCache[key];
 }
 
 #pragma mark - Hide now label
@@ -343,6 +376,11 @@ void HBFPRespring() {
 	_UIAccessibilityEnhanceBackgroundContrast = (BOOL (*)())dlsym(RTLD_DEFAULT, "_UIAccessibilityEnhanceBackgroundContrast");
 	bundle = [[NSBundle bundleWithPath:@"/Library/PreferenceBundles/FlagPaint7.bundle"] retain];
 
+	if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/PrettierBanners.dylib"]) {
+		hasMessagesAvatarTweak = YES;
+		dlopen("/Library/MobileSubstrate/DynamicLibraries/PrettierBanners.dylib", RTLD_NOW);
+	}
+
 	preferences = [[HBPreferences alloc] initWithIdentifier:kHBFPPreferencesSuiteName];
 	[preferences registerDefaults:@{
 		kHBFPPreferencesHadFirstRunKey: @NO,
@@ -375,14 +413,33 @@ void HBFPRespring() {
 		kHBFPPreferencesRemoveLockActionKey: @NO,
 
 		kHBFPPreferencesFonzKey: @NO
-
-		// [[NSNotificationCenter defaultCenter] postNotificationName:HBFPPreferencesChangedNotification object:nil];
 	}];
 
 	if (![preferences boolForKey:kHBFPPreferencesHadFirstRunKey]) {
 		%init(FirstRun);
 		[preferences setBool:YES forKey:kHBFPPreferencesHadFirstRunKey];
 	}
+
+	[[NSNotificationCenter defaultCenter] addObserverForName:(NSString *)kMRMediaRemoteNowPlayingInfoDidChangeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
+		MRMediaRemoteGetNowPlayingInfo(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(CFDictionaryRef information) {
+			NSDictionary *info = (NSDictionary *)information;
+			SBApplication *app = [[%c(SBApplicationController) sharedInstance] applicationWithPid:((NSNumber *)info[(NSString *)kMRMediaRemoteNowPlayingApplicationPIDUserInfoKey]).integerValue];
+
+			isPlaying = ((NSNumber *)info[(NSString *)kMRMediaRemoteNowPlayingApplicationIsPlayingUserInfoKey]).boolValue;
+
+			[cachedMusicKey release];
+
+			if (isPlaying) {
+				cachedMusicKey = [[NSString alloc] initWithFormat:@"_FPMusic_%@_%@_%@_%@", app.bundleIdentifier, info[(NSString *)kMRMediaRemoteNowPlayingInfoTitle], info[(NSString *)kMRMediaRemoteNowPlayingInfoAlbum], info[(NSString *)kMRMediaRemoteNowPlayingInfoArtist]];
+
+				if (!iconCache[cachedMusicKey]) {
+					iconCache[cachedMusicKey] = [HBFPResizeImage([UIImage imageWithData:info[(NSString *)kMRMediaRemoteNowPlayingInfoArtworkData]], CGSizeMake(120.f, 120.f)) retain];
+				}
+			} else {
+				cachedMusicKey = nil;
+			}
+		});
+	}];
 
 	// CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPLoadPrefs, CFSTR("ws.hbang.flagpaint/ReloadPrefs"), NULL, kNilOptions);
 	// CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPLoadPrefs, CFSTR("com.michaelpoole.subtlelock.settingsChanged"), NULL, kNilOptions);

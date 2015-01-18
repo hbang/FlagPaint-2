@@ -296,15 +296,10 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 		SBBBSectionInfo *sectionInfo = orderedSections[indexPath.section];
 
 		if (sectionInfo && [sectionInfo respondsToSelector:@selector(identifier)] && sectionInfo.identifier) {
-			NSString *key = sectionInfo.identifier;
-			HBFPGetIconIfNeeded(key, nil, NO);
-
-			if (!tintCache[key]) {
-				tintCache[key] = HBFPGetDominantColor(iconCache[key]);
-			}
+			NSString *key = HBFPGetKey(nil, sectionInfo.identifier);
 
 			UIView *backgroundView = objc_getAssociatedObject(cell, &kHBFPBackgroundViewIdentifier);
-			backgroundView.backgroundColor = tintCache[key];
+			backgroundView.backgroundColor = HBFPTintForKey(key);
 		}
 	}
 
@@ -322,19 +317,14 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 	SBBBSectionInfo *sectionInfo = orderedSections[section];
 
 	if (sectionInfo && [sectionInfo respondsToSelector:@selector(identifier)] && sectionInfo.identifier) {
-		NSString *key = sectionInfo.identifier;
-		HBFPGetIconIfNeeded(key, nil, NO);
-
-		if (!tintCache[key]) {
-			tintCache[key] = HBFPGetDominantColor(iconCache[key]);
-		}
+		NSString *key = HBFPGetKey(nil, sectionInfo.identifier);
 
 		if (_UIAccessibilityEnhanceBackgroundContrast()) {
 			UIView *backgroundView = objc_getAssociatedObject(header, &kHBFPBackgroundViewIdentifier);
-			backgroundView.backgroundColor = tintCache[key];
+			backgroundView.backgroundColor = HBFPTintForKey(key);
 		} else {
 			_UIBackdropViewSettings *settings = objc_getAssociatedObject(header, &kHBFPBackdropViewSettingsIdentifier);
-			settings.colorTint = tintCache[key];
+			settings.colorTint = HBFPTintForKey(key);
 		}
 	}
 

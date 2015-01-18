@@ -60,29 +60,26 @@ static const char *kHBFPBackgroundViewIdentifier;
 		BBBulletin *bulletin = listItem.activeBulletin;
 		UIImageView *iconImageView = MSHookIvar<UIImageView *>(cell, "_iconImageView");
 
-		BOOL isMusic = HBFPIsMusic(bulletin.sectionID);
-		NSString *key = HBFPGetKey(bulletin.sectionID, isMusic);
+		NSString *key = HBFPGetKey(bulletin, nil);
+		BOOL isMusic = HBFPIsMusic(key);
+		BOOL isAvatar = hasMessagesAvatarTweak && [bulletin.sectionID isEqualToString:@"com.apple.MobileSMS"];
 
 		if ([preferences boolForKey:kHBFPPreferencesBiggerIconKey]) {
-			HBFPGetIconIfNeeded(key, bulletin, isMusic);
-			iconImageView.image = iconCache[key];
+			iconImageView.image = HBFPIconForKey(key);
 		}
 
 		if (isMusic) {
 			iconImageView.layer.minificationFilter = kCAFilterTrilinear;
 		}
 
+		if (isAvatar) {
+			iconImageView.layer.cornerRadius = 6.f;
+			iconImageView.clipsToBounds = YES;
+		}
+
 		if ([preferences boolForKey:kHBFPPreferencesTintLockScreenKey]) {
-			if (!iconCache[key]) {
-				iconCache[key] = iconImageView.image;
-			}
-
-			if (!tintCache[key]) {
-				tintCache[key] = HBFPGetDominantColor(iconCache[key]);
-			}
-
 			UIView *backgroundView = objc_getAssociatedObject(cell, &kHBFPBackgroundViewIdentifier);
-			backgroundView.backgroundColor = tintCache[key];
+			backgroundView.backgroundColor = HBFPTintForKey(key);
 		}
 	}
 
@@ -282,18 +279,8 @@ static const char *kHBFPBackgroundViewIdentifier;
 	SBAwayNotificationListCell *cell = %orig;
 
 	if ([preferences boolForKey:kHBFPPreferencesTintLockScreenKey]) {
-		BOOL isMusic = HBFPIsMusic(cell.bulletin.sectionID);
-		NSString *key = HBFPGetKey(cell.bulletin.sectionID, isMusic);
-
-		if (!iconCache[key]) {
-			iconCache[key] = cell.imageView.image;
-		}
-
-		if (!tintCache[key]) {
-			tintCache[key] = HBFPGetDominantColor(iconCache[key]);
-		}
-
-		cell.backgroundColor = tintCache[key];
+		NSString *key = HBFPGetKey(cell.bulletin, nil);
+		cell.backgroundColor = HBFPTintForKey(key);
 	}
 
 	return cell;

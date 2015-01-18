@@ -45,15 +45,14 @@ static NSString *const kHBFPSubtleLockPreferencesBlurredClockBGKey = @"BlurredCl
 extern BOOL (*_UIAccessibilityEnhanceBackgroundContrast)();
 
 extern HBPreferences *preferences;
-extern BOOL hasBlurredClock;
+extern BOOL hasBlurredClock, hasMessagesAvatarTweak;
 
-extern NSCache *tintCache;
-extern NSCache *iconCache;
+extern NSCache *tintCache, *iconCache;
 
-extern UIColor *HBFPGetDominantColor(UIImage *image);
-extern BOOL HBFPIsMusic(NSString *sectionID);
-extern NSString *HBFPGetKey(NSString *sectionID, BOOL isMusic);
-extern void HBFPGetIconIfNeeded(NSString *key, BBBulletin *bulletin, BOOL isMusic);
+extern BOOL HBFPIsMusic(NSString *key);
+extern NSString *HBFPGetKey(BBBulletin *bulletin, NSString *sectionID);
+extern UIImage *HBFPIconForKey(NSString *key);
+extern UIColor *HBFPTintForKey(NSString *key);
 #endif
 
 static NSString *const HBFPPreferencesChangedNotification = @"HBFPPreferencesChangedNotification";

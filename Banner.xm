@@ -12,7 +12,7 @@
 static const char *kHBFPBackdropViewSettingsIdentifier;
 static const char *kHBFPBackgroundGradientIdentifier;
 
-BOOL hasStatusBarTweak, hasMessagesAvatarTweak;
+BOOL hasStatusBarTweak;
 CGFloat bannerHeight = 64.f;
 
 @interface SBBannerContextView (FlagPaint)
@@ -114,13 +114,12 @@ CGFloat bannerHeight = 64.f;
 	NSObject *viewSource = MSHookIvar<NSObject *>(contentView, "_viewSource");
 	BBBulletin *bulletin = MSHookIvar<BBBulletin *>(viewSource, "_seedBulletin");
 
-	BOOL isMusic = HBFPIsMusic(bulletin.sectionID);
+	NSString *key = HBFPGetKey(bulletin, nil);
+	BOOL isMusic = HBFPIsMusic(key);
 	BOOL isAvatar = hasMessagesAvatarTweak && [bulletin.sectionID isEqualToString:@"com.apple.MobileSMS"];
-	NSString *key = HBFPGetKey(bulletin.sectionID, isMusic);
 
 	if (([preferences boolForKey:kHBFPPreferencesBiggerIconKey] || isMusic) && !isAvatar) {
-		HBFPGetIconIfNeeded(key, bulletin, isMusic);
-		iconImageView.image = iconCache[key];
+		iconImageView.image = HBFPIconForKey(key);
 	}
 
 	if (isMusic) {
@@ -134,12 +133,7 @@ CGFloat bannerHeight = 64.f;
 
 	if ([preferences boolForKey:kHBFPPreferencesTintBannersKey]) {
 		_UIBackdropViewSettings *settings = objc_getAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier);
-
-		if (!tintCache[key]) {
-			tintCache[key] = HBFPGetDominantColor(iconImageView.image);
-		}
-
-		settings.colorTint = tintCache[key];
+		settings.colorTint = HBFPTintForKey(key);
 	}
 
 	if ([preferences boolForKey:kHBFPPreferencesRemoveGrabberKey] && IS_IOS_OR_NEWER(iOS_8_0)) {
@@ -275,11 +269,6 @@ CGFloat bannerHeight = 64.f;
 	if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/TinyBar.dylib"]) {
 		hasStatusBarTweak = YES;
 		dlopen("/Library/MobileSubstrate/DynamicLibraries/TinyBar.dylib", RTLD_NOW);
-	}
-
-	if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/PrettierBanners.dylib"]) {
-		hasMessagesAvatarTweak = YES;
-		dlopen("/Library/MobileSubstrate/DynamicLibraries/PrettierBanners.dylib", RTLD_NOW);
 	}
 
 	%init;
