@@ -64,6 +64,12 @@ static const char *kHBFPBackgroundViewIdentifier;
 		BOOL isMusic = HBFPIsMusic(key);
 		BOOL isAvatar = hasMessagesAvatarTweak && [bulletin.sectionID isEqualToString:@"com.apple.MobileSMS"];
 
+		if (isAvatar) {
+			iconImageView.layer.cornerRadius = 6.f;
+			iconImageView.clipsToBounds = YES;
+			iconCache[key] = iconImageView.image;
+		}
+
 		if ([preferences boolForKey:kHBFPPreferencesBiggerIconKey]) {
 			UIImage *icon = HBFPIconForKey(key);
 
@@ -74,11 +80,6 @@ static const char *kHBFPBackgroundViewIdentifier;
 
 		if (isMusic) {
 			iconImageView.layer.minificationFilter = kCAFilterTrilinear;
-		}
-
-		if (isAvatar) {
-			iconImageView.layer.cornerRadius = 6.f;
-			iconImageView.clipsToBounds = YES;
 		}
 
 		if ([preferences boolForKey:kHBFPPreferencesTintLockScreenKey]) {

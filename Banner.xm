@@ -118,6 +118,12 @@ CGFloat bannerHeight = 64.f;
 	BOOL isMusic = HBFPIsMusic(key);
 	BOOL isAvatar = hasMessagesAvatarTweak && [bulletin.sectionID isEqualToString:@"com.apple.MobileSMS"];
 
+	if (isAvatar) {
+		iconImageView.layer.cornerRadius = 6.f;
+		iconImageView.clipsToBounds = YES;
+		iconCache[key] = iconImageView.image;
+	}
+
 	if (([preferences boolForKey:kHBFPPreferencesBiggerIconKey] || isMusic) && !isAvatar) {
 		UIImage *icon = HBFPIconForKey(key);
 
@@ -128,11 +134,6 @@ CGFloat bannerHeight = 64.f;
 
 	if (isMusic) {
 		iconImageView.layer.minificationFilter = kCAFilterTrilinear;
-	}
-
-	if (isAvatar) {
-		iconImageView.layer.cornerRadius = 6.f;
-		iconImageView.clipsToBounds = YES;
 	}
 
 	if ([preferences boolForKey:kHBFPPreferencesTintBannersKey]) {
