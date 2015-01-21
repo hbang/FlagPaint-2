@@ -3,8 +3,10 @@
 #import "NSCache+Subscripting.h"
 #import <BulletinBoard/BBBulletin.h>
 #import <SpringBoard/SBBannerContextView.h>
+#import <SpringBoard/SBControlColorSettings.h>
 #import <SpringBoard/SBDefaultBannerTextView.h>
 #import <SpringBoard/SBDefaultBannerView.h>
+#import <SpringBoard/SBNotificationControlColorSettings.h>
 #import <UIKit/_UIBackdropView.h>
 #import <UIKit/_UIBackdropViewSettingsAdaptiveLight.h>
 #import <version.h>
@@ -270,6 +272,26 @@ CGFloat bannerHeight = 64.f;
 
 %end
 
+/*
+%group CraigFederighi
+%hook SBNotificationVibrantButton
+
+- (id)initWithColorSettings:(SBNotificationControlColorSettings *)colorSettings {
+	if ([preferences boolForKey:kHBFPPreferencesTintBannersKey]) {
+		SBControlColorSettings *vibrantSettings = colorSettings.vibrantSettings;
+		SBControlColorSettings *overlaySettings = colorSettings.overlaySettings;
+
+		[colorSettings release];
+		colorSettings = [[SBNotificationControlColorSettings alloc] initWithVibrantSettings:vibrantSettings overlaySettings:overlaySettings];
+	}
+
+	return %orig;
+}
+
+%end
+%end
+*/
+
 %ctor {
 	if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/TinyBar.dylib"]) {
 		hasStatusBarTweak = YES;
@@ -278,7 +300,9 @@ CGFloat bannerHeight = 64.f;
 
 	%init;
 
-	if (!IS_IOS_OR_NEWER(iOS_8_0)) {
+	if (IS_IOS_OR_NEWER(iOS_8_0)) {
+		//%init(CraigFederighi);
+	} else {
 		%init(JonyIve);
 	}
 }
