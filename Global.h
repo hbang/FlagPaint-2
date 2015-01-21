@@ -39,6 +39,12 @@ static NSString *const kHBFPPreferencesHadFirstRunKey = @"HadFirstRun";
 static NSString *const kHBFPSubtleLockPreferencesSuiteName = @"com.michaelpoole.subtlelock";
 static NSString *const kHBFPSubtleLockPreferencesBlurredClockBGKey = @"BlurredClockBG";
 
+static NSString *const kHBFPWinterBoardThemesKey = @"Themes";
+static NSString *const kHBFPWinterBoardThemeActiveKey = @"Active";
+static NSString *const kHBFPWinterBoardThemeNameKey = @"Name";
+static NSString *const kHBFPWinterBoardPlistName = @"FlagPaint.plist";
+static NSString *const kHBFPWinterBoardTintsKey = @"Tints";
+
 #pragma mark - Other
 
 #ifndef _FLAGPAINT_TWEAK_XM

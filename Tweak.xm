@@ -219,8 +219,20 @@ NSString *HBFPGetKey(BBBulletin *bulletin, NSString *sectionID) {
 	return key;
 }
 
-UIColor *HBFPColorFromArray(NSArray *array) {
-	return [UIColor colorWithRed:((NSNumber *)array[0]).integerValue / 255.f green:((NSNumber *)array[0]).integerValue / 255.f blue:((NSNumber *)array[0]).integerValue / 255.f alpha:1];
+UIColor *HBFPColorFromDictionaryValue(id value) {
+	if ([value isKindOfClass:NSArray.class] && ((NSArray *)value).count == 3) {
+		NSArray *array = value;
+		return [UIColor colorWithRed:((NSNumber *)array[0]).integerValue / 255.f green:((NSNumber *)array[1]).integerValue / 255.f blue:((NSNumber *)array[2]).integerValue / 255.f alpha:1];
+	} else if ([value isKindOfClass:NSString.class] && [((NSString *)value) hasPrefix:@"#"] && ((NSString *)value).length == 7) {
+		unsigned int hexInteger = 0;
+		NSScanner *scanner = [NSScanner scannerWithString:value];
+		scanner.charactersToBeSkipped = [NSCharacterSet characterSetWithCharactersInString:@"#"];
+		[scanner scanHexInt:&hexInteger];
+
+		return [UIColor colorWithRed:((hexInteger & 0xFF0000) >> 16) / 255.f green:((hexInteger & 0xFF00) >> 8) / 255.f blue:(hexInteger & 0xFF) / 255.f alpha:1];
+	} else {
+		return nil;
+	}
 }
 
 UIImage *HBFPIconForKey(NSString *key) {
@@ -243,23 +255,34 @@ UIImage *HBFPIconForKey(NSString *key) {
 }
 
 UIColor *HBFPTintForKey(NSString *key) {
-	NSString *prefsKey = [@"CustomTint-" stringByAppendingString:key];
-
 	if (tintCache[key]) {
 		return tintCache[key];
-	} else if (preferences[prefsKey] && [preferences[prefsKey] isKindOfClass:NSArray.class] && ((NSArray *)preferences[prefsKey]).count == 3) {
-		return HBFPColorFromArray(preferences[prefsKey]);
-	} else if (themeTints[key] && [themeTints[key] isKindOfClass:NSArray.class] && ((NSArray *)themeTints[key]).count == 3) {
-		return HBFPColorFromArray(themeTints[key]);
 	}
 
-	UIImage *icon = HBFPIconForKey(key);
+	UIColor *tint = nil;
+	NSString *prefsKey = [@"CustomTint-" stringByAppendingString:key];
 
-	if (!icon) {
-		return [UIColor whiteColor];
+	NSLog(@"%@ %@ %@",prefsKey,preferences,themeTints);
+
+	if (preferences[prefsKey]) {
+		tint = HBFPColorFromDictionaryValue(preferences[prefsKey]);
 	}
 
-	tintCache[key] = [HBFPGetDominantColor(icon) retain];
+	if (!tint && themeTints[key]) {
+		tint = HBFPColorFromDictionaryValue(themeTints[key]);
+	}
+
+	if (!tint) {
+		UIImage *icon = HBFPIconForKey(key);
+
+		if (!icon) {
+			return [UIColor whiteColor];
+		}
+
+		tint = HBFPGetDominantColor(icon);
+	}
+
+	tintCache[key] = [tint retain];
 	return tintCache[key];
 }
 
@@ -386,6 +409,8 @@ void HBFPRespring() {
 #pragma mark - Constructor
 
 %ctor {
+	// TODO: maybe clean this up someday...
+
 	%init;
 
 	_UIAccessibilityEnhanceBackgroundContrast = (BOOL (*)())dlsym(RTLD_DEFAULT, "_UIAccessibilityEnhanceBackgroundContrast");
@@ -440,20 +465,61 @@ void HBFPRespring() {
 			NSDictionary *info = (NSDictionary *)information;
 			SBApplication *app = [[%c(SBApplicationController) sharedInstance] applicationWithPid:((NSNumber *)info[(NSString *)kMRMediaRemoteNowPlayingApplicationPIDUserInfoKey]).integerValue];
 
-			isPlaying = ((NSNumber *)info[(NSString *)kMRMediaRemoteNowPlayingApplicationIsPlayingUserInfoKey]).boolValue;
+			isPlaying = ((NSNumber *)info[(NSString *)kMRMediaRemoteNowPlayingInfoPlaybackRate]).doubleValue > 0;
+			NSLog(@"rate = %@ %f",((NSNumber *)info[(NSString *)kMRMediaRemoteNowPlayingInfoPlaybackRate]),((NSNumber *)info[(NSString *)kMRMediaRemoteNowPlayingInfoPlaybackRate]).doubleValue);
 			[cachedMusicKey release];
 
-			if (isPlaying) {
+			if (app && isPlaying) {
 				cachedMusicKey = [[NSString alloc] initWithFormat:@"_FPMusic_%@_%@_%@_%@", app.bundleIdentifier, info[(NSString *)kMRMediaRemoteNowPlayingInfoTitle], info[(NSString *)kMRMediaRemoteNowPlayingInfoAlbum], info[(NSString *)kMRMediaRemoteNowPlayingInfoArtist]];
 
 				if (!iconCache[cachedMusicKey] && info[(NSString *)kMRMediaRemoteNowPlayingInfoArtworkData]) {
+					[(NSData *)info[(NSString *)kMRMediaRemoteNowPlayingInfoArtworkData] writeToFile:@"/tmp/test.png" atomically:YES];
 					iconCache[cachedMusicKey] = [HBFPResizeImage([UIImage imageWithData:info[(NSString *)kMRMediaRemoteNowPlayingInfoArtworkData]], CGSizeMake(120.f, 120.f)) retain];
 				}
 			} else {
+				[cachedMusicKey release];
 				cachedMusicKey = nil;
 			}
 		});
 	}];
+
+	NSDictionary *wbPreferences = [NSDictionary dictionaryWithContentsOfURL:[NSURL URLWithString:@"file:///var/mobile/Library/Preferences/com.saurik.WinterBoard.plist"]];
+
+	if (wbPreferences && wbPreferences[kHBFPWinterBoardThemesKey]) {
+		NSMutableDictionary *newThemeTints = [NSMutableDictionary dictionary];
+
+		for (NSDictionary *theme in wbPreferences[kHBFPWinterBoardThemesKey]) {
+			if (!((NSNumber *)theme[kHBFPWinterBoardThemeActiveKey]).boolValue) {
+				continue;
+			}
+
+			NSString *name = theme[kHBFPWinterBoardThemeNameKey];
+			NSURL *themeURL = [NSURL URLWithString:[@"file:///Library/Themes/" stringByAppendingPathComponent:name]];
+			NSDictionary *plist = [NSDictionary dictionaryWithContentsOfURL:[themeURL URLByAppendingPathComponent:kHBFPWinterBoardPlistName]];
+
+			if (!plist) {
+				plist = [NSDictionary dictionaryWithContentsOfURL:[[themeURL URLByAppendingPathExtension:@"theme"] URLByAppendingPathComponent:kHBFPWinterBoardPlistName]];
+
+				if (!plist) {
+					continue;
+				}
+			}
+
+			NSDictionary *tints = plist[kHBFPWinterBoardTintsKey];
+
+			if (!tints) {
+				continue;
+			}
+
+			for (NSString *key in tints.allKeys) {
+				if (!newThemeTints[key]) {
+					newThemeTints[key] = tints[key];
+				}
+			}
+		}
+
+		themeTints = [newThemeTints copy];
+	}
 
 	// CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPLoadPrefs, CFSTR("ws.hbang.flagpaint/ReloadPrefs"), NULL, kNilOptions);
 	// CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPLoadPrefs, CFSTR("com.michaelpoole.subtlelock.settingsChanged"), NULL, kNilOptions);
