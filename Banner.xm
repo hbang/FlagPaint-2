@@ -119,7 +119,7 @@ CGFloat bannerHeight = 64.f;
 	BOOL isAvatar = hasMessagesAvatarTweak && [bulletin.sectionID isEqualToString:@"com.apple.MobileSMS"];
 
 	if (isAvatar) {
-		iconImageView.layer.cornerRadius = 6.f;
+		iconImageView.layer.cornerRadius = iconImageView.frame.size.width / 2;
 		iconImageView.clipsToBounds = YES;
 		iconCache[key] = iconImageView.image;
 	}

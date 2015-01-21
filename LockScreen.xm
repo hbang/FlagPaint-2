@@ -65,7 +65,7 @@ static const char *kHBFPBackgroundViewIdentifier;
 		BOOL isAvatar = hasMessagesAvatarTweak && [bulletin.sectionID isEqualToString:@"com.apple.MobileSMS"];
 
 		if (isAvatar) {
-			iconImageView.layer.cornerRadius = 6.f;
+			iconImageView.layer.cornerRadius = iconImageView.frame.size.width / 2;
 			iconImageView.clipsToBounds = YES;
 			iconCache[key] = iconImageView.image;
 		}
@@ -200,7 +200,7 @@ static const char *kHBFPBackgroundViewIdentifier;
 				NSArray *locations = @[ @0, @0.2f, @0.4f, @1 ];
 
 				CAGradientLayer *gradientLayer = [[CAGradientLayer alloc] init];
-				gradientLayer.locations = isRTL ? locations.reverseObjectEnumerator.allObjects : locations;
+				gradientLayer.locations = IsRTL ? locations.reverseObjectEnumerator.allObjects : locations;
 				gradientLayer.startPoint = CGPointMake(0, 0.5f);
 				gradientLayer.endPoint = CGPointMake(1.f, 0.5f);
 				gradientLayer.colors = @[
