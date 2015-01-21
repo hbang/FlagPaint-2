@@ -191,10 +191,10 @@ static const char *kHBFPBackgroundViewIdentifier;
 			objc_setAssociatedObject(self, &kHBFPBackgroundViewIdentifier, backgroundView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
 			if ([preferences boolForKey:kHBFPPreferencesLockGradientKey]) {
-				static BOOL isRTL;
+				static BOOL IsRTL;
 				static dispatch_once_t onceToken;
 				dispatch_once(&onceToken, ^{
-					isRTL = [NSLocale characterDirectionForLanguage:[[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode]] == NSLocaleLanguageDirectionRightToLeft;
+					IsRTL = [NSLocale characterDirectionForLanguage:[[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode]] == NSLocaleLanguageDirectionRightToLeft;
 				});
 
 				NSArray *locations = @[ @0, @0.2f, @0.4f, @1 ];
