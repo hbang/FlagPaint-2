@@ -1,4 +1,14 @@
-"Visit Website" = "Visitez le site";
-"Developers" = "DÈveloppeur";
-"Experiencing Issues? Send us an email and we‚ll help you" = "Ayant des problËmes? Envoyez-nous un e-mail, nous pouvons vous aider";
-"Email Support" = "Support par email";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Developers</key>
+	<string>Développeurs</string>
+	<key>Email support</key>
+	<string>Contact par email</string>
+	<key>Experiencing Issues? Send us an email and we’ll help you</key>
+	<string>Vous rencontrez un souci ? Envoyez nous un email</string>
+	<key>Visit Website</key>
+	<string>Visiter notre site web</string>
+</dict>
+</plist>
