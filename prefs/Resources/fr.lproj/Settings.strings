@@ -1,10 +1,26 @@
-"Banners" = "BanniËres";
-"Lock Screen" = "Verrouiller l'Ècran";
-"Notification Center" = "Notification Center";
-"Various" = "Divers";
-"Bigger Icon" = "IcÙne plus grade que";
-"Hide “Now” Label" = "Cacher “…tiquette” maintenantª";
-"Test Notifications" = "Essayer Notifications";
-"Test Banner" = "Essayer banniËre";
-"Test Lock Screen Notification" = "Verrouillage essayer l'Ècran de notification";
-"About" = "Sur";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>About</key>
+	<string>A propos</string>
+	<key>Banners</key>
+	<string>Bannière</string>
+	<key>Bigger Icon</key>
+	<string>Grande icône</string>
+	<key>Hide “Now” Label</key>
+	<string>Cacher la date</string>
+	<key>Lock Screen</key>
+	<string>Ecran de verrouillage</string>
+	<key>Notification Center</key>
+	<string>Centre de notifications</string>
+	<key>Test Banner</key>
+	<string>Test des bannières</string>
+	<key>Test Lock Screen Notification</key>
+	<string>Test des notifications sur l'écran de verrouillage</string>
+	<key>Test Notifications</key>
+	<string>Test des notifications</string>
+	<key>Various</key>
+	<string>Autres</string>
+</dict>
+</plist>
