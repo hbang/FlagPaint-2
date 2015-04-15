@@ -4,6 +4,7 @@
 #import <BulletinBoard/BBBulletin.h>
 #import <SpringBoard/SBAwayBulletinListItem.h>
 #import <SpringBoard/SBAwayNotificationListCell.h>
+#import <SpringBoard/SBLockScreenActionContext.h>
 #import <SpringBoard/SBLockScreenNotificationCell.h>
 #import <SpringBoard/SBLockScreenNotificationListView.h>
 #import <SpringBoard/SBLockScreenNotificationModel.h>
@@ -65,7 +66,6 @@ static const char *kHBFPBackgroundViewIdentifier;
 		BOOL isAvatar = hasMessagesAvatarTweak && [bulletin.sectionID isEqualToString:@"com.apple.MobileSMS"];
 
 		if (isAvatar) {
-			iconImageView.layer.cornerRadius = iconImageView.frame.size.width / 2;
 			iconImageView.clipsToBounds = YES;
 			iconCache[key] = iconImageView.image;
 		}
@@ -255,6 +255,10 @@ static const char *kHBFPBackgroundViewIdentifier;
 				unlockTextLabel.frame = unlockTextFrame;
 			} else {
 				iconImageView.frame = CGRectMake(9.f, 12.5f, 29.f, 29.f);
+			}
+
+			if (hasMessagesAvatarTweak && self.lockScreenActionContext.bulletin && [self.lockScreenActionContext.bulletin.sectionID isEqualToString:@"com.apple.MobileSMS"]) {
+				iconImageView.layer.cornerRadius = iconImageView.frame.size.width / 2;
 			}
 		}
 
