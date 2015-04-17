@@ -21,11 +21,11 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 }
 
 + (NSURL *)hb_shareURL {
-	return [NSURL URLWithString:@"http://hbang.ws/flagpaint"];
+	return [NSURL URLWithString:@"https://www.hbang.ws/flagpaint"];
 }
 
 + (UIColor *)hb_tintColor {
-	return [UIColor colorWithRed:34.f / 255.f green:163.f / 255.f blue:124.f / 255.f alpha:1];
+	return [UIColor colorWithRed:35.f / 255.f green:208.f / 255.f blue:189.f / 255.f alpha:1];
 }
 
 #pragma mark - UIViewController
@@ -33,7 +33,7 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 - (void)loadView {
 	[super loadView];
 
-	self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"FlagPaint7" style:UIBarButtonItemStylePlain target:nil action:nil] autorelease];
+	self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"FlagPaint" style:UIBarButtonItemStylePlain target:nil action:nil] autorelease];
 
 	_headerView = [[HBFPHeaderView alloc] initWithTopInset:kHBFPHeaderTopInset];
 	_headerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;

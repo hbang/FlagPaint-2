@@ -54,7 +54,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Developers</string>
+			<string>Developer</string>
 		</dict>
 		<dict>
 			<key>cellClass</key>
@@ -62,7 +62,21 @@
 			<key>label</key>
 			<string>Adam D</string>
 			<key>user</key>
-			<string>thekirbylover</string>
+			<string>hbkirb</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Icon</string>
+		</dict>
+		<dict>
+			<key>cellClass</key>
+			<string>HBTwitterCell</string>
+			<key>label</key>
+			<string>Kyle Revony</string>
+			<key>user</key>
+			<string>krevony</string>
 		</dict>
 		<dict>
 			<key>cell</key>
