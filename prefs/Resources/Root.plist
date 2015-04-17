@@ -10,7 +10,7 @@
 			<key>footerCellClass</key>
 			<string>PSFooterHyperlinkView</string>
 			<key>footerHyperlinkRange</key>
-			<string>{79, 25}</string>
+			<string>{103, 25}</string>
 			<key>headerFooterHyperlinkButtonTitle</key>
 			<string>Notification tint colors are determined from the average colors in the app’s icon. Themers can use the FlagPaint theme interface to set specific colors.</string>
 			<key>headerFooterHyperlinkButtonURL</key>
