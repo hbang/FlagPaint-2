@@ -42,10 +42,6 @@ NSCache *iconCache = [[NSCache alloc] init];
 NSCache *appsCache = [[NSCache alloc] init];
 NSDictionary *themeTints;
 
-BOOL isPlaying;
-NSString *nowPlayingBundleIdentifier;
-NSString *cachedMusicKey;
-
 #pragma mark - Debug
 
 extern "C" NSArray *HBFPDebugPlz() {
@@ -199,15 +195,18 @@ NSString *HBFPGetBundleIdentifier(BBBulletin *bulletin, NSString *sectionID) {
 }
 
 BOOL HBFPIsMusic(NSString *key) {
-	return isPlaying && [key isEqualToString:cachedMusicKey];
+	if (IS_IOS_OR_NEWER(iOS_8_0)) {
+		return NO; // TODO: support ios 8's changes
+	}
+
+	SBMediaController *mediaController = (SBMediaController *)[%c(SBMediaController) sharedInstance];
+	return [preferences boolForKey:kHBFPPreferencesAlbumArtIconKey] && mediaController.nowPlayingApplication && mediaController.nowPlayingApplication.class == %c(SBApplication) && ([key isEqualToString:mediaController.nowPlayingApplication.bundleIdentifier] || [key isEqualToString:@"com.apple.Music"]) && mediaController._nowPlayingInfo[kSBNowPlayingInfoArtworkDataKey];
 }
 
 NSString *HBFPGetKey(BBBulletin *bulletin, NSString *sectionID) {
 	NSString *key = HBFPGetBundleIdentifier(bulletin, sectionID);
 
-	if (isPlaying && [key isEqualToString:nowPlayingBundleIdentifier]) {
-		key = cachedMusicKey;
-	} else if ([key isEqualToString:@"com.apple.MobileSMS"] && hasMessagesAvatarTweak) {
+	if ([key isEqualToString:@"com.apple.MobileSMS"] && hasMessagesAvatarTweak) {
 		key = [NSString stringWithFormat:@"_FPMessagesAvatar_%@_%d", key, bulletin.addressBookRecordID];
 	}
 
@@ -240,15 +239,21 @@ UIImage *HBFPIconForKey(NSString *key) {
 		return iconCache[key];
 	}
 
+	UIImage *icon = nil;
+
+	if (HBFPIsMusic(key)) {
+		icon = HBFPResizeImage([UIImage imageWithData:((SBMediaController *)[%c(SBMediaController) sharedInstance])._nowPlayingInfo[kSBNowPlayingInfoArtworkDataKey]], CGSizeMake(120.f, 120.f));
+	}
+
 	SBApplication *app = [HBFPGetApplicationWithBundleIdentifier(key) autorelease];
 
 	if (app) {
 		SBApplicationIcon *appIcon = [[[%c(SBApplicationIcon) alloc] initWithApplication:app] autorelease];
-		UIImage *icon = [appIcon getIconImage:[key isEqualToString:@"com.apple.mobilecal"] ? SBApplicationIconFormatSpotlight : SBApplicationIconFormatDefault];
+		icon = [appIcon getIconImage:[key isEqualToString:@"com.apple.mobilecal"] ? SBApplicationIconFormatSpotlight : SBApplicationIconFormatDefault];
+	}
 
-		if (icon) {
-			iconCache[key] = [icon retain];
-		}
+	if (icon) {
+		iconCache[key] = [icon retain];
 	}
 
 	return iconCache[key];
@@ -261,8 +266,6 @@ UIColor *HBFPTintForKey(NSString *key) {
 
 	UIColor *tint = nil;
 	NSString *prefsKey = [@"CustomTint-" stringByAppendingString:key];
-
-	NSLog(@"%@ %@ %@",prefsKey,preferences,themeTints);
 
 	if (preferences[prefsKey]) {
 		tint = HBFPColorFromDictionaryValue(preferences[prefsKey]);
@@ -459,29 +462,6 @@ void HBFPRespring() {
 		%init(FirstRun);
 		[preferences setBool:YES forKey:kHBFPPreferencesHadFirstRunKey];
 	}
-
-	[[NSNotificationCenter defaultCenter] addObserverForName:(NSString *)kMRMediaRemoteNowPlayingInfoDidChangeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
-		MRMediaRemoteGetNowPlayingInfo(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(CFDictionaryRef information) {
-			NSDictionary *info = (NSDictionary *)information;
-			SBApplication *app = [[%c(SBApplicationController) sharedInstance] applicationWithPid:((NSNumber *)info[(NSString *)kMRMediaRemoteNowPlayingApplicationPIDUserInfoKey]).integerValue];
-
-			isPlaying = ((NSNumber *)info[(NSString *)kMRMediaRemoteNowPlayingInfoPlaybackRate]).doubleValue > 0;
-			NSLog(@"rate = %@ %f",((NSNumber *)info[(NSString *)kMRMediaRemoteNowPlayingInfoPlaybackRate]),((NSNumber *)info[(NSString *)kMRMediaRemoteNowPlayingInfoPlaybackRate]).doubleValue);
-			[cachedMusicKey release];
-
-			if (app && isPlaying) {
-				cachedMusicKey = [[NSString alloc] initWithFormat:@"_FPMusic_%@_%@_%@_%@", app.bundleIdentifier, info[(NSString *)kMRMediaRemoteNowPlayingInfoTitle], info[(NSString *)kMRMediaRemoteNowPlayingInfoAlbum], info[(NSString *)kMRMediaRemoteNowPlayingInfoArtist]];
-
-				if (!iconCache[cachedMusicKey] && info[(NSString *)kMRMediaRemoteNowPlayingInfoArtworkData]) {
-					[(NSData *)info[(NSString *)kMRMediaRemoteNowPlayingInfoArtworkData] writeToFile:@"/tmp/test.png" atomically:YES];
-					iconCache[cachedMusicKey] = [HBFPResizeImage([UIImage imageWithData:info[(NSString *)kMRMediaRemoteNowPlayingInfoArtworkData]], CGSizeMake(120.f, 120.f)) retain];
-				}
-			} else {
-				[cachedMusicKey release];
-				cachedMusicKey = nil;
-			}
-		});
-	}];
 
 	NSDictionary *wbPreferences = [NSDictionary dictionaryWithContentsOfURL:[NSURL URLWithString:@"file:///var/mobile/Library/Preferences/com.saurik.WinterBoard.plist"]];
 

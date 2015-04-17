@@ -1,3 +1,4 @@
+TARGET = iphone:clang:latest:7.0
 ARCHS = armv7 arm64
 
 include theos/makefiles/common.mk
@@ -5,7 +6,7 @@ include theos/makefiles/common.mk
 TWEAK_NAME = FlagPaint7
 FlagPaint7_FILES = $(wildcard *.xm) $(wildcard *.m)
 FlagPaint7_FRAMEWORKS = UIKit CoreGraphics QuartzCore Accelerate
-FlagPaint7_PRIVATE_FRAMEWORKS = BulletinBoard MediaRemote
+FlagPaint7_PRIVATE_FRAMEWORKS = BulletinBoard
 FlagPaint7_LIBRARIES = cephei
 
 include $(THEOS_MAKE_PATH)/tweak.mk
