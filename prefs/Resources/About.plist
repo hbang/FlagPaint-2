@@ -15,6 +15,8 @@
 			<string>icon.png</string>
 			<key>packageIdentifier</key>
 			<string>ws.hbang.flagpaint7</string>
+			<key>packageNameOverride</key>
+			<string>FlagPaint</string>
 		</dict>
 		<dict>
 			<key>cell</key>
