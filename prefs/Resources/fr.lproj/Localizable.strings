@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Test notification</key>
+	<string>Tester les notifications</string>
+	<key>Thanks for purchasing FlagPaint!, configure</key>
+	<string>Merci d'avoir acheté FlagPaint!, allons le configurer</string>
+</dict>
+</plist>

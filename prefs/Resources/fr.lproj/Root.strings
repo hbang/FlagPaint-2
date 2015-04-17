@@ -2,9 +2,25 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Test notification</key>
-	<string>Tester les notifications</string>
-	<key>Thanks for purchasing FlagPaint!, configure</key>
-	<string>Merci d'avoir acheté FlagPaint!, allons le configurer</string>
+	<key>About</key>
+	<string>A propos</string>
+	<key>Banners</key>
+	<string>Bannière</string>
+	<key>Bigger Icon</key>
+	<string>Grande icône</string>
+	<key>Hide “Now” Label</key>
+	<string>Cacher la date</string>
+	<key>Lock Screen</key>
+	<string>Ecran de verrouillage</string>
+	<key>Notification Center</key>
+	<string>Centre de notifications</string>
+	<key>Test Banner</key>
+	<string>Test des bannières</string>
+	<key>Test Lock Screen Notification</key>
+	<string>Test des notifications sur l'écran de verrouillage</string>
+	<key>Test Notifications</key>
+	<string>Test des notifications</string>
+	<key>Various</key>
+	<string>Autres</string>
 </dict>
 </plist>
