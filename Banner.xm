@@ -301,7 +301,7 @@ CGFloat bannerHeight = 64.f;
 	%init;
 
 	if (IS_IOS_OR_NEWER(iOS_8_0)) {
-		//%init(CraigFederighi);
+		// %init(CraigFederighi);
 	} else {
 		%init(JonyIve);
 	}

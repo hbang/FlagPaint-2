@@ -345,7 +345,7 @@ BBBulletin *HBFPGetTestBulletin(BOOL isLockScreen) {
 	static NSArray *TestApps;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		NSArray *apps = [%c(SBApplicationController) sharedInstance].allApplications;
+		NSArray *apps = ((SBApplicationController *)[%c(SBApplicationController) sharedInstance]).allApplications;
 		NSMutableArray *mutableApps = [NSMutableArray array];
 
 		for (SBApplication *app in apps) {
