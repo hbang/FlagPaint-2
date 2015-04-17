@@ -2,14 +2,10 @@
 
 @implementation HBFPAboutListController
 
-#pragma mark - PSListController
+#pragma mark - Constants
 
-- (NSArray *)specifiers {
-	if (!_specifiers) {
-		_specifiers = [[self loadSpecifiersFromPlistName:@"About" target:self] retain];
-	}
-
-	return _specifiers;
++ (NSString *)hb_specifierPlist {
+	return @"About";
 }
 
 @end

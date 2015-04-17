@@ -19,6 +19,10 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 
 #pragma mark - Constants
 
++ (NSString *)hb_specifierPlist {
+	return @"Root";
+}
+
 + (NSString *)hb_shareText {
 	return @"I’m using #FlagPaint to add color to my notifications!";
 }
@@ -90,16 +94,6 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 	headerFrame.origin.y = scrollView.contentOffset.y;
 	headerFrame.size.height = -scrollView.contentOffset.y;
 	_headerView.frame = headerFrame;
-}
-
-#pragma mark - PSListController
-
-- (NSArray *)specifiers {
-	if (!_specifiers) {
-		_specifiers = [[self loadSpecifiersFromPlistName:@"Root" target:self] retain];
-	}
-
-	return _specifiers;
 }
 
 #pragma mark - Callbacks

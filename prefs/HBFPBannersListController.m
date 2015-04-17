@@ -1,9 +1,16 @@
 #import "HBFPBannersListController.h"
 #import <Preferences/PSSpecifier.h>
 #include <notify.h>
+#import <version.h>
 
 @implementation HBFPBannersListController {
 	BOOL _hasStatusBarTweak;
+}
+
+#pragma mark - Constants
+
++ (NSString *)hb_specifierPlist {
+	return @"Banners";
 }
 
 #pragma mark - UIViewController
@@ -19,22 +26,21 @@
 #pragma mark - PSListController
 
 - (NSArray *)specifiers {
-	if (!_specifiers) {
-		NSArray *oldSpecifiers = [self loadSpecifiersFromPlistName:@"Banners" target:self];
-		NSMutableArray *specifiers = [[NSMutableArray alloc] init];
+	NSArray *oldSpecifiers = [super specifiers];
+	NSMutableArray *specifiers = [[NSMutableArray alloc] init];
 
-		for (PSSpecifier *specifier in oldSpecifiers) {
-			if ((_hasStatusBarTweak && [@[ @"TextShadow", @"BannersSection" ] containsObject:specifier.identifier]) ||
-				(!_hasStatusBarTweak && [@[ @"TextShadowDisabled", @"BannersSectionDisabled" ] containsObject:specifier.identifier])) {
-				continue;
-			}
-
-			[specifiers addObject:specifier];
+	for (PSSpecifier *specifier in oldSpecifiers) {
+		if ((_hasStatusBarTweak && [@[ @"TextShadow", @"BannersSection" ] containsObject:specifier.identifier]) ||
+			(!_hasStatusBarTweak && [@[ @"TextShadowDisabled", @"BannersSectionDisabled" ] containsObject:specifier.identifier]) ||
+			(IS_IOS_OR_NEWER(iOS_8_0) && [@[ @"AlbumArtGroup", @"AlbumArtSwitch" ] containsObject:specifier.identifier]) ||
+			(!IS_IOS_OR_NEWER(iOS_8_0) && [@[ @"AlbumArtGroupUnsupported (Sorry)", @"AlbumArtSwitchUnsupported (Sorry, again)" ] containsObject:specifier.identifier])) {
+			continue;
 		}
 
-		_specifiers = specifiers;
+		[specifiers addObject:specifier];
 	}
 
+	_specifiers = specifiers;
 	return _specifiers;
 }
 
