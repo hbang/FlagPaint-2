@@ -4,12 +4,15 @@
 #import <Preferences/PSTableCell.h>
 #include <notify.h>
 #include <substrate.h>
+#import <version.h>
 
 static CGFloat const kHBFPHeaderTopInset = 64.f; // i'm so sorry.
 static CGFloat const kHBFPHeaderHeight = 150.f;
 
 @implementation HBFPRootListController {
 	HBFPHeaderView *_headerView;
+	UIView *_titleView;
+
 	BOOL _hasStatusBarTweak;
 	BOOL _isVisible;
 }
@@ -56,15 +59,15 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 	[self reloadSpecifier:[self specifierForID:@"TintLockScreen"]];
 	[self reloadSpecifier:[self specifierForID:@"TintNotificationCenter"]];
 
+	_titleView = IS_IOS_OR_NEWER(iOS_8_0) ? MSHookIvar<UIView *>(self.navigationItem, "_defaultTitleView") : MSHookIvar<UIView *>(self.navigationController.navigationBar, "_titleView");
+
 	_isVisible = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
 
-	UIView *titleView = MSHookIvar<UIView *>(self.navigationController.navigationBar, "_titleView");
-	titleView.alpha = 1;
-
+	_titleView.alpha = 1;
 	_isVisible = NO;
 }
 
@@ -75,10 +78,8 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 		return;
 	}
 
-	UIView *titleView = MSHookIvar<UIView *>(self.navigationController.navigationBar, "_titleView");
-
-	if (titleView) {
-		titleView.alpha = (scrollView.contentOffset.y / kHBFPHeaderHeight) + 1;
+	if (_titleView) {
+		_titleView.alpha = (scrollView.contentOffset.y / kHBFPHeaderHeight) + 1;
 	}
 
 	if (scrollView.contentOffset.y >= -kHBFPHeaderTopInset - kHBFPHeaderHeight) {
