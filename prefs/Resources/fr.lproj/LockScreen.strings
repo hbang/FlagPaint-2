@@ -1,10 +1,10 @@
 "Enabled" = "Activé";
 "Gradient" = "Dégradé";
 "Fade Top and Bottom" = "Effet de fondu";
-"Adds a subtle fade effect effect to the top and bottom of the notification list” = "Ajoute un effet au dessus et en dessous de la liste de notification.";
+"Adds a subtle fade effect effect to the top and bottom of the notification list" = "Ajoute un effet au dessus et en dessous de la liste de notification.";
 "Disable Dimming" = "Désactiver l'assombrissement";
 "Disables the default behavior of all but the first notification being dimmed." = "Désactive le comportement par défaut des notifications sauf pour la première";
 "Background Opacity" = "Opacité de l'arrière-plan";
 "Hide Elements" = "Cacher les éléments";
-"Hide "Slide To"" = "Cacher les 'Faire glisser pour afficher'";
+"Hide “Slide To”" = "Cacher les 'Faire glisser pour afficher'";
 "Test Lock Screen Notification" = "Test des notifications sur l'écran de verrouillage";
