@@ -267,9 +267,11 @@ UIColor *HBFPTintForKey(NSString *key, UIImage *fallbackImage) {
 		tint = tintCache[key];
 	} else {
 		NSString *prefsKey = [@"CustomTint-" stringByAppendingString:key];
+		BOOL cache = YES;
 
 		if (preferences[prefsKey]) {
 			tint = HBFPColorFromDictionaryValue(preferences[prefsKey]);
+			cache = NO;
 		}
 
 		if (!tint && themeTints[key]) {
@@ -286,7 +288,7 @@ UIColor *HBFPTintForKey(NSString *key, UIImage *fallbackImage) {
 			tint = HBFPGetDominantColor(icon);
 		}
 
-		if (!tintCache[key]) {
+		if (cache && !tintCache[key]) {
 			tintCache[key] = [tint retain];
 		}
 
