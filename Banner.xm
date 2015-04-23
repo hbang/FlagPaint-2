@@ -247,7 +247,11 @@ CGFloat bannerHeight = 64.f;
 		if (IS_IOS_OR_NEWER(iOS_7_1)) {
 			// this fixes the weird anti-anti-aliased (pro-aliased?) date label for some reason
 			UILabel *relevanceDateLabel = MSHookIvar<UILabel *>(self, "_relevanceDateLabel");
-			relevanceDateLabel.textColor = [UIColor whiteColor];
+			relevanceDateLabel.layer.compositingFilter = nil;
+
+			if (!IS_IOS_OR_NEWER(iOS_8_0)) {
+				relevanceDateLabel.textColor = [UIColor whiteColor];
+			}
 		}
 	}
 
