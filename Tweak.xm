@@ -388,7 +388,10 @@ BBBulletin *HBFPGetTestBulletin(BOOL isLockScreen) {
 }
 
 void HBFPShowTestBanner() {
-	[(SBBannerController *)[%c(SBBannerController) sharedInstance] dismissBannerWithAnimation:YES reason:0 forceEvenIfBusy:YES];
+	SBBannerController *bannerController = (SBBannerController *)[%c(SBBannerController) sharedInstance];
+	[bannerController _replaceIntervalElapsed];
+	[bannerController _dismissIntervalElapsed];
+
 	[(SBBulletinBannerController *)[%c(SBBulletinBannerController) sharedInstance] observer:nil addBulletin:HBFPGetTestBulletin(NO) forFeed:2];
 }
 
