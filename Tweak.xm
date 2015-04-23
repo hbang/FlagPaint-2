@@ -2,6 +2,7 @@
 #import "Global.h"
 #import "NSCache+Subscripting.h"
 #import <Accelerate/Accelerate.h>
+#import <AppList/AppList.h>
 #import <BulletinBoard/BBAction.h>
 #import <BulletinBoard/BBBulletin.h>
 #import <Cephei/HBPreferences.h>
@@ -301,11 +302,11 @@ UIColor *HBFPTintForKey(NSString *key, UIImage *fallbackImage) {
 		}
 	}
 
-	CGFloat vibrancy = [preferences floatForKey:kHBFPPreferencesTintVibrancyKey] / 200.f - 0.5f;
+	CGFloat vibrancy = [preferences floatForKey:kHBFPPreferencesTintVibrancyKey] / 100.f - 0.5f;
 
 	CGFloat hue, saturation, brightness;
 	[tint getHue:&hue saturation:&saturation brightness:&brightness alpha:nil];
-	NSLog(@"setting %f: %f %f", vibrancy,saturation+vibrancy,brightness-vibrancy);
+
 	return [UIColor colorWithHue:hue saturation:MIN(1.f, saturation + vibrancy) brightness:MAX(0, brightness - vibrancy) alpha:1];;
 }
 
@@ -365,29 +366,15 @@ BOOL firstRun = YES;
 #pragma mark - Show test bulletin
 
 BBBulletin *HBFPGetTestBulletin(BOOL isLockScreen) {
-	static NSArray *TestApps;
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		NSArray *apps = ((SBApplicationController *)[%c(SBApplicationController) sharedInstance]).allApplications;
-		NSMutableArray *mutableApps = [NSMutableArray array];
-
-		for (SBApplication *app in apps) {
-			if (app.tags && [app.tags containsObject:kSBAppTagsHidden]) {
-				continue;
-			}
-
-			[mutableApps addObject:app];
-		}
-
-		TestApps = [mutableApps copy];
-	});
-
-	SBApplication *app = TestApps[arc4random_uniform(TestApps.count)];
+	NSDictionary *testApps = [ALApplicationList sharedApplicationList].applications;
+	NSString *bundleIdentifier = testApps.allKeys[arc4random_uniform(testApps.allKeys.count)];
+	NSString *displayName = testApps[bundleIdentifier];
 
 	BBBulletin *bulletin = [[[BBBulletin alloc] init] autorelease];
 	bulletin.bulletinID = @"ws.hbang.flagpaint";
-	bulletin.sectionID = [app respondsToSelector:@selector(bundleIdentifier)] ? app.bundleIdentifier : app.displayIdentifier;
-	bulletin.title = app.displayName;
+	bulletin.sectionID = bundleIdentifier;
+	bulletin.title = displayName;
+	bulletin.defaultAction = [BBAction action];
 
 	NSString *message = [bundle localizedStringForKey:@"Test notification" value:@"Test notification" table:@"Localizable"];
 
