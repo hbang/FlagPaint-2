@@ -257,7 +257,7 @@ UIImage *HBFPIconForKey(NSString *key, UIImage *fallbackImage) {
 		iconCache[key] = icon;
 	}
 
-	return iconCache[key];
+	return icon;
 }
 
 UIColor *HBFPTintForKey(NSString *key, UIImage *fallbackImage) {
