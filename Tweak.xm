@@ -242,18 +242,21 @@ UIImage *HBFPIconForKey(NSString *key) {
 	UIImage *icon = nil;
 
 	if (HBFPIsMusic(key)) {
-		icon = HBFPResizeImage([UIImage imageWithData:((SBMediaController *)[%c(SBMediaController) sharedInstance])._nowPlayingInfo[kSBNowPlayingInfoArtworkDataKey]], CGSizeMake(120.f, 120.f));
+		CGFloat size = 60.f * [UIScreen mainScreen].scale;
+		icon = HBFPResizeImage([UIImage imageWithData:((SBMediaController *)[%c(SBMediaController) sharedInstance])._nowPlayingInfo[kSBNowPlayingInfoArtworkDataKey]], CGSizeMake(size, size));
 	}
 
-	SBApplication *app = [HBFPGetApplicationWithBundleIdentifier(key) autorelease];
+	if (!icon) {
+		SBApplication *app = [HBFPGetApplicationWithBundleIdentifier(key) autorelease];
 
-	if (app) {
-		SBApplicationIcon *appIcon = [[[%c(SBApplicationIcon) alloc] initWithApplication:app] autorelease];
-		icon = [appIcon getIconImage:[key isEqualToString:@"com.apple.mobilecal"] ? SBApplicationIconFormatSpotlight : SBApplicationIconFormatDefault];
-	}
+		if (app) {
+			SBApplicationIcon *appIcon = [[[%c(SBApplicationIcon) alloc] initWithApplication:app] autorelease];
+			icon = [appIcon getIconImage:[key isEqualToString:@"com.apple.mobilecal"] ? SBApplicationIconFormatSpotlight : SBApplicationIconFormatDefault];
+		}
 
-	if (icon) {
-		iconCache[key] = [icon retain];
+		if (icon) {
+			iconCache[key] = [icon retain];
+		}
 	}
 
 	return iconCache[key];
