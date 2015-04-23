@@ -234,7 +234,7 @@ UIColor *HBFPColorFromDictionaryValue(id value) {
 	}
 }
 
-UIImage *HBFPIconForKey(NSString *key) {
+UIImage *HBFPIconForKey(NSString *key, UIImage *fallbackImage) {
 	if (iconCache[key]) {
 		return iconCache[key];
 	}
@@ -259,37 +259,54 @@ UIImage *HBFPIconForKey(NSString *key) {
 		}
 	}
 
+	if (!icon) {
+		iconCache[key] = fallbackImage;
+	}
+
 	return iconCache[key];
 }
 
-UIColor *HBFPTintForKey(NSString *key) {
-	if (tintCache[key]) {
-		return tintCache[key];
-	}
-
+UIColor *HBFPTintForKey(NSString *key, UIImage *fallbackImage) {
 	UIColor *tint = nil;
-	NSString *prefsKey = [@"CustomTint-" stringByAppendingString:key];
 
-	if (preferences[prefsKey]) {
-		tint = HBFPColorFromDictionaryValue(preferences[prefsKey]);
-	}
+	if (tintCache[key]) {
+		tint = tintCache[key];
+	} else {
+		NSString *prefsKey = [@"CustomTint-" stringByAppendingString:key];
 
-	if (!tint && themeTints[key]) {
-		tint = HBFPColorFromDictionaryValue(themeTints[key]);
-	}
-
-	if (!tint) {
-		UIImage *icon = HBFPIconForKey(key);
-
-		if (!icon) {
-			return [UIColor whiteColor];
+		if (preferences[prefsKey]) {
+			tint = HBFPColorFromDictionaryValue(preferences[prefsKey]);
 		}
 
-		tint = HBFPGetDominantColor(icon);
+		if (!tint && themeTints[key]) {
+			tint = HBFPColorFromDictionaryValue(themeTints[key]);
+		}
+
+		if (!tint) {
+			UIImage *icon = HBFPIconForKey(key, nil);
+
+			if (!icon) {
+				return [UIColor whiteColor];
+			}
+
+			tint = HBFPGetDominantColor(icon);
+		}
+
+		if (!tintCache[key]) {
+			tintCache[key] = [tint retain];
+		}
+
+		if (!tint) {
+			tint = [UIColor whiteColor];
+		}
 	}
 
-	tintCache[key] = [tint retain];
-	return tintCache[key];
+	CGFloat vibrancy = [preferences floatForKey:kHBFPPreferencesTintVibrancyKey] / 200.f - 0.5f;
+
+	CGFloat hue, saturation, brightness;
+	[tint getHue:&hue saturation:&saturation brightness:&brightness alpha:nil];
+	NSLog(@"setting %f: %f %f", vibrancy,saturation+vibrancy,brightness-vibrancy);
+	return [UIColor colorWithHue:hue saturation:MIN(1.f, saturation + vibrancy) brightness:MAX(0, brightness - vibrancy) alpha:1];;
 }
 
 #pragma mark - Hide now label
@@ -436,6 +453,7 @@ void HBFPRespring() {
 
 		kHBFPPreferencesBiggerIconKey: @YES,
 		kHBFPPreferencesAlbumArtIconKey: @YES,
+		kHBFPPreferencesTintVibrancyKey: @65.f,
 
 		kHBFPPreferencesBannerGradientKey: @NO,
 		kHBFPPreferencesBannerBorderRadiusKey: @NO,

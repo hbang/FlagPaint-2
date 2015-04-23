@@ -71,11 +71,7 @@ static const char *kHBFPBackgroundViewIdentifier;
 		}
 
 		if ([preferences boolForKey:kHBFPPreferencesBiggerIconKey]) {
-			UIImage *icon = HBFPIconForKey(key);
-
-			if (icon) {
-				iconImageView.image = icon;
-			}
+			iconImageView.image = HBFPIconForKey(key, iconImageView.image);
 		}
 
 		if (isMusic) {
@@ -84,7 +80,7 @@ static const char *kHBFPBackgroundViewIdentifier;
 
 		if ([preferences boolForKey:kHBFPPreferencesTintLockScreenKey]) {
 			UIView *backgroundView = objc_getAssociatedObject(cell, &kHBFPBackgroundViewIdentifier);
-			backgroundView.backgroundColor = HBFPTintForKey(key);
+			backgroundView.backgroundColor = HBFPTintForKey(key, iconImageView.image);
 		}
 	}
 
@@ -288,8 +284,9 @@ static const char *kHBFPBackgroundViewIdentifier;
 	SBAwayNotificationListCell *cell = %orig;
 
 	if ([preferences boolForKey:kHBFPPreferencesTintLockScreenKey]) {
+		UIImageView *icon = MSHookIvar<UIImageView *>(cell, "_icon");
 		NSString *key = HBFPGetKey(cell.bulletin, nil);
-		cell.backgroundColor = HBFPTintForKey(key);
+		cell.backgroundColor = HBFPTintForKey(key, icon.image);
 	}
 
 	return cell;

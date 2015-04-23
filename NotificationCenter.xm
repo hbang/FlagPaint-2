@@ -285,7 +285,7 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 	//NSString *key = HBFPGetKey(self.representedBulletin, nil);
 
 	UIView *backgroundView = objc_getAssociatedObject(cell, &kHBFPBackgroundViewIdentifier);
-	backgroundView.backgroundColor = HBFPTintForKey([(id)self.representedBulletin performSelector:@selector(sectionID)]);
+	backgroundView.backgroundColor = HBFPTintForKey([(id)self.representedBulletin performSelector:@selector(sectionID)], nil);
 }
 
 %end
@@ -313,13 +313,14 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 
 	if (sectionInfo && [sectionInfo respondsToSelector:@selector(identifier)] && sectionInfo.identifier) {
 		NSString *key = HBFPGetKey(nil, sectionInfo.identifier);
+		UIImageView *iconImageView = MSHookIvar<UIImageView *>(header, "_iconImageView");
 
 		if (_UIAccessibilityEnhanceBackgroundContrast()) {
 			UIView *backgroundView = objc_getAssociatedObject(header, &kHBFPBackgroundViewIdentifier);
-			backgroundView.backgroundColor = HBFPTintForKey(key);
+			backgroundView.backgroundColor = HBFPTintForKey(key, iconImageView.image);
 		} else {
 			_UIBackdropViewSettings *settings = objc_getAssociatedObject(header, &kHBFPBackdropViewSettingsIdentifier);
-			settings.colorTint = HBFPTintForKey(key);
+			settings.colorTint = HBFPTintForKey(key, iconImageView.image);
 		}
 	}
 
