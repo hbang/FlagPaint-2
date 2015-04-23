@@ -248,16 +248,7 @@ UIImage *HBFPIconForKey(NSString *key, UIImage *fallbackImage) {
 	}
 
 	if (!icon) {
-		SBApplication *app = [HBFPGetApplicationWithBundleIdentifier(key) autorelease];
-
-		if (app) {
-			SBApplicationIcon *appIcon = [[[%c(SBApplicationIcon) alloc] initWithApplication:app] autorelease];
-			icon = [appIcon getIconImage:[key isEqualToString:@"com.apple.mobilecal"] ? SBApplicationIconFormatSpotlight : SBApplicationIconFormatDefault];
-		}
-
-		if (icon) {
-			iconCache[key] = [icon retain];
-		}
+		iconCache[key] = [[ALApplicationList sharedApplicationList] iconOfSize:ALApplicationIconSizeLarge forDisplayIdentifier:key];
 	}
 
 	if (!icon) {
