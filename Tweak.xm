@@ -277,7 +277,7 @@ UIColor *HBFPTintForKey(NSString *key, UIImage *fallbackImage) {
 		}
 
 		if (!tint) {
-			UIImage *icon = HBFPIconForKey(key, nil);
+			UIImage *icon = HBFPIconForKey(key, fallbackImage);
 
 			if (!icon) {
 				return [UIColor whiteColor];
