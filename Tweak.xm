@@ -245,14 +245,16 @@ UIImage *HBFPIconForKey(NSString *key, UIImage *fallbackImage) {
 	if (HBFPIsMusic(key)) {
 		CGFloat size = 60.f * [UIScreen mainScreen].scale;
 		icon = HBFPResizeImage([UIImage imageWithData:((SBMediaController *)[%c(SBMediaController) sharedInstance])._nowPlayingInfo[kSBNowPlayingInfoArtworkDataKey]], CGSizeMake(size, size));
+		iconCache[key] = icon;
 	}
 
 	if (!icon) {
-		iconCache[key] = [[[ALApplicationList sharedApplicationList] iconOfSize:ALApplicationIconSizeLarge forDisplayIdentifier:key] copy];
+		icon = [[ALApplicationList sharedApplicationList] iconOfSize:ALApplicationIconSizeLarge forDisplayIdentifier:key];
 	}
 
 	if (!icon) {
-		iconCache[key] = [fallbackImage copy];
+		icon = [fallbackImage copy];
+		iconCache[key] = icon;
 	}
 
 	return iconCache[key];
