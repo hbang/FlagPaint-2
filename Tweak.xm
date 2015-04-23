@@ -248,11 +248,11 @@ UIImage *HBFPIconForKey(NSString *key, UIImage *fallbackImage) {
 	}
 
 	if (!icon) {
-		iconCache[key] = [[ALApplicationList sharedApplicationList] iconOfSize:ALApplicationIconSizeLarge forDisplayIdentifier:key];
+		iconCache[key] = [[[ALApplicationList sharedApplicationList] iconOfSize:ALApplicationIconSizeLarge forDisplayIdentifier:key] copy];
 	}
 
 	if (!icon) {
-		iconCache[key] = fallbackImage;
+		iconCache[key] = [fallbackImage copy];
 	}
 
 	return iconCache[key];
