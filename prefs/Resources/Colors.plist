@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerCellClass</key>
+			<string>PSFooterHyperlinkView</string>
+			<key>footerHyperlinkRange</key>
+			<string>{103, 25}</string>
+			<key>headerFooterHyperlinkButtonTitle</key>
+			<string>Notification tint colors are determined from the average colors in the app’s icon. Themers can use the FlagPaint theme interface to set specific colors.</string>
+			<key>headerFooterHyperlinkButtonURL</key>
+			<string>https://www.hbang.ws/tweaks/flagpaint/themers/</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Tint Vibrancy</string>
+			<key>footerText</key>
+			<string>A lower value causes darker tint colors; a higher value causes lighter tint colors. The value prior to FlagPaint 2.5 was 50%.</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+			<key>default</key>
+			<real>65</real>
+			<key>defaults</key>
+			<string>ws.hbang.flagpaint</string>
+			<key>key</key>
+			<string>TintVibrancy</string>
+			<key>label</key>
+			<string>Tint Vibrancy</string>
+			<key>max</key>
+			<real>100</real>
+			<key>min</key>
+			<real>1</real>
+			<key>showValue</key>
+			<true/>
+			<key>PostNotification</key>
+			<string>ws.hbang.flagpaint/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>id</key>
+			<string>ThemesDebugInfo</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkListCell</string>
+			<key>detail</key>
+			<string>HBFPCustomTintsListController</string>
+			<key>label</key>
+			<string>Custom Tint Colors</string>
+		</dict>
+	</array>
+	<key>title</key>
+	<string>Colors</string>
+</dict>
+</plist>

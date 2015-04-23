@@ -7,14 +7,6 @@
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
-			<key>footerCellClass</key>
-			<string>PSFooterHyperlinkView</string>
-			<key>footerHyperlinkRange</key>
-			<string>{103, 25}</string>
-			<key>headerFooterHyperlinkButtonTitle</key>
-			<string>Notification tint colors are determined from the average colors in the app’s icon. Themers can use the FlagPaint theme interface to set specific colors.</string>
-			<key>headerFooterHyperlinkButtonURL</key>
-			<string>https://www.hbang.ws/tweaks/flagpaint/themers/</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -73,12 +65,22 @@
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkListCell</string>
+			<key>detail</key>
+			<string>HBFPColorsListController</string>
+			<key>label</key>
+			<string>Colors</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
 			<key>label</key>
 			<string>Various</string>
 		</dict>
 		<dict>
-			<key>PostNotification</key>
-			<string>ws.hbang.flagpaint/ReloadPrefs</string>
 			<key>cell</key>
 			<string>PSSwitchCell</string>
 			<key>default</key>
@@ -89,10 +91,10 @@
 			<string>BigIcon</string>
 			<key>label</key>
 			<string>Bigger Icon</string>
-		</dict>
-		<dict>
 			<key>PostNotification</key>
 			<string>ws.hbang.flagpaint/ReloadPrefs</string>
+		</dict>
+		<dict>
 			<key>cell</key>
 			<string>PSSwitchCell</string>
 			<key>default</key>
@@ -103,6 +105,8 @@
 			<string>RemoveDateLabel</string>
 			<key>label</key>
 			<string>Hide “Now” Label</string>
+			<key>PostNotification</key>
+			<string>ws.hbang.flagpaint/ReloadPrefs</string>
 		</dict>
 		<dict>
 			<key>cell</key>
