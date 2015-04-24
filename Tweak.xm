@@ -237,7 +237,7 @@ UIColor *HBFPColorFromDictionaryValue(id value) {
 
 UIImage *HBFPIconForKey(NSString *key, UIImage *fallbackImage) {
 	if (iconCache[key]) {
-		return iconCache[key];
+		return [iconCache[key] isKindOfClass:UIImage.class] ? iconCache[key] : nil;
 	}
 
 	UIImage *icon = nil;
@@ -245,7 +245,7 @@ UIImage *HBFPIconForKey(NSString *key, UIImage *fallbackImage) {
 	if (HBFPIsMusic(key)) {
 		CGFloat size = 60.f * [UIScreen mainScreen].scale;
 		icon = HBFPResizeImage([UIImage imageWithData:((SBMediaController *)[%c(SBMediaController) sharedInstance])._nowPlayingInfo[kSBNowPlayingInfoArtworkDataKey]], CGSizeMake(size, size));
-		iconCache[key] = icon;
+		iconCache[key] = icon ?: [[NSNull alloc] init];
 	}
 
 	if (!icon) {
@@ -254,7 +254,7 @@ UIImage *HBFPIconForKey(NSString *key, UIImage *fallbackImage) {
 
 	if (!icon) {
 		icon = [fallbackImage copy];
-		iconCache[key] = icon;
+		iconCache[key] = icon ?: [[NSNull alloc] init];
 	}
 
 	return icon;
