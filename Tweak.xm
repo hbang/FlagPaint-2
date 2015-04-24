@@ -361,7 +361,10 @@ BOOL firstRun = YES;
 #pragma mark - Show test bulletin
 
 BBBulletin *HBFPGetTestBulletin(BOOL isLockScreen) {
-	NSDictionary *testApps = [ALApplicationList sharedApplicationList].applications;
+	NSDictionary *testApps = [[ALApplicationList sharedApplicationList] applicationsFilteredUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+		return !app.tags || ![app.tags containsObject:kSBAppTagsHidden];
+	}]];
+
 	NSString *bundleIdentifier = testApps.allKeys[arc4random_uniform(testApps.allKeys.count)];
 	NSString *displayName = testApps[bundleIdentifier];
 
