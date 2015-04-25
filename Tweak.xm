@@ -302,7 +302,7 @@ UIColor *HBFPTintForKey(NSString *key, UIImage *fallbackImage) {
 	CGFloat hue, saturation, brightness;
 	[tint getHue:&hue saturation:&saturation brightness:&brightness alpha:nil];
 
-	return [UIColor colorWithHue:hue saturation:MIN(1.f, saturation + vibrancy) brightness:MAX(0, brightness - vibrancy) alpha:1];;
+	return [UIColor colorWithHue:hue saturation:MIN(1.f, saturation + (vibrancy / 2.f)) brightness:MAX(0, brightness - vibrancy) alpha:1];;
 }
 
 #pragma mark - Hide now label
