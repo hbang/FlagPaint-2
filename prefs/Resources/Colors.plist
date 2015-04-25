@@ -49,12 +49,14 @@
 			<string>PSGroupCell</string>
 			<key>id</key>
 			<string>ThemesDebugInfo</string>
+			<key>footerText</key>
+			<string>This feature is coming in the next FlagPaint beta.</string>
 		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSLinkListCell</string>
-			<key>detail</key>
-			<string>HBFPCustomTintsListController</string>
+			<key>enabled</key>
+			<false/>
 			<key>label</key>
 			<string>Custom Tint Colors</string>
 		</dict>
