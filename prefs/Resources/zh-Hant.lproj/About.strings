@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>About</key>
+	<string>關於</string>
+	<key>Developers</key>
+	<string>開發者</string>
+	<key>Email Support</key>
+	<string>發送郵件</string>
+	<key>Experiencing issues? Send us an email and we’ll help you.</key>
+	<string>遇到的問題？發郵件給我們，我們會幫助你</string>
+	<key>Visit Website</key>
+	<string>訪問官網</string>
+	<key>© 2013—2014, HASHBANG Productions</key>
+	<string>© 2013—2014, HASHBANG Productions</string>
+</dict>
+</plist>
