@@ -2,6 +2,12 @@
 
 @class BBBulletin;
 
+@interface HBPreferences (MethodThatWasMeantToBePublicWhoops)
+
+- (void)synchronize;
+
+@end
+
 #pragma mark - Preferences
 
 static NSString *const kHBFPPreferencesSuiteName = @"ws.hbang.flagpaint";

@@ -470,6 +470,7 @@ void HBFPRespring() {
 	if (![preferences boolForKey:kHBFPPreferencesHadFirstRunKey]) {
 		%init(FirstRun);
 		[preferences setBool:YES forKey:kHBFPPreferencesHadFirstRunKey];
+		[preferences synchronize];
 	}
 
 	NSDictionary *wbPreferences = [NSDictionary dictionaryWithContentsOfURL:[NSURL URLWithString:@"file:///var/mobile/Library/Preferences/com.saurik.WinterBoard.plist"]];
