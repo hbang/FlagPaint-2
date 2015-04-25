@@ -18,7 +18,7 @@ endif
 
 after-install::
 ifeq ($(RESPRING),0)
-	install.exec "killall Preferences; sleep 0.2; sbopenurl 'prefs:root=Cydia&path=FlagPaint'"
+	install.exec "killall Preferences; sleep 0.2; sbopenurl 'prefs:root=FlagPaint'"
 else
 	install.exec spring
 endif
