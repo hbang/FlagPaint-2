@@ -4,6 +4,7 @@
 #import <UIKit/_UIBackdropViewSettingsAdaptiveLight.h>
 #import <SpringBoard/SBBBSectionInfo.h>
 #import <SpringBoard/SBBulletinViewController.h>
+#import <SpringBoard/SBNotificationCenterWidgetController.h>
 #import <SpringBoard/SBNotificationsAllModeBulletinInfo.h>
 #import <SpringBoard/SBNotificationsBulletinCell.h>
 #import <SpringBoard/SBNotificationsModeViewController.h>
@@ -312,6 +313,12 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 	SBBBSectionInfo *sectionInfo = orderedSections[section];
 
 	if (sectionInfo && [sectionInfo respondsToSelector:@selector(identifier)] && sectionInfo.identifier) {
+		NSString *identifier = sectionInfo.identifier;
+
+		if ([sectionInfo respondsToSelector:@selector(widgetBulletinInfo)] && %c(SBNotificationCenterWidgetController)) {
+			identifier = [%c(SBNotificationCenterWidgetController) containingBundleIdentifierForWidgetWithBundleIdentifer:identifier] ?: identifier;
+		}
+
 		NSString *key = HBFPGetKey(nil, sectionInfo.identifier);
 		UIImageView *iconImageView = MSHookIvar<UIImageView *>(header, "_iconImageView");
 
