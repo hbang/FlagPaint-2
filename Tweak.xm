@@ -171,17 +171,17 @@ NSString *HBFPGetBundleIdentifier(BBBulletin *bulletin, NSString *sectionID) {
 		return appsCache[sectionID_];
 	}
 
-	SBApplication *app = [HBFPGetApplicationWithBundleIdentifier(sectionID_) autorelease];
+	SBApplication *app = HBFPGetApplicationWithBundleIdentifier(sectionID_);
 
 	if (app) {
 		appsCache[sectionID_] = app.bundleIdentifier;
 	} else if (bulletin) {
-		app = [HBFPGetApplicationWithBundleIdentifier(bulletin.section) autorelease];
+		app = HBFPGetApplicationWithBundleIdentifier(bulletin.section);
 
 		if (app) {
 			appsCache[sectionID_] = app.bundleIdentifier;
 		} else if (bulletin.defaultAction) {
-			app = [HBFPGetApplicationWithBundleIdentifier(bulletin.defaultAction.bundleID) autorelease];
+			app = HBFPGetApplicationWithBundleIdentifier(bulletin.defaultAction.bundleID);
 
 			if (app) {
 				appsCache[sectionID_] = app.bundleIdentifier;
