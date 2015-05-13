@@ -58,14 +58,14 @@ UIColor *HBFPGetDominantColor(UIImage *image) {
 	pixel *pixels = (pixel *)calloc(1, image.size.width * image.size.height * sizeof(pixel));
 
 	if (!pixels) {
-		NSLog(@"allocating pixels failed - returning white");
+		HBLogError(@"allocating pixels failed - returning white");
 		return [UIColor whiteColor];
 	}
 
 	CGContextRef context = CGBitmapContextCreate(pixels, image.size.width, image.size.height, BitsPerComponent, image.size.width * BytesPerPixel, CGImageGetColorSpace(image.CGImage), kCGImageAlphaPremultipliedLast);
 
 	if (!context) {
-		NSLog(@"creating bitmap context failed - returning white");
+		HBLogError(@"creating bitmap context failed - returning white");
 		free(pixels);
 		return [UIColor whiteColor];
 	}
@@ -150,7 +150,7 @@ UIImage *HBFPResizeImage(UIImage *oldImage, CGSize newSize) {
 	free(newData);
 
 	if (error != kvImageNoError) {
-		NSLog(@"warning: failed to scale image: error %ld", error);
+		HBLogError(@"warning: failed to scale image: error %ld", error);
 		return oldImage;
 	}
 
@@ -190,7 +190,7 @@ NSString *HBFPGetBundleIdentifier(BBBulletin *bulletin, NSString *sectionID) {
 	}
 
 	if (!app) {
-		NSLog(@"flagpaint: couldn't get application (%@, %@)", bulletin, sectionID);
+		HBLogError(@"flagpaint: couldn't get application (%@, %@)", bulletin, sectionID);
 		return nil;
 	}
 
@@ -214,7 +214,7 @@ NSString *HBFPGetKey(BBBulletin *bulletin, NSString *sectionID) {
 	}
 
 	if (!key) {
-		NSLog(@"flagpaint: nil section identifier (%@, %@)", bulletin, sectionID);
+		HBLogError(@"flagpaint: nil section identifier (%@, %@)", bulletin, sectionID);
 		return [NSString stringWithFormat:@"_FPUnknown_%f", [NSDate date].timeIntervalSince1970];
 	}
 
@@ -239,26 +239,26 @@ UIColor *HBFPColorFromDictionaryValue(id value) {
 
 UIImage *HBFPIconForKey(NSString *key, UIImage *fallbackImage) {
 	if (iconCache[key]) {
-		NSLog(@"%@: icon was cached", key);
+		HBLogDebug(@"%@: icon was cached", key);
 		return [iconCache[key] isKindOfClass:UIImage.class] ? iconCache[key] : nil;
 	}
 
 	UIImage *icon = nil;
 
 	if (HBFPIsMusic(key)) {
-		NSLog(@"%@: trying music", key);
+		HBLogDebug(@"%@: trying music", key);
 		CGFloat size = 60.f * [UIScreen mainScreen].scale;
 		icon = HBFPResizeImage([UIImage imageWithData:((SBMediaController *)[%c(SBMediaController) sharedInstance])._nowPlayingInfo[kSBNowPlayingInfoArtworkDataKey]], CGSizeMake(size, size));
 		iconCache[key] = icon ?: [[NSNull alloc] init];
 	}
 
 	if (!icon) {
-		NSLog(@"%@: trying app icon", key);
+		HBLogDebug(@"%@: trying app icon", key);
 		icon = [[ALApplicationList sharedApplicationList] iconOfSize:ALApplicationIconSizeLarge forDisplayIdentifier:key];
 	}
 
 	if (!icon) {
-		NSLog(@"%@: failed - using fallback %@", key, fallbackImage);
+		HBLogDebug(@"%@: failed - using fallback %@", key, fallbackImage);
 		icon = [fallbackImage copy];
 		iconCache[key] = icon ?: [[NSNull alloc] init];
 	}
@@ -270,34 +270,34 @@ UIColor *HBFPTintForKey(NSString *key, UIImage *fallbackImage) {
 	UIColor *tint = nil;
 
 	if (tintCache[key]) {
-		NSLog(@"%@: tint was cached", key);
+		HBLogDebug(@"%@: tint was cached", key);
 		tint = tintCache[key];
 	} else {
 		NSString *prefsKey = [@"CustomTint-" stringByAppendingString:key];
 		BOOL cache = YES;
 
 		if (preferences[prefsKey]) {
-			NSLog(@"%@: trying preferences", key);
+			HBLogDebug(@"%@: trying preferences", key);
 			tint = HBFPColorFromDictionaryValue(preferences[prefsKey]);
 			cache = NO;
 		}
 
 		if (!tint && themeTints[key]) {
-			NSLog(@"%@: trying theme", key);
+			HBLogDebug(@"%@: trying theme", key);
 			tint = HBFPColorFromDictionaryValue(themeTints[key]);
 		}
 
 		if (!tint) {
-			NSLog(@"%@: trying dominaint color", key);
+			HBLogDebug(@"%@: trying dominaint color", key);
 			UIImage *icon = HBFPIconForKey(key, fallbackImage);
 
 			if (!icon) {
-				NSLog(@"%@: getting icon failed - using white", key);
+				HBLogDebug(@"%@: getting icon failed - using white", key);
 				return [UIColor whiteColor];
 			}
 
 			tint = HBFPGetDominantColor(icon);
-			NSLog(@"%@: using %@", key, tint);
+			HBLogDebug(@"%@: using %@", key, tint);
 		}
 
 		if (cache && !tintCache[key]) {
@@ -305,7 +305,7 @@ UIColor *HBFPTintForKey(NSString *key, UIImage *fallbackImage) {
 		}
 
 		if (!tint) {
-			NSLog(@"%@: still no icon - using white", key);
+			HBLogDebug(@"%@: still no icon - using white", key);
 			tint = [UIColor whiteColor];
 		}
 	}
