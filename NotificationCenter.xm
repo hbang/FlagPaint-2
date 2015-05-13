@@ -319,7 +319,7 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 			identifier = [%c(SBNotificationCenterWidgetController) containingBundleIdentifierForWidgetWithBundleIdentifer:identifier] ?: identifier;
 		}
 
-		NSString *key = HBFPGetKey(nil, sectionInfo.identifier);
+		NSString *key = HBFPGetKey(nil, identifier);
 		UIImageView *iconImageView = MSHookIvar<UIImageView *>(header, "_iconImageView");
 
 		if (_UIAccessibilityEnhanceBackgroundContrast()) {
