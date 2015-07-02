@@ -1,4 +1,14 @@
-"Enabled" = "Activè";
-"Fade Top and Bottom" = "Fade Haut et Bas";
-"Adds a subtle fade effect to the top and bottom of the notification list." = "Ajoute un effet subtil fondu au haut et au bas de la liste de notification.";
-"Background Opacity" = "OpacitÈ de fond";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Adds a subtle fade effect to the top and bottom of the notification list.</key>
+	<string>Ajoute un effet au dessus et en dessous de la liste de notification</string>
+	<key>Background Opacity</key>
+	<string>Opacité de l'arrière-plan</string>
+	<key>Enabled</key>
+	<string>Activé</string>
+	<key>Fade Top and Bottom</key>
+	<string>Effet de fondu</string>
+</dict>
+</plist>

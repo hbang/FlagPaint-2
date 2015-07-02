@@ -15,6 +15,8 @@
 			<string>icon.png</string>
 			<key>packageIdentifier</key>
 			<string>ws.hbang.flagpaint7</string>
+			<key>packageNameOverride</key>
+			<string>FlagPaint</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -54,7 +56,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Developers</string>
+			<string>Developer</string>
 		</dict>
 		<dict>
 			<key>cellClass</key>
@@ -62,7 +64,21 @@
 			<key>label</key>
 			<string>Adam D</string>
 			<key>user</key>
-			<string>thekirbylover</string>
+			<string>hbkirb</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Icon</string>
+		</dict>
+		<dict>
+			<key>cellClass</key>
+			<string>HBTwitterCell</string>
+			<key>label</key>
+			<string>Kyle Revony</string>
+			<key>user</key>
+			<string>krevony</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -77,6 +93,10 @@
 		<dict>
 			<key>label</key>
 			<string>Swedish: iDaniel</string>
+		</dict>
+		<dict>
+			<key>label</key>
+			<string>Chinese: Kevin Lee</string>
 		</dict>
 	</array>
 	<key>title</key>

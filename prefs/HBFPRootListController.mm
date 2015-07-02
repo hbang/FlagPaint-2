@@ -4,28 +4,35 @@
 #import <Preferences/PSTableCell.h>
 #include <notify.h>
 #include <substrate.h>
+#import <version.h>
 
 static CGFloat const kHBFPHeaderTopInset = 64.f; // i'm so sorry.
 static CGFloat const kHBFPHeaderHeight = 150.f;
 
 @implementation HBFPRootListController {
 	HBFPHeaderView *_headerView;
+	UIView *_titleView;
+
 	BOOL _hasStatusBarTweak;
 	BOOL _isVisible;
 }
 
 #pragma mark - Constants
 
++ (NSString *)hb_specifierPlist {
+	return @"Root";
+}
+
 + (NSString *)hb_shareText {
 	return @"I’m using #FlagPaint to add color to my notifications!";
 }
 
 + (NSURL *)hb_shareURL {
-	return [NSURL URLWithString:@"http://hbang.ws/flagpaint"];
+	return [NSURL URLWithString:@"https://www.hbang.ws/flagpaint"];
 }
 
 + (UIColor *)hb_tintColor {
-	return [UIColor colorWithRed:34.f / 255.f green:163.f / 255.f blue:124.f / 255.f alpha:1];
+	return [UIColor colorWithRed:35.f / 255.f green:208.f / 255.f blue:189.f / 255.f alpha:1];
 }
 
 #pragma mark - UIViewController
@@ -33,7 +40,7 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 - (void)loadView {
 	[super loadView];
 
-	self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"FlagPaint7" style:UIBarButtonItemStylePlain target:nil action:nil] autorelease];
+	self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"FlagPaint" style:UIBarButtonItemStylePlain target:nil action:nil] autorelease];
 
 	_headerView = [[HBFPHeaderView alloc] initWithTopInset:kHBFPHeaderTopInset];
 	_headerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -56,15 +63,15 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 	[self reloadSpecifier:[self specifierForID:@"TintLockScreen"]];
 	[self reloadSpecifier:[self specifierForID:@"TintNotificationCenter"]];
 
+	_titleView = IS_IOS_OR_NEWER(iOS_8_0) ? MSHookIvar<UIView *>(self.navigationItem, "_defaultTitleView") : MSHookIvar<UIView *>(self.navigationController.navigationBar, "_titleView");
+
 	_isVisible = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
 
-	UIView *titleView = MSHookIvar<UIView *>(self.navigationController.navigationBar, "_titleView");
-	titleView.alpha = 1;
-
+	_titleView.alpha = 1;
 	_isVisible = NO;
 }
 
@@ -75,10 +82,8 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 		return;
 	}
 
-	UIView *titleView = MSHookIvar<UIView *>(self.navigationController.navigationBar, "_titleView");
-
-	if (titleView) {
-		titleView.alpha = (scrollView.contentOffset.y / kHBFPHeaderHeight) + 1;
+	if (_titleView) {
+		_titleView.alpha = (scrollView.contentOffset.y / kHBFPHeaderHeight) + 1;
 	}
 
 	if (scrollView.contentOffset.y >= -kHBFPHeaderTopInset - kHBFPHeaderHeight) {
@@ -89,16 +94,6 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 	headerFrame.origin.y = scrollView.contentOffset.y;
 	headerFrame.size.height = -scrollView.contentOffset.y;
 	_headerView.frame = headerFrame;
-}
-
-#pragma mark - PSListController
-
-- (NSArray *)specifiers {
-	if (!_specifiers) {
-		_specifiers = [[self loadSpecifiersFromPlistName:@"Root" target:self] retain];
-	}
-
-	return _specifiers;
 }
 
 #pragma mark - Callbacks

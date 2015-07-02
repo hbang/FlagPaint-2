@@ -1,13 +1,32 @@
-"Enabled" = "Activè";
-"Album Art Icon" = "Album icône de l'art";
-"Gradient" = "Gradient";
-"Shows the currently playing song's album art for banners shown by tweaks such as NowListening." = "Affiche album l'art de la chanson en cours de lecture pour les banniËres affichÈes par rÈglages tels que NowListening";
-"Round Corners" = "Des coins arrondis";
-"Text Shadow" = "Texte ombre";
-"Background Opacity" = "OpacitÈ de fond";
-"Color Intensity" = "IntensitÈ des couleurs";
-"Grayscale Intensity" = "IntensitÈ en niveaux de gris";
-"Hide Elements" = "Cacher les ÈlÈments";
-"Hide Icon" = "Cacher l'icÙne";
-"Hide Grabber" = "Cacher Grabber";
-"Test Banner" = "Essayer banniËre";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Album Art Icon</key>
+	<string>Icône de la pochette d'album</string>
+	<key>Background Opacity</key>
+	<string>Opacité de l'arrière-plan</string>
+	<key>Color Intensity</key>
+	<string>Intensité des couleurs</string>
+	<key>Enabled</key>
+	<string>Activé</string>
+	<key>Gradient</key>
+	<string>Dégradé</string>
+	<key>Grayscale Intensity</key>
+	<string>Intensité des niveaux de gris</string>
+	<key>Hide Elements</key>
+	<string>Cacher les éléments</string>
+	<key>Hide Grabber</key>
+	<string>Cacher le grabber sur les bannières</string>
+	<key>Hide Icon</key>
+	<string>Cacher l'icône</string>
+	<key>Round Corners</key>
+	<string>Coins arrondis</string>
+	<key>Shows the currently playing song’s album art for banners shown by tweaks such as NowListening</key>
+	<string>Affiche la pochette de l'album en train d'être joué sous forme de bannière comme le fait le tweak NowListening</string>
+	<key>Test Banner</key>
+	<string>Test des bannières</string>
+	<key>Text Shadow</key>
+	<string>Ombre du texte</string>
+</dict>
+</plist>

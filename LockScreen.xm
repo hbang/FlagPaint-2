@@ -4,6 +4,7 @@
 #import <BulletinBoard/BBBulletin.h>
 #import <SpringBoard/SBAwayBulletinListItem.h>
 #import <SpringBoard/SBAwayNotificationListCell.h>
+#import <SpringBoard/SBLockScreenActionContext.h>
 #import <SpringBoard/SBLockScreenNotificationCell.h>
 #import <SpringBoard/SBLockScreenNotificationListView.h>
 #import <SpringBoard/SBLockScreenNotificationModel.h>
@@ -65,17 +66,12 @@ static const char *kHBFPBackgroundViewIdentifier;
 		BOOL isAvatar = hasMessagesAvatarTweak && [bulletin.sectionID isEqualToString:@"com.apple.MobileSMS"];
 
 		if (isAvatar) {
-			iconImageView.layer.cornerRadius = iconImageView.frame.size.width / 2;
 			iconImageView.clipsToBounds = YES;
 			iconCache[key] = iconImageView.image;
 		}
 
 		if ([preferences boolForKey:kHBFPPreferencesBiggerIconKey]) {
-			UIImage *icon = HBFPIconForKey(key);
-
-			if (icon) {
-				iconImageView.image = icon;
-			}
+			iconImageView.image = HBFPIconForKey(key, iconImageView.image);
 		}
 
 		if (isMusic) {
@@ -84,7 +80,7 @@ static const char *kHBFPBackgroundViewIdentifier;
 
 		if ([preferences boolForKey:kHBFPPreferencesTintLockScreenKey]) {
 			UIView *backgroundView = objc_getAssociatedObject(cell, &kHBFPBackgroundViewIdentifier);
-			backgroundView.backgroundColor = HBFPTintForKey(key);
+			backgroundView.backgroundColor = HBFPTintForKey(key, iconImageView.image);
 		}
 	}
 
@@ -256,6 +252,10 @@ static const char *kHBFPBackgroundViewIdentifier;
 			} else {
 				iconImageView.frame = CGRectMake(9.f, 12.5f, 29.f, 29.f);
 			}
+
+			if (hasMessagesAvatarTweak && self.lockScreenActionContext.bulletin && [self.lockScreenActionContext.bulletin.sectionID isEqualToString:@"com.apple.MobileSMS"]) {
+				iconImageView.layer.cornerRadius = iconImageView.frame.size.width / 2;
+			}
 		}
 
 		if ([preferences boolForKey:kHBFPPreferencesTintLockScreenKey] && [preferences boolForKey:kHBFPPreferencesLockGradientKey]) {
@@ -284,8 +284,9 @@ static const char *kHBFPBackgroundViewIdentifier;
 	SBAwayNotificationListCell *cell = %orig;
 
 	if ([preferences boolForKey:kHBFPPreferencesTintLockScreenKey]) {
+		UIImageView *icon = MSHookIvar<UIImageView *>(cell, "_icon");
 		NSString *key = HBFPGetKey(cell.bulletin, nil);
-		cell.backgroundColor = HBFPTintForKey(key);
+		cell.backgroundColor = HBFPTintForKey(key, icon.image);
 	}
 
 	return cell;

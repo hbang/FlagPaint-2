@@ -4,6 +4,7 @@
 #import <UIKit/_UIBackdropViewSettingsAdaptiveLight.h>
 #import <SpringBoard/SBBBSectionInfo.h>
 #import <SpringBoard/SBBulletinViewController.h>
+#import <SpringBoard/SBNotificationCenterWidgetController.h>
 #import <SpringBoard/SBNotificationsAllModeBulletinInfo.h>
 #import <SpringBoard/SBNotificationsBulletinCell.h>
 #import <SpringBoard/SBNotificationsModeViewController.h>
@@ -285,7 +286,7 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 	//NSString *key = HBFPGetKey(self.representedBulletin, nil);
 
 	UIView *backgroundView = objc_getAssociatedObject(cell, &kHBFPBackgroundViewIdentifier);
-	backgroundView.backgroundColor = HBFPTintForKey([(id)self.representedBulletin performSelector:@selector(sectionID)]);
+	backgroundView.backgroundColor = HBFPTintForKey([(id)self.representedBulletin performSelector:@selector(sectionID)], nil);
 }
 
 %end
@@ -312,14 +313,21 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 	SBBBSectionInfo *sectionInfo = orderedSections[section];
 
 	if (sectionInfo && [sectionInfo respondsToSelector:@selector(identifier)] && sectionInfo.identifier) {
-		NSString *key = HBFPGetKey(nil, sectionInfo.identifier);
+		NSString *identifier = sectionInfo.identifier;
+
+		if ([sectionInfo respondsToSelector:@selector(widgetBulletinInfo)] && %c(SBNotificationCenterWidgetController)) {
+			identifier = [%c(SBNotificationCenterWidgetController) containingBundleIdentifierForWidgetWithBundleIdentifer:identifier] ?: identifier;
+		}
+
+		NSString *key = HBFPGetKey(nil, identifier);
+		UIImageView *iconImageView = MSHookIvar<UIImageView *>(header, "_iconImageView");
 
 		if (_UIAccessibilityEnhanceBackgroundContrast()) {
 			UIView *backgroundView = objc_getAssociatedObject(header, &kHBFPBackgroundViewIdentifier);
-			backgroundView.backgroundColor = HBFPTintForKey(key);
+			backgroundView.backgroundColor = HBFPTintForKey(key, iconImageView.image);
 		} else {
 			_UIBackdropViewSettings *settings = objc_getAssociatedObject(header, &kHBFPBackdropViewSettingsIdentifier);
-			settings.colorTint = HBFPTintForKey(key);
+			settings.colorTint = HBFPTintForKey(key, iconImageView.image);
 		}
 	}
 

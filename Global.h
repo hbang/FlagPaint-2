@@ -2,6 +2,12 @@
 
 @class BBBulletin;
 
+@interface HBPreferences (MethodThatWasMeantToBePublicWhoops)
+
+- (void)synchronize;
+
+@end
+
 #pragma mark - Preferences
 
 static NSString *const kHBFPPreferencesSuiteName = @"ws.hbang.flagpaint";
@@ -12,6 +18,7 @@ static NSString *const kHBFPPreferencesTintNotificationCenterKey = @"TintNotific
 
 static NSString *const kHBFPPreferencesBiggerIconKey = @"BigIcon";
 static NSString *const kHBFPPreferencesAlbumArtIconKey = @"AlbumArt";
+static NSString *const kHBFPPreferencesTintVibrancyKey = @"TintVibrancy";
 
 static NSString *const kHBFPPreferencesBannerGradientKey = @"Gradient";
 static NSString *const kHBFPPreferencesBannerBorderRadiusKey = @"BorderRadius";
@@ -57,8 +64,8 @@ extern NSCache *tintCache, *iconCache;
 
 extern BOOL HBFPIsMusic(NSString *key);
 extern NSString *HBFPGetKey(BBBulletin *bulletin, NSString *sectionID);
-extern UIImage *HBFPIconForKey(NSString *key);
-extern UIColor *HBFPTintForKey(NSString *key);
+extern UIImage *HBFPIconForKey(NSString *key, UIImage *fallbackImage);
+extern UIColor *HBFPTintForKey(NSString *key, UIImage *fallbackImage);
 #endif
 
 static NSString *const HBFPPreferencesChangedNotification = @"HBFPPreferencesChangedNotification";

@@ -14,10 +14,10 @@
 
 		((CAGradientLayer *)self.layer).locations = @[ @0, @0.5f, @0.75f, @1 ];
 		((CAGradientLayer *)self.layer).colors = @[
-			(id)[UIColor colorWithRed:98.f / 255.f green:209.f / 255.f blue:210.f / 255.f alpha:1].CGColor,
-			(id)[UIColor colorWithRed:34.f / 255.f green:163.f / 255.f blue:124.f / 255.f alpha:1].CGColor,
-			(id)[UIColor colorWithRed:73.f / 255.f green:152.f / 255.f blue:87.f / 255.f alpha:1].CGColor,
-			(id)[UIColor colorWithRed:103.f / 255.f green:147.f / 255.f blue:35.f / 255.f alpha:1].CGColor
+			(id)[UIColor colorWithRed:48.f / 255.f green:238.f / 255.f blue:181.f / 255.f alpha:1].CGColor,
+			(id)[UIColor colorWithRed:42.f / 255.f green:224.f / 255.f blue:184.f / 255.f alpha:1].CGColor,
+			(id)[UIColor colorWithRed:24.f / 255.f green:193.f / 255.f blue:193.f / 255.f alpha:1].CGColor,
+			(id)[UIColor colorWithRed:16.f / 255.f green:178.f / 255.f blue:195.f / 255.f alpha:1].CGColor
 		];
 
 		NSMutableAttributedString *attributedString = [[[NSMutableAttributedString alloc] initWithString:@"FlagPaint\nby HASHBANG Productions"] autorelease];
@@ -27,15 +27,15 @@
 		paragraphStyle.alignment = NSTextAlignmentCenter;
 
 		[attributedString setAttributes:@{
-			NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Thin" size:50.f],
+			NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:50.f],
 			NSForegroundColorAttributeName: [UIColor colorWithWhite:1.f alpha:0.95f],
 			NSKernAttributeName: [NSNull null],
 			NSParagraphStyleAttributeName: paragraphStyle
 		} range:NSMakeRange(0, 9)];
 
 		[attributedString setAttributes:@{
-			NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:16.f],
-			NSForegroundColorAttributeName: [UIColor colorWithWhite:0.85f alpha:0.7f],
+			NSFontAttributeName: [UIFont systemFontOfSize:18.f],
+			NSForegroundColorAttributeName: [UIColor colorWithWhite:235.f / 255.f alpha:0.7f],
 			NSKernAttributeName: [NSNull null]
 		} range:NSMakeRange(10, attributedString.string.length - 10)];
 

@@ -3,14 +3,10 @@
 
 @implementation HBFPLockScreenListController
 
-#pragma mark - PSListController
+#pragma mark - Constants
 
-- (NSArray *)specifiers {
-	if (!_specifiers) {
-		_specifiers = [[self loadSpecifiersFromPlistName:@"LockScreen" target:self] retain];
-	}
-
-	return _specifiers;
++ (NSString *)hb_specifierPlist {
+	return @"LockScreen";
 }
 
 #pragma mark - Callbacks

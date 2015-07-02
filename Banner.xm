@@ -121,17 +121,11 @@ CGFloat bannerHeight = 64.f;
 	BOOL isAvatar = hasMessagesAvatarTweak && [bulletin.sectionID isEqualToString:@"com.apple.MobileSMS"];
 
 	if (isAvatar) {
-		iconImageView.layer.cornerRadius = iconImageView.frame.size.width / 2;
-		iconImageView.clipsToBounds = YES;
 		iconCache[key] = iconImageView.image;
 	}
 
 	if (([preferences boolForKey:kHBFPPreferencesBiggerIconKey] || isMusic) && !isAvatar) {
-		UIImage *icon = HBFPIconForKey(key);
-
-		if (icon) {
-			iconImageView.image = icon;
-		}
+		iconImageView.image = HBFPIconForKey(key, iconImageView.image);
 	}
 
 	if (isMusic) {
@@ -140,7 +134,7 @@ CGFloat bannerHeight = 64.f;
 
 	if ([preferences boolForKey:kHBFPPreferencesTintBannersKey]) {
 		_UIBackdropViewSettings *settings = objc_getAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier);
-		settings.colorTint = HBFPTintForKey(key);
+		settings.colorTint = HBFPTintForKey(key, iconImageView.image);
 	}
 
 	if ([preferences boolForKey:kHBFPPreferencesRemoveGrabberKey] && IS_IOS_OR_NEWER(iOS_8_0)) {
@@ -226,6 +220,15 @@ CGFloat bannerHeight = 64.f;
 		iconImageView.frame = IS_IPAD ? CGRectMake(-4.f, iconImageView.frame.origin.y, 29.f, 29.f) : CGRectMake(8.f, 7.5f, 29.f, 29.f);
 	}
 
+	NSObject *viewSource = MSHookIvar<NSObject *>(self, "_viewSource");
+	BBBulletin *bulletin = MSHookIvar<BBBulletin *>(viewSource, "_seedBulletin");
+	BOOL isAvatar = hasMessagesAvatarTweak && [bulletin.sectionID isEqualToString:@"com.apple.MobileSMS"];
+
+	if (isAvatar) {
+		iconImageView.layer.cornerRadius = iconImageView.frame.size.width / 2;
+		iconImageView.clipsToBounds = YES;
+	}
+
 	if ([preferences boolForKey:kHBFPPreferencesRemoveGrabberKey] && !IS_IOS_OR_NEWER(iOS_8_0)) {
 		UIView *grabberView = MSHookIvar<UIImageView *>(self, IS_IOS_OR_NEWER(iOS_7_0_3) ? "_grabberView" : "_grabberImageView");
 		grabberView.hidden = YES;
@@ -247,7 +250,11 @@ CGFloat bannerHeight = 64.f;
 		if (IS_IOS_OR_NEWER(iOS_7_1)) {
 			// this fixes the weird anti-anti-aliased (pro-aliased?) date label for some reason
 			UILabel *relevanceDateLabel = MSHookIvar<UILabel *>(self, "_relevanceDateLabel");
-			relevanceDateLabel.textColor = [UIColor whiteColor];
+			relevanceDateLabel.layer.compositingFilter = nil;
+
+			if (!IS_IOS_OR_NEWER(iOS_8_0)) {
+				relevanceDateLabel.textColor = [UIColor whiteColor];
+			}
 		}
 	}
 
@@ -272,7 +279,6 @@ CGFloat bannerHeight = 64.f;
 
 %end
 
-/*
 %group CraigFederighi
 %hook SBNotificationVibrantButton
 
@@ -282,7 +288,7 @@ CGFloat bannerHeight = 64.f;
 		SBControlColorSettings *overlaySettings = colorSettings.overlaySettings;
 
 		[colorSettings release];
-		colorSettings = [[SBNotificationControlColorSettings alloc] initWithVibrantSettings:vibrantSettings overlaySettings:overlaySettings];
+		colorSettings = [[%c(SBNotificationControlColorSettings) alloc] initWithVibrantSettings:vibrantSettings overlaySettings:overlaySettings];
 	}
 
 	return %orig;
@@ -290,7 +296,6 @@ CGFloat bannerHeight = 64.f;
 
 %end
 %end
-*/
 
 %ctor {
 	if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/TinyBar.dylib"]) {
@@ -301,7 +306,7 @@ CGFloat bannerHeight = 64.f;
 	%init;
 
 	if (IS_IOS_OR_NEWER(iOS_8_0)) {
-		//%init(CraigFederighi);
+		%init(CraigFederighi);
 	} else {
 		%init(JonyIve);
 	}

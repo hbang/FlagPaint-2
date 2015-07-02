@@ -2,6 +2,7 @@
 #import "Global.h"
 #import "NSCache+Subscripting.h"
 #import <Accelerate/Accelerate.h>
+#import <AppList/AppList.h>
 #import <BulletinBoard/BBAction.h>
 #import <BulletinBoard/BBBulletin.h>
 #import <Cephei/HBPreferences.h>
@@ -42,10 +43,6 @@ NSCache *iconCache = [[NSCache alloc] init];
 NSCache *appsCache = [[NSCache alloc] init];
 NSDictionary *themeTints;
 
-BOOL isPlaying;
-NSString *nowPlayingBundleIdentifier;
-NSString *cachedMusicKey;
-
 #pragma mark - Debug
 
 extern "C" NSArray *HBFPDebugPlz() {
@@ -61,12 +58,14 @@ UIColor *HBFPGetDominantColor(UIImage *image) {
 	pixel *pixels = (pixel *)calloc(1, image.size.width * image.size.height * sizeof(pixel));
 
 	if (!pixels) {
+		HBLogError(@"allocating pixels failed - returning white");
 		return [UIColor whiteColor];
 	}
 
 	CGContextRef context = CGBitmapContextCreate(pixels, image.size.width, image.size.height, BitsPerComponent, image.size.width * BytesPerPixel, CGImageGetColorSpace(image.CGImage), kCGImageAlphaPremultipliedLast);
 
 	if (!context) {
+		HBLogError(@"creating bitmap context failed - returning white");
 		free(pixels);
 		return [UIColor whiteColor];
 	}
@@ -151,7 +150,7 @@ UIImage *HBFPResizeImage(UIImage *oldImage, CGSize newSize) {
 	free(newData);
 
 	if (error != kvImageNoError) {
-		NSLog(@"warning: failed to scale image: error %ld", error);
+		HBLogError(@"warning: failed to scale image: error %ld", error);
 		return oldImage;
 	}
 
@@ -172,17 +171,17 @@ NSString *HBFPGetBundleIdentifier(BBBulletin *bulletin, NSString *sectionID) {
 		return appsCache[sectionID_];
 	}
 
-	SBApplication *app = [HBFPGetApplicationWithBundleIdentifier(sectionID_) autorelease];
+	SBApplication *app = HBFPGetApplicationWithBundleIdentifier(sectionID_);
 
 	if (app) {
 		appsCache[sectionID_] = app.bundleIdentifier;
 	} else if (bulletin) {
-		app = [HBFPGetApplicationWithBundleIdentifier(bulletin.section) autorelease];
+		app = HBFPGetApplicationWithBundleIdentifier(bulletin.section);
 
 		if (app) {
 			appsCache[sectionID_] = app.bundleIdentifier;
 		} else if (bulletin.defaultAction) {
-			app = [HBFPGetApplicationWithBundleIdentifier(bulletin.defaultAction.bundleID) autorelease];
+			app = HBFPGetApplicationWithBundleIdentifier(bulletin.defaultAction.bundleID);
 
 			if (app) {
 				appsCache[sectionID_] = app.bundleIdentifier;
@@ -191,7 +190,7 @@ NSString *HBFPGetBundleIdentifier(BBBulletin *bulletin, NSString *sectionID) {
 	}
 
 	if (!app) {
-		NSLog(@"flagpaint: couldn't get application (%@, %@)", bulletin, sectionID);
+		HBLogError(@"flagpaint: couldn't get application (%@, %@)", bulletin, sectionID);
 		return nil;
 	}
 
@@ -199,20 +198,23 @@ NSString *HBFPGetBundleIdentifier(BBBulletin *bulletin, NSString *sectionID) {
 }
 
 BOOL HBFPIsMusic(NSString *key) {
-	return isPlaying && [key isEqualToString:cachedMusicKey];
+	if (IS_IOS_OR_NEWER(iOS_8_0)) {
+		return NO; // TODO: support ios 8's changes
+	}
+
+	SBMediaController *mediaController = (SBMediaController *)[%c(SBMediaController) sharedInstance];
+	return [preferences boolForKey:kHBFPPreferencesAlbumArtIconKey] && mediaController.nowPlayingApplication && mediaController.nowPlayingApplication.class == %c(SBApplication) && ([key isEqualToString:mediaController.nowPlayingApplication.bundleIdentifier] || [key isEqualToString:@"com.apple.Music"]) && mediaController._nowPlayingInfo[kSBNowPlayingInfoArtworkDataKey];
 }
 
 NSString *HBFPGetKey(BBBulletin *bulletin, NSString *sectionID) {
 	NSString *key = HBFPGetBundleIdentifier(bulletin, sectionID);
 
-	if (isPlaying && [key isEqualToString:nowPlayingBundleIdentifier]) {
-		key = cachedMusicKey;
-	} else if ([key isEqualToString:@"com.apple.MobileSMS"] && hasMessagesAvatarTweak) {
+	if ([key isEqualToString:@"com.apple.MobileSMS"] && hasMessagesAvatarTweak) {
 		key = [NSString stringWithFormat:@"_FPMessagesAvatar_%@_%d", key, bulletin.addressBookRecordID];
 	}
 
 	if (!key) {
-		NSLog(@"flagpaint: nil section identifier (%@, %@)", bulletin, sectionID);
+		HBLogError(@"flagpaint: nil section identifier (%@, %@)", bulletin, sectionID);
 		return [NSString stringWithFormat:@"_FPUnknown_%f", [NSDate date].timeIntervalSince1970];
 	}
 
@@ -235,55 +237,85 @@ UIColor *HBFPColorFromDictionaryValue(id value) {
 	}
 }
 
-UIImage *HBFPIconForKey(NSString *key) {
+UIImage *HBFPIconForKey(NSString *key, UIImage *fallbackImage) {
 	if (iconCache[key]) {
-		return iconCache[key];
+		HBLogDebug(@"%@: icon was cached", key);
+		return [iconCache[key] isKindOfClass:UIImage.class] ? iconCache[key] : nil;
 	}
 
-	SBApplication *app = [HBFPGetApplicationWithBundleIdentifier(key) autorelease];
+	UIImage *icon = nil;
 
-	if (app) {
-		SBApplicationIcon *appIcon = [[[%c(SBApplicationIcon) alloc] initWithApplication:app] autorelease];
-		UIImage *icon = [appIcon getIconImage:[key isEqualToString:@"com.apple.mobilecal"] ? SBApplicationIconFormatSpotlight : SBApplicationIconFormatDefault];
-
-		if (icon) {
-			iconCache[key] = [icon retain];
-		}
+	if (HBFPIsMusic(key)) {
+		HBLogDebug(@"%@: trying music", key);
+		CGFloat size = 60.f * [UIScreen mainScreen].scale;
+		icon = HBFPResizeImage([UIImage imageWithData:((SBMediaController *)[%c(SBMediaController) sharedInstance])._nowPlayingInfo[kSBNowPlayingInfoArtworkDataKey]], CGSizeMake(size, size));
+		iconCache[key] = icon ?: [[NSNull alloc] init];
 	}
 
-	return iconCache[key];
+	if (!icon) {
+		HBLogDebug(@"%@: trying app icon", key);
+		icon = [[ALApplicationList sharedApplicationList] iconOfSize:ALApplicationIconSizeLarge forDisplayIdentifier:key];
+	}
+
+	if (!icon) {
+		HBLogDebug(@"%@: failed - using fallback %@", key, fallbackImage);
+		icon = [fallbackImage copy];
+		iconCache[key] = icon ?: [[NSNull alloc] init];
+	}
+
+	return icon;
 }
 
-UIColor *HBFPTintForKey(NSString *key) {
-	if (tintCache[key]) {
-		return tintCache[key];
-	}
-
+UIColor *HBFPTintForKey(NSString *key, UIImage *fallbackImage) {
 	UIColor *tint = nil;
-	NSString *prefsKey = [@"CustomTint-" stringByAppendingString:key];
 
-	NSLog(@"%@ %@ %@",prefsKey,preferences,themeTints);
+	if (tintCache[key]) {
+		HBLogDebug(@"%@: tint was cached", key);
+		tint = tintCache[key];
+	} else {
+		NSString *prefsKey = [@"CustomTint-" stringByAppendingString:key];
+		BOOL cache = YES;
 
-	if (preferences[prefsKey]) {
-		tint = HBFPColorFromDictionaryValue(preferences[prefsKey]);
-	}
-
-	if (!tint && themeTints[key]) {
-		tint = HBFPColorFromDictionaryValue(themeTints[key]);
-	}
-
-	if (!tint) {
-		UIImage *icon = HBFPIconForKey(key);
-
-		if (!icon) {
-			return [UIColor whiteColor];
+		if (preferences[prefsKey]) {
+			HBLogDebug(@"%@: trying preferences", key);
+			tint = HBFPColorFromDictionaryValue(preferences[prefsKey]);
+			cache = NO;
 		}
 
-		tint = HBFPGetDominantColor(icon);
+		if (!tint && themeTints[key]) {
+			HBLogDebug(@"%@: trying theme", key);
+			tint = HBFPColorFromDictionaryValue(themeTints[key]);
+		}
+
+		if (!tint) {
+			HBLogDebug(@"%@: trying dominaint color", key);
+			UIImage *icon = HBFPIconForKey(key, fallbackImage);
+
+			if (!icon) {
+				HBLogDebug(@"%@: getting icon failed - using white", key);
+				return [UIColor whiteColor];
+			}
+
+			tint = HBFPGetDominantColor(icon);
+			HBLogDebug(@"%@: using %@", key, tint);
+		}
+
+		if (cache && !tintCache[key]) {
+			tintCache[key] = [tint retain];
+		}
+
+		if (!tint) {
+			HBLogDebug(@"%@: still no icon - using white", key);
+			tint = [UIColor whiteColor];
+		}
 	}
 
-	tintCache[key] = [tint retain];
-	return tintCache[key];
+	CGFloat vibrancy = [preferences floatForKey:kHBFPPreferencesTintVibrancyKey] / 100.f - 0.5f;
+
+	CGFloat hue, saturation, brightness;
+	[tint getHue:&hue saturation:&saturation brightness:&brightness alpha:nil];
+
+	return [UIColor colorWithHue:hue saturation:MIN(1.f, saturation + (vibrancy / 2.f)) brightness:MAX(0, brightness - vibrancy) alpha:1];;
 }
 
 #pragma mark - Hide now label
@@ -342,29 +374,18 @@ BOOL firstRun = YES;
 #pragma mark - Show test bulletin
 
 BBBulletin *HBFPGetTestBulletin(BOOL isLockScreen) {
-	static NSArray *TestApps;
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		NSArray *apps = [%c(SBApplicationController) sharedInstance].allApplications;
-		NSMutableArray *mutableApps = [NSMutableArray array];
+	NSDictionary *testApps = [[ALApplicationList sharedApplicationList] applicationsFilteredUsingPredicate:[NSPredicate predicateWithBlock:^BOOL (SBApplication *app, NSDictionary *bindings) {
+		return !app.tags || ![app.tags containsObject:kSBAppTagsHidden];
+	}]];
 
-		for (SBApplication *app in apps) {
-			if (app.tags && [app.tags containsObject:kSBAppTagsHidden]) {
-				continue;
-			}
-
-			[mutableApps addObject:app];
-		}
-
-		TestApps = [mutableApps copy];
-	});
-
-	SBApplication *app = TestApps[arc4random_uniform(TestApps.count)];
+	NSString *bundleIdentifier = testApps.allKeys[arc4random_uniform(testApps.allKeys.count)];
+	NSString *displayName = testApps[bundleIdentifier];
 
 	BBBulletin *bulletin = [[[BBBulletin alloc] init] autorelease];
 	bulletin.bulletinID = @"ws.hbang.flagpaint";
-	bulletin.sectionID = [app respondsToSelector:@selector(bundleIdentifier)] ? app.bundleIdentifier : app.displayIdentifier;
-	bulletin.title = app.displayName;
+	bulletin.sectionID = bundleIdentifier;
+	bulletin.title = displayName;
+	bulletin.defaultAction = [BBAction action];
 
 	NSString *message = [bundle localizedStringForKey:@"Test notification" value:@"Test notification" table:@"Localizable"];
 
@@ -378,7 +399,10 @@ BBBulletin *HBFPGetTestBulletin(BOOL isLockScreen) {
 }
 
 void HBFPShowTestBanner() {
-	[(SBBannerController *)[%c(SBBannerController) sharedInstance] dismissBannerWithAnimation:YES reason:0 forceEvenIfBusy:YES];
+	SBBannerController *bannerController = (SBBannerController *)[%c(SBBannerController) sharedInstance];
+	[bannerController _replaceIntervalElapsed];
+	[bannerController _dismissIntervalElapsed];
+
 	[(SBBulletinBannerController *)[%c(SBBulletinBannerController) sharedInstance] observer:nil addBulletin:HBFPGetTestBulletin(NO) forFeed:2];
 }
 
@@ -434,6 +458,7 @@ void HBFPRespring() {
 
 		kHBFPPreferencesBiggerIconKey: @YES,
 		kHBFPPreferencesAlbumArtIconKey: @YES,
+		kHBFPPreferencesTintVibrancyKey: @65.f,
 
 		kHBFPPreferencesBannerGradientKey: @NO,
 		kHBFPPreferencesBannerBorderRadiusKey: @NO,
@@ -462,30 +487,8 @@ void HBFPRespring() {
 	if (![preferences boolForKey:kHBFPPreferencesHadFirstRunKey]) {
 		%init(FirstRun);
 		[preferences setBool:YES forKey:kHBFPPreferencesHadFirstRunKey];
+		[preferences synchronize];
 	}
-
-	[[NSNotificationCenter defaultCenter] addObserverForName:(NSString *)kMRMediaRemoteNowPlayingInfoDidChangeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
-		MRMediaRemoteGetNowPlayingInfo(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(CFDictionaryRef information) {
-			NSDictionary *info = (NSDictionary *)information;
-			SBApplication *app = [[%c(SBApplicationController) sharedInstance] applicationWithPid:((NSNumber *)info[(NSString *)kMRMediaRemoteNowPlayingApplicationPIDUserInfoKey]).integerValue];
-
-			isPlaying = ((NSNumber *)info[(NSString *)kMRMediaRemoteNowPlayingInfoPlaybackRate]).doubleValue > 0;
-			NSLog(@"rate = %@ %f",((NSNumber *)info[(NSString *)kMRMediaRemoteNowPlayingInfoPlaybackRate]),((NSNumber *)info[(NSString *)kMRMediaRemoteNowPlayingInfoPlaybackRate]).doubleValue);
-			[cachedMusicKey release];
-
-			if (app && isPlaying) {
-				cachedMusicKey = [[NSString alloc] initWithFormat:@"_FPMusic_%@_%@_%@_%@", app.bundleIdentifier, info[(NSString *)kMRMediaRemoteNowPlayingInfoTitle], info[(NSString *)kMRMediaRemoteNowPlayingInfoAlbum], info[(NSString *)kMRMediaRemoteNowPlayingInfoArtist]];
-
-				if (!iconCache[cachedMusicKey] && info[(NSString *)kMRMediaRemoteNowPlayingInfoArtworkData]) {
-					[(NSData *)info[(NSString *)kMRMediaRemoteNowPlayingInfoArtworkData] writeToFile:@"/tmp/test.png" atomically:YES];
-					iconCache[cachedMusicKey] = [HBFPResizeImage([UIImage imageWithData:info[(NSString *)kMRMediaRemoteNowPlayingInfoArtworkData]], CGSizeMake(120.f, 120.f)) retain];
-				}
-			} else {
-				[cachedMusicKey release];
-				cachedMusicKey = nil;
-			}
-		});
-	}];
 
 	NSDictionary *wbPreferences = [NSDictionary dictionaryWithContentsOfURL:[NSURL URLWithString:@"file:///var/mobile/Library/Preferences/com.saurik.WinterBoard.plist"]];
 
