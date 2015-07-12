@@ -403,7 +403,14 @@ void HBFPShowTestBanner() {
 	[bannerController _replaceIntervalElapsed];
 	[bannerController _dismissIntervalElapsed];
 
-	[(SBBulletinBannerController *)[%c(SBBulletinBannerController) sharedInstance] observer:nil addBulletin:HBFPGetTestBulletin(NO) forFeed:2];
+	BBBulletin *bulletin = HBFPGetTestBulletin(NO);
+	SBBulletinBannerController *bulletinBannerController = (SBBulletinBannerController *)[%c(SBBulletinBannerController) sharedInstance];
+
+	if ([bulletinBannerController respondsToSelector:@selector(observer:addBulletin:forFeed:playLightsAndSirens:withReply:)]) {
+		[bulletinBannerController observer:nil addBulletin:bulletin forFeed:2 playLightsAndSirens:YES withReply:nil];
+	} else {
+		[bulletinBannerController observer:nil addBulletin:bulletin forFeed:2];
+	}
 }
 
 void HBFPShowLockScreenBulletin(BBBulletin *bulletin) {
@@ -412,7 +419,7 @@ void HBFPShowLockScreenBulletin(BBBulletin *bulletin) {
 	BBObserver *observer = MSHookIvar<BBObserver *>(notificationController, "_observer");
 
 	if ([notificationController respondsToSelector:@selector(observer:addBulletin:forFeed:playLightsAndSirens:withReply:)]) {
-		[notificationController observer:observer addBulletin:bulletin forFeed:2 playLightsAndSirens:NO withReply:nil];
+		[notificationController observer:observer addBulletin:bulletin forFeed:2 playLightsAndSirens:YES withReply:nil];
 	} else {
 		[notificationController observer:observer addBulletin:bulletin forFeed:2];
 	}
