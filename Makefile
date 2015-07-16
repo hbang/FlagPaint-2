@@ -1,7 +1,6 @@
 TARGET = iphone:clang:latest:7.0
-ARCHS = armv7 arm64
 
-include theos/makefiles/common.mk
+include $(THEOS)/makefiles/common.mk
 
 TWEAK_NAME = FlagPaint7
 FlagPaint7_FILES = $(wildcard *.xm) $(wildcard *.m)

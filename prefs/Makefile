@@ -1,4 +1,4 @@
-include theos/makefiles/common.mk
+include $(THEOS)/makefiles/common.mk
 
 BUNDLE_NAME = FlagPaint7
 FlagPaint7_FILES = $(wildcard *.mm) $(wildcard *.m)
