@@ -452,6 +452,10 @@ void HBFPRespring() {
 		dlopen("/Library/MobileSubstrate/DynamicLibraries/PrettierBanners.dylib", RTLD_NOW);
 	}
 
+	if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/AnemoneCore.dylib"]) {
+		dlopen("/Library/MobileSubstrate/DynamicLibraries/AnemoneCore.dylib", RTLD_NOW);
+	}
+
 	preferences = [[HBPreferences alloc] initWithIdentifier:kHBFPPreferencesSuiteName];
 	[preferences registerDefaults:@{
 		kHBFPPreferencesHadFirstRunKey: @NO,
