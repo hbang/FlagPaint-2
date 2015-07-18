@@ -18,6 +18,7 @@
 #import <SpringBoard/SBMediaController.h>
 #import <SpringBoard/SBNotificationCenterController.h>
 #import <SpringBoard/SBNotificationCenterViewController.h>
+#import <UIKit/UIImage+Private.h>
 #import <version.h>
 #include <dlfcn.h>
 
@@ -249,20 +250,19 @@ UIImage *HBFPIconForKey(NSString *key, UIImage *fallbackImage) {
 		HBLogDebug(@"%@: trying music", key);
 		CGFloat size = 60.f * [UIScreen mainScreen].scale;
 		icon = HBFPResizeImage([UIImage imageWithData:((SBMediaController *)[%c(SBMediaController) sharedInstance])._nowPlayingInfo[kSBNowPlayingInfoArtworkDataKey]], CGSizeMake(size, size));
-		iconCache[key] = icon ?: [[NSNull alloc] init];
 	}
 
 	if (!icon) {
 		HBLogDebug(@"%@: trying app icon", key);
-		icon = [[ALApplicationList sharedApplicationList] iconOfSize:ALApplicationIconSizeLarge forDisplayIdentifier:key];
+		icon = [[UIImage _applicationIconImageForBundleIdentifier:key format:[key isEqualToString:@"com.apple.mobilecal"] ? SBApplicationIconFormatSpotlight : SBApplicationIconFormatDefault scale:[UIScreen mainScreen].scale] retain];
 	}
 
 	if (!icon) {
 		HBLogDebug(@"%@: failed - using fallback %@", key, fallbackImage);
 		icon = [fallbackImage copy];
-		iconCache[key] = icon ?: [[NSNull alloc] init];
 	}
 
+	iconCache[key] = icon ?: [[NSNull alloc] init];
 	return icon;
 }
 
@@ -315,7 +315,7 @@ UIColor *HBFPTintForKey(NSString *key, UIImage *fallbackImage) {
 	CGFloat hue, saturation, brightness;
 	[tint getHue:&hue saturation:&saturation brightness:&brightness alpha:nil];
 
-	return [UIColor colorWithHue:hue saturation:MIN(1.f, saturation + (vibrancy / 2.f)) brightness:MAX(0, brightness - vibrancy) alpha:1];;
+	return [UIColor colorWithHue:hue saturation:MIN(1.f, saturation + (vibrancy / 2.f)) brightness:MAX(0, brightness - vibrancy) alpha:1];
 }
 
 #pragma mark - Hide now label
