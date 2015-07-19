@@ -6,7 +6,7 @@
 #import <BulletinBoard/BBAction.h>
 #import <BulletinBoard/BBBulletin.h>
 #import <Cephei/HBPreferences.h>
-#import <MediaRemote/MediaRemote.h>
+#import <MediaPlayerUI/MPUNowPlayingController.h>
 #import <SpringBoard/SpringBoard.h>
 #import <SpringBoard/SBApplication.h>
 #import <SpringBoard/SBApplicationController.h>
@@ -199,12 +199,8 @@ NSString *HBFPGetBundleIdentifier(BBBulletin *bulletin, NSString *sectionID) {
 }
 
 BOOL HBFPIsMusic(NSString *key) {
-	if (IS_IOS_OR_NEWER(iOS_8_0)) {
-		return NO; // TODO: support ios 8's changes
-	}
-
 	SBMediaController *mediaController = (SBMediaController *)[%c(SBMediaController) sharedInstance];
-	return [preferences boolForKey:kHBFPPreferencesAlbumArtIconKey] && mediaController.nowPlayingApplication && mediaController.nowPlayingApplication.class == %c(SBApplication) && ([key isEqualToString:mediaController.nowPlayingApplication.bundleIdentifier] || [key isEqualToString:@"com.apple.Music"]) && mediaController._nowPlayingInfo[kSBNowPlayingInfoArtworkDataKey];
+	return [preferences boolForKey:kHBFPPreferencesAlbumArtIconKey] && mediaController.nowPlayingApplication && mediaController.nowPlayingApplication.class == %c(SBApplication) && ([key isEqualToString:mediaController.nowPlayingApplication.bundleIdentifier] || [key isEqualToString:@"com.apple.Music"]);
 }
 
 NSString *HBFPGetKey(BBBulletin *bulletin, NSString *sectionID) {
@@ -245,11 +241,25 @@ UIImage *HBFPIconForKey(NSString *key, UIImage *fallbackImage) {
 	}
 
 	UIImage *icon = nil;
+	BOOL cacheIcon = YES;
 
 	if (HBFPIsMusic(key)) {
+		static MPUNowPlayingController *nowPlayingController;
+		static dispatch_once_t onceToken;
+		dispatch_once(&onceToken, ^{
+			nowPlayingController = [[MPUNowPlayingController alloc] init];
+			nowPlayingController.shouldUpdateNowPlayingArtwork = YES;
+			[nowPlayingController startUpdating];
+		});
+
 		HBLogDebug(@"%@: trying music", key);
+
 		CGFloat size = 60.f * [UIScreen mainScreen].scale;
-		icon = HBFPResizeImage([UIImage imageWithData:((SBMediaController *)[%c(SBMediaController) sharedInstance])._nowPlayingInfo[kSBNowPlayingInfoArtworkDataKey]], CGSizeMake(size, size));
+		icon = HBFPResizeImage(nowPlayingController.currentNowPlayingArtwork, CGSizeMake(size, size));
+
+		if (icon) {
+			cacheIcon = NO;
+		}
 	}
 
 	if (!icon) {
@@ -262,7 +272,10 @@ UIImage *HBFPIconForKey(NSString *key, UIImage *fallbackImage) {
 		icon = [fallbackImage copy];
 	}
 
-	iconCache[key] = icon ?: [[NSNull alloc] init];
+	if (cacheIcon) {
+		iconCache[key] = icon ?: [[NSNull alloc] init];
+	}
+
 	return icon;
 }
 
@@ -274,7 +287,7 @@ UIColor *HBFPTintForKey(NSString *key, UIImage *fallbackImage) {
 		tint = tintCache[key];
 	} else {
 		NSString *prefsKey = [@"CustomTint-" stringByAppendingString:key];
-		BOOL cache = YES;
+		BOOL cache = !HBFPIsMusic(key);
 
 		if (preferences[prefsKey]) {
 			HBLogDebug(@"%@: trying preferences", key);

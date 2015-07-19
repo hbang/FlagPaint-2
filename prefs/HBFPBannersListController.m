@@ -31,9 +31,7 @@
 
 	for (PSSpecifier *specifier in oldSpecifiers) {
 		if ((_hasStatusBarTweak && [@[ @"TextShadow", @"BannersSection" ] containsObject:specifier.identifier]) ||
-			(!_hasStatusBarTweak && [@[ @"TextShadowDisabled", @"BannersSectionDisabled" ] containsObject:specifier.identifier]) ||
-			(IS_IOS_OR_NEWER(iOS_8_0) && [@[ @"AlbumArtGroup", @"AlbumArtSwitch" ] containsObject:specifier.identifier]) ||
-			(!IS_IOS_OR_NEWER(iOS_8_0) && [@[ @"AlbumArtGroupUnsupported (Sorry)", @"AlbumArtSwitchUnsupported (Sorry, again)" ] containsObject:specifier.identifier])) {
+			(!_hasStatusBarTweak && [@[ @"TextShadowDisabled", @"BannersSectionDisabled" ] containsObject:specifier.identifier])) {
 			continue;
 		}
 
