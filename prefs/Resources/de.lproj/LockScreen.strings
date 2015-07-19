@@ -1,0 +1,11 @@
+"Adds a subtle fade effect to the top and bottom of the notification list." = "Fügt einen dezenten Ausblendungs-Effekt am oberen und unteren Rand der Benachrichtigungsliste hinzu.";
+"Background Opacity" = "Deckkraft im Hintergrund";
+"Disable Dimming" = "Verdunkeln deaktivieren";
+"Disables the default behavior of all but the first notification being dimmed." = "Deaktiviert das Verhalten, welches alle Benachrichtigungen außer der ersten verdunkelt.";
+"Enabled" = "Aktiviert";
+"Fade Top and Bottom" = "Anfang und Ende ausblenden";
+"Gradient" = "Gradient";
+"Hide Elements" = "Elemente verstecken";
+"Hide “Slide To”" = "“Streichen zum Entsperren” verstecken";
+"Lock Screen" = "Sperrbildschirm";
+"Test Lock Screen Notification" = "Testnachricht auf dem Sperrbildschirm";

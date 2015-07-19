@@ -1,0 +1,7 @@
+"Adds a subtle fade effect to the top and bottom of the notification list." = "Fügt einen dezenten Ausblendungs-Effekt am oberen und unteren Rand der Benachrichtigungsliste hinzu.";
+"Background Opacity" = "Deckkraft im Hintergrund";
+"Enabled" = "Aktiviert";
+"Fade Top and Bottom" = "Anfang und Ende ausblenden";
+"If your notifications disappear after toggling settings here, try a respring. This will be fixed in a future release." = "Wenn deine Benachrichtigungen verschwinden, nachdem du hier etwas eingestellt hast, dann versuche dein SpringBoard neu zu laden. Dieser Fehler wird in einer künftigen Version behoben.";
+"Notification Center" = "Mitteilungszentrale";
+"Respring" = "SpringBoard neu laden";
