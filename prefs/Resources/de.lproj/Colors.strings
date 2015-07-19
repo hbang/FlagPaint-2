@@ -1,0 +1,6 @@
+"A lower value causes darker tint colors; a higher value causes lighter tint colors. The value prior to FlagPaint 2.5 was 50%." = "Eine niedrigere Einheit verursacht hellere Farbtöne. Die Einheit in der Version von FlagPaint vor 2.5 war 50%.";
+"Colors" = "Farben";
+"Custom Tint Colors" = "Eigene Färbungen";
+"Notification tint colors are determined from the average colors in the app’s icon. Themers can use the FlagPaint theme interface to set specific colors." = "Die Färbung der Benachrichtigung ist durch die Farbe des Icons der App bestimmt. Themer können das Theme-Interface von FlagPaint nutzen, um spezielle Farben einzustellen.";
+"This feature is coming in the next FlagPaint beta." = "Diese Funktion kommt mit der nächsten Beta von FlagPaint.";
+"Tint Vibrancy" = "Intensität der Färbung";

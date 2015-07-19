@@ -88,15 +88,19 @@
 		</dict>
 		<dict>
 			<key>label</key>
+			<string>Chinese: Kevin Lee</string>
+		</dict>
+		<dict>
+			<key>label</key>
 			<string>French: Spydar007</string>
 		</dict>
 		<dict>
 			<key>label</key>
-			<string>Swedish: iDaniel</string>
+			<string>German: HalfScoper</string>
 		</dict>
 		<dict>
 			<key>label</key>
-			<string>Chinese: Kevin Lee</string>
+			<string>Swedish: iDaniel</string>
 		</dict>
 	</array>
 	<key>title</key>
