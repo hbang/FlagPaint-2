@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>FlagPaint goes great with these related tweaks, which are officially tested to ensure they work with FlagPaint.</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+		</dict>
+		<dict>
+			<key>action</key>
+			<string>openPackage:</string>
+			<key>appIDForLazyIcon</key>
+			<string>com.anemonetheming.anemone</string>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>cellClass</key>
+			<string>HBFPPackageTableViewCell</string>
+			<key>label</key>
+			<string>Anemone</string>
+			<key>packageIdentifier</key>
+			<string>com.anemonetheming.anemone</string>
+			<key>packageRepository</key>
+			<string>https://anemonetheming.com/nightly/</string>
+			<key>subtitleText</key>
+			<string>An awesome theme manager!</string>
+			<key>useLazyIcons</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<string>openPackage:</string>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>cellClass</key>
+			<string>HBFPPackageTableViewCell</string>
+			<key>label</key>
+			<string>NowListening</string>
+			<key>packageIdentifier</key>
+			<string>com.mcnight.nowlistening</string>
+			<key>subtitleText</key>
+			<string>show playing song in notification banner</string>
+			<key>useLazyIcons</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<string>openPackage:</string>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>cellClass</key>
+			<string>HBFPPackageTableViewCell</string>
+			<key>label</key>
+			<string>PrettierBanners</string>
+			<key>packageIdentifier</key>
+			<string>com.mootjeuh.prettierbanners</string>
+			<key>subtitleText</key>
+			<string>profile pics on Messsage notifications</string>
+			<key>useLazyIcons</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<string>openPackage:</string>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>cellClass</key>
+			<string>HBFPPackageTableViewCell</string>
+			<key>label</key>
+			<string>SubtleLock</string>
+			<key>packageIdentifier</key>
+			<string>org.thebigboss.subtlelock8</string>
+			<key>subtitleText</key>
+			<string>Sleek redesigned Lockscreen UI</string>
+			<key>useLazyIcons</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<string>openPackage:</string>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>cellClass</key>
+			<string>HBFPPackageTableViewCell</string>
+			<key>label</key>
+			<string>TinyBar</string>
+			<key>packageIdentifier</key>
+			<string>com.alexzielenski.tinybar</string>
+			<key>subtitleText</key>
+			<string>Thins notification banners down to size!</string>
+			<key>useLazyIcons</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<string>openPackage:</string>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>cellClass</key>
+			<string>HBFPPackageTableViewCell</string>
+			<key>label</key>
+			<string>WatchNotifications</string>
+			<key>packageIdentifier</key>
+			<string>me.thomasfinch.watchnotifications</string>
+			<key>subtitleText</key>
+			<string>WatchOS style lock screen notifications</string>
+			<key>useLazyIcons</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<string>openPackage:</string>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>cellClass</key>
+			<string>HBFPPackageTableViewCell</string>
+			<key>label</key>
+			<string>WinterBoard</string>
+			<key>packageIdentifier</key>
+			<string>winterboard</string>
+			<key>subtitleText</key>
+			<string>theme manager, used by most themes</string>
+			<key>useLazyIcons</key>
+			<true/>
+		</dict>
+	</array>
+	<key>title</key>
+	<string>Suggested Tweaks</string>
+</dict>
+</plist>

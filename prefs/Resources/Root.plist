@@ -142,6 +142,16 @@
 			<key>cell</key>
 			<string>PSLinkCell</string>
 			<key>detail</key>
+			<string>HBFPSuggestedTweaksListController</string>
+			<key>isController</key>
+			<true/>
+			<key>label</key>
+			<string>Suggested Tweaks</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>detail</key>
 			<string>HBFPAboutListController</string>
 			<key>isController</key>
 			<true/>
