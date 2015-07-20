@@ -1,4 +1,3 @@
-#import "Global.h"
 #import "HBFPGradientView.h"
 #import "NSCache+Subscripting.h"
 #import <BulletinBoard/BBBulletin.h>

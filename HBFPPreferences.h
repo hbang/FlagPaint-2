@@ -1,0 +1,3 @@
+@interface HBFPPreferences : NSObject
+
+@end

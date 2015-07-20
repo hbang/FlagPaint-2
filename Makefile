@@ -7,6 +7,7 @@ FlagPaint7_FILES = $(wildcard *.xm) $(wildcard *.m)
 FlagPaint7_FRAMEWORKS = Accelerate CoreGraphics QuartzCore UIKit
 FlagPaint7_PRIVATE_FRAMEWORKS = BulletinBoard MediaRemote
 FlagPaint7_LIBRARIES = applist cephei
+FlagPaint7_CFLAGS = -include Global.h
 
 include $(THEOS_MAKE_PATH)/tweak.mk
 
