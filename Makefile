@@ -5,7 +5,7 @@ include $(THEOS)/makefiles/common.mk
 TWEAK_NAME = FlagPaint7
 FlagPaint7_FILES = $(wildcard *.xm) $(wildcard *.m)
 FlagPaint7_FRAMEWORKS = Accelerate CoreGraphics QuartzCore UIKit
-FlagPaint7_PRIVATE_FRAMEWORKS = BulletinBoard MediaPlayerUI
+FlagPaint7_PRIVATE_FRAMEWORKS = BulletinBoard MediaRemote
 FlagPaint7_LIBRARIES = applist cephei
 
 include $(THEOS_MAKE_PATH)/tweak.mk

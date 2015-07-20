@@ -1,12 +1,11 @@
 #define _FLAGPAINT_TWEAK_XM
 #import "Global.h"
 #import "NSCache+Subscripting.h"
-#import <Accelerate/Accelerate.h>
 #import <AppList/AppList.h>
 #import <BulletinBoard/BBAction.h>
 #import <BulletinBoard/BBBulletin.h>
 #import <Cephei/HBPreferences.h>
-#import <MediaPlayerUI/MPUNowPlayingController.h>
+#import <MediaRemote/MediaRemote.h>
 #import <SpringBoard/SpringBoard.h>
 #import <SpringBoard/SBApplication.h>
 #import <SpringBoard/SBApplicationController.h>
@@ -91,71 +90,6 @@ UIColor *HBFPGetDominantColor(UIImage *image) {
 	}
 
 	return color;
-}
-
-#pragma mark - Resize image
-
-// http://stackoverflow.com/a/10099016/709376
-
-UIImage *HBFPResizeImage(UIImage *oldImage, CGSize newSize) {
-	if (!oldImage) {
-		return nil;
-	}
-
-	UIImage *newImage = nil;
-
-	CGImageRef cgImage = oldImage.CGImage;
-	NSUInteger oldWidth = CGImageGetWidth(cgImage);
-	NSUInteger oldHeight = CGImageGetHeight(cgImage);
-	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-
-	pixel *oldData = (pixel *)calloc(oldHeight * oldWidth * BytesPerPixel, sizeof(pixel));
-	NSUInteger oldBytesPerRow = BytesPerPixel * oldWidth;
-
-	CGContextRef context = CGBitmapContextCreate(oldData, oldWidth, oldHeight, BitsPerComponent, oldBytesPerRow, colorSpace, kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Big);
-	CGContextDrawImage(context, CGRectMake(0, 0, oldWidth, oldHeight), cgImage);
-	CGContextRelease(context);
-
-	NSUInteger newWidth = (NSUInteger)newSize.width;
-	NSUInteger newHeight = (NSUInteger)newSize.height;
-	NSUInteger newBytesPerRow = BytesPerPixel * newWidth;
-	pixel *newData = (pixel *)calloc(newHeight * newWidth * BytesPerPixel, sizeof(pixel));
-
-	vImage_Buffer oldBuffer = {
-		.data = oldData,
-		.height = oldHeight,
-		.width = oldWidth,
-		.rowBytes = oldBytesPerRow
-	};
-
-	vImage_Buffer newBuffer = {
-		.data = newData,
-		.height = newHeight,
-		.width = newWidth,
-		.rowBytes = newBytesPerRow
-	};
-
-	vImage_Error error = vImageScale_ARGB8888(&oldBuffer, &newBuffer, NULL, kvImageHighQualityResampling);
-
-	free(oldData);
-
-	CGContextRef newContext = CGBitmapContextCreate(newData, newWidth, newHeight, BitsPerComponent, newBytesPerRow, colorSpace, kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Big);
-	CGImageRef cgImageNew = CGBitmapContextCreateImage(newContext);
-
-	newImage = [UIImage imageWithCGImage:cgImageNew];
-
-	CGImageRelease(cgImageNew);
-	CGColorSpaceRelease(colorSpace);
-	CGContextRelease(newContext);
-
-	free(newData);
-
-	if (error != kvImageNoError) {
-		HBLogError(@"warning: failed to scale image: error %ld", error);
-		return oldImage;
-	}
-
-	return newImage;
 }
 
 #pragma mark - Various helper functions
@@ -244,18 +178,27 @@ UIImage *HBFPIconForKey(NSString *key, UIImage *fallbackImage) {
 	BOOL cacheIcon = YES;
 
 	if (HBFPIsMusic(key)) {
-		static MPUNowPlayingController *nowPlayingController;
-		static dispatch_once_t onceToken;
-		dispatch_once(&onceToken, ^{
-			nowPlayingController = [[MPUNowPlayingController alloc] init];
-			nowPlayingController.shouldUpdateNowPlayingArtwork = YES;
-			[nowPlayingController startUpdating];
-		});
-
 		HBLogDebug(@"%@: trying music", key);
 
-		CGFloat size = 60.f * [UIScreen mainScreen].scale;
-		icon = HBFPResizeImage(nowPlayingController.currentNowPlayingArtwork, CGSizeMake(size, size));
+		// ugh. what a kludge.
+		// TODO: really, there has to be a better way than this
+
+		dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+		__block UIImage *artwork = nil;
+
+		MRMediaRemoteGetNowPlayingInfo(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(CFDictionaryRef information) {
+			NSData *data = ((NSDictionary *)information)[(NSString *)kMRMediaRemoteNowPlayingInfoArtworkData];
+
+			if (data) {
+				artwork = [[UIImage alloc] initWithData:data];
+			}
+
+			dispatch_semaphore_signal(semaphore);
+		});
+
+		dispatch_semaphore_wait(semaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)));
+
+		icon = artwork;
 
 		if (icon) {
 			cacheIcon = NO;
