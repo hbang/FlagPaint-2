@@ -9,6 +9,6 @@ Architecture: iphoneos-arm
 Description: Tint notifications based on icon color
 Maintainer: HASHBANG Productions <support@hbang.ws>
 Author: HASHBANG Productions <support@hbang.ws>
-Support: https://www.hbang.ws/faq
+Support: https://www.hbang.ws/faq/
 Section: Tweaks
 Tag: cydia::commercial
