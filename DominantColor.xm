@@ -63,18 +63,13 @@ UIColor *HBFPTintForKey(NSString *key, UIImage *fallbackImage) {
 		HBLogDebug(@"%@: tint was cached", key);
 		tint = tintCache[key];
 	} else {
-		NSString *prefsKey = [@"CustomTint-" stringByAppendingString:key];
 		BOOL cache = !HBFPIsMusic(key);
+		UIColor *customTint = [preferences customTintForKey:key];
 
-		if (preferences[prefsKey]) {
-			HBLogDebug(@"%@: trying preferences", key);
-			tint = HBFPColorFromDictionaryValue(preferences[prefsKey]);
+		if (customTint) {
+			HBLogDebug(@"%@: trying custom tint", key);
+			tint = customTint;
 			cache = NO;
-		}
-
-		if (!tint && themeTints[key]) {
-			HBLogDebug(@"%@: trying theme", key);
-			tint = HBFPColorFromDictionaryValue(themeTints[key]);
 		}
 
 		if (!tint) {
@@ -100,7 +95,7 @@ UIColor *HBFPTintForKey(NSString *key, UIImage *fallbackImage) {
 		}
 	}
 
-	CGFloat vibrancy = [preferences floatForKey:kHBFPPreferencesTintVibrancyKey] / 100.f - 0.5f;
+	CGFloat vibrancy = preferences.tintVibrancy / 100.f - 0.5f;
 
 	CGFloat hue, saturation, brightness;
 	[tint getHue:&hue saturation:&saturation brightness:&brightness alpha:nil];

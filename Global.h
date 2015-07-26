@@ -1,4 +1,4 @@
-#import <Cephei/HBPreferences.h>
+#import "HBFPPreferences.h"
 
 @class BBBulletin;
 
@@ -7,15 +7,18 @@
 #ifndef _FLAGPAINT_TWEAK_XM
 extern BOOL (*_UIAccessibilityEnhanceBackgroundContrast)();
 
-extern HBPreferences *preferences;
-extern BOOL hasBlurredClock, hasMessagesAvatarTweak;
+extern HBFPPreferences *preferences;
+extern NSBundle *bundle;
 
+extern BOOL hasBlurredClock, hasMessagesAvatarTweak;
 extern NSCache *tintCache, *iconCache;
 
 extern BOOL HBFPIsMusic(NSString *key);
 extern NSString *HBFPGetKey(BBBulletin *bulletin, NSString *sectionID);
 extern UIImage *HBFPIconForKey(NSString *key, UIImage *fallbackImage);
 extern UIColor *HBFPTintForKey(NSString *key, UIImage *fallbackImage);
+
+extern void HBFPShowLockScreenBulletin(BBBulletin *bulletin);
 #endif
 
 #ifndef _FLAGPAINT_DOMINANTCOLOR_XM
