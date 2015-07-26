@@ -19,6 +19,7 @@ CGFloat bannerHeight = 64.f;
 @interface SBBannerContextView (FlagPaint)
 
 - (void)_flagpaint_setHeightIfNeeded;
+- (CGFloat)_flagpaint_grabberHeightDifference;
 
 @end
 
@@ -144,16 +145,26 @@ CGFloat bannerHeight = 64.f;
 
 - (void)setBackgroundImage:(UIImage *)backgroundImage {}
 
+- (CGFloat)minimumHeight {
+	return %orig - self._flagpaint_grabberHeightDifference;
+}
+
 %new - (void)_flagpaint_setHeightIfNeeded {
 	if (IS_IOS_OR_NEWER(iOS_8_0)) {
 		return;
 	}
 
+	CGRect frame = self.frame;
+	frame.size.height = bannerHeight - self._flagpaint_grabberHeightDifference;
+	self.frame = frame;
+}
+
+%new - (CGFloat)_flagpaint_grabberHeightDifference {
 	if (preferences.bannerRemoveGrabber && !hasStatusBarTweak && !IS_IPAD) {
 		SBDefaultBannerView *contentView = MSHookIvar<SBDefaultBannerView *>(self, "_contentView");
 
 		if (!contentView || ![contentView isKindOfClass:%c(SBDefaultBannerView)]) {
-			return;
+			return 0;
 		}
 
 		UIImageView *attachmentImageView = MSHookIvar<UIImageView *>(contentView, "_attachmentImageView");
@@ -172,10 +183,10 @@ CGFloat bannerHeight = 64.f;
 			}
 		}
 
-		CGRect frame = self.frame;
-		frame.size.height = bannerHeight - lessHeight;
-		self.frame = frame;
+		return lessHeight;
 	}
+
+	return 0;
 }
 
 - (void)dealloc {
