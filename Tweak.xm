@@ -1,10 +1,9 @@
 #define _FLAGPAINT_TWEAK_XM
-#import "Global.h"
 #import "NSCache+Subscripting.h"
+#import "HBFPPreferences.h"
 #import <AppList/AppList.h>
 #import <BulletinBoard/BBAction.h>
 #import <BulletinBoard/BBBulletin.h>
-#import <Cephei/HBPreferences.h>
 #import <MediaRemote/MediaRemote.h>
 #import <SpringBoard/SpringBoard.h>
 #import <SpringBoard/SBApplication.h>
@@ -21,75 +20,23 @@
 #import <version.h>
 #include <dlfcn.h>
 
-struct pixel {
-	unsigned char r, g, b, a;
-};
-
-static NSUInteger BytesPerPixel = 4;
-static NSUInteger BitsPerComponent = 8;
-
 #pragma mark - Variables
 
 BOOL (*_UIAccessibilityEnhanceBackgroundContrast)();
 
-HBPreferences *preferences;
+HBFPPreferences *preferences;
 NSBundle *bundle;
 
 BOOL hasBlurredClock;
 BOOL hasMessagesAvatarTweak;
 
-NSCache *tintCache = [[NSCache alloc] init];
 NSCache *iconCache = [[NSCache alloc] init];
 NSCache *appsCache = [[NSCache alloc] init];
-NSDictionary *themeTints;
 
 #pragma mark - Debug
 
 extern "C" NSArray *HBFPDebugPlz() {
 	return @[ tintCache, iconCache ];
-}
-
-#pragma mark - Get dominant color
-
-UIColor *HBFPGetDominantColor(UIImage *image) {
-	NSUInteger red = 0, green = 0, blue = 0;
-	NSUInteger numberOfPixels = image.size.width * image.size.height;
-
-	pixel *pixels = (pixel *)calloc(1, image.size.width * image.size.height * sizeof(pixel));
-
-	if (!pixels) {
-		HBLogError(@"allocating pixels failed - returning white");
-		return [UIColor whiteColor];
-	}
-
-	CGContextRef context = CGBitmapContextCreate(pixels, image.size.width, image.size.height, BitsPerComponent, image.size.width * BytesPerPixel, CGImageGetColorSpace(image.CGImage), kCGImageAlphaPremultipliedLast);
-
-	if (!context) {
-		HBLogError(@"creating bitmap context failed - returning white");
-		free(pixels);
-		return [UIColor whiteColor];
-	}
-
-	CGContextDrawImage(context, CGRectMake(0, 0, image.size.width, image.size.height), image.CGImage);
-
-	for (NSUInteger i = 0; i < numberOfPixels; i++) {
-		red += pixels[i].r;
-		green += pixels[i].g;
-		blue += pixels[i].b;
-	}
-
-	CGContextRelease(context);
-	free(pixels);
-
-	UIColor *color = [UIColor colorWithRed:red / numberOfPixels / 255.f green:green / numberOfPixels / 255.f blue:blue / numberOfPixels / 255.f alpha:1];
-
-	if (_UIAccessibilityEnhanceBackgroundContrast()) {
-		CGFloat hue, saturation, brightness;
-		[color getHue:&hue saturation:&saturation brightness:&brightness alpha:nil];
-		color = [UIColor colorWithHue:hue saturation:MIN(1.f, saturation + 0.2f) brightness:MAX(0, brightness - 0.15f) alpha:1];
-	}
-
-	return color;
 }
 
 #pragma mark - Various helper functions
@@ -134,7 +81,7 @@ NSString *HBFPGetBundleIdentifier(BBBulletin *bulletin, NSString *sectionID) {
 
 BOOL HBFPIsMusic(NSString *key) {
 	SBMediaController *mediaController = (SBMediaController *)[%c(SBMediaController) sharedInstance];
-	return [preferences boolForKey:kHBFPPreferencesAlbumArtIconKey] && mediaController.nowPlayingApplication && mediaController.nowPlayingApplication.class == %c(SBApplication) && ([key isEqualToString:mediaController.nowPlayingApplication.bundleIdentifier] || [key isEqualToString:@"com.apple.Music"]);
+	return preferences.albumArtIcon && mediaController.nowPlayingApplication && mediaController.nowPlayingApplication.class == %c(SBApplication) && ([key isEqualToString:mediaController.nowPlayingApplication.bundleIdentifier] || [key isEqualToString:@"com.apple.Music"]);
 }
 
 NSString *HBFPGetKey(BBBulletin *bulletin, NSString *sectionID) {
@@ -150,22 +97,6 @@ NSString *HBFPGetKey(BBBulletin *bulletin, NSString *sectionID) {
 	}
 
 	return key;
-}
-
-UIColor *HBFPColorFromDictionaryValue(id value) {
-	if ([value isKindOfClass:NSArray.class] && ((NSArray *)value).count == 3) {
-		NSArray *array = value;
-		return [UIColor colorWithRed:((NSNumber *)array[0]).integerValue / 255.f green:((NSNumber *)array[1]).integerValue / 255.f blue:((NSNumber *)array[2]).integerValue / 255.f alpha:1];
-	} else if ([value isKindOfClass:NSString.class] && [((NSString *)value) hasPrefix:@"#"] && ((NSString *)value).length == 7) {
-		unsigned int hexInteger = 0;
-		NSScanner *scanner = [NSScanner scannerWithString:value];
-		scanner.charactersToBeSkipped = [NSCharacterSet characterSetWithCharactersInString:@"#"];
-		[scanner scanHexInt:&hexInteger];
-
-		return [UIColor colorWithRed:((hexInteger & 0xFF0000) >> 16) / 255.f green:((hexInteger & 0xFF00) >> 8) / 255.f blue:(hexInteger & 0xFF) / 255.f alpha:1];
-	} else {
-		return nil;
-	}
 }
 
 UIImage *HBFPIconForKey(NSString *key, UIImage *fallbackImage) {
@@ -222,108 +153,14 @@ UIImage *HBFPIconForKey(NSString *key, UIImage *fallbackImage) {
 	return icon;
 }
 
-UIColor *HBFPTintForKey(NSString *key, UIImage *fallbackImage) {
-	UIColor *tint = nil;
-
-	if (tintCache[key]) {
-		HBLogDebug(@"%@: tint was cached", key);
-		tint = tintCache[key];
-	} else {
-		NSString *prefsKey = [@"CustomTint-" stringByAppendingString:key];
-		BOOL cache = !HBFPIsMusic(key);
-
-		if (preferences[prefsKey]) {
-			HBLogDebug(@"%@: trying preferences", key);
-			tint = HBFPColorFromDictionaryValue(preferences[prefsKey]);
-			cache = NO;
-		}
-
-		if (!tint && themeTints[key]) {
-			HBLogDebug(@"%@: trying theme", key);
-			tint = HBFPColorFromDictionaryValue(themeTints[key]);
-		}
-
-		if (!tint) {
-			HBLogDebug(@"%@: trying dominaint color", key);
-			UIImage *icon = HBFPIconForKey(key, fallbackImage);
-
-			if (!icon) {
-				HBLogDebug(@"%@: getting icon failed - using white", key);
-				return [UIColor whiteColor];
-			}
-
-			tint = HBFPGetDominantColor(icon);
-			HBLogDebug(@"%@: using %@", key, tint);
-		}
-
-		if (cache && !tintCache[key]) {
-			tintCache[key] = [tint retain];
-		}
-
-		if (!tint) {
-			HBLogDebug(@"%@: still no icon - using white", key);
-			tint = [UIColor whiteColor];
-		}
-	}
-
-	CGFloat vibrancy = [preferences floatForKey:kHBFPPreferencesTintVibrancyKey] / 100.f - 0.5f;
-
-	CGFloat hue, saturation, brightness;
-	[tint getHue:&hue saturation:&saturation brightness:&brightness alpha:nil];
-
-	return [UIColor colorWithHue:hue saturation:MIN(1.f, saturation + (vibrancy / 2.f)) brightness:MAX(0, brightness - vibrancy) alpha:1];
-}
-
 #pragma mark - Hide now label
 
 %hook NSBundle
 
 - (NSString *)localizedStringForKey:(NSString *)key value:(NSString *)value table:(NSString *)table {
 	// broad hook, yes i know. sue me.
-	return [key isEqualToString:@"RELATIVE_DATE_NOW"] && [table isEqualToString:@"SpringBoard"] && [preferences boolForKey:kHBFPPreferencesRemoveDateLabelKey] ? @"" : %orig;
+	return [key isEqualToString:@"RELATIVE_DATE_NOW"] && [table isEqualToString:@"SpringBoard"] && preferences.removeDateLabel ? @"" : %orig;
 }
-
-%end
-
-#pragma mark - First run
-
-void HBFPShowLockScreenBulletin(BBBulletin *bulletin);
-
-%group FirstRun
-
-BOOL firstRun = YES;
-
-%hook SBLockScreenViewController
-
-- (void)viewDidAppear:(BOOL)animated {
-	%orig;
-
-	if (firstRun) {
-		firstRun = NO;
-
-		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
-			BBBulletin *bulletin = [[[BBBulletin alloc] init] autorelease];
-			bulletin.bulletinID = @"ws.hbang.flagpaint";
-			bulletin.sectionID = @"com.apple.Preferences";
-			bulletin.title = [bundle localizedStringForKey:@"Thanks for purchasing FlagPaint!" value:@"Thanks for purchasing FlagPaint!" table:@"Localizable"];
-			bulletin.unlockActionLabelOverride = [bundle localizedStringForKey:@"configure" value:@"configure" table:@"Localizable"];
-
-			NSURL *url;
-
-			if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/PreferenceOrganizer7.dylib"]) {
-				url = [NSURL URLWithString:@"prefs:root=Tweaks&path=FlagPaint"];
-			} else {
-				url = [NSURL URLWithString:@"prefs:root=FlagPaint"];
-			}
-
-			bulletin.defaultAction = [BBAction actionWithLaunchURL:url callblock:nil];
-
-			HBFPShowLockScreenBulletin(bulletin);
-		});
-	}
-}
-
-%end
 
 %end
 
@@ -396,8 +233,6 @@ void HBFPRespring() {
 #pragma mark - Constructor
 
 %ctor {
-	// TODO: maybe clean this up someday...
-
 	%init;
 
 	_UIAccessibilityEnhanceBackgroundContrast = (BOOL (*)())dlsym(RTLD_DEFAULT, "_UIAccessibilityEnhanceBackgroundContrast");
@@ -412,84 +247,7 @@ void HBFPRespring() {
 		dlopen("/Library/MobileSubstrate/DynamicLibraries/AnemoneCore.dylib", RTLD_NOW);
 	}
 
-	preferences = [[HBPreferences alloc] initWithIdentifier:kHBFPPreferencesSuiteName];
-	[preferences registerDefaults:@{
-		kHBFPPreferencesHadFirstRunKey: @NO,
-		kHBFPPreferencesTintBannersKey: @YES,
-		kHBFPPreferencesTintLockScreenKey: @YES,
-		kHBFPPreferencesTintNotificationCenterKey: @YES,
-
-		kHBFPPreferencesBiggerIconKey: @YES,
-		kHBFPPreferencesAlbumArtIconKey: @YES,
-		kHBFPPreferencesTintVibrancyKey: @65.f,
-
-		kHBFPPreferencesBannerGradientKey: @NO,
-		kHBFPPreferencesBannerBorderRadiusKey: @NO,
-		kHBFPPreferencesBannerTextShadowKey: @NO,
-
-		kHBFPPreferencesLockGradientKey: @YES,
-		kHBFPPreferencesLockFadeKey: @YES,
-		kHBFPPreferencesLockDisableDimmingKey: @YES,
-
-		kHBFPPreferencesNotificationCenterFadeKey: @YES,
-
-		kHBFPPreferencesBannerColorIntensityKey: _UIAccessibilityEnhanceBackgroundContrast() ? @80.f : @40.f,
-		kHBFPPreferencesBannerGrayscaleIntensityKey: @40.f,
-		kHBFPPreferencesBannerOpacityKey: @100.f,
-		kHBFPPreferencesLockOpacityKey: @50.f,
-		kHBFPPreferencesNotificationCenterOpacityKey: _UIAccessibilityEnhanceBackgroundContrast() ? @77.f : @15.f,
-
-		kHBFPPreferencesRemoveIconKey: @NO,
-		kHBFPPreferencesRemoveGrabberKey: @YES,
-		kHBFPPreferencesRemoveDateLabelKey: @YES,
-		kHBFPPreferencesRemoveLockActionKey: @NO,
-
-		kHBFPPreferencesFonzKey: @NO
-	}];
-
-	if (![preferences boolForKey:kHBFPPreferencesHadFirstRunKey]) {
-		%init(FirstRun);
-		[preferences setBool:YES forKey:kHBFPPreferencesHadFirstRunKey];
-		[preferences synchronize];
-	}
-
-	NSDictionary *wbPreferences = [NSDictionary dictionaryWithContentsOfURL:[NSURL URLWithString:@"file:///var/mobile/Library/Preferences/com.saurik.WinterBoard.plist"]];
-
-	if (wbPreferences && wbPreferences[kHBFPWinterBoardThemesKey]) {
-		NSMutableDictionary *newThemeTints = [NSMutableDictionary dictionary];
-
-		for (NSDictionary *theme in wbPreferences[kHBFPWinterBoardThemesKey]) {
-			if (!((NSNumber *)theme[kHBFPWinterBoardThemeActiveKey]).boolValue) {
-				continue;
-			}
-
-			NSString *name = theme[kHBFPWinterBoardThemeNameKey];
-			NSURL *themeURL = [NSURL URLWithString:[@"file:///Library/Themes/" stringByAppendingPathComponent:name]];
-			NSDictionary *plist = [NSDictionary dictionaryWithContentsOfURL:[themeURL URLByAppendingPathComponent:kHBFPWinterBoardPlistName]];
-
-			if (!plist) {
-				plist = [NSDictionary dictionaryWithContentsOfURL:[[themeURL URLByAppendingPathExtension:@"theme"] URLByAppendingPathComponent:kHBFPWinterBoardPlistName]];
-
-				if (!plist) {
-					continue;
-				}
-			}
-
-			NSDictionary *tints = plist[kHBFPWinterBoardTintsKey];
-
-			if (!tints) {
-				continue;
-			}
-
-			for (NSString *key in tints.allKeys) {
-				if (!newThemeTints[key]) {
-					newThemeTints[key] = tints[key];
-				}
-			}
-		}
-
-		themeTints = [newThemeTints copy];
-	}
+	preferences = [[HBFPPreferences alloc] init];
 
 	// CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPLoadPrefs, CFSTR("ws.hbang.flagpaint/ReloadPrefs"), NULL, kNilOptions);
 	// CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)HBFPLoadPrefs, CFSTR("com.michaelpoole.subtlelock.settingsChanged"), NULL, kNilOptions);
