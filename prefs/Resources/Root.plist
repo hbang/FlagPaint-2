@@ -24,7 +24,7 @@
 			<key>key</key>
 			<string>Tint</string>
 			<key>label</key>
-			<string>Banners</string>
+			<string>BANNERS</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -42,7 +42,7 @@
 			<key>key</key>
 			<string>TintLockScreen</string>
 			<key>label</key>
-			<string>Lock Screen</string>
+			<string>LOCK_SCREEN</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -60,7 +60,7 @@
 			<key>key</key>
 			<string>TintNotificationCenter</string>
 			<key>label</key>
-			<string>Notification Center</string>
+			<string>NOTIFICATION_CENTER</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -72,13 +72,13 @@
 			<key>detail</key>
 			<string>HBFPColorsListController</string>
 			<key>label</key>
-			<string>Colors</string>
+			<string>COLORS</string>
 		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Various</string>
+			<string>VARIOUS_TITLE</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -90,7 +90,7 @@
 			<key>key</key>
 			<string>BigIcon</string>
 			<key>label</key>
-			<string>Bigger Icon</string>
+			<string>BIGGER_ICON</string>
 			<key>PostNotification</key>
 			<string>ws.hbang.flagpaint/ReloadPrefs</string>
 		</dict>
@@ -104,7 +104,7 @@
 			<key>key</key>
 			<string>RemoveDateLabel</string>
 			<key>label</key>
-			<string>Hide “Now” Label</string>
+			<string>HIDE_NOW_LABEL</string>
 			<key>PostNotification</key>
 			<string>ws.hbang.flagpaint/ReloadPrefs</string>
 		</dict>
@@ -112,7 +112,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Test Notifications</string>
+			<string>TEST_NOTIFICATIONS_TITLE</string>
 		</dict>
 		<dict>
 			<key>action</key>
@@ -122,7 +122,7 @@
 			<key>cellClass</key>
 			<string>HBTintedTableCell</string>
 			<key>label</key>
-			<string>Test Banner</string>
+			<string>TEST_BANNER</string>
 		</dict>
 		<dict>
 			<key>action</key>
@@ -132,7 +132,7 @@
 			<key>cellClass</key>
 			<string>HBTintedTableCell</string>
 			<key>label</key>
-			<string>Test Lock Screen Notification</string>
+			<string>TEST_LOCK_SCREEN</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -146,7 +146,7 @@
 			<key>isController</key>
 			<true/>
 			<key>label</key>
-			<string>Suggested Tweaks</string>
+			<string>SUGGESTED_TWEAKS</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -156,7 +156,7 @@
 			<key>isController</key>
 			<true/>
 			<key>label</key>
-			<string>About</string>
+			<string>ABOUT</string>
 		</dict>
 	</array>
 	<key>title</key>

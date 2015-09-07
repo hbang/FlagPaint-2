@@ -18,6 +18,8 @@
 - (void)loadView {
 	[super loadView];
 
+	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:[bundle localizedStringForKey:@"TEST" value:nil table:@"Root"] style:UIBarButtonItemStylePlain target:self action:@selector(showTestBanner)] autorelease];
+
 	if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/TinyBar.dylib"]) {
 		_hasStatusBarTweak = YES;
 	}

@@ -1,8 +1,9 @@
 include $(THEOS)/makefiles/common.mk
 
 BUNDLE_NAME = FlagPaint7
-FlagPaint7_FILES = $(wildcard *.mm) $(wildcard *.m)
+FlagPaint7_FILES = Global.x $(wildcard *.mm) $(wildcard *.m)
 FlagPaint7_INSTALL_PATH = /Library/PreferenceBundles
+FlagPaint7_CFLAGS = -include Global.h
 FlagPaint7_FRAMEWORKS = UIKit CoreGraphics QuartzCore
 FlagPaint7_PRIVATE_FRAMEWORKS = Preferences
 FlagPaint7_LIBRARIES = cephei cepheiprefs substrate

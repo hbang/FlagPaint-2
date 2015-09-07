@@ -9,6 +9,13 @@
 	return @"LockScreen";
 }
 
+#pragma mark - UIViewController
+
+- (void)loadView {
+	[super loadView];
+	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:[bundle localizedStringForKey:@"TEST" value:nil table:@"Root"] style:UIBarButtonItemStylePlain target:self action:@selector(showTestBanner)] autorelease];
+}
+
 #pragma mark - Callbacks
 
 - (void)showTestLockScreenNotification {

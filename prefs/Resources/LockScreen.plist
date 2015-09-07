@@ -20,13 +20,13 @@
 			<key>key</key>
 			<string>TintLockScreen</string>
 			<key>label</key>
-			<string>Enabled</string>
+			<string>ENABLED</string>
 		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>Adds a subtle fade effect to the top and bottom of the notification list.</string>
+			<string>FADE_EDGES_EXPLANATION</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>
@@ -40,7 +40,7 @@
 			<key>key</key>
 			<string>LockGradient</string>
 			<key>label</key>
-			<string>Gradient</string>
+			<string>GRADIENT</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>
@@ -54,13 +54,13 @@
 			<key>key</key>
 			<string>LockFade</string>
 			<key>label</key>
-			<string>Fade Top and Bottom</string>
+			<string>FADE_EDGES</string>
 		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>Disables the default behavior of all but the first notification being dimmed.</string>
+			<string>DISABLE_DIMMING_EXPLANATION</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>
@@ -74,13 +74,13 @@
 			<key>key</key>
 			<string>LockDisableDimming</string>
 			<key>label</key>
-			<string>Disable Dimming</string>
+			<string>DISABLE_DIMMING</string>
 		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Background Opacity</string>
+			<string>BACKGROUND_OPACITY</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -92,7 +92,7 @@
 			<key>key</key>
 			<string>LockOpacity</string>
 			<key>label</key>
-			<string>Background Opacity</string>
+			<string>BACKGROUND_OPACITY</string>
 			<key>max</key>
 			<real>100</real>
 			<key>min</key>
@@ -106,7 +106,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Hide Elements</string>
+			<string>HIDE_ELEMENTS_TITLE</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>
@@ -120,24 +120,10 @@
 			<key>key</key>
 			<string>RemoveLockAction</string>
 			<key>label</key>
-			<string>Hide “Slide To”</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSGroupCell</string>
-		</dict>
-		<dict>
-			<key>action</key>
-			<string>showTestLockScreenNotification</string>
-			<key>cell</key>
-			<string>PSButtonCell</string>
-			<key>cellClass</key>
-			<string>HBTintedTableCell</string>
-			<key>label</key>
-			<string>Test Lock Screen Notification</string>
+			<string>HIDE_SLIDE_ACTION</string>
 		</dict>
 	</array>
 	<key>title</key>
-	<string>Lock Screen</string>
+	<string>LOCK_SCREEN</string>
 </dict>
 </plist>

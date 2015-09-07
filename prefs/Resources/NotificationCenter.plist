@@ -20,13 +20,13 @@
 			<key>key</key>
 			<string>TintNotificationCenter</string>
 			<key>label</key>
-			<string>Enabled</string>
+			<string>ENABLED</string>
 		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>Adds a subtle fade effect to the top and bottom of the notification list.</string>
+			<string>FADE_EDGES_EXPLANATION</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>
@@ -40,13 +40,13 @@
 			<key>key</key>
 			<string>NotificationCenterFade</string>
 			<key>label</key>
-			<string>Fade Top and Bottom</string>
+			<string>FADE_EDGES</string>
 		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Background Opacity</string>
+			<string>BACKGROUND_OPACITY</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -60,7 +60,7 @@
 			<key>key</key>
 			<string>NotificationCenterOpacity</string>
 			<key>label</key>
-			<string>Background Opacity</string>
+			<string>BACKGROUND_OPACITY</string>
 			<key>max</key>
 			<real>100</real>
 			<key>min</key>
@@ -82,7 +82,7 @@
 			<key>key</key>
 			<string>NotificationCenterOpacity</string>
 			<key>label</key>
-			<string>Background Opacity</string>
+			<string>BACKGROUND_OPACITY</string>
 			<key>max</key>
 			<real>100</real>
 			<key>min</key>
@@ -96,7 +96,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>If your notifications disappear after toggling settings here, try a respring. This will be fixed in a future release.</string>
+			<string>RESPRING_EXPLANATION</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -110,10 +110,10 @@
 			<key>cellClass</key>
 			<string>HBTintedTableCell</string>
 			<key>label</key>
-			<string>Respring</string>
+			<string>RESPRING</string>
 		</dict>
 	</array>
 	<key>title</key>
-	<string>Notification Center</string>
+	<string>NOTIFICATION_CENTER</string>
 </dict>
 </plist>

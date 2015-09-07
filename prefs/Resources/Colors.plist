@@ -8,21 +8,19 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerCellClass</key>
-			<string>PSFooterHyperlinkView</string>
-			<key>footerHyperlinkRange</key>
-			<string>{103, 25}</string>
-			<key>headerFooterHyperlinkButtonTitle</key>
-			<string>Notification tint colors are determined from the average colors in the app’s icon. Themers can use the FlagPaint theme interface to set specific colors.</string>
-			<key>headerFooterHyperlinkButtonURL</key>
+			<string>HBLinkFooterCell</string>
+			<key>footerText</key>
+			<string>TINT_COLORS_EXPLANATION</string>
+			<key>footerURL</key>
 			<string>https://www.hbang.ws/tweaks/flagpaint/themers/</string>
 		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Tint Vibrancy</string>
+			<string>TINT_VIBRANCY</string>
 			<key>footerText</key>
-			<string>A lower value causes darker tint colors; a higher value causes lighter tint colors. The value prior to FlagPaint 2.5 was 50%.</string>
+			<string>TINT_VIBRANCY_EXPLANATION</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -34,7 +32,7 @@
 			<key>key</key>
 			<string>TintVibrancy</string>
 			<key>label</key>
-			<string>Tint Vibrancy</string>
+			<string>TINT_VIBRANCY</string>
 			<key>max</key>
 			<real>100</real>
 			<key>min</key>
@@ -49,19 +47,15 @@
 			<string>PSGroupCell</string>
 			<key>id</key>
 			<string>ThemesDebugInfo</string>
-			<key>footerText</key>
-			<string>This feature is coming in the next FlagPaint beta.</string>
 		</dict>
 		<dict>
 			<key>cell</key>
-			<string>PSLinkListCell</string>
-			<key>enabled</key>
-			<false/>
+			<string>PSLinkCell</string>
 			<key>label</key>
-			<string>Custom Tint Colors</string>
+			<string>CUSTOM_TINT_COLORS</string>
 		</dict>
 	</array>
 	<key>title</key>
-	<string>Colors</string>
+	<string>COLORS</string>
 </dict>
 </plist>

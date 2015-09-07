@@ -180,7 +180,7 @@ BBBulletin *HBFPGetTestBulletin(BOOL isLockScreen) {
 	bulletin.title = displayName;
 	bulletin.defaultAction = [BBAction action];
 
-	NSString *message = [bundle localizedStringForKey:@"Test notification" value:@"Test notification" table:@"Localizable"];
+	NSString *message = [bundle localizedStringForKey:@"TEST_NOTIFICATION_MESSAGE" value:nil table:@"Localizable"];
 
 	if (isLockScreen) {
 		bulletin.subtitle = message;

@@ -24,11 +24,11 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 }
 
 + (NSString *)hb_shareText {
-	return @"I’m using #FlagPaint to add color to my notifications!";
+	return [NSString stringWithFormat:[bundle localizedStringForKey:@"SHARE_TEXT" value:nil table:@"Root"], [UIDevice currentDevice].localizedModel];
 }
 
 + (NSURL *)hb_shareURL {
-	return [NSURL URLWithString:@"https://www.hbang.ws/flagpaint"];
+	return [NSURL URLWithString:@"https://www.hbang.ws/flagpaint/"];
 }
 
 + (UIColor *)hb_tintColor {

@@ -8,7 +8,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>FlagPaint goes great with these related tweaks, which are officially tested to ensure they work with FlagPaint.</string>
+			<string>INTRODUCTION</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -132,6 +132,6 @@
 		</dict>
 	</array>
 	<key>title</key>
-	<string>Suggested Tweaks</string>
+	<string>SUGGESTED_TWEAKS</string>
 </dict>
 </plist>

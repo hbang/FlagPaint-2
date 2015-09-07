@@ -17,8 +17,8 @@ BOOL firstRun = YES;
 			BBBulletin *bulletin = [[[BBBulletin alloc] init] autorelease];
 			bulletin.bulletinID = @"ws.hbang.flagpaint";
 			bulletin.sectionID = @"com.apple.Preferences";
-			bulletin.title = [bundle localizedStringForKey:@"Thanks for purchasing FlagPaint!" value:@"Thanks for purchasing FlagPaint!" table:@"Localizable"];
-			bulletin.unlockActionLabelOverride = [bundle localizedStringForKey:@"configure" value:@"configure" table:@"Localizable"];
+			bulletin.title = [bundle localizedStringForKey:@"THANKS_MESSAGE_TITLE" value:nil table:@"Localizable"];
+			bulletin.unlockActionLabelOverride = [bundle localizedStringForKey:@"THANKS_MESSAGE_ACTION" value:nil table:@"Localizable"];
 
 			NSURL *url;
 

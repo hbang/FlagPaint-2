@@ -20,13 +20,13 @@
 			<key>key</key>
 			<string>Tint</string>
 			<key>label</key>
-			<string>Enabled</string>
+			<string>ENABLED</string>
 		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>Shows the currently playing song’s album art in song change notifications shown by tweaks such as NowListening.</string>
+			<string>ALBUM_ART_ICON_EXPLANATION</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>
@@ -40,7 +40,7 @@
 			<key>key</key>
 			<string>AlbumArt</string>
 			<key>label</key>
-			<string>Album Art Icon</string>
+			<string>ALBUM_ART_ICON</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -52,7 +52,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>Text shadows are currently incompatible with TinyBar.</string>
+			<string>TEXT_SHADOWS_INCOMPATIBILITY_WARNING</string>
 			<key>id</key>
 			<string>BannersSectionDisabled</string>
 		</dict>
@@ -68,7 +68,7 @@
 			<key>key</key>
 			<string>Gradient</string>
 			<key>label</key>
-			<string>Gradient</string>
+			<string>GRADIENT</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>
@@ -82,7 +82,7 @@
 			<key>key</key>
 			<string>BorderRadius</string>
 			<key>label</key>
-			<string>Round Corners</string>
+			<string>ROUND_CORNERS</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>
@@ -98,7 +98,7 @@
 			<key>key</key>
 			<string>TextShadow</string>
 			<key>label</key>
-			<string>Text Shadow</string>
+			<string>TEXT_SHADOW</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -110,13 +110,13 @@
 			<key>id</key>
 			<string>TextShadowDisabled</string>
 			<key>label</key>
-			<string>Text Shadow</string>
+			<string>TEXT_SHADOW</string>
 		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Background Opacity</string>
+			<string>BACKGROUND_OPACITY</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -128,7 +128,7 @@
 			<key>key</key>
 			<string>BannerOpacity</string>
 			<key>label</key>
-			<string>Background Opacity</string>
+			<string>BACKGROUND_OPACITY</string>
 			<key>max</key>
 			<real>100</real>
 			<key>min</key>
@@ -142,7 +142,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Color Intensity</string>
+			<string>COLOR_INTENSITY</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -154,7 +154,7 @@
 			<key>key</key>
 			<string>BannerColorIntensity</string>
 			<key>label</key>
-			<string>Color Intensity</string>
+			<string>COLOR_INTENSITY</string>
 			<key>max</key>
 			<real>100</real>
 			<key>min</key>
@@ -168,7 +168,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Grayscale Intensity</string>
+			<string>GRAYSCALE_INTENSITY</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -180,7 +180,7 @@
 			<key>key</key>
 			<string>BannerGrayscaleIntensity</string>
 			<key>label</key>
-			<string>Grayscale Intensity</string>
+			<string>GRAYSCALE_INTENSITY</string>
 			<key>max</key>
 			<real>100</real>
 			<key>min</key>
@@ -194,7 +194,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Hide Elements</string>
+			<string>HIDE_ELEMENTS_TITLE</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>
@@ -208,7 +208,7 @@
 			<key>key</key>
 			<string>RemoveIcon</string>
 			<key>label</key>
-			<string>Hide Icon</string>
+			<string>HIDE_ICON</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>
@@ -222,24 +222,10 @@
 			<key>key</key>
 			<string>RemoveGrabber</string>
 			<key>label</key>
-			<string>Hide Grabber</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSGroupCell</string>
-		</dict>
-		<dict>
-			<key>action</key>
-			<string>showTestBanner</string>
-			<key>cell</key>
-			<string>PSButtonCell</string>
-			<key>cellClass</key>
-			<string>HBTintedTableCell</string>
-			<key>label</key>
-			<string>Test Banner</string>
+			<string>HIDE_GRABBER</string>
 		</dict>
 	</array>
 	<key>title</key>
-	<string>Banners</string>
+	<string>BANNERS</string>
 </dict>
 </plist>
