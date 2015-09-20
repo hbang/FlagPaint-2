@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>LOCK_SCREEN</key>
+	<string>Lock Screen</string>
+
+	<!-- Switch to toggle tinting. -->
+	<key>ENABLED</key>
+	<string>Enabled</string>
+
+	<!-- Switch to toggle using a gradient or solid background. -->
+	<key>GRADIENT</key>
+	<string>Gradient</string>
+
+	<!-- Switch to toggle fading the top and bottom. -->
+	<key>FADE_EDGES</key>
+	<string>Fade Top and Bottom</string>
+
+	<!-- Text explaining what the fading feature does. -->
+	<key>FADE_EDGES_EXPLANATION</key>
+	<string>Adds a subtle fade effect to the top and bottom of the notification list.</string>
+
+	<!-- Switch to disable notifications from dimming. -->
+	<key>DISABLE_DIMMING</key>
+	<string>Disable Dimming</string>
+
+	<!-- Text explaining what the Disable Dimming switch does. -->
+	<key>DISABLE_DIMMING_EXPLANATION</key>
+	<string>Disables the default behaviour of all but the first notification being dimmed.</string>
+
+	<!-- Label for a background opacity (transparency) slider. -->
+	<key>BACKGROUND_OPACITY</key>
+	<string>Background Opacity</string>
+
+	<!-- Title for the "Hide Elements" section. -->
+	<key>HIDE_ELEMENTS_TITLE</key>
+	<string>Hide Elements</string>
+
+	<!-- Switch to toggle hiding the “slide to view” text below a notification. -->
+	<key>HIDE_SLIDE_ACTION</key>
+	<string>Hide “Slide To”</string>
+</dict>
+</plist>
