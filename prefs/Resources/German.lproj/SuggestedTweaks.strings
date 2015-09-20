@@ -1,2 +1,13 @@
-"FlagPaint goes great with these related tweaks, which are officially tested to ensure they work with FlagPaint." = "FlagPaint passt gut zu diesen aufgelisteten Tweaks, welche offiziell von uns getestet worden sind, um sicher zu gehen, dass sie mit FlagPaint harmonieren.";
-"Suggested Tweaks" = "Vorgeschlagene Tweaks";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>SUGGESTED_TWEAKS</key>
+	<string>Vorgeschlagene Tweaks</string>
+
+	<!-- Message displayed at the top. -->
+	<key>INTRODUCTION</key>
+	<string>FlagPaint passt gut zu diesen aufgelisteten Tweaks, welche offiziell von uns getestet worden sind, um sicher zu gehen, dass sie mit FlagPaint harmonieren.</string>
+</dict>
+</plist>

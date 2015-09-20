@@ -1,7 +1,33 @@
-"Adds a subtle fade effect to the top and bottom of the notification list." = "Fügt einen dezenten Ausblendungs-Effekt am oberen und unteren Rand der Benachrichtigungsliste hinzu.";
-"Background Opacity" = "Deckkraft im Hintergrund";
-"Enabled" = "Aktiviert";
-"Fade Top and Bottom" = "Anfang und Ende ausblenden";
-"If your notifications disappear after toggling settings here, try a respring. This will be fixed in a future release." = "Wenn deine Benachrichtigungen verschwinden, nachdem du hier etwas eingestellt hast, dann versuche dein SpringBoard neu zu laden. Dieser Fehler wird in einer künftigen Version behoben.";
-"Notification Center" = "Mitteilungszentrale";
-"Respring" = "SpringBoard neu laden";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>NOTIFICATION_CENTER</key>
+	<string>Mitteilungszentrale</string>
+
+	<!-- Switch to toggle tinting. -->
+	<key>ENABLED</key>
+	<string>Aktiviert</string>
+
+	<!-- Switch to toggle fading the top and bottom. -->
+	<key>FADE_EDGES</key>
+	<string>Anfang und Ende ausblenden</string>
+
+	<!-- Text explaining what the fading feature does. -->
+	<key>FADE_EDGES_EXPLANATION</key>
+	<string>Fügt einen dezenten Ausblendungs-Effekt am oberen und unteren Rand der Benachrichtigungsliste hinzu.</string>
+
+	<!-- Label for a background opacity (transparency) slider. -->
+	<key>BACKGROUND_OPACITY</key>
+	<string>Deckkraft im Hintergrund</string>
+
+	<!-- Label explaining a respring is requierd to apply settings. -->
+	<key>RESPRING_EXPLANATION</key>
+	<string>SpringBoard neu laden, um diese Einstellungen anzuwenden.</string>
+
+	<!-- Button to perform a respring. -->
+	<key>RESPRING</key>
+	<string>SpringBoard neu laden</string>
+</dict>
+</plist>

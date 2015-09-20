@@ -1,11 +1,25 @@
-"About" = "Über";
-"Chinese: Kevin Lee" = "Chinesisch: Kevin Lee";
-"Developer" = "Entwickler";
-"Email Support" = "E-Mail Support";
-"Experiencing issues? Send us an email and we’ll help you." = "Gibt es ein Problem? Dann schicke uns eine E-Mail und wir werden dir helfen.";
-"French: Spydar007" = "Französisch: Spydar007";
-"German: HalfScoper" = "Deutsch: HalfScoper";
-"Icon" = "Symbol";
-"Swedish: iDaniel" = "Schwedisch: iDaniel";
-"Translators" = "Übersetzer";
-"Visit Website" = "Website besuchen";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>ABOUT</key>
+	<string>Über</string>
+
+	<!-- Heading above the "Email Support" button. -->
+	<key>EMAIL_SUPPORT_HEADER</key>
+	<string>Gibt es ein Problem?</string>
+
+	<!-- Button to send an email to the developer. -->
+	<key>EMAIL_SUPPORT</key>
+	<string>E-Mail Support</string>
+
+	<!-- Headings above the credits. -->
+	<key>DEVELOPER</key>
+	<string>Entwickler</string>
+	<key>ICON</key>
+	<string>Symbol</string>
+	<key>TRANSLATORS</key>
+	<string>Übersetzer</string>
+</dict>
+</plist>

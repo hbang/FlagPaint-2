@@ -1,14 +1,53 @@
-"Album Art Icon" = "Albums-Deckblatt";
-"Background Opacity" = "Deckkraft im Hintergrund";
-"Banners" = "Banner";
-"Color Intensity" = "Stärke der Farbe";
-"Enabled" = "Aktiviert";
-"Gradient" = "Gradient";
-"Grayscale Intensity" = "Stärke der Vergrauung";
-"Hide Elements" = "Elemente verstecken";
-"Hide Grabber" = "Verstecke den Grabber";
-"Hide Icon" = "Verstecke Symbol";
-"Round Corners" = "Runde Ecken";
-"Shows the currently playing song’s album art for banners shown by tweaks such as NowListening." = "Zeigt das Deckblatt des Albums des momentan spielenden Songs für Banner von Tweaks wie NowListening an.";
-"Test Banner" = "Test-Banner";
-"Text Shadow" = "Text-Schatten";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>BANNERS</key>
+	<string>Banner</string>
+
+	<!-- Switch to toggle tinting. -->
+	<key>ENABLED</key>
+	<string>Aktiviert</string>
+
+	<!-- Switch to toggle showing an album art icon. -->
+	<key>ALBUM_ART_ICON</key>
+	<string>Albums-Deckblatt</string>
+
+	<!-- Explanation of the album art icon switch. -->
+	<key>ALBUM_ART_ICON_EXPLANATION</key>
+	<string>Zeigt das Deckblatt des Albums des momentan spielenden Songs für Banner von Tweaks wie NowListening an.</string>
+
+	<!-- Switches to toggle a gradient background, round corners, and displaying a shadow below the text. -->
+	<key>GRADIENT</key>
+	<string>Gradient</string>
+	<key>ROUND_CORNERS</key>
+	<string>Runde Ecken</string>
+	<key>TEXT_SHADOW</key>
+	<string>Text-Schatten</string>
+
+	<!-- Warning message explaining that the shadows can't be used due to an incompatibility. -->
+	<key>TEXT_SHADOWS_INCOMPATIBILITY_WARNING</key>
+	<string>Text-Schatten sind nicht kompatibel mit TinyBar.</string>
+
+	<!-- Label for background opacity (transparency), color intensity, and grayscale intensity sliders. -->
+	<key>BACKGROUND_OPACITY</key>
+	<string>Deckkraft im Hintergrund</string>
+	<key>COLOR_INTENSITY</key>
+	<string>Stärke der Farbe</string>
+	<key>GRAYSCALE_INTENSITY</key>
+	<string>Stärke der Vergrauung</string>
+
+	<!-- Title for the "Hide Elements" section. -->
+	<key>HIDE_ELEMENTS_TITLE</key>
+	<string>Elemente verstecken</string>
+
+	<!-- Switch to toggle hiding the icon on a banner. -->
+	<key>HIDE_ICON</key>
+	<string>Verstecke Symbol</string>
+
+	<!-- Switch to toggle hiding the grabber on a banner. -->
+	<key>HIDE_GRABBER</key>
+	<string>Verstecke den Grabber</string>
+</dict>
+</plist>

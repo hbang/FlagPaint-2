@@ -1,12 +1,49 @@
-"About" = "Über";
-"Banners" = "Banner";
-"Bigger Icon" = "Größeres Symbol";
-"Colors" = "Farben";
-"Hide “Now” Label" = "Das “Jetzt” ausblenden";
-"Lock Screen" = "Sperrbildschirm";
-"Notification Center" = "Mitteilungszentrale";
-"Suggested Tweaks" = "Diese Tweaks empfiehlt FlagPaint";
-"Test Banner" = "Test-Banner";
-"Test Lock Screen Notification" = "Testnachricht auf dem Sperrbildschirm";
-"Test Notifications" = "Benachrichtigungen testen";
-"Various" = "Verschiedenes";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Default text displayed when sharing the tweak. -->
+	<key>SHARE_TEXT</key>
+	<string>Ich benutze #FlagPaint, um Farbe in meinem %@-Benachrichtigungen hinzuzufügen!</string>
+
+	<!-- Button shown at the top-right of the "Banners" and "Lock Screen" sections. -->
+	<key>TEST</key>
+	<string>Test</string>
+
+	<!-- Buttons leading to sub-sections of the settings. -->
+	<key>BANNERS</key>
+	<string>Banner</string>
+	<key>LOCK_SCREEN</key>
+	<string>Sperrbildschirm</string>
+	<key>NOTIFICATION_CENTER</key>
+	<string>Mitteilungszentrale</string>
+	<key>COLORS</key>
+	<string>Farben</string>
+
+	<!-- Title of the various settings on the main page -->
+	<key>VARIOUS_TITLE</key>
+	<string>Verschiedenes</string>
+
+	<!-- Labels of switches -->
+	<key>BIGGER_ICON</key>
+	<string>Größeres Symbol</string>
+	<key>HIDE_NOW_LABEL</key>
+	<string>Das “Jetzt” ausblenden</string>
+
+	<!-- Title for the test notification buttons -->
+	<key>TEST_NOTIFICATIONS_TITLE</key>
+	<string>Benachrichtigungen testen</string>
+
+	<!-- Labels of the test buttons -->
+	<key>TEST_BANNER</key>
+	<string>Test-Banner</string>
+	<key>TEST_LOCK_SCREEN</key>
+	<string>Testnachricht auf dem Sperrbildschirm</string>
+
+	<!-- Buttons leading to sub-sections -->
+	<key>SUGGESTED_TWEAKS</key>
+	<string>Vorgeschlagene Tweaks</string>
+	<key>ABOUT</key>
+	<string>Über</string>
+</dict>
+</plist>

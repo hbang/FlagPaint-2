@@ -1,6 +1,25 @@
-"A lower value causes darker tint colors; a higher value causes lighter tint colors. The value prior to FlagPaint 2.5 was 50%." = "Eine niedrigere Einheit verursacht hellere Farbtöne. Die Einheit in der Version von FlagPaint vor 2.5 war 50%.";
-"Colors" = "Farben";
-"Custom Tint Colors" = "Eigene Färbungen";
-"Notification tint colors are determined from the average colors in the app’s icon. Themers can use the FlagPaint theme interface to set specific colors." = "Die Färbung der Benachrichtigung ist durch die Farbe des Icons der App bestimmt. Themer können das Theme-Interface von FlagPaint nutzen, um spezielle Farben einzustellen.";
-"This feature is coming in the next FlagPaint beta." = "Diese Funktion kommt mit der nächsten Beta von FlagPaint.";
-"Tint Vibrancy" = "Intensität der Färbung";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>COLORS</key>
+	<string>Farben</string>
+
+	<!-- Explanation of how tint colors work. The text enclosed in [a]...[/a] is a link. -->
+	<key>TINT_COLORS_EXPLANATION</key>
+	<string>Die Färbung der Benachrichtigung ist durch die Farbe des Icons der App bestimmt. Themer können das [a]Theme-Interface von FlagPaint[/a] nutzen, um spezielle Farben einzustellen.</string>
+
+	<!-- Label for tint vibrancy slider. -->
+	<key>TINT_VIBRANCY</key>
+	<string>Intensität der Färbung</string>
+
+	<!-- Label explaining the tint vibrancy slider. -->
+	<key>TINT_VIBRANCY_EXPLANATION</key>
+	<string>Eine niedrigere Einheit verursacht hellere Farbtöne. Die Einheit in der Version von FlagPaint vor 2.5 war 50%.</string>
+
+	<!-- Button leading to the custom tint colors page. -->
+	<key>CUSTOM_TINT_COLORS</key>
+	<string>Eigene Färbungen</string>
+</dict>
+</plist>
