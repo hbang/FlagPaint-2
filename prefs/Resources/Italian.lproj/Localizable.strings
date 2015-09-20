@@ -4,7 +4,7 @@
 <dict>
 	<!-- The message displayed in test notifications. -->
 	<key>TEST_NOTIFICATION_MESSAGE</key>
-	<string>Test Notifica</string>
+	<string>Notifica di prova</string>
 
 	<!-- The notification displayed when FlagPaint is first installed. -->
 	<key>THANKS_MESSAGE_TITLE</key>

@@ -28,7 +28,7 @@
 
 	<!-- Text explaining what the Disable Dimming switch does. -->
 	<key>DISABLE_DIMMING_EXPLANATION</key>
-	<string>Disabilita il comportamento predefinito di tutte, ma la prima notifica viene oscurata.</string>
+	<string>Disabilita il comportamento predefinito di tutte le notifiche, ma la prima viene oscurata.</string>
 
 	<!-- Label for a background opacity (transparency) slider. -->
 	<key>BACKGROUND_OPACITY</key>

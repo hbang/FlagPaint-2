@@ -4,7 +4,7 @@
 <dict>
 	<!-- Title. -->
 	<key>BANNERS</key>
-	<string>Banners</string>
+	<string>Banner</string>
 
 	<!-- Switch to toggle tinting. -->
 	<key>ENABLED</key>
@@ -12,7 +12,7 @@
 
 	<!-- Switch to toggle showing an album art icon. -->
 	<key>ALBUM_ART_ICON</key>
-	<string>Album Art Icon</string>
+	<string>Copertina dell'album</string>
 
 	<!-- Explanation of the album art icon switch. -->
 	<key>ALBUM_ART_ICON_EXPLANATION</key>

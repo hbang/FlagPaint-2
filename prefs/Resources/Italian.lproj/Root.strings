@@ -12,7 +12,7 @@
 
 	<!-- Buttons leading to sub-sections of the settings. -->
 	<key>BANNERS</key>
-	<string>Banners</string>
+	<string>Banner</string>
 	<key>LOCK_SCREEN</key>
 	<string>Schemata di blocco</string>
 	<key>NOTIFICATION_CENTER</key>
@@ -26,9 +26,9 @@
 
 	<!-- Labels of switches -->
 	<key>BIGGER_ICON</key>
-	<string>Grande icona</string>
+	<string>Icona più grande</string>
 	<key>HIDE_NOW_LABEL</key>
-	<string>Nascondi “Now” Label</string>
+	<string>Nascondi la scritta "Adesso"</string>
 
 	<!-- Title for the test notification buttons -->
 	<key>TEST_NOTIFICATIONS_TITLE</key>

@@ -19,5 +19,7 @@
 	<string>Sviluppatore</string>
 	<key>ICON</key>
 	<string>Icona</string>
+	<key>TRANSLATORS</key>
+	<string>Traduttori</string>
 </dict>
 </plist>

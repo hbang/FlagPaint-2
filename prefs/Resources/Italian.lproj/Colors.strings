@@ -16,7 +16,7 @@
 
 	<!-- Label explaining the tint vibrancy slider. -->
 	<key>TINT_VIBRANCY_EXPLANATION</key>
-	<string>Un valore inferiore provoca colori più scuri; un valore più alto provoca colori più chiari. Il valore FlagPaint 2.5 è stata del 50%.</string>
+	<string>Un valore inferiore indica colori più scuri; un valore più alto indica colori più chiari. Il valore della versione precedente FlagPaint 2.5 era del 50%.</string>
 
 	<!-- Button leading to the custom tint colors page. -->
 	<key>CUSTOM_TINT_COLORS</key>
