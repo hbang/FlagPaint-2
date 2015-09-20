@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- The message displayed in test notifications. -->
+	<key>TEST_NOTIFICATION_MESSAGE</key>
+	<string>Тестовое уведомление</string>
+
+	<!-- The notification displayed when FlagPaint is first installed. -->
+	<key>THANKS_MESSAGE_TITLE</key>
+	<string>Спасибо за покупку FlagPaint!</string>
+
+	<!-- "slide to configure". The "slide to" is already localized by iOS. -->
+	<!-- TRANSLATOR NOTE: not present in russian. It will be just "> Настроить" -->
+	<key>THANKS_MESSAGE_ACTION</key>
+	<string>настроить</string>
+</dict>
+</plist>
