@@ -2,25 +2,48 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>About</key>
-	<string>A propos</string>
-	<key>Banners</key>
-	<string>Bannière</string>
-	<key>Bigger Icon</key>
-	<string>Grande icône</string>
-	<key>Hide “Now” Label</key>
-	<string>Cacher la date</string>
-	<key>Lock Screen</key>
+	<!-- Default text displayed when sharing the tweak. -->
+	<key>SHARE_TEXT</key>
+	<string>J’utilise #FlagPaint pour colorer mes notifications de mon %@!</string>
+
+	<!-- Button shown at the top-right of the "Banners" and "Lock Screen" sections. -->
+	<key>TEST</key>
+	<string>Test</string>
+
+	<!-- Buttons leading to sub-sections of the settings. -->
+	<key>BANNERS</key>
+	<string>Bannières</string>
+	<key>LOCK_SCREEN</key>
 	<string>Ecran de verrouillage</string>
-	<key>Notification Center</key>
-	<string>Centre de notifications</string>
-	<key>Test Banner</key>
-	<string>Test des bannières</string>
-	<key>Test Lock Screen Notification</key>
-	<string>Test des notifications sur l'écran de verrouillage</string>
-	<key>Test Notifications</key>
-	<string>Test des notifications</string>
-	<key>Various</key>
+	<key>NOTIFICATION_CENTER</key>
+	<string>Centre des notifications</string>
+	<key>COLORS</key>
+	<string>Couleurs</string>
+
+	<!-- Title of the various settings on the main page -->
+	<key>VARIOUS_TITLE</key>
 	<string>Autres</string>
+
+	<!-- Labels of switches -->
+	<key>BIGGER_ICON</key>
+	<string>Grande icône</string>
+	<key>HIDE_NOW_LABEL</key>
+	<string>Cacher la mention “maintenant”</string>
+
+	<!-- Title for the test notification buttons -->
+	<key>TEST_NOTIFICATIONS_TITLE</key>
+	<string>Test des notification</string>
+
+	<!-- Labels of the test buttons -->
+	<key>TEST_BANNER</key>
+	<string>Bannière de test</string>
+	<key>TEST_LOCK_SCREEN</key>
+	<string>Test de notifications sur l’écran verrouillé</string>
+
+	<!-- Buttons leading to sub-sections -->
+	<key>SUGGESTED_TWEAKS</key>
+	<string>Tweaks suggérés</string>
+	<key>ABOUT</key>
+	<string>A propos</string>
 </dict>
 </plist>

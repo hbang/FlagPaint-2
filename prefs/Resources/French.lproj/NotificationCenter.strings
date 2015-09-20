@@ -2,13 +2,32 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Adds a subtle fade effect to the top and bottom of the notification list.</key>
-	<string>Ajoute un effet au dessus et en dessous de la liste de notification</string>
-	<key>Background Opacity</key>
-	<string>Opacité de l'arrière-plan</string>
-	<key>Enabled</key>
+	<!-- Title. -->
+	<key>NOTIFICATION_CENTER</key>
+	<string>Centre des notifications</string>
+
+	<!-- Switch to toggle tinting. -->
+	<key>ENABLED</key>
 	<string>Activé</string>
-	<key>Fade Top and Bottom</key>
+
+	<!-- Switch to toggle fading the top and bottom. -->
+	<key>FADE_EDGES</key>
 	<string>Effet de fondu</string>
+
+	<!-- Text explaining what the fading feature does. -->
+	<key>FADE_EDGES_EXPLANATION</key>
+	<string>Affiche un discret effet de fondu en haut et en bas des notifications.</string>
+
+	<!-- Label for a background opacity (transparency) slider. -->
+	<key>BACKGROUND_OPACITY</key>
+	<string>Opacité de l’arrière plan</string>
+
+	<!-- Label explaining a respring is requierd to apply settings. -->
+	<key>RESPRING_EXPLANATION</key>
+	<string>Respring pour appliquer les réglages.</string>
+
+	<!-- Button to perform a respring. -->
+	<key>RESPRING</key>
+	<string>Respring</string>
 </dict>
 </plist>

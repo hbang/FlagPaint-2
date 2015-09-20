@@ -2,13 +2,24 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Developers</key>
-	<string>Développeurs</string>
-	<key>Email support</key>
-	<string>Contact par email</string>
-	<key>Experiencing Issues? Send us an email and we’ll help you</key>
-	<string>Vous rencontrez un souci ? Envoyez nous un email</string>
-	<key>Visit Website</key>
-	<string>Visiter notre site web</string>
+	<!-- Title. -->
+	<key>ABOUT</key>
+	<string>A propos</string>
+
+	<!-- Heading above the "Email Support" button. -->
+	<key>EMAIL_SUPPORT_HEADER</key>
+	<string>Vous rencontrez un problème?</string>
+
+	<!-- Button to send an email to the developer. -->
+	<key>EMAIL_SUPPORT</key>
+	<string>Ecrire au support</string>
+
+	<!-- Headings above the credits. -->
+	<key>DEVELOPER</key>
+	<string>Développeur</string>
+	<key>ICON</key>
+	<string>Icône</string>
+	<key>TRANSLATORS</key>
+	<string>Traducteurs</string>
 </dict>
 </plist>

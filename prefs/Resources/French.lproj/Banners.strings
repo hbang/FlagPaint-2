@@ -2,31 +2,52 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Album Art Icon</key>
-	<string>Icône de la pochette d'album</string>
-	<key>Background Opacity</key>
-	<string>Opacité de l'arrière-plan</string>
-	<key>Color Intensity</key>
-	<string>Intensité des couleurs</string>
-	<key>Enabled</key>
+	<!-- Title. -->
+	<key>BANNERS</key>
+	<string>Bannières</string>
+
+	<!-- Switch to toggle tinting. -->
+	<key>ENABLED</key>
 	<string>Activé</string>
-	<key>Gradient</key>
+
+	<!-- Switch to toggle showing an album art icon. -->
+	<key>ALBUM_ART_ICON</key>
+	<string>Icône de la pochette de l’album</string>
+
+	<!-- Explanation of the album art icon switch. -->
+	<key>ALBUM_ART_ICON_EXPLANATION</key>
+	<string>Affiche la pochette de l’album de la musique en cours de lecture dans les notifications de changement de musique, tel que le font certains tweaks comme NowListening.</string>
+
+	<!-- Switches to toggle a gradient background, round corners, and displaying a shadow below the text. -->
+	<key>GRADIENT</key>
 	<string>Dégradé</string>
-	<key>Grayscale Intensity</key>
-	<string>Intensité des niveaux de gris</string>
-	<key>Hide Elements</key>
-	<string>Cacher les éléments</string>
-	<key>Hide Grabber</key>
-	<string>Cacher le grabber sur les bannières</string>
-	<key>Hide Icon</key>
-	<string>Cacher l'icône</string>
-	<key>Round Corners</key>
+	<key>ROUND_CORNERS</key>
 	<string>Coins arrondis</string>
-	<key>Shows the currently playing song’s album art for banners shown by tweaks such as NowListening</key>
-	<string>Affiche la pochette de l'album en train d'être joué sous forme de bannière comme le fait le tweak NowListening</string>
-	<key>Test Banner</key>
-	<string>Test des bannières</string>
-	<key>Text Shadow</key>
-	<string>Ombre du texte</string>
+	<key>TEXT_SHADOW</key>
+	<string>Ombre de texte</string>
+
+	<!-- Warning message explaining that the shadows can't be used due to an incompatibility. -->
+	<key>TEXT_SHADOWS_INCOMPATIBILITY_WARNING</key>
+	<string>Les ombres de texte ne sont pas compatibles avec TinyBar.</string>
+
+	<!-- Label for background opacity (transparency), color intensity, and grayscale intensity sliders. -->
+	<key>BACKGROUND_OPACITY</key>
+	<string>Opacité de l’arrière plan</string>
+	<key>COLOR_INTENSITY</key>
+	<string>Intensité des couleurs</string>
+	<key>GRAYSCALE_INTENSITY</key>
+	<string>Intensité des nuances de gris</string>
+
+	<!-- Title for the "Hide Elements" section. -->
+	<key>HIDE_ELEMENTS_TITLE</key>
+	<string>Cacher des éléments</string>
+
+	<!-- Switch to toggle hiding the icon on a banner. -->
+	<key>HIDE_ICON</key>
+	<string>Cacher l’icône</string>
+
+	<!-- Switch to toggle hiding the grabber on a banner. -->
+	<key>HIDE_GRABBER</key>
+	<string>Cacher les chevrons sur les bannières</string>
 </dict>
 </plist>
