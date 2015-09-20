@@ -19,5 +19,7 @@
 	<string>Developer</string>
 	<key>ICON</key>
 	<string>Icon</string>
+	<key>TRANSLATORS</key>
+	<string>Translators</string>
 </dict>
 </plist>
