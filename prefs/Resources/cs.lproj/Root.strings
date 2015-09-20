@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Default text displayed when sharing the tweak. -->
+	<key>SHARE_TEXT</key>
+	<string>Používám #FlagPaint pro zbarvení mých notifikací na mém %@!</string>
+
+	<!-- Button shown at the top-right of the "Banners" and "Lock Screen" sections. -->
+	<key>TEST</key>
+	<string>Otestovat</string>
+
+	<!-- Buttons leading to sub-sections of the settings. -->
+	<key>BANNERS</key>
+	<string>Bannery</string>
+	<key>LOCK_SCREEN</key>
+	<string>Zamykací obrazovka</string>
+	<key>NOTIFICATION_CENTER</key>
+	<string>Notifikační centrum</string>
+	<key>COLORS</key>
+	<string>Barvy</string>
+
+	<!-- Title of the various settings on the main page -->
+	<key>VARIOUS_TITLE</key>
+	<string>Různé</string>
+
+	<!-- Labels of switches -->
+	<key>BIGGER_ICON</key>
+	<string>Větší ikony</string>
+	<key>HIDE_NOW_LABEL</key>
+	<string>Skrýt “Teď”</string>
+
+	<!-- Title for the test notification buttons -->
+	<key>TEST_NOTIFICATIONS_TITLE</key>
+	<string>Otestovat notfikace</string>
+
+	<!-- Labels of the test buttons -->
+	<key>TEST_BANNER</key>
+	<string>Otestovat banner</string>
+	<key>TEST_LOCK_SCREEN</key>
+	<string>Otestovat banner na zamykací obrazovce</string>
+
+	<!-- Buttons leading to sub-sections -->
+	<key>SUGGESTED_TWEAKS</key>
+	<string>Doporučené tweaky</string>
+	<key>ABOUT</key>
+	<string>O aplikaci</string>
+</dict>
+</plist>
