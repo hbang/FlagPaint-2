@@ -1,10 +1,45 @@
-"Enabled" = "Aktiverad";
-"Gradient" = "Gradient";
-"Fade Top and Bottom" = "Tona ut övre och nedre sidan";
-"Adds a subtle fade effect effect to the top and bottom of the notification list." = "Lägger till en svag övergångseffekt till början och slutet av notifierings listan.";
-"Disable Dimming" = "Avaktivera dimning";
-"Disables the default behavior of all but the first notification being dimmed." = "Avaktiverar det normala beteendet av alla förutom den första notifikationen som dimmas.";
-"Background Opacity" = "Bakgrunds genomskinlighet";
-"Hide Elements" = "Göm element";
-"Hide “Slide To”" = "Göm “Dra för att”";
-"Test Lock Screen Notification" = "Test låsskärms notifiering";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>LOCK_SCREEN</key>
+	<string>Låsskärm</string>
+
+	<!-- Switch to toggle tinting. -->
+	<key>ENABLED</key>
+	<string>Enabled</string>
+
+	<!-- Switch to toggle using a gradient or solid background. -->
+	<key>GRADIENT</key>
+	<string>Gradient</string>
+
+	<!-- Switch to toggle fading the top and bottom. -->
+	<key>FADE_EDGES</key>
+	<string>Tona ut övre och nedre sidan</string>
+
+	<!-- Text explaining what the fading feature does. -->
+	<key>FADE_EDGES_EXPLANATION</key>
+	<string>Lägger till en svag övergångseffekt till början och slutet av notifierings listan.</string>
+
+	<!-- Switch to disable notifications from dimming. -->
+	<key>DISABLE_DIMMING</key>
+	<string>Avaktivera dimning</string>
+
+	<!-- Text explaining what the Disable Dimming switch does. -->
+	<key>DISABLE_DIMMING_EXPLANATION</key>
+	<string>Avaktiverar det normala beteendet av alla förutom den första notifikationen som dimmas.</string>
+
+	<!-- Label for a background opacity (transparency) slider. -->
+	<key>BACKGROUND_OPACITY</key>
+	<string>Bakgrund opacitet</string>
+
+	<!-- Title for the "Hide Elements" section. -->
+	<key>HIDE_ELEMENTS_TITLE</key>
+	<string>Göm elements</string>
+
+	<!-- Switch to toggle hiding the “slide to view” text below a notification. -->
+	<key>HIDE_SLIDE_ACTION</key>
+	<string>Göm “Dra för att”</string>
+</dict>
+</plist>

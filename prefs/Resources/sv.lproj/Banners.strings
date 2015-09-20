@@ -1,12 +1,53 @@
-"Enabled" = "Aktiverad";
-"Album Art Icon" = "Skivomslagsikon";
-"Gradient" = "Gradient";
-"Shows the currently playing song’s album art for banners shown by tweaks such as NowListening." = "Visar omslaget av låten som spelas för banderoler visade av tweaks som NowListening.";
-"Round Corners" = "Runda hörn";
-"Text Shadow" = "Textskugga";
-"Color Intensity" = "Färgintensitet";
-"Grayscale Intensity" = "Gråskaleintensitet";
-"Hide Elements" = "Göm element";
-"Hide Icon" = "Göm ikon";
-"Hide Grabber" = "Göm grabber";
-"Test Banner" = "Test banderol";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>BANNERS</key>
+	<string>Banderoller</string>
+
+	<!-- Switch to toggle tinting. -->
+	<key>ENABLED</key>
+	<string>Aktiverad</string>
+
+	<!-- Switch to toggle showing an album art icon. -->
+	<key>ALBUM_ART_ICON</key>
+	<string>Skivomslagsikon</string>
+
+	<!-- Explanation of the album art icon switch. -->
+	<key>ALBUM_ART_ICON_EXPLANATION</key>
+	<string>Visar omslaget av låten som spelas för banderoller visade av tweaks som NowListening.</string>
+
+	<!-- Switches to toggle a gradient background, round corners, and displaying a shadow below the text. -->
+	<key>GRADIENT</key>
+	<string>Gradient</string>
+	<key>ROUND_CORNERS</key>
+	<string>Runda hörn</string>
+	<key>TEXT_SHADOW</key>
+	<string>Text skugga</string>
+
+	<!-- Warning message explaining that the shadows can't be used due to an incompatibility. -->
+	<key>TEXT_SHADOWS_INCOMPATIBILITY_WARNING</key>
+	<string>Text skuggor är inte kompatibelt med TinyBar.</string>
+
+	<!-- Label for background opacity (transparency), color intensity, and grayscale intensity sliders. -->
+	<key>BACKGROUND_OPACITY</key>
+	<string>Bakgrund opacitet</string>
+	<key>COLOR_INTENSITY</key>
+	<string>Färgintensitet</string>
+	<key>GRAYSCALE_INTENSITY</key>
+	<string>Gråskaleintensitet</string>
+
+	<!-- Title for the "Hide Elements" section. -->
+	<key>HIDE_ELEMENTS_TITLE</key>
+	<string>Göm element</string>
+
+	<!-- Switch to toggle hiding the icon on a banner. -->
+	<key>HIDE_ICON</key>
+	<string>Göm ikon</string>
+
+	<!-- Switch to toggle hiding the grabber on a banner. -->
+	<key>HIDE_GRABBER</key>
+	<string>Göm grabber</string>
+</dict>
+</plist>

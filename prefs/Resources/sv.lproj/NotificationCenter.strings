@@ -1,4 +1,33 @@
-"Enabled" = "Aktiverad";
-"Fade Top and Bottom" = "Tona ut övre och nedre sidan";
-"Adds a subtle fade effect effect to the top and bottom of the notification list."  = "Lägger till en svag övergångseffekt till början och slutet av notifierings listan.";
-"Background Opacity" = "Bakgrunds genomskinlighet";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>NOTIFICATION_CENTER</key>
+	<string>Notiscenter</string>
+
+	<!-- Switch to toggle tinting. -->
+	<key>ENABLED</key>
+	<string>Aktiverad</string>
+
+	<!-- Switch to toggle fading the top and bottom. -->
+	<key>FADE_EDGES</key>
+	<string>Tona ut övre och nedre sidan</string>
+
+	<!-- Text explaining what the fading feature does. -->
+	<key>FADE_EDGES_EXPLANATION</key>
+	<string>Lägger till en svag övergångseffekt till början och slutet av notifierings listan.</string>
+
+	<!-- Label for a background opacity (transparency) slider. -->
+	<key>BACKGROUND_OPACITY</key>
+	<string>Bakgrund opacitet</string>
+
+	<!-- Label explaining a respring is requierd to apply settings. -->
+	<key>RESPRING_EXPLANATION</key>
+	<string>Starta om SpringBoard för att tillämpa dessa inställningar.</string>
+
+	<!-- Button to perform a respring. -->
+	<key>RESPRING</key>
+	<string>Starta om SpringBoard</string>
+</dict>
+</plist>

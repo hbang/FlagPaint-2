@@ -1,10 +1,49 @@
-"Banners" = "Banderoler";
-"Lock Screen" = "Låsskörm";
-"Notification Center" = "Notiscenter";
-"Various" = "Diverse";
-"Bigger Icon" = "Större ikon";
-"Hide “Now” Label" = "Dölj “Nu” etikett";
-"Test Notifications" = "Test notfieringar";
-"Test Banner" = "Test banderol";
-"Test Lock Screen Notification" = "Test låsskärm notfiering";
-"About" = "Om";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Default text displayed when sharing the tweak. -->
+	<key>SHARE_TEXT</key>
+	<string>Jag använder #FlagPaint för att lägga till färg på mina %@ notiser!</string>
+
+	<!-- Button shown at the top-right of the "Banners" and "Lock Screen" sections. -->
+	<key>TEST</key>
+	<string>Testa</string>
+
+	<!-- Buttons leading to sub-sections of the settings. -->
+	<key>BANNERS</key>
+	<string>Banderoller</string>
+	<key>LOCK_SCREEN</key>
+	<string>Låsskärm</string>
+	<key>NOTIFICATION_CENTER</key>
+	<string>Notiscenter</string>
+	<key>COLORS</key>
+	<string>Färger</string>
+
+	<!-- Title of the various settings on the main page -->
+	<key>VARIOUS_TITLE</key>
+	<string>Diverse</string>
+
+	<!-- Labels of switches -->
+	<key>BIGGER_ICON</key>
+	<string>Större ikon</string>
+	<key>HIDE_NOW_LABEL</key>
+	<string>Dölj “Nu” etikett</string>
+
+	<!-- Title for the test notification buttons -->
+	<key>TEST_NOTIFICATIONS_TITLE</key>
+	<string>Testa notiser</string>
+
+	<!-- Labels of the test buttons -->
+	<key>TEST_BANNER</key>
+	<string>Testa banderoll</string>
+	<key>TEST_LOCK_SCREEN</key>
+	<string>Prova låsskärm notiser</string>
+
+	<!-- Buttons leading to sub-sections -->
+	<key>SUGGESTED_TWEAKS</key>
+	<string>Tweaks förslag</string>
+	<key>ABOUT</key>
+	<string>Om</string>
+</dict>
+</plist>

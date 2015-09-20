@@ -1,4 +1,25 @@
-"Visit Website" = "Besök hemsidan";
-"Developers" = "Utvecklare";
-"Experiencing Issues? Send us an email and we’ll help you." = "Problem? Skicka ett mail till oss och vi hjälper dig.";
-"Email Support" = "Email support";
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>ABOUT</key>
+	<string>Om</string>
+
+	<!-- Heading above the "Email Support" button. -->
+	<key>EMAIL_SUPPORT_HEADER</key>
+	<string>Har du problem?</string>
+
+	<!-- Button to send an email to the developer. -->
+	<key>EMAIL_SUPPORT</key>
+	<string>E-post Support</string>
+
+	<!-- Headings above the credits. -->
+	<key>DEVELOPER</key>
+	<string>Utvecklare</string>
+	<key>ICON</key>
+	<string>Ikon</string>
+	<key>TRANSLATORS</key>
+	<string>Översättare</string>
+</dict>
+</plist>
