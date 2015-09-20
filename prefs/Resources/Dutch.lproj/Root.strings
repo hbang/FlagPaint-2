@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Default text displayed when sharing the tweak. -->
+	<key>SHARE_TEXT</key>
+	<string>Ik gebruik #FlagPaint om kleur toe te voegen aan de meldingen op mijn %@!</string>
+
+	<!-- Button shown at the top-right of the "Banners" and "Lock Screen" sections. -->
+	<key>TEST</key>
+	<string>Test</string>
+
+	<!-- Buttons leading to sub-sections of the settings. -->
+	<key>BANNERS</key>
+	<string>Stroken</string>
+	<key>LOCK_SCREEN</key>
+	<string>Toegangsscherm</string>
+	<key>NOTIFICATION_CENTER</key>
+	<string>Berichtencentrum</string>
+	<key>COLORS</key>
+	<string>Kleuren</string>
+
+	<!-- Title of the various settings on the main page -->
+	<key>VARIOUS_TITLE</key>
+	<string>Overige</string>
+
+	<!-- Labels of switches -->
+	<key>BIGGER_ICON</key>
+	<string>Groter icoon</string>
+	<key>HIDE_NOW_LABEL</key>
+	<string>Verberg “Nu”-label</string>
+
+	<!-- Title for the test notification buttons -->
+	<key>TEST_NOTIFICATIONS_TITLE</key>
+	<string>Meldingen testen</string>
+
+	<!-- Labels of the test buttons -->
+	<key>TEST_BANNER</key>
+	<string>Test strook</string>
+	<key>TEST_LOCK_SCREEN</key>
+	<string>Test melding op toegangsscherm</string>
+
+	<!-- Buttons leading to sub-sections -->
+	<key>SUGGESTED_TWEAKS</key>
+	<string>Aanbevolen tweaks</string>
+	<key>ABOUT</key>
+	<string>Over</string>
+</dict>
+</plist>
