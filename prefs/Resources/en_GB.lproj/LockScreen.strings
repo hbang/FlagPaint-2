@@ -28,7 +28,7 @@
 
 	<!-- Text explaining what the Disable Dimming switch does. -->
 	<key>DISABLE_DIMMING_EXPLANATION</key>
-	<string>Disables the default behavior of all but the first notification being dimmed.</string>
+	<string>Disables the default behaviour of all but the first notification being dimmed.</string>
 
 	<!-- Label for a background opacity (transparency) slider. -->
 	<key>BACKGROUND_OPACITY</key>
