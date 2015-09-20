@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>NOTIFICATION_CENTER</key>
+	<string>通知センター</string>
+
+	<!-- Switch to toggle tinting. -->
+	<key>ENABLED</key>
+	<string>有効</string>
+
+	<!-- Switch to toggle fading the top and bottom. -->
+	<key>FADE_EDGES</key>
+	<string>上端と下端をフェード</string>
+
+	<!-- Text explaining what the fading feature does. -->
+	<key>FADE_EDGES_EXPLANATION</key>
+	<string>通知リストの上下に微妙なフェード効果を追加します。</string>
+
+	<!-- Label for a background opacity (transparency) slider. -->
+	<key>BACKGROUND_OPACITY</key>
+	<string>背景の不透明度</string>
+
+	<!-- Label explaining a respring is requierd to apply settings. -->
+	<key>RESPRING_EXPLANATION</key>
+	<string>設定を適用するために、Respringすることは必要です。</string>
+
+	<!-- Button to perform a respring. -->
+	<key>RESPRING</key>
+	<string>Respringする</string>
+</dict>
+</plist>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>ABOUT</key>
+	<string>FlagPaintについて</string>
+
+	<!-- Heading above the "Email Support" button. -->
+	<key>EMAIL_SUPPORT_HEADER</key>
+	<string>問題ありますか？</string>
+
+	<!-- Button to send an email to the developer. -->
+	<key>EMAIL_SUPPORT</key>
+	<string>サポートにメールしてね</string>
+
+	<!-- Headings above the credits. -->
+	<key>DEVELOPER</key>
+	<string>開発者</string>
+	<key>ICON</key>
+	<string>アイコン設計者</string>
+	<key>TRANSLATORS</key>
+	<string>翻訳者</string>
+</dict>
+</plist>

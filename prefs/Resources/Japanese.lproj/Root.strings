@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Default text displayed when sharing the tweak. -->
+	<!-- TRANS NOTE: %@ without context, was removed due to untranslatability -->
+	<!-- TRANS NOTE: hope you donmai the kaomoji usage :p -->
+	<key>SHARE_TEXT</key>
+	<string>私の%@の通知に色合いを追加します、#FlagPaint　を使ってで！</string>
+
+	<!-- Button shown at the top-right of the "Banners" and "Lock Screen" sections. -->
+	<key>TEST</key>
+	<string>テスト</string>
+
+	<!-- Buttons leading to sub-sections of the settings. -->
+	<key>BANNERS</key>
+	<string>バーナー</string>
+	<key>LOCK_SCREEN</key>
+	<string>ロック画面</string>
+	<key>NOTIFICATION_CENTER</key>
+	<string>通知センター</string>
+	<key>COLORS</key>
+	<string>色</string>
+
+	<!-- Title of the various settings on the main page -->
+	<key>VARIOUS_TITLE</key>
+	<string>その他</string>
+
+	<!-- Labels of switches -->
+	<key>BIGGER_ICON</key>
+	<string>大きなアイコン</string>
+	<key>HIDE_NOW_LABEL</key>
+	<string>「今」を隠す</string>
+
+	<!-- Title for the test notification buttons -->
+	<key>TEST_NOTIFICATIONS_TITLE</key>
+	<string>お知らせをテスト</string>
+
+	<!-- Labels of the test buttons -->
+	<key>TEST_BANNER</key>
+	<string>バーナーをテスト</string>
+	<key>TEST_LOCK_SCREEN</key>
+	<string>ロック画面のお知らせをテスト</string>
+
+	<!-- Buttons leading to sub-sections -->
+	<key>SUGGESTED_TWEAKS</key>
+	<string>推奨なtweak</string>
+	<key>ABOUT</key>
+	<string>FlagPaintについて</string>
+</dict>
+</plist>
