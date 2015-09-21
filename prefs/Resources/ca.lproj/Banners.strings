@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>BANNERS</key>
+	<string>Bàners</string>
+
+	<!-- Switch to toggle tinting. -->
+	<key>ENABLED</key>
+	<string>Activat</string>
+
+	<!-- Switch to toggle showing an album art icon. -->
+	<key>ALBUM_ART_ICON</key>
+	<string>Icona de la portada de disc</string>
+
+	<!-- Explanation of the album art icon switch. -->
+	<key>ALBUM_ART_ICON_EXPLANATION</key>
+	<string>Mostra la portada de la cançó en reproducció en les notificacions de canvi de cançó mostrades per tweaks com NowListening.</string>
+
+	<!-- Switches to toggle a gradient background, round corners, and displaying a shadow below the text. -->
+	<key>GRADIENT</key>
+	<string>Graduat</string>
+	<key>ROUND_CORNERS</key>
+	<string>Cantonades arrodonides</string>
+	<key>TEXT_SHADOW</key>
+	<string>Ombra del text</string>
+
+	<!-- Warning message explaining that the shadows can't be used due to an incompatibility. -->
+	<key>TEXT_SHADOWS_INCOMPATIBILITY_WARNING</key>
+	<string>Les ombres de text no són compatibles amb TinyBar.</string>
+
+	<!-- Label for background opacity (transparency), color intensity, and grayscale intensity sliders. -->
+	<key>BACKGROUND_OPACITY</key>
+	<string>Opacitat del fons</string>
+	<key>COLOR_INTENSITY</key>
+	<string>Intensitat del color</string>
+	<key>GRAYSCALE_INTENSITY</key>
+	<string>Intensitat de l'escala de grisos</string>
+
+	<!-- Title for the "Hide Elements" section. -->
+	<key>HIDE_ELEMENTS_TITLE</key>
+	<string>Amagar elements</string>
+
+	<!-- Switch to toggle hiding the icon on a banner. -->
+	<key>HIDE_ICON</key>
+	<string>Amagar icona</string>
+
+	<!-- Switch to toggle hiding the grabber on a banner. -->
+	<key>HIDE_GRABBER</key>
+	<string>Amagar mànec</string>
+</dict>
+</plist>

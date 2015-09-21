@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>COLORS</key>
+	<string>Colors</string>
+
+	<!-- Explanation of how tint colors work. The text enclosed in [a]...[/a] is a link. -->
+	<key>TINT_COLORS_EXPLANATION</key>
+	<string>Els colors de tint de les notificacions es determinen a partir dels colors aproximats a la icona de l’app. Els creadors de temes poden utilitzar la [a]interfície de temes de FlagPaint[/a] per especificar colors.</string>
+
+	<!-- Label for tint vibrancy slider. -->
+	<key>TINT_VIBRANCY</key>
+	<string>Vibrància del tint</string>
+
+	<!-- Label explaining the tint vibrancy slider. -->
+	<key>TINT_VIBRANCY_EXPLANATION</key>
+	<string>Un valor més petit fa colors de tint més foscos; un valor més gran fa color de tint més clars. El valor predeterminat d’abans del FlagPaint 2.5 era 50%.</string>
+
+	<!-- Button leading to the custom tint colors page. -->
+	<key>CUSTOM_TINT_COLORS</key>
+	<string>Colors de tint personalitzats</string>
+</dict>
+</plist>

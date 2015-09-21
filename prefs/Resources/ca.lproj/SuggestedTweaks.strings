@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>SUGGESTED_TWEAKS</key>
+	<string>Tweaks suggerits</string>
+
+	<!-- Message displayed at the top. -->
+	<key>INTRODUCTION</key>
+	<string>El FlagPaint va genial amb aquests tweaks relacionats, que s’han provat per assegurar que vagin la mar de bé amb el FlagPaint.</string>
+</dict>
+</plist>
