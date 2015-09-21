@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>COLORS</key>
+	<string>الألوان</string>
+
+	<!-- Explanation of how tint colors work. The text enclosed in [a]...[/a] is a link. -->
+	<key>TINT_COLORS_EXPLANATION</key>
+	<string>يتم تحديد لون الإشعار من اللون الغالب فى أيقونة التطبيق. يمكن للمصممين استخدام [a]واجهة سمات FlagPaint[/a] لإعداد الوان مخصصة.</string>
+
+	<!-- Label for tint vibrancy slider. -->
+	<key>TINT_VIBRANCY</key>
+	<string>حيوية الألوان</string>
+
+	<!-- Label explaining the tint vibrancy slider. -->
+	<key>TINT_VIBRANCY_EXPLANATION</key>
+	<string>القيم الأقل تعطى لون داكن؛ بينما القيم الأعلى تعطى لون فاتح. القيمة المعدة مسبقا هى 50%</string>
+
+	<!-- Button leading to the custom tint colors page. -->
+	<key>CUSTOM_TINT_COLORS</key>
+	<string>الوان مخصصة</string>
+</dict>
+</plist>

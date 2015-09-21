@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Default text displayed when sharing the tweak. -->
+	<key>SHARE_TEXT</key>
+	<string>انا استخدم #FlagPaint لكى اضيف الألوان الى اشعارات %@ الخاص بى!</string>
+
+	<!-- Button shown at the top-right of the "Banners" and "Lock Screen" sections. -->
+	<key>TEST</key>
+	<string>تجربة</string>
+
+	<!-- Buttons leading to sub-sections of the settings. -->
+	<key>BANNERS</key>
+	<string>شعارات</string>
+	<key>LOCK_SCREEN</key>
+	<string>قفل الشاشة</string>
+	<key>NOTIFICATION_CENTER</key>
+	<string>مركز الإشعارات</string>
+	<key>COLORS</key>
+	<string>الألوان</string>
+
+	<!-- Title of the various settings on the main page -->
+	<key>VARIOUS_TITLE</key>
+	<string>متعدد</string>
+
+	<!-- Labels of switches -->
+	<key>BIGGER_ICON</key>
+	<string>أيقونة أكبر</string>
+	<key>HIDE_NOW_LABEL</key>
+	<string>إخفاء علامة "الآن"</string>
+
+	<!-- Title for the test notification buttons -->
+	<key>TEST_NOTIFICATIONS_TITLE</key>
+	<string>تجربة الإشعارات</string>
+
+	<!-- Labels of the test buttons -->
+	<key>TEST_BANNER</key>
+	<string>تجربة الشعار</string>
+	<key>TEST_LOCK_SCREEN</key>
+	<string>تجربة إشعارات قفل الشاشة</string>
+
+	<!-- Buttons leading to sub-sections -->
+	<key>SUGGESTED_TWEAKS</key>
+	<string>ادوات مساعدة مقترحة</string>
+	<key>ABOUT</key>
+	<string>حول</string>
+</dict>
+</plist>
