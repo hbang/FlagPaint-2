@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Default text displayed when sharing the tweak. -->
+	<key>SHARE_TEXT</key>
+	<string>A #FlagPaint-et használom az %@ készülékemen a színes értesítésekhez!</string>
+
+	<!-- Button shown at the top-right of the "Banners" and "Lock Screen" sections. -->
+	<key>TEST</key>
+	<string>Teszt</string>
+
+	<!-- Buttons leading to sub-sections of the settings. -->
+	<key>BANNERS</key>
+	<string>Szalagok</string>
+	<key>LOCK_SCREEN</key>
+	<string>Zárolt képernyõ</string>
+	<key>NOTIFICATION_CENTER</key>
+	<string>Értesítési központ</string>
+	<key>COLORS</key>
+	<string>Színek</string>
+
+	<!-- Title of the various settings on the main page -->
+	<key>VARIOUS_TITLE</key>
+	<string>Vegyes</string>
+
+	<!-- Labels of switches -->
+	<key>BIGGER_ICON</key>
+	<string>Nagyobb ikon</string>
+	<key>HIDE_NOW_LABEL</key>
+	<string>Az “épp most” elrejtése</string>
+
+	<!-- Title for the test notification buttons -->
+	<key>TEST_NOTIFICATIONS_TITLE</key>
+	<string>Teszt értesítések</string>
+
+	<!-- Labels of the test buttons -->
+	<key>TEST_BANNER</key>
+	<string>Szalag teszt</string>
+	<key>TEST_LOCK_SCREEN</key>
+	<string>Zárolt képernyõ értesítés teszt</string>
+
+	<!-- Buttons leading to sub-sections -->
+	<key>SUGGESTED_TWEAKS</key>
+	<string>Ajánlott tweakek</string>
+	<key>ABOUT</key>
+	<string>A programról</string>
+</dict>
+</plist>
