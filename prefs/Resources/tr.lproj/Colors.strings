@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>COLORS</key>
+	<string>Renkler</string>
+
+	<!-- Explanation of how tint colors work. The text enclosed in [a]...[/a] is a link. -->
+	<key>TINT_COLORS_EXPLANATION</key>
+	<string>Bildirim tonu renkler uygulamanın simgesi ortalama renklerden belirlenir. Kullanılabilir Temalar [a]FlagPaint tema arayüz[/a] Belirli renkleri ayarlamak için.</string>
+
+	<!-- Label for tint vibrancy slider. -->
+	<key>TINT_VIBRANCY</key>
+	<string>Ton canlılık</string>
+
+	<!-- Label explaining the tint vibrancy slider. -->
+	<key>TINT_VIBRANCY_EXPLANATION</key>
+	<string>Daha düşük bir değer daha koyu renk; daha yüksek bir değer daha hafif tonlu renk. FlagPaint 2.5 öncesi değer %50 idi.</string>
+
+	<!-- Button leading to the custom tint colors page. -->
+	<key>CUSTOM_TINT_COLORS</key>
+	<string>Özel-Renklerin Tonları</string>
+</dict>
+</plist>

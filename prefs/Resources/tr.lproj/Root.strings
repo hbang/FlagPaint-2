@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Default text displayed when sharing the tweak. -->
+	<key>SHARE_TEXT</key>
+	<string>%@ bildirimlerime renk eklemek için #FlagPaint kullanıyorum!</string>
+
+	<!-- Button shown at the top-right of the "Banners" and "Lock Screen" sections. -->
+	<key>TEST</key>
+	<string>Testi</string>
+
+	<!-- Buttons leading to sub-sections of the settings. -->
+	<key>BANNERS</key>
+	<string>Başlıklar</string>
+	<key>LOCK_SCREEN</key>
+	<string>Kilit Ekranı</string>
+	<key>NOTIFICATION_CENTER</key>
+	<string>Bildirim Merkezi</string>
+	<key>COLORS</key>
+	<string>Renkler</string>
+
+	<!-- Title of the various settings on the main page -->
+	<key>VARIOUS_TITLE</key>
+	<string>Çeşitli</string>
+
+	<!-- Labels of switches -->
+	<key>BIGGER_ICON</key>
+	<string>Büyük icon</string>
+	<key>HIDE_NOW_LABEL</key>
+	<string>"Şimdi" etiketi gizle</string>
+
+	<!-- Title for the test notification buttons -->
+	<key>TEST_NOTIFICATIONS_TITLE</key>
+	<string>Bildirim testi</string>
+
+	<!-- Labels of the test buttons -->
+	<key>TEST_BANNER</key>
+	<string>Başlıklar testi</string>
+	<key>TEST_LOCK_SCREEN</key>
+	<string>Kilit Ekran Bildirim testi</string>
+
+	<!-- Buttons leading to sub-sections -->
+	<key>SUGGESTED_TWEAKS</key>
+	<string>Önerilen Tweakler</string>
+	<key>ABOUT</key>
+	<string>Hakkında</string>
+</dict>
+</plist>
