@@ -16,7 +16,7 @@
 
 	<!-- Explanation of the album art icon switch. -->
 	<key>ALBUM_ART_ICON_EXPLANATION</key>
-	<string>Affiche la pochette de l’album de la musique en cours de lecture dans les notifications de changement de musique, tel que le font certains tweaks comme NowListening.</string>
+	<string>Affiche la pochette de l’album de la chanson en cours de lecture dans les notifications de changement de chanson, tel que le font certains tweaks comme NowListening.</string>
 
 	<!-- Switches to toggle a gradient background, round corners, and displaying a shadow below the text. -->
 	<key>GRADIENT</key>
@@ -28,11 +28,11 @@
 
 	<!-- Warning message explaining that the shadows can't be used due to an incompatibility. -->
 	<key>TEXT_SHADOWS_INCOMPATIBILITY_WARNING</key>
-	<string>Les ombres de texte ne sont pas compatibles avec TinyBar.</string>
+	<string>Les ombres de texte sont incompatibles avec TinyBar.</string>
 
 	<!-- Label for background opacity (transparency), color intensity, and grayscale intensity sliders. -->
 	<key>BACKGROUND_OPACITY</key>
-	<string>Opacité de l’arrière plan</string>
+	<string>Opacité de l’arrière-plan</string>
 	<key>COLOR_INTENSITY</key>
 	<string>Intensité des couleurs</string>
 	<key>GRAYSCALE_INTENSITY</key>

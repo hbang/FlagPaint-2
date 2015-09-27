@@ -8,7 +8,7 @@
 
 	<!-- Explanation of how tint colors work. The text enclosed in [a]...[/a] is a link. -->
 	<key>TINT_COLORS_EXPLANATION</key>
-	<string>Les couleurs de teinte des notifications sont déterminées en fonction de la couleur dominante de l’application concernée Les themers peuvent utiliser [a]l’interface de personnalisation de FlagPaint[/a] pour en spécifier une en particulier.</string>
+	<string>Les couleurs de teinte des notifications sont déterminées en fonction de la couleur dominante de l’application concernée. Les themers peuvent utiliser [a]l’interface de personnalisation de FlagPaint[/a] pour en spécifier une en particulier.</string>
 
 	<!-- Label for tint vibrancy slider. -->
 	<key>TINT_VIBRANCY</key>
@@ -20,6 +20,6 @@
 
 	<!-- Button leading to the custom tint colors page. -->
 	<key>CUSTOM_TINT_COLORS</key>
-	<string>Couleur de teinte personnalisée</string>
+	<string>Couleurs de teinte personnalisées</string>
 </dict>
 </plist>

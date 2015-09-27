@@ -4,7 +4,7 @@
 <dict>
 	<!-- Title. -->
 	<key>ABOUT</key>
-	<string>A propos</string>
+	<string>À propos</string>
 
 	<!-- Heading above the "Email Support" button. -->
 	<key>EMAIL_SUPPORT_HEADER</key>
@@ -12,7 +12,7 @@
 
 	<!-- Button to send an email to the developer. -->
 	<key>EMAIL_SUPPORT</key>
-	<string>Ecrire au support</string>
+	<string>Écrire au support</string>
 
 	<!-- Headings above the credits. -->
 	<key>DEVELOPER</key>

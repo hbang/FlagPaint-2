@@ -14,9 +14,9 @@
 	<key>BANNERS</key>
 	<string>Bannières</string>
 	<key>LOCK_SCREEN</key>
-	<string>Ecran de verrouillage</string>
+	<string>Écran de verrouillage</string>
 	<key>NOTIFICATION_CENTER</key>
-	<string>Centre des notifications</string>
+	<string>Centre de notifications</string>
 	<key>COLORS</key>
 	<string>Couleurs</string>
 
@@ -38,12 +38,12 @@
 	<key>TEST_BANNER</key>
 	<string>Bannière de test</string>
 	<key>TEST_LOCK_SCREEN</key>
-	<string>Test de notifications sur l’écran verrouillé</string>
+	<string>Test de notification sur l’écran verrouillé</string>
 
 	<!-- Buttons leading to sub-sections -->
 	<key>SUGGESTED_TWEAKS</key>
 	<string>Tweaks suggérés</string>
 	<key>ABOUT</key>
-	<string>A propos</string>
+	<string>À propos</string>
 </dict>
 </plist>
