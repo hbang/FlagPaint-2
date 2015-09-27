@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>COLORS</key>
+	<string>Couleurs</string>
+
+	<!-- Explanation of how tint colors work. The text enclosed in [a]...[/a] is a link. -->
+	<key>TINT_COLORS_EXPLANATION</key>
+	<string>Les couleurs de teinte des notifications sont déterminées en fonction de la couleur dominante de l’application concernée. Les themers peuvent utiliser [a]l’interface de personnalisation de FlagPaint[/a] pour en spécifier une en particulier.</string>
+
+	<!-- Label for tint vibrancy slider. -->
+	<key>TINT_VIBRANCY</key>
+	<string>Variance de teinte</string>
+
+	<!-- Label explaining the tint vibrancy slider. -->
+	<key>TINT_VIBRANCY_EXPLANATION</key>
+	<string>Une valeur basse provoque des couleurs de teintes plus foncées; une valeur haute provoque des couleurs de teinte plus claires. La valeur par défaut de FlagPaint 2,5 était de 50%.</string>
+
+	<!-- Button leading to the custom tint colors page. -->
+	<key>CUSTOM_TINT_COLORS</key>
+	<string>Couleurs de teinte personnalisées</string>
+</dict>
+</plist>
