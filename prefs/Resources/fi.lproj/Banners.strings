@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>BANNERS</key>
+	<string>Bannerit</string>
+
+	<!-- Switch to toggle tinting. -->
+	<key>ENABLED</key>
+	<string>Käytössä</string>
+
+	<!-- Switch to toggle showing an album art icon. -->
+	<key>ALBUM_ART_ICON</key>
+	<string>Albumin kansikuvan ikoni</string>
+
+	<!-- Explanation of the album art icon switch. -->
+	<key>ALBUM_ART_ICON_EXPLANATION</key>
+	<string>Näyttää tällä hetkellä soivan kappaleen kansikuvan kappaleen vaihtuessa ilmoituksissa, joita näyttää esimerkiksi tweak NowListening.</string>
+
+	<!-- Switches to toggle a gradient background, round corners, and displaying a shadow below the text. -->
+	<key>GRADIENT</key>
+	<string>Gradientti</string>
+	<key>ROUND_CORNERS</key>
+	<string>Pyöreät kulmat</string>
+	<key>TEXT_SHADOW</key>
+	<string>Tekstin varjostus</string>
+
+	<!-- Warning message explaining that the shadows can't be used due to an incompatibility. -->
+	<key>TEXT_SHADOWS_INCOMPATIBILITY_WARNING</key>
+	<string>Tekstin varjostus ei ole yhteensopiva TinyBar kanssa.</string>
+
+	<!-- Label for background opacity (transparency), color intensity, and grayscale intensity sliders. -->
+	<key>BACKGROUND_OPACITY</key>
+	<string>Taustan läpinäkyvyys</string>
+	<key>COLOR_INTENSITY</key>
+	<string>Värien intensiteetti</string>
+	<key>GRAYSCALE_INTENSITY</key>
+	<string>Harmaaväriskaalan intensiteetti</string>
+
+	<!-- Title for the "Hide Elements" section. -->
+	<key>HIDE_ELEMENTS_TITLE</key>
+	<string>Piilota elementit</string>
+
+	<!-- Switch to toggle hiding the icon on a banner. -->
+	<key>HIDE_ICON</key>
+	<string>Piilota ikoni</string>
+
+	<!-- Switch to toggle hiding the grabber on a banner. -->
+	<key>HIDE_GRABBER</key>
+	<string>Piilota noukkija</string>
+</dict>
+</plist>
