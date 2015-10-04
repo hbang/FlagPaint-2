@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>COLORS</key>
+	<string>צבעים</string>
+
+	<!-- Explanation of how tint colors work. The text enclosed in [a]...[/a] is a link. -->
+	<key>TINT_COLORS_EXPLANATION</key>
+	<string>גווני צבעים להתראות נקבעים מהצבע הממוצע באייקון האפליקציה. יוצרי ערכות נושא יכולים להשתמש ב[a]FlagPaint theme interface[/a] כדי להגדיר צבעים ספציפיים.</string>
+
+	<!-- Label for tint vibrancy slider. -->
+	<key>TINT_VIBRANCY</key>
+	<string>צבעוניות הגוון</string>
+
+	<!-- Label explaining the tint vibrancy slider. -->
+	<key>TINT_VIBRANCY_EXPLANATION</key>
+	<string>ערך נמוך יותר גורם לצבעים בגוונים כהים יותר. ערך גבוה יותר גורם לצבעים בגוונים בהירים. הערך לפני FlagPaint 2.5 היה 50%</string>
+
+	<!-- Button leading to the custom tint colors page. -->
+	<key>CUSTOM_TINT_COLORS</key>
+	<string>גווני צבעים מותאמים אישית</string>
+</dict>
+</plist>
