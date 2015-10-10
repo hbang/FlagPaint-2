@@ -69,24 +69,134 @@
 			<string>TRANSLATORS</string>
 		</dict>
 		<dict>
+			<key>cellClass</key>
+			<string>HBTwitterCell</string>
+			<key>initials</key>
+			<string>CA</string>
 			<key>label</key>
-			<string>Chinese: Kevin Lee</string>
+			<string>Quan van der Knokke</string>
+			<key>user</key>
+			<string>quanvdknokke</string>
 		</dict>
 		<dict>
+			<key>cellClass</key>
+			<string>HBTwitterCell</string>
+			<key>initials</key>
+			<string>CS</string>
 			<key>label</key>
-			<string>French: Spydar007</string>
+			<string>Luu Trong Dat</string>
+			<key>user</key>
+			<string>david19au</string>
 		</dict>
 		<dict>
+			<key>cellClass</key>
+			<string>HBTwitterCell</string>
+			<key>initials</key>
+			<string>DE</string>
 			<key>label</key>
-			<string>German: HalfScoper</string>
+			<string>Benno Krauss</string>
+			<key>user</key>
+			<string>bensge</string>
 		</dict>
 		<dict>
+			<key>cellClass</key>
+			<string>HBTwitterCell</string>
+			<key>initials</key>
+			<string>FI</string>
 			<key>label</key>
-			<string>Italian: Colamiki30</string>
+			<string>Joonas H.</string>
+			<key>user</key>
+			<string>Tuhoontuomittu</string>
 		</dict>
 		<dict>
+			<key>cellClass</key>
+			<string>HBTwitterCell</string>
+			<key>initials</key>
+			<string>FR</string>
 			<key>label</key>
-			<string>Swedish: iDaniel</string>
+			<string>Steven</string>
+			<key>user</key>
+			<string>73steven</string>
+		</dict>
+		<dict>
+			<key>cellClass</key>
+			<string>HBTwitterCell</string>
+			<key>initials</key>
+			<string>HE</string>
+			<key>label</key>
+			<string>Aran Shavit</string>
+			<key>user</key>
+			<string>Aranshavit</string>
+		</dict>
+		<dict>
+			<key>cellClass</key>
+			<string>HBTwitterCell</string>
+			<key>initials</key>
+			<string>HU</string>
+			<key>label</key>
+			<string>Bence Petrezsely</string>
+			<key>user</key>
+			<string>BenciikeePetrez</string>
+		</dict>
+		<dict>
+			<key>cellClass</key>
+			<string>HBTwitterCell</string>
+			<key>initials</key>
+			<string>IT</string>
+			<key>label</key>
+			<string>Michele</string>
+			<key>user</key>
+			<string>colamiki30</string>
+		</dict>
+		<dict>
+			<key>cellClass</key>
+			<string>HBTwitterCell</string>
+			<key>initials</key>
+			<string>NL</string>
+			<key>label</key>
+			<string>Timon Olsthoorn</string>
+			<key>user</key>
+			<string>tmnlsthrn</string>
+		</dict>
+		<dict>
+			<key>cellClass</key>
+			<string>HBTwitterCell</string>
+			<key>initials</key>
+			<string>NO</string>
+			<key>label</key>
+			<string>Mustafa Gezen</string>
+			<key>user</key>
+			<string>switchpwn</string>
+		</dict>
+		<dict>
+			<key>cellClass</key>
+			<string>HBTwitterCell</string>
+			<key>initials</key>
+			<string>PT</string>
+			<key>label</key>
+			<string>João Oliveira</string>
+			<key>user</key>
+			<string>bassoptumc</string>
+		</dict>
+		<dict>
+			<key>cellClass</key>
+			<string>HBTwitterCell</string>
+			<key>initials</key>
+			<string>SV</string>
+			<key>label</key>
+			<string>Filip Torstensson</string>
+			<key>user</key>
+			<string>XIFiliPIX</string>
+		</dict>
+	 <dict>
+			<key>cellClass</key>
+			<string>HBTwitterCell</string>
+			<key>initials</key>
+			<string>TR</string>
+			<key>label</key>
+			<string>Kadir Akmeşe</string>
+			<key>user</key>
+			<string>KadirAkms</string>
 		</dict>
 	</array>
 	<key>title</key>
