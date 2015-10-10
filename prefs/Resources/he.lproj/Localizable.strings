@@ -12,6 +12,6 @@
 
 	<!-- "slide to configure". The "slide to" is already localized by iOS. -->
 	<key>THANKS_MESSAGE_ACTION</key>
-	<string>הגדרה</string>
+	<string>להגדיר</string>
 </dict>
 </plist>
