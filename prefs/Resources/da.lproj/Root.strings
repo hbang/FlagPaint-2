@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Default text displayed when sharing the tweak. %@ is the device type (ie, iPhone). -->
+	<key>SHARE_TEXT</key>
+	<string>Jeg benytter #FlagPaint for at tilføje farver til %@ notifikationer!</string>
+
+	<!-- Button shown at the top-right of the "Banners" and "Lock Screen" sections. -->
+	<key>TEST</key>
+	<string>Test</string>
+
+	<!-- Buttons leading to sub-sections of the settings. -->
+	<key>BANNERS</key>
+	<string>Bannere</string>
+	<key>LOCK_SCREEN</key>
+	<string>Låseskærm</string>
+	<key>NOTIFICATION_CENTER</key>
+	<string>Meddelelsescenter</string>
+	<key>COLORS</key>
+	<string>Farver</string>
+
+	<!-- Title of the various settings on the main page -->
+	<key>VARIOUS_TITLE</key>
+	<string>Diverse</string>
+
+	<!-- Labels of switches -->
+	<key>BIGGER_ICON</key>
+	<string>Større ikon</string>
+	<key>HIDE_NOW_LABEL</key>
+	<string>Skjul “Nu” tekst</string>
+
+	<!-- Title for the test notification buttons -->
+	<key>TEST_NOTIFICATIONS_TITLE</key>
+	<string>Test Notifikationer</string>
+
+	<!-- Labels of the test buttons -->
+	<key>TEST_BANNER</key>
+	<string>Test Banner</string>
+	<key>TEST_LOCK_SCREEN</key>
+	<string>Test Låseskærms Notifikation</string>
+
+	<!-- Buttons leading to sub-sections -->
+	<key>SUGGESTED_TWEAKS</key>
+	<string>Anbefalede Tweaks</string>
+	<key>ABOUT</key>
+	<string>Om</string>
+</dict>
+</plist>
