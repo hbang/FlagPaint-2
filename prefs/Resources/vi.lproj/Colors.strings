@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>COLORS</key>
+	<string>Màu sắc</string>
+
+	<!-- Explanation of how tint colors work. The text enclosed in [a]...[/a] is a link. -->
+	<key>TINT_COLORS_EXPLANATION</key>
+	<string>Các màu tô của thông báo được xác định từ màu trung bình của biểu tượng ứng dụng. Người tạo chủ đề có thể sử [a]giao diện chủ đề của FlagPaint[/a] để đặt các màu riêng biệt.</string>
+
+	<!-- Label for tint vibrancy slider. -->
+	<key>TINT_VIBRANCY</key>
+	<string>Độ rung màu tô</string>
+
+	<!-- Label explaining the tint vibrancy slider. -->
+	<key>TINT_VIBRANCY_EXPLANATION</key>
+	<string>Giá trị thấp hơn cho màu tô tối hơn, giá trị cao hơn cho màu tô sáng hơn. Giá trị ban đầu của FlagPaint là 50%.</string>
+
+	<!-- Button leading to the custom tint colors page. -->
+	<key>CUSTOM_TINT_COLORS</key>
+	<string>Màu tô tùy chọn</string>
+</dict>
+</plist>

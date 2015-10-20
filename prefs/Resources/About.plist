@@ -218,6 +218,16 @@
 			<key>user</key>
 			<string>KadirAkms</string>
 		</dict>
+				<dict>
+			<key>cellClass</key>
+			<string>HBTwitterCell</string>
+			<key>initials</key>
+			<string>zh_TW</string>
+			<key>label</key>
+			<string>SnowPoke</string>
+			<key>user</key>
+			<string>loststars93</string>
+		</dict>
 		<dict>
 			<key>cellClass</key>
 			<string>HBTwitterCell</string>
