@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>COLORS</key>
+	<string>Warna</string>
+
+	<!-- Explanation of how tint colors work. The text enclosed in [a]...[/a] is a link. -->
+	<key>TINT_COLORS_EXPLANATION</key>
+	<string>Notifikasi rona warna berdasarkan purata warna dalam ikon aplikasi. Pengubah tema boleh menggunakan [a] antaramuka tema FlagPaint [/a] untuk mengubah warna tertentu.</string>
+
+	<!-- Label for tint vibrancy slider. -->
+	<key>TINT_VIBRANCY</key>
+	<string>Rona Terang</string>
+
+	<!-- Label explaining the tint vibrancy slider. -->
+	<key>TINT_VIBRANCY_EXPLANATION</key>
+	<string>Nilai yang rendah menyebabkan rona warna gelap; nilai yang tinggi menyebabkan rona warna terang. Nilai sebelum FlagPaint 2.5 adalah 50%.</string>
+
+	<!-- Button leading to the custom tint colors page. -->
+	<key>CUSTOM_TINT_COLORS</key>
+	<string>Ubahsuai Rona Warna</string>
+</dict>
+</plist>

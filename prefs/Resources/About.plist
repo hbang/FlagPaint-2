@@ -162,6 +162,16 @@
 			<key>cellClass</key>
 			<string>HBTwitterCell</string>
 			<key>initials</key>
+			<string>MS</string>
+			<key>label</key>
+			<string>syamersam</string>
+			<key>user</key>
+			<string>syamersam</string>
+		</dict>
+		<dict>
+			<key>cellClass</key>
+			<string>HBTwitterCell</string>
+			<key>initials</key>
 			<string>NL</string>
 			<key>label</key>
 			<string>Timon Olsthoorn</string>

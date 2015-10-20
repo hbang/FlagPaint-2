@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Default text displayed when sharing the tweak. %@ is the device type (ie, iPhone). -->
+	<key>SHARE_TEXT</key>
+	<string>Saya menggunakan #FlagPaint untuk menambah warna pada notifikasi %@ saya!</string>
+
+	<!-- Button shown at the top-right of the "Banners" and "Lock Screen" sections. -->
+	<key>TEST</key>
+	<string>Menguji</string>
+
+	<!-- Buttons leading to sub-sections of the settings. -->
+	<key>BANNERS</key>
+	<string>Sepanduk</string>
+	<key>LOCK_SCREEN</key>
+	<string>Kunci Skrin</string>
+	<key>NOTIFICATION_CENTER</key>
+	<string>Pusat Notifikasi</string>
+	<key>COLORS</key>
+	<string>Warna</string>
+
+	<!-- Title of the various settings on the main page -->
+	<key>VARIOUS_TITLE</key>
+	<string>Pelbagai</string>
+
+	<!-- Labels of switches -->
+	<key>BIGGER_ICON</key>
+	<string>Ikon Yang Lebih Besar</string>
+	<key>HIDE_NOW_LABEL</key>
+	<string>Sembunyikan Label “Now”</string>
+
+	<!-- Title for the test notification buttons -->
+	<key>TEST_NOTIFICATIONS_TITLE</key>
+	<string>Uji Notifikasi</string>
+
+	<!-- Labels of the test buttons -->
+	<key>TEST_BANNER</key>
+	<string>Uji Sepanduk</string>
+	<key>TEST_LOCK_SCREEN</key>
+	<string>Uji Notifikasi Skrin Kunci</string>
+
+	<!-- Buttons leading to sub-sections -->
+	<key>SUGGESTED_TWEAKS</key>
+	<string>Tweak Yang Dicadangkan</string>
+	<key>ABOUT</key>
+	<string>Perihal</string>
+</dict>
+</plist>
