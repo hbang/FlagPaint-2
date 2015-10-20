@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Default text displayed when sharing the tweak. %@ is the device type (ie, iPhone). -->
+	<key>SHARE_TEXT</key>
+	<string>我用 #FlagPaint 增艷我的 %@ 通知中心！</string>
+
+	<!-- Button shown at the top-right of the "Banners" and "Lock Screen" sections. -->
+	<key>TEST</key>
+	<string>測試</string>
+
+	<!-- Buttons leading to sub-sections of the settings. -->
+	<key>BANNERS</key>
+	<string>橫額</string>
+	<key>LOCK_SCREEN</key>
+	<string>鎖定畫面</string>
+	<key>NOTIFICATION_CENTER</key>
+	<string>通知中心</string>
+	<key>COLORS</key>
+	<string>顏色</string>
+
+	<!-- Title of the various settings on the main page -->
+	<key>VARIOUS_TITLE</key>
+	<string>其它設定</string>
+
+	<!-- Labels of switches -->
+	<key>BIGGER_ICON</key>
+	<string>大圖標</string>
+	<key>HIDE_NOW_LABEL</key>
+	<string>隱藏「立刻隱藏」標示</string>
+
+	<!-- Title for the test notification buttons -->
+	<key>TEST_NOTIFICATIONS_TITLE</key>
+	<string>測試通知</string>
+
+	<!-- Labels of the test buttons -->
+	<key>TEST_BANNER</key>
+	<string>測試橫額</string>
+	<key>TEST_LOCK_SCREEN</key>
+	<string>測試鎖定畫面通知</string>
+
+	<!-- Buttons leading to sub-sections -->
+	<key>SUGGESTED_TWEAKS</key>
+	<string>插件建議</string>
+	<key>ABOUT</key>
+	<string>關於</string>
+</dict>
+</plist>

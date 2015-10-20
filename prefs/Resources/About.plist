@@ -218,7 +218,7 @@
 			<key>user</key>
 			<string>XIFiliPIX</string>
 		</dict>
-	 <dict>
+	    <dict>
 			<key>cellClass</key>
 			<string>HBTwitterCell</string>
 			<key>initials</key>
@@ -228,15 +228,25 @@
 			<key>user</key>
 			<string>KadirAkms</string>
 		</dict>
-				<dict>
+		<dict>
 			<key>cellClass</key>
 			<string>HBTwitterCell</string>
 			<key>initials</key>
-			<string>zh_TW</string>
+			<string>VI</string>
 			<key>label</key>
 			<string>SnowPoke</string>
 			<key>user</key>
 			<string>loststars93</string>
+		</dict>
+		<dict>
+			<key>cellClass</key>
+			<string>HBTwitterCell</string>
+			<key>initials</key>
+			<string>zh_HK</string>
+			<key>label</key>
+			<string>darkj2k</string>
+			<key>user</key>
+			<string>darkj2k</string>
 		</dict>
 		<dict>
 			<key>cellClass</key>
