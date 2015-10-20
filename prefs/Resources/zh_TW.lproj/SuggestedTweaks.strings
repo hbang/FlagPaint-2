@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>SUGGESTED_TWEAKS</key>
+	<string>建議的插件</string>
+
+	<!-- Message displayed at the top. -->
+	<key>INTRODUCTION</key>
+	<string>FlagPaint 與相關的插件相得益彰，這些插件都已正式測試過來確認可以與 FlagPaint 正常運作。</string>
+</dict>
+</plist>

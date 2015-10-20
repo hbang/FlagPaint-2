@@ -184,6 +184,16 @@
 			<key>initials</key>
 			<string>PT</string>
 			<key>label</key>
+			<string>Nino</string>
+			<key>user</key>
+			<string>carlyslayjepsen</string>
+		</dict>
+		<dict>
+			<key>cellClass</key>
+			<string>HBTwitterCell</string>
+			<key>initials</key>
+			<string>pt_PT</string>
+			<key>label</key>
 			<string>João Oliveira</string>
 			<key>user</key>
 			<string>bassoptumc</string>
@@ -207,6 +217,16 @@
 			<string>Kadir Akmeşe</string>
 			<key>user</key>
 			<string>KadirAkms</string>
+		</dict>
+		<dict>
+			<key>cellClass</key>
+			<string>HBTwitterCell</string>
+			<key>initials</key>
+			<string>zh_TW</string>
+			<key>label</key>
+			<string>ZGMF-X20A</string>
+			<key>user</key>
+			<string>zmfg_x20a</string>
 		</dict>
 	</array>
 	<key>title</key>
