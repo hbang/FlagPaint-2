@@ -202,6 +202,16 @@
 			<key>cellClass</key>
 			<string>HBTwitterCell</string>
 			<key>initials</key>
+			<string>RO</string>
+			<key>label</key>
+			<string>Rav</string>
+			<key>user</key>
+			<string>razvici</string>
+		</dict>
+		<dict>
+			<key>cellClass</key>
+			<string>HBTwitterCell</string>
+			<key>initials</key>
 			<string>SV</string>
 			<key>label</key>
 			<string>Filip Torstensson</string>

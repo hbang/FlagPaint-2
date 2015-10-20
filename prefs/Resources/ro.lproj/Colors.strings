@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>COLORS</key>
+	<string>Ascunde icoana</string>
+
+	<!-- Explanation of how tint colors work. The text enclosed in [a]...[/a] is a link. -->
+	<key>TINT_COLORS_EXPLANATION</key>
+	<string>Nunata culorii pentru notificate este determinata din media/combinatia culorilor aflate in icoana aplicatiei. Pentru cei care creaza teme, se poate folosi [a]FlagPaint theme interface[/a] pentru a specifica culoarea dorita.</string>
+
+	<!-- Label for tint vibrancy slider. -->
+	<key>TINT_VIBRANCY</key>
+	<string>Nuanta vibranta</string>
+
+	<!-- Label explaining the tint vibrancy slider. -->
+	<key>TINT_VIBRANCY_EXPLANATION</key>
+	<string>O valoare mica rezulta intr-o culoade inchisa pentru nunata; o valoare mare genereaza nuante mai deschise. Valoarea inainte de FlagPaint 2.5 era la 50%.</string>
+
+	<!-- Button leading to the custom tint colors page. -->
+	<key>CUSTOM_TINT_COLORS</key>
+	<string>Nuanta preferentiala pentru ascunde simbol</string>
+</dict>
+</plist>
