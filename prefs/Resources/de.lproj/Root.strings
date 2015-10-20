@@ -2,7 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<!-- Default text displayed when sharing the tweak. -->
+	<!-- Default text displayed when sharing the tweak. %@ is the device type (ie, iPhone). -->
 	<key>SHARE_TEXT</key>
 	<string>Ich benutze #FlagPaint, um Farbe in meinem %@-Benachrichtigungen hinzuzufügen!</string>
 

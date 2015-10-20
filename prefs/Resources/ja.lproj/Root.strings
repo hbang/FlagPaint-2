@@ -2,9 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<!-- Default text displayed when sharing the tweak. -->
+	<!-- Default text displayed when sharing the tweak. %@ is the device type (ie, iPhone). -->
 	<!-- TRANS NOTE: %@ without context, was removed due to untranslatability -->
-	<!-- TRANS NOTE: hope you donmai the kaomoji usage :p -->
 	<key>SHARE_TEXT</key>
 	<string>私の%@の通知に色合いを追加します、#FlagPaint　を使ってで！</string>
 
