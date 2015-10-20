@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Default text displayed when sharing the tweak. %@ is the device type (ie, iPhone). -->
+	<key>SHARE_TEXT</key>
+	<string>Ja koristim #FlagPaint za dodavanje boja u moje %@ obavijesti!</string>
+
+	<!-- Button shown at the top-right of the "Banners" and "Lock Screen" sections. -->
+	<key>TEST</key>
+	<string>Test</string>
+
+	<!-- Buttons leading to sub-sections of the settings. -->
+	<key>BANNERS</key>
+	<string>Banneri</string>
+	<key>LOCK_SCREEN</key>
+	<string>Zaključani Zaslon</string>
+	<key>NOTIFICATION_CENTER</key>
+	<string>Centar Obavijesti</string>
+	<key>COLORS</key>
+	<string>Boje</string>
+
+	<!-- Title of the various settings on the main page -->
+	<key>VARIOUS_TITLE</key>
+	<string>Razno</string>
+
+	<!-- Labels of switches -->
+	<key>BIGGER_ICON</key>
+	<string>Veće Ikone</string>
+	<key>HIDE_NOW_LABEL</key>
+	<string>Sakrij "Sada" Oznaku</string>
+
+	<!-- Title for the test notification buttons -->
+	<key>TEST_NOTIFICATIONS_TITLE</key>
+	<string>Test Obavijest</string>
+
+	<!-- Labels of the test buttons -->
+	<key>TEST_BANNER</key>
+	<string>Testiraj Banner</string>
+	<key>TEST_LOCK_SCREEN</key>
+	<string>Testiraj Obavijest na Zaključanom Ekranu</string>
+
+	<!-- Buttons leading to sub-sections -->
+	<key>SUGGESTED_TWEAKS</key>
+	<string>Preporučeni Tweakovi</string>
+	<key>ABOUT</key>
+	<string>O Nama</string>
+</dict>
+</plist>

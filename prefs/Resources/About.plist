@@ -132,6 +132,16 @@
 			<key>cellClass</key>
 			<string>HBTwitterCell</string>
 			<key>initials</key>
+			<string>HR</string>
+			<key>label</key>
+			<string>PIPe</string>
+			<key>user</key>
+			<string>PIPeJTV</string>
+		</dict>
+		<dict>
+			<key>cellClass</key>
+			<string>HBTwitterCell</string>
+			<key>initials</key>
 			<string>HU</string>
 			<key>label</key>
 			<string>Bence Petrezsely</string>
