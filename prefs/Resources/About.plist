@@ -182,6 +182,16 @@
 			<key>cellClass</key>
 			<string>HBTwitterCell</string>
 			<key>initials</key>
+			<string>MX</string>
+			<key>label</key>
+			<string>Aziel Rojas</string>
+			<key>user</key>
+			<string>RolaZiel</string>
+		</dict>
+		<dict>
+			<key>cellClass</key>
+			<string>HBTwitterCell</string>
+			<key>initials</key>
 			<string>NL</string>
 			<key>label</key>
 			<string>Timon Olsthoorn</string>
