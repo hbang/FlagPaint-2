@@ -232,7 +232,7 @@
 			<key>cellClass</key>
 			<string>HBTwitterCell</string>
 			<key>initials</key>
-			<string>pt_PT</string>
+			<string>PT</string>
 			<key>label</key>
 			<string>João Oliveira</string>
 			<key>user</key>
@@ -282,7 +282,7 @@
 			<key>cellClass</key>
 			<string>HBTwitterCell</string>
 			<key>initials</key>
-			<string>zh_HK</string>
+			<string>ZH</string>
 			<key>label</key>
 			<string>darkj2k</string>
 			<key>user</key>
@@ -292,7 +292,7 @@
 			<key>cellClass</key>
 			<string>HBTwitterCell</string>
 			<key>initials</key>
-			<string>zh_TW</string>
+			<string>ZH</string>
 			<key>label</key>
 			<string>ZGMF-X20A</string>
 			<key>user</key>
