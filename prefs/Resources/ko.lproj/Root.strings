@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Default text displayed when sharing the tweak. %@ is the device type (ie, iPhone). -->
+	<key>SHARE_TEXT</key>
+	<string>#FlagPaint 로 %@ 알림에 색상을 입혀서 쓰는 중!</string>
+
+	<!-- Button shown at the top-right of the "Banners" and "Lock Screen" sections. -->
+	<key>TEST</key>
+	<string>테스트</string>
+
+	<!-- Buttons leading to sub-sections of the settings. -->
+	<key>BANNERS</key>
+	<string>배너</string>
+	<key>LOCK_SCREEN</key>
+	<string>잠금 화면</string>
+	<key>NOTIFICATION_CENTER</key>
+	<string>알림 센터</string>
+	<key>COLORS</key>
+	<string>색상</string>
+
+	<!-- Title of the various settings on the main page -->
+	<key>VARIOUS_TITLE</key>
+	<string>기타</string>
+
+	<!-- Labels of switches -->
+	<key>BIGGER_ICON</key>
+	<string>큰 아이콘</string>
+	<key>HIDE_NOW_LABEL</key>
+	<string>"지금" 텍스트 숨김</string>
+
+	<!-- Title for the test notification buttons -->
+	<key>TEST_NOTIFICATIONS_TITLE</key>
+	<string>알림 테스트</string>
+
+	<!-- Labels of the test buttons -->
+	<key>TEST_BANNER</key>
+	<string>배너 테스트</string>
+	<key>TEST_LOCK_SCREEN</key>
+	<string>잠금화면 알림 테스트</string>
+
+	<!-- Buttons leading to sub-sections -->
+	<key>SUGGESTED_TWEAKS</key>
+	<string>추천 트윅</string>
+	<key>ABOUT</key>
+	<string>정보</string>
+</dict>
+</plist>

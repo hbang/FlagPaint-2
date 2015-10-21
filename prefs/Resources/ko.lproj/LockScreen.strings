@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>LOCK_SCREEN</key>
+	<string>잠금 화면</string>
+
+	<!-- Switch to toggle tinting. -->
+	<key>ENABLED</key>
+	<string>사용</string>
+
+	<!-- Switch to toggle using a gradient or solid background. -->
+	<key>GRADIENT</key>
+	<string>그라디언트</string>
+
+	<!-- Switch to toggle fading the top and bottom. -->
+	<key>FADE_EDGES</key>
+	<string>상/하단 흐림 효과</string>
+
+	<!-- Text explaining what the fading feature does. -->
+	<key>FADE_EDGES_EXPLANATION</key>
+	<string>알림 목록 맨 위와 아래에 살짝 흐려지는 효과를 추가합니다.</string>
+
+	<!-- Switch to disable notifications from dimming. -->
+	<key>DISABLE_DIMMING</key>
+	<string>어두워짐 방지</string>
+
+	<!-- Text explaining what the Disable Dimming switch does. -->
+	<key>DISABLE_DIMMING_EXPLANATION</key>
+	<string>목록의 첫번째 알림을 제외하고 전부 어두워지는 효과를 제거합니다.</string>
+
+	<!-- Label for a background opacity (transparency) slider. -->
+	<key>BACKGROUND_OPACITY</key>
+	<string>배경 투명도</string>
+
+	<!-- Title for the "Hide Elements" section. -->
+	<key>HIDE_ELEMENTS_TITLE</key>
+	<string>요소 숨김</string>
+
+	<!-- Switch to toggle hiding the “slide to view” text below a notification. -->
+	<key>HIDE_SLIDE_ACTION</key>
+	<string>"밀어서" 텍스트 숨김</string>
+</dict>
+</plist>

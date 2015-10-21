@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>BANNERS</key>
+	<string>배너</string>
+
+	<!-- Switch to toggle tinting. -->
+	<key>ENABLED</key>
+	<string>사용</string>
+
+	<!-- Switch to toggle showing an album art icon. -->
+	<key>ALBUM_ART_ICON</key>
+	<string>앨범 아트 아이콘</string>
+
+	<!-- Explanation of the album art icon switch. -->
+	<key>ALBUM_ART_ICON_EXPLANATION</key>
+	<string>NowListening 등의 트윅에서 보내는 곡 변경 알림에 현재 재생중인 곡의 앨범아트를 보여줍니다.</string>
+
+	<!-- Switches to toggle a gradient background, round corners, and displaying a shadow below the text. -->
+	<key>GRADIENT</key>
+	<string>그라데이션</string>
+	<key>ROUND_CORNERS</key>
+	<string>부드러운 모서리</string>
+	<key>TEXT_SHADOW</key>
+	<string>문자 그림자 효과</string>
+
+	<!-- Warning message explaining that the shadows can't be used due to an incompatibility. -->
+	<key>TEXT_SHADOWS_INCOMPATIBILITY_WARNING</key>
+	<string>TinyBar와 문자 그림자 효과는 호환되지 않습니다.</string>
+
+	<!-- Label for background opacity (transparency), color intensity, and grayscale intensity sliders. -->
+	<key>BACKGROUND_OPACITY</key>
+	<string>배경 투명도</string>
+	<key>COLOR_INTENSITY</key>
+	<string>색상 강도</string>
+	<key>GRAYSCALE_INTENSITY</key>
+	<string>회색 강도</string>
+
+	<!-- Title for the "Hide Elements" section. -->
+	<key>HIDE_ELEMENTS_TITLE</key>
+	<string>요소 숨김</string>
+
+	<!-- Switch to toggle hiding the icon on a banner. -->
+	<key>HIDE_ICON</key>
+	<string>아이콘 숨김</string>
+
+	<!-- Switch to toggle hiding the grabber on a banner. -->
+	<key>HIDE_GRABBER</key>
+	<string>손잡이 숨김</string>
+</dict>
+</plist>

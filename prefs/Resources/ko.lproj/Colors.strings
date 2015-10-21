@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>COLORS</key>
+	<string>색상</string>
+
+	<!-- Explanation of how tint colors work. The text enclosed in [a]...[/a] is a link. -->
+	<key>TINT_COLORS_EXPLANATION</key>
+	<string>알림 색조는 앱 아이콘의 평균 색상으로 결정됩니다. 테마 제작자는 [a]FlagPaint 테마 인터페이스[/a]로 특정 색상을 지정할 수 있습니다.</string>
+
+	<!-- Label for tint vibrancy slider. -->
+	<key>TINT_VIBRANCY</key>
+	<string>색조 밝기</string>
+
+	<!-- Label explaining the tint vibrancy slider. -->
+	<key>TINT_VIBRANCY_EXPLANATION</key>
+	<string>낮은 값일수록 색조가 더 어두워지고, 높은 값일수록 색조가 더 밝아집니다. FlagPaint 2.5 이전의 값은 50%였습니다.</string>
+
+	<!-- Button leading to the custom tint colors page. -->
+	<key>CUSTOM_TINT_COLORS</key>
+	<string>색조 사용자 지정</string>
+</dict>
+</plist>

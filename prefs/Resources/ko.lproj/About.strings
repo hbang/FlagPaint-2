@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>ABOUT</key>
+	<string>정보</string>
+
+	<!-- Heading above the "Email Support" button. -->
+	<key>EMAIL_SUPPORT_HEADER</key>
+	<string>문제가 있나요?</string>
+
+	<!-- Button to send an email to the developer. -->
+	<key>EMAIL_SUPPORT</key>
+	<string>이메일 지원 (영문)</string>
+
+	<!-- Headings above the credits. -->
+	<key>DEVELOPER</key>
+	<string>개발자</string>
+	<key>ICON</key>
+	<string>아이콘</string>
+	<key>TRANSLATORS</key>
+	<string>번역자</string>
+</dict>
+</plist>
