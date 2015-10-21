@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Default text displayed when sharing the tweak. %@ is the device type (ie, iPhone). -->
+	<key>SHARE_TEXT</key>
+	<string>Χρησιμοποιηώ το #FlagPaint για να προσθέσω χρώμα στις %@ ειδοποιήσεις μου!</string>
+
+	<!-- Button shown at the top-right of the "Banners" and "Lock Screen" sections. -->
+	<key>TEST</key>
+	<string>Δοκιμή</string>
+
+	<!-- Buttons leading to sub-sections of the settings. -->
+	<key>BANNERS</key>
+	<string>Μπάνερς</string>
+	<key>LOCK_SCREEN</key>
+	<string>Οθόνη Κλειδόματος</string>
+	<key>NOTIFICATION_CENTER</key>
+	<string>Κέντρο Γνωστοποιήσεων</string>
+	<key>COLORS</key>
+	<string>Χρώματα</string>
+
+	<!-- Title of the various settings on the main page -->
+	<key>VARIOUS_TITLE</key>
+	<string>Διάφορα</string>
+
+	<!-- Labels of switches -->
+	<key>BIGGER_ICON</key>
+	<string>Μεγαλύτερο εικονίδιο</string>
+	<key>HIDE_NOW_LABEL</key>
+	<string>Απόκρυψη ετικέτας "Τώρα"</string>
+
+	<!-- Title for the test notification buttons -->
+	<key>TEST_NOTIFICATIONS_TITLE</key>
+	<string>Δοκιμή Ειδοποιήσεων</string>
+
+	<!-- Labels of the test buttons -->
+	<key>TEST_BANNER</key>
+	<string>Δοκιμή Μπάνερ</string>
+	<key>TEST_LOCK_SCREEN</key>
+	<string>Δοκιμή Ειδοποιήσεων Οθόνης Κλειδώματος</string>
+
+	<!-- Buttons leading to sub-sections -->
+	<key>SUGGESTED_TWEAKS</key>
+	<string>ρΠοτεινόμενα Tweaks</string>
+	<key>ABOUT</key>
+	<string>Σχετικά</string>
+</dict>
+</plist>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>COLORS</key>
+	<string>Χρώματα</string>
+
+	<!-- Explanation of how tint colors work. The text enclosed in [a]...[/a] is a link. -->
+	<key>TINT_COLORS_EXPLANATION</key>
+	<string>Αποχρώσεις χρωμάτων ειδοποιήσεων καθορίζονται από το μέσο χρώμα στο εικονίδιο μιας εφαρμογής.Οι θεματιστές μπορούν να χρησιμοποιήσουν το [a]FlagPaint theme interface[/a] για ρύθμιση συγκεκριμένων χρωμάτων.</string>
+
+	<!-- Label for tint vibrancy slider. -->
+	<key>TINT_VIBRANCY</key>
+	<string>Ζωηρότητα Απόχρωσης</string>
+
+	<!-- Label explaining the tint vibrancy slider. -->
+	<key>TINT_VIBRANCY_EXPLANATION</key>
+	<string>Μια μικρότερη αξία προκαλεί σκοτεινότερες αποχρώσεις· μια μεγαλύτερη αξία προκαλεί πιο ανοιχτές αποχρώσεις. Η αξία προ-FlagPaint2.5 ήταν 50%.</string>
+
+	<!-- Button leading to the custom tint colors page. -->
+	<key>CUSTOM_TINT_COLORS</key>
+	<string>Προσαρμοσμένη Απόχρωση Χρώματος</string>
+</dict>
+</plist>
