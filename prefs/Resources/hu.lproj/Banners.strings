@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+ï»¿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
@@ -8,46 +8,46 @@
 
 	<!-- Switch to toggle tinting. -->
 	<key>ENABLED</key>
-	<string>Engedélyezés</string>
+	<string>EngedÃ©lyezÃ©s</string>
 
 	<!-- Switch to toggle showing an album art icon. -->
 	<key>ALBUM_ART_ICON</key>
-	<string>Borítókép ikon</string>
+	<string>BorÃ­tÃ³kÃ©p ikon</string>
 
 	<!-- Explanation of the album art icon switch. -->
 	<key>ALBUM_ART_ICON_EXPLANATION</key>
-	<string>Az értesítésben mutatja az épp lejátszásban lévõ zene borítóképét amikor az vált. Ilyen tweak például a NowListening.</string>
+	<string>Az Ã©rtesÃ­tÃ©sben mutatja az Ã©pp lejÃ¡tszÃ¡sban lÃ©vÃµ zene borÃ­tÃ³kÃ©pÃ©t amikor az vÃ¡lt. Ilyen tweak pÃ©ldÃ¡ul a NowListening.</string>
 
 	<!-- Switches to toggle a gradient background, round corners, and displaying a shadow below the text. -->
 	<key>GRADIENT</key>
-	<string>Színátmenet</string>
+	<string>SzÃ­nÃ¡tmenet</string>
 	<key>ROUND_CORNERS</key>
-	<string>Kerekített sarkok</string>
+	<string>KerekÃ­tett sarkok</string>
 	<key>TEXT_SHADOW</key>
-	<string>Szöveg árnyék</string>
+	<string>SzÃ¶veg Ã¡rnyÃ©k</string>
 
 	<!-- Warning message explaining that the shadows can't be used due to an incompatibility. -->
 	<key>TEXT_SHADOWS_INCOMPATIBILITY_WARNING</key>
-	<string>A szöveg árnyékok nem kompatibilisek a TinyBar-al.</string>
+	<string>A szÃ¶veg Ã¡rnyÃ©kok nem kompatibilisek a TinyBar-al.</string>
 
 	<!-- Label for background opacity (transparency), color intensity, and grayscale intensity sliders. -->
 	<key>BACKGROUND_OPACITY</key>
-	<string>Háttér átlátszódása</string>
+	<string>HÃ¡ttÃ©r Ã¡tlÃ¡tszÃ³dÃ¡sa</string>
 	<key>COLOR_INTENSITY</key>
-	<string>Színerõsség</string>
+	<string>SzÃ­nerÃµssÃ©g</string>
 	<key>GRAYSCALE_INTENSITY</key>
-	<string>Szürkeárnyalat erõssége</string>
+	<string>SzÃ¼rkeÃ¡rnyalat erÃµssÃ©ge</string>
 
 	<!-- Title for the "Hide Elements" section. -->
 	<key>HIDE_ELEMENTS_TITLE</key>
-	<string>Elemek elrejtése</string>
+	<string>Elemek elrejtÃ©se</string>
 
 	<!-- Switch to toggle hiding the icon on a banner. -->
 	<key>HIDE_ICON</key>
-	<string>Ikon elrejtése</string>
+	<string>Ikon elrejtÃ©se</string>
 
 	<!-- Switch to toggle hiding the grabber on a banner. -->
 	<key>HIDE_GRABBER</key>
-	<string>Grabber elrejtése</string>
+	<string>Grabber elrejtÃ©se</string>
 </dict>
 </plist>

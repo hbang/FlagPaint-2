@@ -1,45 +1,45 @@
-<?xml version="1.0" encoding="UTF-8"?>
+ï»¿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<!-- Title. -->
 	<key>LOCK_SCREEN</key>
-	<string>Zárolt képernyõ</string>
+	<string>ZÃ¡rolt kÃ©pernyÃµ</string>
 
 	<!-- Switch to toggle tinting. -->
 	<key>ENABLED</key>
-	<string>Engedélyezés</string>
+	<string>EngedÃ©lyezÃ©s</string>
 
 	<!-- Switch to toggle using a gradient or solid background. -->
 	<key>GRADIENT</key>
-	<string>Színátmenet</string>
+	<string>SzÃ­nÃ¡tmenet</string>
 
 	<!-- Switch to toggle fading the top and bottom. -->
 	<key>FADE_EDGES</key>
-	<string>Csúcs és Alsó rész elrejtése</string>
+	<string>CsÃºcs Ã©s AlsÃ³ rÃ©sz elrejtÃ©se</string>
 
 	<!-- Text explaining what the fading feature does. -->
 	<key>FADE_EDGES_EXPLANATION</key>
-	<string>Hozzáad egy apró átfedést az alsó és felsõ értesítési listához.</string>
+	<string>HozzÃ¡ad egy aprÃ³ Ã¡tfedÃ©st az alsÃ³ Ã©s felsÃµ Ã©rtesÃ­tÃ©si listÃ¡hoz.</string>
 
 	<!-- Switch to disable notifications from dimming. -->
 	<key>DISABLE_DIMMING</key>
-	<string>Homályosság kikapcsolása</string>
+	<string>HomÃ¡lyossÃ¡g kikapcsolÃ¡sa</string>
 
 	<!-- Text explaining what the Disable Dimming switch does. -->
 	<key>DISABLE_DIMMING_EXPLANATION</key>
-	<string>Kikapcsolja az eredeti viselkedést. Minden értesítés, kivéve az elsõ,homályos lesz.</string>
+	<string>Kikapcsolja az eredeti viselkedÃ©st. Minden Ã©rtesÃ­tÃ©s, kivÃ©ve az elsÃµ,homÃ¡lyos lesz.</string>
 
 	<!-- Label for a background opacity (transparency) slider. -->
 	<key>BACKGROUND_OPACITY</key>
-	<string>Háttér átlátszóság</string>
+	<string>HÃ¡ttÃ©r Ã¡tlÃ¡tszÃ³sÃ¡g</string>
 
 	<!-- Title for the "Hide Elements" section. -->
 	<key>HIDE_ELEMENTS_TITLE</key>
-	<string>Elemek elrejtése</string>
+	<string>Elemek elrejtÃ©se</string>
 
 	<!-- Switch to toggle hiding the "slide to view" text below a notification. -->
 	<key>HIDE_SLIDE_ACTION</key>
-	<string>“csúsztassa el” elrejtése</string>
+	<string>â€œcsÃºsztassa elâ€ elrejtÃ©se</string>
 </dict>
 </plist>

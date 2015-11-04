@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
+ï»¿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<!-- Default text displayed when sharing the tweak. %@ is the device type (ie, iPhone). -->
 	<key>SHARE_TEXT</key>
-	<string>A #FlagPaint-et használom az %@ készülékemen a színes értesítésekhez!</string>
+	<string>A #FlagPaint-et hasznÃ¡lom az %@ kÃ©szÃ¼lÃ©kemen a szÃ­nes Ã©rtesÃ­tÃ©sekhez!</string>
 
 	<!-- Button shown at the top-right of the "Banners" and "Lock Screen" sections. -->
 	<key>TEST</key>
@@ -14,11 +14,11 @@
 	<key>BANNERS</key>
 	<string>Szalagok</string>
 	<key>LOCK_SCREEN</key>
-	<string>Zárolt képernyõ</string>
+	<string>ZÃ¡rolt kÃ©pernyÃµ</string>
 	<key>NOTIFICATION_CENTER</key>
-	<string>Értesítési központ</string>
+	<string>Ã‰rtesÃ­tÃ©si kÃ¶zpont</string>
 	<key>COLORS</key>
-	<string>Színek</string>
+	<string>SzÃ­nek</string>
 
 	<!-- Title of the various settings on the main page -->
 	<key>VARIOUS_TITLE</key>
@@ -28,22 +28,22 @@
 	<key>BIGGER_ICON</key>
 	<string>Nagyobb ikon</string>
 	<key>HIDE_NOW_LABEL</key>
-	<string>Az “épp most” elrejtése</string>
+	<string>Az â€œÃ©pp mostâ€ elrejtÃ©se</string>
 
 	<!-- Title for the test notification buttons -->
 	<key>TEST_NOTIFICATIONS_TITLE</key>
-	<string>Teszt értesítések</string>
+	<string>Teszt Ã©rtesÃ­tÃ©sek</string>
 
 	<!-- Labels of the test buttons -->
 	<key>TEST_BANNER</key>
 	<string>Szalag teszt</string>
 	<key>TEST_LOCK_SCREEN</key>
-	<string>Zárolt képernyõ értesítés teszt</string>
+	<string>ZÃ¡rolt kÃ©pernyÃµ Ã©rtesÃ­tÃ©s teszt</string>
 
 	<!-- Buttons leading to sub-sections -->
 	<key>SUGGESTED_TWEAKS</key>
-	<string>Ajánlott tweakek</string>
+	<string>AjÃ¡nlott tweakek</string>
 	<key>ABOUT</key>
-	<string>A programról</string>
+	<string>A programrÃ³l</string>
 </dict>
 </plist>

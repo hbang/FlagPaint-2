@@ -1,30 +1,30 @@
-<?xml version="1.0" encoding="UTF-8"?>
+ï»¿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<!-- Title. -->
 	<key>NOTIFICATION_CENTER</key>
-	<string>Értesítési központ</string>
+	<string>Ã‰rtesÃ­tÃ©si kÃ¶zpont</string>
 
 	<!-- Switch to toggle tinting. -->
 	<key>ENABLED</key>
-	<string>Engedélyezés</string>
+	<string>EngedÃ©lyezÃ©s</string>
 
 	<!-- Switch to toggle fading the top and bottom. -->
 	<key>FADE_EDGES</key>
-	<string>Csúcs és Alsó rész elrejtése</string>
+	<string>CsÃºcs Ã©s AlsÃ³ rÃ©sz elrejtÃ©se</string>
 
 	<!-- Text explaining what the fading feature does. -->
 	<key>FADE_EDGES_EXPLANATION</key>
-	<string>Hozzáad egy apró átfedést az alsó és felsõ értesítési listához.</string>
+	<string>HozzÃ¡ad egy aprÃ³ Ã¡tfedÃ©st az alsÃ³ Ã©s felsÃµ Ã©rtesÃ­tÃ©si listÃ¡hoz.</string>
 
 	<!-- Label for a background opacity (transparency) slider. -->
 	<key>BACKGROUND_OPACITY</key>
-	<string>Háttér átlátszóság</string>
+	<string>HÃ¡ttÃ©r Ã¡tlÃ¡tszÃ³sÃ¡g</string>
 
 	<!-- Label explaining a respring is requierd to apply settings. -->
 	<key>RESPRING_EXPLANATION</key>
-	<string>Respringelj, hogy alkalmazd a beállításokat.</string>
+	<string>Respringelj, hogy alkalmazd a beÃ¡llÃ­tÃ¡sokat.</string>
 
 	<!-- Button to perform a respring. -->
 	<key>RESPRING</key>

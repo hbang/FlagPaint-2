@@ -1,13 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
+ï»¿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<!-- Title. -->
 	<key>SUGGESTED_TWEAKS</key>
-	<string>Ajánlott tweakek</string>
+	<string>AjÃ¡nlott tweakek</string>
 
 	<!-- Message displayed at the top. -->
 	<key>INTRODUCTION</key>
-	<string>A FlagPaint nagyszerûen mûködik ezekkel a tweakekkel, amelyek hivatalosan tesztelve is voltak.</string>
+	<string>A FlagPaint nagyszerÃ»en mÃ»kÃ¶dik ezekkel a tweakekkel, amelyek hivatalosan tesztelve is voltak.</string>
 </dict>
 </plist>

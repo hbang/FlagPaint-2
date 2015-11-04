@@ -1,25 +1,25 @@
-<?xml version="1.0" encoding="UTF-8"?>
+ï»¿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<!-- Title. -->
 	<key>COLORS</key>
-	<string>Színek</string>
+	<string>SzÃ­nek</string>
 
 	<!-- Explanation of how tint colors work. The text enclosed in [a]...[/a] is a link. -->
 	<key>TINT_COLORS_EXPLANATION</key>
-	<string>Az értesítés színét az alkamazás ikonjának általános színei határozzák meg. A témakészítõk használhatják a [a]FlagPaint téma felületet[/a], hogy egyéni színeket készítsenek.</string>
+	<string>Az Ã©rtesÃ­tÃ©s szÃ­nÃ©t az alkamazÃ¡s ikonjÃ¡nak Ã¡ltalÃ¡nos szÃ­nei hatÃ¡rozzÃ¡k meg. A tÃ©makÃ©szÃ­tÃµk hasznÃ¡lhatjÃ¡k a [a]FlagPaint tÃ©ma felÃ¼letet[/a], hogy egyÃ©ni szÃ­neket kÃ©szÃ­tsenek.</string>
 
 	<!-- Label for tint vibrancy slider. -->
 	<key>TINT_VIBRANCY</key>
-	<string>Szín vibrálás</string>
+	<string>SzÃ­n vibrÃ¡lÃ¡s</string>
 
 	<!-- Label explaining the tint vibrancy slider. -->
 	<key>TINT_VIBRANCY_EXPLANATION</key>
-	<string>A kissebb érték sötétebb színt eredményez; a magasabb érték világosabb színt eredményez. Az érték ezt megelõzõen a FlagPaint-ben 50% volt.</string>
+	<string>A kissebb Ã©rtÃ©k sÃ¶tÃ©tebb szÃ­nt eredmÃ©nyez; a magasabb Ã©rtÃ©k vilÃ¡gosabb szÃ­nt eredmÃ©nyez. Az Ã©rtÃ©k ezt megelÃµzÃµen a FlagPaint-ben 50% volt.</string>
 
 	<!-- Button leading to the custom tint colors page. -->
 	<key>CUSTOM_TINT_COLORS</key>
-	<string>Egyedi színezés</string>
+	<string>Egyedi szÃ­nezÃ©s</string>
 </dict>
 </plist>
