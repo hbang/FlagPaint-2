@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>LOCK_SCREEN</key>
+	<string>Zamknutá obrazovka</string>
+
+	<!-- Switch to toggle tinting. -->
+	<key>ENABLED</key>
+	<string>Povolené</string>
+
+	<!-- Switch to toggle using a gradient or solid background. -->
+	<key>GRADIENT</key>
+	<string>Gradient</string>
+
+	<!-- Switch to toggle fading the top and bottom. -->
+	<key>FADE_EDGES</key>
+	<string>Stmaviť Hornú a Dolnú časť</string>
+
+	<!-- Text explaining what the fading feature does. -->
+	<key>FADE_EDGES_EXPLANATION</key>
+	<string>Pridáva jemné stmavenie v hornej a dolnej časti zoznamu oznámenia.</string>
+
+	<!-- Switch to disable notifications from dimming. -->
+	<key>DISABLE_DIMMING</key>
+	<string>Zakázať stmievanie</string>
+
+	<!-- Text explaining what the Disable Dimming switch does. -->
+	<key>DISABLE_DIMMING_EXPLANATION</key>
+	<string>Zakáže predvolené správanie všetkých ale prvé oznámenie sa bude stmievať.</string>
+
+	<!-- Label for a background opacity (transparency) slider. -->
+	<key>BACKGROUND_OPACITY</key>
+	<string>Priesvitnosť pozadia</string>
+
+	<!-- Title for the "Hide Elements" section. -->
+	<key>HIDE_ELEMENTS_TITLE</key>
+	<string>Skryť Elementy</string>
+
+	<!-- Switch to toggle hiding the “slide to view” text below a notification. -->
+	<key>HIDE_SLIDE_ACTION</key>
+	<string>Skryť “Posunutím odomknite”</string>
+</dict>
+</plist>

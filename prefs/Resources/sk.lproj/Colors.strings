@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>COLORS</key>
+	<string>Farby</string>
+
+	<!-- Explanation of how tint colors work. The text enclosed in [a]...[/a] is a link. -->
+	<key>TINT_COLORS_EXPLANATION</key>
+	<string>Odtieň farby oznámenia sa určí z priemerných hodnôt farieb v ikone danej aplikácie. Themeri, môžete použiť [a]FlagPaint, tému rozhrania[/a] nastaviť konkrétne farby.</string>
+
+	<!-- Label for tint vibrancy slider. -->
+	<key>TINT_VIBRANCY</key>
+	<string>Živosť</string>
+
+	<!-- Label explaining the tint vibrancy slider. -->
+	<key>TINT_VIBRANCY_EXPLANATION</key>
+	<string>Nižšia hodnota spôsobí tmavší odtieň farby; Vyššia hodnota spôsobuje svetlejší odtieň farby. Hodnota rovnaká FlagPaint 2,5 je 50%.</string>
+
+	<!-- Button leading to the custom tint colors page. -->
+	<key>CUSTOM_TINT_COLORS</key>
+	<string>Osobné sfarbenie farieb</string>
+</dict>
+</plist>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>BANNERS</key>
+	<string>Bannery</string>
+
+	<!-- Switch to toggle tinting. -->
+	<key>ENABLED</key>
+	<string>Povolené</string>
+
+	<!-- Switch to toggle showing an album art icon. -->
+	<key>ALBUM_ART_ICON</key>
+	<string>Ikona albumu</string>
+
+	<!-- Explanation of the album art icon switch. -->
+	<key>ALBUM_ART_ICON_EXPLANATION</key>
+	<string>Zobrazuje album aktuálne prehrávanej skladby v piesňových oznámeniach, pri zmene ukazuje vychytávky, ako je NowListening.</string>
+
+	<!-- Switches to toggle a gradient background, round corners, and displaying a shadow below the text. -->
+	<key>GRADIENT</key>
+	<string>Gradient</string>
+	<key>ROUND_CORNERS</key>
+	<string>Okrúhle Okraje</string>
+	<key>TEXT_SHADOW</key>
+	<string>Tieň textu</string>
+
+	<!-- Warning message explaining that the shadows can't be used due to an incompatibility. -->
+	<key>TEXT_SHADOWS_INCOMPATIBILITY_WARNING</key>
+	<string>Tieň textu nie je kompatibilný s TinyBar.</string>
+
+	<!-- Label for background opacity (transparency), color intensity, and grayscale intensity sliders. -->
+	<key>BACKGROUND_OPACITY</key>
+	<string>Priesvitnosť Pozadia</string>
+	<key>COLOR_INTENSITY</key>
+	<string>Sila farby</string>
+	<key>GRAYSCALE_INTENSITY</key>
+	<string>Sila sivej</string>
+
+	<!-- Title for the "Hide Elements" section. -->
+	<key>HIDE_ELEMENTS_TITLE</key>
+	<string>Skryť Elementy</string>
+
+	<!-- Switch to toggle hiding the icon on a banner. -->
+	<key>HIDE_ICON</key>
+	<string>Skryť Ikony</string>
+
+	<!-- Switch to toggle hiding the grabber on a banner. -->
+	<key>HIDE_GRABBER</key>
+	<string>Skryť Grabbery</string>
+</dict>
+</plist>
