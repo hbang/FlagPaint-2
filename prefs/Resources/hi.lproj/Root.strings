@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Default text displayed when sharing the tweak. %@ is the device type (ie, iPhone). -->
+	<key>SHARE_TEXT</key>
+	<string>मैं सूचनाएं @ मेरे% करने के लिए रंग जोड़ने के लिए #FlagPaint उपयोग कर रहा हूँ! </string>
+
+	<!-- Button shown at the top-right of the "Banners" and "Lock Screen" sections. -->
+	<key>TEST</key>
+	<string>कसौटी</string>
+
+	<!-- Buttons leading to sub-sections of the settings. -->
+	<key>BANNERS</key>
+	<string>Bबैनर</string>
+	<key>LOCK_SCREEN</key>
+	<string>लॉक स्क्रीन</string>
+	<key>NOTIFICATION_CENTER</key>
+	<string>अधिसूचना केंद्र</string>
+	<key>COLORS</key>
+	<string>रंग</string>
+
+	<!-- Title of the various settings on the main page -->
+	<key>VARIOUS_TITLE</key>
+	<string>विभिन्न</string>
+
+	<!-- Labels of switches -->
+	<key>BIGGER_ICON</key>
+	<string>बड़ा चिह्न</string>
+	<key>HIDE_NOW_LABEL</key>
+	<string>"अब" लेबल छुपाएं</string>
+
+	<!-- Title for the test notification buttons -->
+	<key>TEST_NOTIFICATIONS_TITLE</key>
+	<string>टेस्ट सूचनाएं</string>
+
+	<!-- Labels of the test buttons -->
+	<key>TEST_BANNER</key>
+	<string>टेस्ट बैनर</string>
+	<key>TEST_LOCK_SCREEN</key>
+	<string>टेस्ट लॉक स्क्रीन अधिसूचना</string>
+
+	<!-- Buttons leading to sub-sections -->
+	<key>SUGGESTED_TWEAKS</key>
+	<string>सुझाए गए बदलाव</string>
+	<key>ABOUT</key>
+	<string>के बारे में</string>
+</dict>
+</plist>

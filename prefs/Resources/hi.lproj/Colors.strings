@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>COLORS</key>
+	<string>रंग</string>
+
+	<!-- Explanation of how tint colors work. The text enclosed in [a]...[/a] is a link. -->
+	<key>TINT_COLORS_EXPLANATION</key>
+	<string>अधिसूचना टिंट रंग एप्लिकेशन का आइकन में औसत रंगों से निर्धारित होते हैं। Themers [एक] FlagPaint विषय इंटरफेस [/ एक] विशिष्ट रंग सेट करने के लिए उपयोग कर सकते हैं।</string>
+
+	<!-- Label for tint vibrancy slider. -->
+	<key>TINT_VIBRANCY</key>
+	<string>टिंट जीवंतता</string>
+
+	<!-- Label explaining the tint vibrancy slider. -->
+	<key>TINT_VIBRANCY_EXPLANATION</key>
+	<string>एक कम मूल्य गहरा टिंट रंग का कारण बनता है; एक उच्च मूल्य हल्का टिंट रंग का कारण बनता है। FlagPaint 2.5 करने से पहले मूल्य 50% थी।</string>
+
+	<!-- Button leading to the custom tint colors page. -->
+	<key>CUSTOM_TINT_COLORS</key>
+	<string>कस्टम टिंट रंग</string>
+</dict>
+</plist>

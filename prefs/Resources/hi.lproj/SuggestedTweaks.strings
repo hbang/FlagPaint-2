@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>SUGGESTED_TWEAKS</key>
+	<string>सुझाए गए बदलाव</string>
+
+	<!-- Message displayed at the top. -->
+	<key>INTRODUCTION</key>
+	<string>FlagPaint आधिकारिक तौर पर वे FlagPaint साथ काम सुनिश्चित करने के लिए परीक्षण कर रहे हैं, जो इन संबंधित तोड़ मरोड़ के साथ महान हो जाता है।</string>
+</dict>
+</plist>

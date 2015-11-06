@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>BANNERS</key>
+	<string>बैनर</string>
+
+	<!-- Switch to toggle tinting. -->
+	<key>ENABLED</key>
+	<string>सक्षम किया</string>
+
+	<!-- Switch to toggle showing an album art icon. -->
+	<key>ALBUM_ART_ICON</key>
+	<string>एल्बम कला चिह्न</string>
+
+	<!-- Explanation of the album art icon switch. -->
+	<key>ALBUM_ART_ICON_EXPLANATION</key>
+	<string>ऐसे अब सुन रहा है। के रूप में तोड़ मरोड़ द्वारा दिखाए गए गीत परिवर्तन सूचनाओं में वर्तमान में खेल गीत के एल्बम कला दिखाता है।</string>
+
+	<!-- Switches to toggle a gradient background, round corners, and displaying a shadow below the text. -->
+	<key>GRADIENT</key>
+	<string>ढाल</string>
+	<key>ROUND_CORNERS</key>
+	<string>गोल कोनों</string>
+	<key>TEXT_SHADOW</key>
+	<string>पाठ की छाया</string>
+
+	<!-- Warning message explaining that the shadows can't be used due to an incompatibility. -->
+	<key>TEXT_SHADOWS_INCOMPATIBILITY_WARNING</key>
+	<string>पाठ छाया TinyBar के साथ संगत नहीं हैं।</string>
+
+	<!-- Label for background opacity (transparency), color intensity, and grayscale intensity sliders. -->
+	<key>BACKGROUND_OPACITY</key>
+	<string>पृष्ठभूमि अस्पष्टता</string>
+	<key>COLOR_INTENSITY</key>
+	<string>रंग तीव्रता</string>
+	<key>GRAYSCALE_INTENSITY</key>
+	<string>स्केल तीव्रता</string>
+
+	<!-- Title for the "Hide Elements" section. -->
+	<key>HIDE_ELEMENTS_TITLE</key>
+	<string>छुपाएं तत्वों</string>
+
+	<!-- Switch to toggle hiding the icon on a banner. -->
+	<key>HIDE_ICON</key>
+	<string>चिन्ह छिपाएं</string>
+
+	<!-- Switch to toggle hiding the grabber on a banner. -->
+	<key>HIDE_GRABBER</key>
+	<string>पसंदीदा में धरनेवाला</string>
+</dict>
+</plist>
