@@ -8,7 +8,7 @@
 
 	<!-- Switch to toggle tinting. -->
 	<key>ENABLED</key>
-	<string>已啟用</string>
+	<string>啟用</string>
 
 	<!-- Switch to toggle using a gradient or solid background. -->
 	<key>GRADIENT</key>

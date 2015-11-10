@@ -8,7 +8,7 @@
 
 	<!-- Switch to toggle tinting. -->
 	<key>ENABLED</key>
-	<string>已啟用</string>
+	<string>啟用</string>
 
 	<!-- Switch to toggle showing an album art icon. -->
 	<key>ALBUM_ART_ICON</key>
