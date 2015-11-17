@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>COLORS</key>
+	<string>Кольори</string>
+
+	<!-- Explanation of how tint colors work. The text enclosed in [a]...[/a] is a link. -->
+	<key>TINT_COLORS_EXPLANATION</key>
+	<string>Відтінки кольорів визначаються із середніх кольорів у піктограмі застосунку. Themers може використовувати [a]інтерфейс теми FlagPaint[/a], щоб встановлювати певні кольори.</string>
+
+	<!-- Label for tint vibrancy slider. -->
+	<key>TINT_VIBRANCY</key>
+	<string>Різноманіття відтінків</string>
+
+	<!-- Label explaining the tint vibrancy slider. -->
+	<key>TINT_VIBRANCY_EXPLANATION</key>
+	<string>Зменшення цього значення робить кольори більш темними, натомість збільшення цього значення робить кольори більш світлими. Усталене значення для FlagPaint 2.5 було 50%.</string>
+
+	<!-- Button leading to the custom tint colors page. -->
+	<key>CUSTOM_TINT_COLORS</key>
+	<string>Налаштування відтінків</string>
+</dict>
+</plist>Colors</string>
+</dict>
+</plist>
