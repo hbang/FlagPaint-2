@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+     <!-- Spanish Translation  -->
+	<!-- Title. -->
+	<key>LOCK_SCREEN</key>
+	<string>Pantalla bloqueada</string>
+
+	<!-- Switch to toggle tinting. -->
+	<key>ENABLED</key>
+	<string>Actívado</string>
+
+	<!-- Switch to toggle using a gradient or solid background. -->
+	<key>GRADIENT</key>
+	<string>Gradiente</string>
+
+	<!-- Switch to toggle fading the top and bottom. -->
+	<key>FADE_EDGES</key>
+	<string>Desvanecer arriba y abajo </string>
+
+	<!-- Text explaining what the fading feature does. -->
+	<key>FADE_EDGES_EXPLANATION</key>
+	<string>Añade un efecto sutil en la parte superior e inferior de la lista de notificaciones.</string>
+
+	<!-- Switch to disable notifications from dimming. -->
+	<key>DISABLE_DIMMING</key>
+	<string>Desactivar atenuado </string>
+
+	<!-- Text explaining what the Disable Dimming switch does. -->
+	<key>DISABLE_DIMMING_EXPLANATION</key>
+	<string>Desactivar el comportamiento normal de todas pero la primera notificacion sigue con el atenuado activado .</string>
+
+	<!-- Label for a background opacity (transparency) slider. -->
+	<key>BACKGROUND_OPACITY</key>
+	<string>Opacidad del fondo</string>
+
+	<!-- Title for the "Hide Elements" section. -->
+	<key>HIDE_ELEMENTS_TITLE</key>
+	<string>Ocultar elementos</string>
+
+	<!-- Switch to toggle hiding the “slide to view” text below a notification. -->
+	<key>HIDE_SLIDE_ACTION</key>
+	<string>Ocultar  “Deslizar hacia”</string>
+</dict>
+</plist>

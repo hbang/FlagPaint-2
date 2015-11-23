@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+     <!-- Spanish Translation  -->
+	<!-- Title. -->
+	<key>NOTIFICATION_CENTER</key>
+	<string>Centro de notificaciones</string>
+
+	<!-- Switch to toggle tinting. -->
+	<key>ENABLED</key>
+	<string>Activado</string>
+
+	<!-- Switch to toggle fading the top and bottom. -->
+	<key>FADE_EDGES</key>
+	<string>Desvanecer arriba y abajo</string>
+
+	<!-- Text explaining what the fading feature does. -->
+	<key>FADE_EDGES_EXPLANATION</key>
+	<string>Añade un efecto sutil en la parte superior e inferior de la lista de notificaciones.</string>
+
+	<!-- Label for a background opacity (transparency) slider. -->
+	<key>BACKGROUND_OPACITY</key>
+	<string>Opacidad del fondo</string>
+
+	<!-- Label explaining a respring is requierd to apply settings. -->
+	<key>RESPRING_EXPLANATION</key>
+	<string>Respring para aplicar los cambios.</string>
+
+	<!-- Button to perform a respring. -->
+	<key>RESPRING</key>
+	<string>Respring</string>
+</dict>
+</plist>

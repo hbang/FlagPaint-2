@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+     <!-- Spanish Translation  -->
+	<!-- Default text displayed when sharing the tweak. %@ is the device type (ie, iPhone). -->
+	<key>SHARE_TEXT</key>
+	<string>Estoy usando #FlagPaint para añadir colores a mis %@ notificaciones!</string>
+
+	<!-- Button shown at the top-right of the "Banners" and "Lock Screen" sections. -->
+	<key>TEST</key>
+	<string>Prueba</string>
+
+	<!-- Buttons leading to sub-sections of the settings. -->
+	<key>BANNERS</key>
+	<string>Banderas</string>
+	<key>LOCK_SCREEN</key>
+	<string>Pantalla bloqueada</string>
+	<key>NOTIFICATION_CENTER</key>
+	<string>Centro de notificaciones</string>
+	<key>COLORS</key>
+	<string>Colores</string>
+
+	<!-- Title of the various settings on the main page -->
+	<key>VARIOUS_TITLE</key>
+	<string>Varios ajustes</string>
+
+	<!-- Labels of switches -->
+	<key>BIGGER_ICON</key>
+	<string>Icono mas grande</string>
+	<key>HIDE_NOW_LABEL</key>
+	<string>Oculta la etiqueta “Ahora”</string>
+
+	<!-- Title for the test notification buttons -->
+	<key>TEST_NOTIFICATIONS_TITLE</key>
+	<string>Prueba de notificacion</string>
+
+	<!-- Labels of the test buttons -->
+	<key>TEST_BANNER</key>
+	<string>Prueba de bandera</string>
+	<key>TEST_LOCK_SCREEN</key>
+	<string>Prueba de notificaiones en pantalla bloqueada</string>
+
+	<!-- Buttons leading to sub-sections -->
+	<key>SUGGESTED_TWEAKS</key>
+	<string>Tweaks recomendados</string>
+	<key>ABOUT</key>
+	<string>Sobre</string>
+</dict>
+</plist>

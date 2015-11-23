@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+     <!-- Spanish Translation  -->
+	<!-- Title. -->
+	<key>BANNERS</key>
+	<string>Banderas</string>
+
+	<!-- Switch to toggle tinting. -->
+	<key>ENABLED</key>
+	<string>Activado</string>
+
+	<!-- Switch to toggle showing an album art icon. -->
+	<key>ALBUM_ART_ICON</key>
+	<string>Icono del Album</string>
+
+	<!-- Explanation of the album art icon switch. -->
+	<key>ALBUM_ART_ICON_EXPLANATION</key>
+	<string>Muestra el icono del album de la cancion que se esta reproduciendo en las notificaciones de cambio de canciones mostrados por tweaks como NowListening.</string>
+
+	<!-- Switches to toggle a gradient background, round corners, and displaying a shadow below the text. -->
+	<key>GRADIENT</key>
+	<string>Gradiente</string>
+	<key>ROUND_CORNERS</key>
+	<string>Bordes redondos</string>
+	<key>TEXT_SHADOW</key>
+	<string>Sobra del texto</string>
+
+	<!-- Warning message explaining that the shadows can't be used due to an incompatibility. -->
+	<key>TEXT_SHADOWS_INCOMPATIBILITY_WARNING</key>
+	<string> Sombras del texto no estan compatibles con TinyBar.</string>
+
+	<!-- Label for background opacity (transparency), color intensity, and grayscale intensity sliders. -->
+	<key>BACKGROUND_OPACITY</key>
+	<string>Opacidad del fondo</string>
+	<key>COLOR_INTENSITY</key>
+	<string>Intensidad del color</string>
+	<key>GRAYSCALE_INTENSITY</key>
+	<string>Intensidad del gris</string>
+
+	<!-- Title for the "Hide Elements" section. -->
+	<key>HIDE_ELEMENTS_TITLE</key>
+	<string>Ocultar elementos</string>
+
+	<!-- Switch to toggle hiding the icon on a banner. -->
+	<key>HIDE_ICON</key>
+	<string>Ocultar icono</string>
+
+	<!-- Switch to toggle hiding the grabber on a banner. -->
+	<key>HIDE_GRABBER</key>
+	<string>Ocultar el deslizador</string>
+</dict>
+</plist>
