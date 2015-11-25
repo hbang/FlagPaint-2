@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>COLORS</key>
+	<string>สี</string>
+
+	<!-- Explanation of how tint colors work. The text enclosed in [a]...[/a] is a link. -->
+	<key>TINT_COLORS_EXPLANATION</key>
+	<string>สีการแจ้งเตือนจะดูจากสีโดยรวมของไอคอนแอพ นักสร้างธีมสามารถใช้ [a]FlagPaint theme interface[/a] เพื่อสร้างสีเฉพาะได้</string>
+
+	<!-- Label for tint vibrancy slider. -->
+	<key>TINT_VIBRANCY</key>
+	<string>ความมีชีวิตชีวาของสี</string>
+
+	<!-- Label explaining the tint vibrancy slider. -->
+	<key>TINT_VIBRANCY_EXPLANATION</key>
+	<string>ค่าที่น้อยลงจะทำให้สีที่ได้มืดลง ค่าที่มากขึ้นจะทำให้สีที่ได้สว่างขึ้น ค่าตั้งต้นก่อน FlagPaint 2.5 อยู่ที่ 50%</string>
+
+	<!-- Button leading to the custom tint colors page. -->
+	<key>CUSTOM_TINT_COLORS</key>
+	<string>การผสมสีที่กำหนดเอง</string>
+</dict>
+</plist>

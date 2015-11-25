@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>BANNERS</key>
+	<string>ป้ายประกาศ</string>
+
+	<!-- Switch to toggle tinting. -->
+	<key>ENABLED</key>
+	<string>เปิด</string>
+
+	<!-- Switch to toggle showing an album art icon. -->
+	<key>ALBUM_ART_ICON</key>
+	<string>แสดงไอคอนหน้าปก</string>
+
+	<!-- Explanation of the album art icon switch. -->
+	<key>ALBUM_ART_ICON_EXPLANATION</key>
+	<string>แสดงหน้าปกอัลบั้มของเพลงที่กำลังเล่นอยู่ในการแจ้งเตือนการเปลี่ยนเพลงที่แสดงใน tweak เช่น NowListening</string>
+
+	<!-- Switches to toggle a gradient background, round corners, and displaying a shadow below the text. -->
+	<key>GRADIENT</key>
+	<string>ไล่สี</string>
+	<key>ROUND_CORNERS</key>
+	<string>มุมเป็นกลมๆ</string>
+	<key>TEXT_SHADOW</key>
+	<string>เงาบนข้อความ</string>
+
+	<!-- Warning message explaining that the shadows can't be used due to an incompatibility. -->
+	<key>TEXT_SHADOWS_INCOMPATIBILITY_WARNING</key>
+	<string>เงาบนข้อความจะไม่สามารถเข้ากันได้กับ TinyBar</string>
+
+	<!-- Label for background opacity (transparency), color intensity, and grayscale intensity sliders. -->
+	<key>BACKGROUND_OPACITY</key>
+	<string>ความทึบของพื้นหลัง</string>
+	<key>COLOR_INTENSITY</key>
+	<string>ความเข้มของสี</string>
+	<key>GRAYSCALE_INTENSITY</key>
+	<string>ความเข้มของสีขาวดำ</string>
+
+	<!-- Title for the "Hide Elements" section. -->
+	<key>HIDE_ELEMENTS_TITLE</key>
+	<string>ซ่อนวัตถุ</string>
+
+	<!-- Switch to toggle hiding the icon on a banner. -->
+	<key>HIDE_ICON</key>
+	<string>ซ่อนไอคอน</string>
+
+	<!-- Switch to toggle hiding the grabber on a banner. -->
+	<key>HIDE_GRABBER</key>
+	<string>ซ่อนตัวดึงลง</string>
+</dict>
+</plist>

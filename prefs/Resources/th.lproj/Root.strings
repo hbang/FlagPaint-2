@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Default text displayed when sharing the tweak. %@ is the device type (ie, iPhone). -->
+	<key>SHARE_TEXT</key>
+	<string>ฉันกำลังใช้งาน #FlagPaint เพื่อเพิ่มสีเข้าไปในการแจ้งเตือนของ %@ ของฉัน !</string>
+
+	<!-- Button shown at the top-right of the "Banners" and "Lock Screen" sections. -->
+	<key>TEST</key>
+	<string>ทดสอบ</string>
+
+	<!-- Buttons leading to sub-sections of the settings. -->
+	<key>BANNERS</key>
+	<string>ป้ายประกาศ</string>
+	<key>LOCK_SCREEN</key>
+	<string>หน้าจอล็อค</string>
+	<key>NOTIFICATION_CENTER</key>
+	<string>ศูนย์รวมการแจ้งเตือน</string>
+	<key>COLORS</key>
+	<string>สี</string>
+
+	<!-- Title of the various settings on the main page -->
+	<key>VARIOUS_TITLE</key>
+	<string>หลากหลาย</string>
+
+	<!-- Labels of switches -->
+	<key>BIGGER_ICON</key>
+	<string>ไอคอนใหญ่ขึ้น</string>
+	<key>HIDE_NOW_LABEL</key>
+	<string>ซ่อนตัวอักษร "ตอนนี้"</string>
+
+	<!-- Title for the test notification buttons -->
+	<key>TEST_NOTIFICATIONS_TITLE</key>
+	<string>ทดสอบการแจ้งเตือน</string>
+
+	<!-- Labels of the test buttons -->
+	<key>TEST_BANNER</key>
+	<string>ทดสอบป้ายประกาศ</string>
+	<key>TEST_LOCK_SCREEN</key>
+	<string>ทดสอบการแจ้งเตือนบนหน้าจอล็อค</string>
+
+	<!-- Buttons leading to sub-sections -->
+	<key>SUGGESTED_TWEAKS</key>
+	<string>tweak ที่แนะนำ</string>
+</dict>
+</plist>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Title. -->
+	<key>LOCK_SCREEN</key>
+	<string>หน้าจอล็อค</string>
+
+	<!-- Switch to toggle tinting. -->
+	<key>ENABLED</key>
+	<string>เปิด</string>
+
+	<!-- Switch to toggle using a gradient or solid background. -->
+	<key>GRADIENT</key>
+	<string>ไล่สี</string>
+
+	<!-- Switch to toggle fading the top and bottom. -->
+	<key>FADE_EDGES</key>
+	<string>เลือนต้นและท้าย</string>
+
+	<!-- Text explaining what the fading feature does. -->
+	<key>FADE_EDGES_EXPLANATION</key>
+	<string>เพิ่มเอฟเฟคเลือนไปยังต้นและท้ายของรายการแจ้งเตือน</string>
+
+	<!-- Switch to disable notifications from dimming. -->
+	<key>DISABLE_DIMMING</key>
+	<string>ปิดการลงดแสง</string>
+
+	<!-- Text explaining what the Disable Dimming switch does. -->
+	<key>DISABLE_DIMMING_EXPLANATION</key>
+	<string>ปิดค่าเริ่มต้นที่การแจ้งเตือนทุกอันยกเว้นอันแรกจะลดแสงลง</string>
+
+	<!-- Label for a background opacity (transparency) slider. -->
+	<key>BACKGROUND_OPACITY</key>
+	<string>ความขุ่นของพื้นหลัง</string>
+
+	<!-- Title for the "Hide Elements" section. -->
+	<key>HIDE_ELEMENTS_TITLE</key>
+	<string>ซ่อนวัตถุ</string>
+
+	<!-- Switch to toggle hiding the “slide to view” text below a notification. -->
+	<key>HIDE_SLIDE_ACTION</key>
+	<string>ซ่อน “เลื่อนเพื่อ”</string>
+</dict>
+</plist>
