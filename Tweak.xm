@@ -138,7 +138,7 @@ UIImage *HBFPIconForKey(NSString *key, UIImage *fallbackImage) {
 
 	if (!icon) {
 		HBLogDebug(@"%@: trying app icon", key);
-		icon = [[UIImage _applicationIconImageForBundleIdentifier:key format:[key isEqualToString:@"com.apple.mobilecal"] ? SBApplicationIconFormatSpotlight : SBApplicationIconFormatDefault scale:[UIScreen mainScreen].scale] retain];
+		icon = [[UIImage _applicationIconImageForBundleIdentifier:key format:[key isEqualToString:@"com.apple.mobilecal"] ? MIIconVariantSpotlight : MIIconVariantDefault scale:[UIScreen mainScreen].scale] retain];
 	}
 
 	if (!icon) {
