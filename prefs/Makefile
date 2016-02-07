@@ -6,7 +6,8 @@ FlagPaint7_INSTALL_PATH = /Library/PreferenceBundles
 FlagPaint7_CFLAGS = -include Global.h
 FlagPaint7_FRAMEWORKS = UIKit CoreGraphics QuartzCore
 FlagPaint7_PRIVATE_FRAMEWORKS = Preferences
-FlagPaint7_LIBRARIES = cephei cepheiprefs substrate
+FlagPaint7_EXTRA_FRAMEWORKS = Cephei CepheiPrefs
+FlagPaint7_LIBRARIES = substrate
 
 include $(THEOS_MAKE_PATH)/bundle.mk
 
