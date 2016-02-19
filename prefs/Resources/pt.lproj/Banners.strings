@@ -28,11 +28,11 @@
 
 	<!-- Warning message explaining that the shadows can't be used due to an incompatibility. -->
 	<key>TEXT_SHADOWS_INCOMPATIBILITY_WARNING</key>
-	<string>As sombras do texto são incompatíveis com o TinyBar.<string>
+	<string>As sombras do texto são incompatíveis com o TinyBar.</string>
 
 	<!-- Label for background opacity (transparency), color intensity, and grayscale intensity sliders. -->
 	<key>BACKGROUND_OPACITY</key>
-	<string>Transparência do fundo<string>
+	<string>Transparência do fundo</string>
 	<key>COLOR_INTENSITY</key>
 	<string>Intensidade da cor</string>
 	<key>GRAYSCALE_INTENSITY</key>

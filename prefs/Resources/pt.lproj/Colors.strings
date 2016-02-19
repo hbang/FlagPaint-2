@@ -8,7 +8,7 @@
 
 	<!-- Explanation of how tint colors work. The text enclosed in [a]...[/a] is a link. -->
 	<key>TINT_COLORS_EXPLANATION</key>
-	<string>As cores das notificações são determinadas pelas cores médias do ícone do aplicativo. Os themers podem usar a [a]interface de temas do Flagpaint[/a] para definirem cores específicas. 
+	<string>As cores das notificações são determinadas pelas cores médias do ícone do aplicativo. Os themers podem usar a [a]interface de temas do Flagpaint[/a] para definirem cores específicas.</string>
 
 	<!-- Label for tint vibrancy slider. -->
 	<key>TINT_VIBRANCY</key>
@@ -16,7 +16,7 @@
 
 	<!-- Label explaining the tint vibrancy slider. -->
 	<key>TINT_VIBRANCY_EXPLANATION</key>
-	<string>Um valor mais baixo cria tonalidades mais escuras; um valor alto, mais claras. O valor nas versões anteriores ao FlagPaint 2.5 era 50%.
+	<string>Um valor mais baixo cria tonalidades mais escuras; um valor alto, mais claras. O valor nas versões anteriores ao FlagPaint 2.5 era 50%.</string>
 
 	<!-- Button leading to the custom tint colors page. -->
 	<key>CUSTOM_TINT_COLORS</key>

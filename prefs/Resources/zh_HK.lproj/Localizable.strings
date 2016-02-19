@@ -8,7 +8,7 @@
 
 	<!-- The notification displayed when FlagPaint is first installed. -->
 	<key>THANKS_MESSAGE_TITLE</key>
-	<string感謝您購買 FlagPaint!</string>
+	<string>感謝您購買 FlagPaint!</string>
 
 	<!-- "slide to configure". The "slide to" is already localized by iOS. -->
 	<key>THANKS_MESSAGE_ACTION</key>
