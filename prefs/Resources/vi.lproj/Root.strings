@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<!-- Default text displayed when sharing the tweak. -->
-	<key>SHARE_TEXT</key>T
+	<key>SHARE_TEXT</key>
 	<string>Tôi đang sử dụng #FlagPaint để thêm màu sắc vào các thông báo %@ của tôi!</string>
 
 	<!-- Button shown at the top-right of the "Banners" and "Lock Screen" sections. -->
