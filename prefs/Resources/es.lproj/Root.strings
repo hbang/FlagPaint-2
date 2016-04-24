@@ -41,10 +41,8 @@
 	<key>TEST_LOCK_SCREEN</key>
 	<string>Prueba de notificaiones en pantalla bloqueada</string>
 
-	<!-- Buttons leading to sub-sections -->
+	<!-- Button leading to sub-section -->
 	<key>SUGGESTED_TWEAKS</key>
 	<string>Tweaks recomendados</string>
-	<key>ABOUT</key>
-	<string>Sobre</string>
 </dict>
 </plist>

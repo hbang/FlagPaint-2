@@ -6,10 +6,6 @@
 	<key>BANNERS</key>
 	<string>Bàners</string>
 
-	<!-- Switch to toggle tinting. -->
-	<key>ENABLED</key>
-	<string>Activat</string>
-
 	<!-- Switch to toggle showing an album art icon. -->
 	<key>ALBUM_ART_ICON</key>
 	<string>Icona de la portada de disc</string>

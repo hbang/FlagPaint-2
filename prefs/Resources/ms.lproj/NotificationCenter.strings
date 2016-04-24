@@ -6,10 +6,6 @@
 	<key>NOTIFICATION_CENTER</key>
 	<string>Pusat Notifikasi</string>
 
-	<!-- Switch to toggle tinting. -->
-	<key>ENABLED</key>
-	<string>Aktifkan</string>
-
 	<!-- Switch to toggle fading the top and bottom. -->
 	<key>FADE_EDGES</key>
 	<string>Pudar Atas dan Bawah</string>

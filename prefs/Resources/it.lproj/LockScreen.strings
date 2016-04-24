@@ -6,10 +6,6 @@
 	<key>LOCK_SCREEN</key>
 	<string>Schemata di blocco</string>
 
-	<!-- Switch to toggle tinting. -->
-	<key>ENABLED</key>
-	<string>Abilitato</string>
-
 	<!-- Switch to toggle using a gradient or solid background. -->
 	<key>GRADIENT</key>
 	<string>Gradient</string>

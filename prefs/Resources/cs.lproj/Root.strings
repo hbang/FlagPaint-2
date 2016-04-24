@@ -40,10 +40,8 @@
 	<key>TEST_LOCK_SCREEN</key>
 	<string>Otestovat banner na zamykací obrazovce</string>
 
-	<!-- Buttons leading to sub-sections -->
+	<!-- Button leading to sub-section -->
 	<key>SUGGESTED_TWEAKS</key>
 	<string>Doporučené tweaky</string>
-	<key>ABOUT</key>
-	<string>O aplikaci</string>
 </dict>
 </plist>

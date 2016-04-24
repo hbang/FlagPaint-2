@@ -6,10 +6,6 @@
 	<key>LOCK_SCREEN</key>
 	<string>Màn hình khóa</string>
 
-	<!-- Switch to toggle tinting. -->
-	<key>ENABLED</key>
-	<string>Mở</string>
-
 	<!-- Switch to toggle using a gradient or solid background. -->
 	<key>GRADIENT</key>
 	<string>Chuyển tiếp màu</string>

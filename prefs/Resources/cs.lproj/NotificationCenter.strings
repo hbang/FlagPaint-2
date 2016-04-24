@@ -6,10 +6,6 @@
 	<key>NOTIFICATION_CENTER</key>
 	<string>Notifikační centrum</string>
 
-	<!-- Switch to toggle tinting. -->
-	<key>ENABLED</key>
-	<string>Povoleno</string>
-
 	<!-- Switch to toggle fading the top and bottom. -->
 	<key>FADE_EDGES</key>
 	<string>Fade horní části a dolní části</string>

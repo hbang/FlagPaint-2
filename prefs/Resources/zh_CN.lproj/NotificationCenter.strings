@@ -6,10 +6,6 @@
 	<key>NOTIFICATION_CENTER</key>
 	<string>通知中心</string>
 
-	<!-- Switch to toggle tinting. -->
-	<key>ENABLED</key>
-	<string>开启</string>
-
 	<!-- Switch to toggle fading the top and bottom. -->
 	<key>FADE_EDGES</key>
 	<string>淡化顶部和底部</string>

@@ -6,10 +6,6 @@
 	<key>NOTIFICATION_CENTER</key>
 	<string>Ilmoituskeskus</string>
 
-	<!-- Switch to toggle tinting. -->
-	<key>ENABLED</key>
-	<string>Käytössä</string>
-
 	<!-- Switch to toggle fading the top and bottom. -->
 	<key>FADE_EDGES</key>
 	<string>Ylä- ja alaosan häivytys</string>

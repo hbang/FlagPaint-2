@@ -40,10 +40,8 @@
 	<key>TEST_LOCK_SCREEN</key>
 	<string>测试锁屏通知</string>
 
-	<!-- Buttons leading to sub-sections -->
+	<!-- Button leading to sub-section -->
 	<key>SUGGESTED_TWEAKS</key>
 	<string>推荐的插件</string>
-	<key>ABOUT</key>
-	<string>关于</string>
 </dict>
 </plist>

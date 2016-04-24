@@ -6,10 +6,6 @@
 	<key>NOTIFICATION_CENTER</key>
 	<string>अधिसूचना केंद्र</string>
 
-	<!-- Switch to toggle tinting. -->
-	<key>ENABLED</key>
-	<string>सक्षम किया</string>
-
 	<!-- Switch to toggle fading the top and bottom. -->
 	<key>FADE_EDGES</key>
 	<string>फीका ऊपर और नीचे</string>

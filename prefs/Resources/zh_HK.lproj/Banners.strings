@@ -6,10 +6,6 @@
 	<key>BANNERS</key>
 	<string>橫額</string>
 
-	<!-- Switch to toggle tinting. -->
-	<key>ENABLED</key>
-	<string>啟用</string>
-
 	<!-- Switch to toggle showing an album art icon. -->
 	<key>ALBUM_ART_ICON</key>
 	<string>專輯插圖圖標</string>

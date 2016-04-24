@@ -6,10 +6,6 @@
 	<key>BANNERS</key>
 	<string>באנרים</string>
 
-	<!-- Switch to toggle tinting. -->
-	<key>ENABLED</key>
-	<string>מופעל</string>
-
 	<!-- Switch to toggle showing an album art icon. -->
 	<key>ALBUM_ART_ICON</key>
 	<string>תמונת אלבום באייקון</string>

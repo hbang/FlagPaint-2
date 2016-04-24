@@ -6,10 +6,6 @@
 	<key>LOCK_SCREEN</key>
 	<string>鎖定畫面</string>
 
-	<!-- Switch to toggle tinting. -->
-	<key>ENABLED</key>
-	<string>啟用</string>
-
 	<!-- Switch to toggle using a gradient or solid background. -->
 	<key>GRADIENT</key>
 	<string>漸層</string>

@@ -6,10 +6,6 @@
 	<key>LOCK_SCREEN</key>
 	<string>Экран блокировки</string>
 
-	<!-- Switch to toggle tinting. -->
-	<key>ENABLED</key>
-	<string>Включить</string>
-
 	<!-- Switch to toggle using a gradient or solid background. -->
 	<key>GRADIENT</key>
 	<string>Градиент</string>

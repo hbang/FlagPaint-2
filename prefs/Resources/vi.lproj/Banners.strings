@@ -6,10 +6,6 @@
 	<key>BANNERS</key>
 	<string>Biểu ngữ</string>
 
-	<!-- Switch to toggle tinting. -->
-	<key>ENABLED</key>
-	<string>Mở</string>
-
 	<!-- Switch to toggle showing an album art icon. -->
 	<key>ALBUM_ART_ICON</key>
 	<string>Biểu tượng hình Album</string>
