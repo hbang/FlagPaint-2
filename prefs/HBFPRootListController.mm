@@ -99,8 +99,8 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 #pragma mark - Callbacks
 
 - (NSString *)specifierEnabledString:(PSSpecifier *)specifier {
-	NSString *string = ((NSNumber *)[self readPreferenceValue:specifier]).boolValue ? @"On" : @"Off";
-	return [[NSBundle bundleWithIdentifier:@"com.apple.UIKit"] localizedStringForKey:string value:string table:@"Localizable"];
+	NSString *string = ((NSNumber *)[self readPreferenceValue:specifier]).boolValue ? @"ON" : @"OFF";
+	return [[NSBundle bundleWithIdentifier:@"ws.hbang.common.prefs"] localizedStringForKey:string value:string table:@"Common"];
 }
 
 - (void)showTestBanner {
