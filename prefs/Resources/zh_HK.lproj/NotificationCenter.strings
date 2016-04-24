@@ -12,7 +12,7 @@
 
 	<!-- Text explaining what the fading feature does. -->
 	<key>FADE_EDGES_EXPLANATION</key>
-	<string>增加通知列表頂部與底層的淡化效果</string>
+	<string>增加通知列表頂部與底層的淡化效果。</string>
 
 	<!-- Label for a background opacity (transparency) slider. -->
 	<key>BACKGROUND_OPACITY</key>

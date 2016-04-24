@@ -36,6 +36,6 @@
 
 	<!-- Switch to toggle hiding the “slide to view” text below a notification. -->
 	<key>HIDE_SLIDE_ACTION</key>
-	<string>Verberg “Schuif om te”</string>
+	<string>Verberg 'Schuif om te'</string>
 </dict>
 </plist>

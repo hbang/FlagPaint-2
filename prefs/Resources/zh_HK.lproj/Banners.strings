@@ -24,7 +24,7 @@
 
 	<!-- Warning message explaining that the shadows can't be used due to an incompatibility. -->
 	<key>TEXT_SHADOWS_INCOMPATIBILITY_WARNING</key>
-	<string>文字陰影與 TinyBar 不相容.</string>
+	<string>文字陰影與 TinyBar 不相容。</string>
 
 	<!-- Label for background opacity (transparency), color intensity, and grayscale intensity sliders. -->
 	<key>BACKGROUND_OPACITY</key>

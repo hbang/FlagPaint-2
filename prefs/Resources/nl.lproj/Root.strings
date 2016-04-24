@@ -28,7 +28,7 @@
 	<key>BIGGER_ICON</key>
 	<string>Groter icoon</string>
 	<key>HIDE_NOW_LABEL</key>
-	<string>Verberg “Nu”-label</string>
+	<string>Verberg 'Nu'-label</string>
 
 	<!-- Title for the test notification buttons -->
 	<key>TEST_NOTIFICATIONS_TITLE</key>
