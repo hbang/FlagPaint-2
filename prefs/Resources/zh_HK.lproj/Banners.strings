@@ -6,10 +6,6 @@
 	<key>BANNERS</key>
 	<string>橫額</string>
 
-	<!-- Switch to toggle tinting. -->
-	<key>ENABLED</key>
-	<string>啟用</string>
-
 	<!-- Switch to toggle showing an album art icon. -->
 	<key>ALBUM_ART_ICON</key>
 	<string>專輯插圖圖標</string>
@@ -28,7 +24,7 @@
 
 	<!-- Warning message explaining that the shadows can't be used due to an incompatibility. -->
 	<key>TEXT_SHADOWS_INCOMPATIBILITY_WARNING</key>
-	<string>文字陰影與 TinyBar 不相容.</string>
+	<string>文字陰影與 TinyBar 不相容。</string>
 
 	<!-- Label for background opacity (transparency), color intensity, and grayscale intensity sliders. -->
 	<key>BACKGROUND_OPACITY</key>

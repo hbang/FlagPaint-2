@@ -6,10 +6,6 @@
 	<key>LOCK_SCREEN</key>
 	<string>Lukitusnäyttö</string>
 
-	<!-- Switch to toggle tinting. -->
-	<key>ENABLED</key>
-	<string>Käytössä</string>
-
 	<!-- Switch to toggle using a gradient or solid background. -->
 	<key>GRADIENT</key>
 	<string>Gradientti</string>

@@ -40,7 +40,7 @@
 	<key>TEST_LOCK_SCREEN</key>
 	<string>Тестове сповіщення блокування екрана</string>
 
-	<!-- Buttons leading to sub-sections -->
+	<!-- Button leading to sub-section -->
 	<key>SUGGESTED_TWEAKS</key>
 	<string>Пропоновані розширення</string>
 </dict>

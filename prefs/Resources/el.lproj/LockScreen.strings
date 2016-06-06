@@ -6,10 +6,6 @@
 	<key>LOCK_SCREEN</key>
 	<string>Οθόνη Κλειδώματος</string>
 
-	<!-- Switch to toggle tinting. -->
-	<key>ENABLED</key>
-	<string>Ενεργοποιημένο</string>
-
 	<!-- Switch to toggle using a gradient or solid background. -->
 	<key>GRADIENT</key>
 	<string>Μίξη χρωμάτων</string>

@@ -6,10 +6,6 @@
 	<key>BANNERS</key>
 	<string>Банери</string>
 
-	<!-- Switch to toggle tinting. -->
-	<key>ENABLED</key>
-	<string>Увімкнено</string>
-
 	<!-- Switch to toggle showing an album art icon. -->
 	<key>ALBUM_ART_ICON</key>
 	<string>Обкладинка альбому</string>

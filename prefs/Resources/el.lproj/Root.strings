@@ -40,10 +40,8 @@
 	<key>TEST_LOCK_SCREEN</key>
 	<string>Δοκιμή Ειδοποιήσεων Οθόνης Κλειδώματος</string>
 
-	<!-- Buttons leading to sub-sections -->
+	<!-- Button leading to sub-section -->
 	<key>SUGGESTED_TWEAKS</key>
 	<string>ρΠοτεινόμενα Tweaks</string>
-	<key>ABOUT</key>
-	<string>Σχετικά</string>
 </dict>
 </plist>

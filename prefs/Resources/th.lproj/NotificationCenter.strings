@@ -6,10 +6,6 @@
 	<key>NOTIFICATION_CENTER</key>
 	<string>ศูนย์รวมการแจ้งเตือน</string>
 
-	<!-- Switch to toggle tinting. -->
-	<key>ENABLED</key>
-	<string>เปิด</string>
-
 	<!-- Switch to toggle fading the top and bottom. -->
 	<key>FADE_EDGES</key>
 	<string>เอฟเฟคเลือต้นและท้าย</string>

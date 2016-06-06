@@ -6,10 +6,6 @@
 	<key>LOCK_SCREEN</key>
 	<string>Zaključani Zaslon</string>
 
-	<!-- Switch to toggle tinting. -->
-	<key>ENABLED</key>
-	<string>Uključen</string>
-
 	<!-- Switch to toggle using a gradient or solid background. -->
 	<key>GRADIENT</key>
 	<string>Gradijent</string>

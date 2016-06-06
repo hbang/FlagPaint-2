@@ -6,17 +6,13 @@
 	<key>NOTIFICATION_CENTER</key>
 	<string>通知中心</string>
 
-	<!-- Switch to toggle tinting. -->
-	<key>ENABLED</key>
-	<string>啟用</string>
-
 	<!-- Switch to toggle fading the top and bottom. -->
 	<key>FADE_EDGES</key>
 	<string>淡化頂部與底層</string>
 
 	<!-- Text explaining what the fading feature does. -->
 	<key>FADE_EDGES_EXPLANATION</key>
-	<string>增加通知列表頂部與底層的淡化效果</string>
+	<string>增加通知列表頂部與底層的淡化效果。</string>
 
 	<!-- Label for a background opacity (transparency) slider. -->
 	<key>BACKGROUND_OPACITY</key>

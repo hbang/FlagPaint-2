@@ -40,10 +40,8 @@
 	<key>TEST_LOCK_SCREEN</key>
 	<string>Uji Notifikasi Skrin Kunci</string>
 
-	<!-- Buttons leading to sub-sections -->
+	<!-- Button leading to sub-section -->
 	<key>SUGGESTED_TWEAKS</key>
 	<string>Tweak Yang Dicadangkan</string>
-	<key>ABOUT</key>
-	<string>Perihal</string>
 </dict>
 </plist>

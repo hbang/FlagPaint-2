@@ -6,10 +6,6 @@
 	<key>LOCK_SCREEN</key>
 	<string>ロック画面</string>
 
-	<!-- Switch to toggle tinting. -->
-	<key>ENABLED</key>
-	<string>有効</string>
-
 	<!-- Switch to toggle using a gradient or solid background. -->
 	<key>GRADIENT</key>
 	<string>グラディエント</string>

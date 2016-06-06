@@ -40,10 +40,8 @@
 	<key>TEST_LOCK_SCREEN</key>
 	<string>Testar notificação na tela bloqueada</string>
 
-	<!-- Buttons leading to sub-sections -->
+	<!-- Button leading to sub-section -->
 	<key>SUGGESTED_TWEAKS</key>
 	<string>Pacotes sugeridos</string>
-	<key>ABOUT</key>
-	<string>Sobre</string>
 </dict>
 </plist>

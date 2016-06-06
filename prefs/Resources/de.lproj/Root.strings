@@ -40,10 +40,8 @@
 	<key>TEST_LOCK_SCREEN</key>
 	<string>Testnachricht auf dem Sperrbildschirm</string>
 
-	<!-- Buttons leading to sub-sections -->
+	<!-- Button leading to sub-section -->
 	<key>SUGGESTED_TWEAKS</key>
 	<string>Vorgeschlagene Tweaks</string>
-	<key>ABOUT</key>
-	<string>Über</string>
 </dict>
 </plist>

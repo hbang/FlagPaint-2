@@ -1,5 +1,6 @@
 #import "HBFPRootListController.h"
 #import "HBFPHeaderView.h"
+#import <CepheiPrefs/HBAppearanceSettings.h>
 #import <Preferences/PSSpecifier.h>
 #import <Preferences/PSTableCell.h>
 #include <notify.h>
@@ -31,11 +32,19 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 	return [NSURL URLWithString:@"https://www.hbang.ws/flagpaint/"];
 }
 
-+ (UIColor *)hb_tintColor {
-	return [UIColor colorWithRed:35.f / 255.f green:208.f / 255.f blue:189.f / 255.f alpha:1];
-}
-
 #pragma mark - UIViewController
+
+- (instancetype)init {
+	self = [super init];
+
+	if (self) {
+		HBAppearanceSettings *appearance = [[HBAppearanceSettings alloc] init];
+		appearance.tintColor = [UIColor colorWithRed:0.137 green:0.816 blue:0.741 alpha:1.00];
+		self.hb_appearanceSettings = appearance;
+	}
+
+	return self;
+}
 
 - (void)loadView {
 	[super loadView];
@@ -99,8 +108,8 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 #pragma mark - Callbacks
 
 - (NSString *)specifierEnabledString:(PSSpecifier *)specifier {
-	NSString *string = ((NSNumber *)[self readPreferenceValue:specifier]).boolValue ? @"On" : @"Off";
-	return [[NSBundle bundleWithIdentifier:@"com.apple.UIKit"] localizedStringForKey:string value:string table:@"Localizable"];
+	NSString *string = ((NSNumber *)[self readPreferenceValue:specifier]).boolValue ? @"ON" : @"OFF";
+	return [[NSBundle bundleWithIdentifier:@"ws.hbang.common.prefs"] localizedStringForKey:string value:string table:@"Common"];
 }
 
 - (void)showTestBanner {

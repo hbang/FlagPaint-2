@@ -6,10 +6,6 @@
 	<key>BANNERS</key>
 	<string>Barras de Notificaciones</string>
 
-	<!-- Switch to toggle tinting. -->
-	<key>ENABLED</key>
-	<string>Activado</string>
-
 	<!-- Switch to toggle showing an album art icon. -->
 	<key>ALBUM_ART_ICON</key>
 	<string>Icono de la Portada del Album</string>

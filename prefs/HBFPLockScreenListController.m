@@ -13,7 +13,8 @@
 
 - (void)loadView {
 	[super loadView];
-	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:[bundle localizedStringForKey:@"TEST" value:nil table:@"Root"] style:UIBarButtonItemStylePlain target:self action:@selector(showTestBanner)] autorelease];
+
+	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:[bundle localizedStringForKey:@"TEST" value:nil table:@"Root"] style:UIBarButtonItemStylePlain target:self action:@selector(showTestLockScreenNotification)] autorelease];
 }
 
 #pragma mark - Callbacks

@@ -6,10 +6,6 @@
 	<key>LOCK_SCREEN</key>
 	<string>หน้าจอล็อค</string>
 
-	<!-- Switch to toggle tinting. -->
-	<key>ENABLED</key>
-	<string>เปิด</string>
-
 	<!-- Switch to toggle using a gradient or solid background. -->
 	<key>GRADIENT</key>
 	<string>ไล่สี</string>

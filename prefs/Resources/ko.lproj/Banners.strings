@@ -6,10 +6,6 @@
 	<key>BANNERS</key>
 	<string>배너</string>
 
-	<!-- Switch to toggle tinting. -->
-	<key>ENABLED</key>
-	<string>사용</string>
-
 	<!-- Switch to toggle showing an album art icon. -->
 	<key>ALBUM_ART_ICON</key>
 	<string>앨범 아트 아이콘</string>
