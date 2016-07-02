@@ -88,8 +88,6 @@ static const char *kHBFPBackgroundViewIdentifier;
 
 %new - (void)_flagpaint_updateMask {
 	UIView *containerView = MSHookIvar<UIView *>(self, "_containerView");
-	CAGradientLayer *gradientLayer = objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier);
-	[gradientLayer release];
 
 	if (preferences.lockFade) {
 		CAGradientLayer *gradientLayer = [[CAGradientLayer alloc] init];
@@ -134,11 +132,6 @@ static const char *kHBFPBackgroundViewIdentifier;
 	if (scrollView.class == %c(SBLockScreenNotificationTableView)) {
 		[self _flagpaint_updateMaskWithOffset:scrollView.contentOffset.y height:scrollView.contentSize.height];
 	}
-}
-
-- (void)dealloc {
-	[objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier) release];
-	%orig;
 }
 
 %end
@@ -266,12 +259,6 @@ static const char *kHBFPBackgroundViewIdentifier;
 
 - (void)setContentAlpha:(CGFloat)contentAlpha {
 	%orig(preferences.lockDisableDimming ? 1 : contentAlpha);
-}
-
-- (void)dealloc {
-	[objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier) release];
-	[objc_getAssociatedObject(self, &kHBFPBackgroundViewIdentifier) release];
-	%orig;
 }
 
 %end

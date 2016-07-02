@@ -14,7 +14,7 @@ BOOL firstRun = YES;
 		firstRun = NO;
 
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
-			BBBulletin *bulletin = [[[BBBulletin alloc] init] autorelease];
+			BBBulletin *bulletin = [[BBBulletin alloc] init];
 			bulletin.bulletinID = @"ws.hbang.flagpaint";
 			bulletin.sectionID = @"com.apple.Preferences";
 			bulletin.title = [bundle localizedStringForKey:@"THANKS_MESSAGE_TITLE" value:nil table:@"Localizable"];

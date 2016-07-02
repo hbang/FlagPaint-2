@@ -20,9 +20,9 @@
 			(id)[UIColor colorWithRed:16.f / 255.f green:178.f / 255.f blue:195.f / 255.f alpha:1].CGColor
 		];
 
-		NSMutableAttributedString *attributedString = [[[NSMutableAttributedString alloc] initWithString:@"FlagPaint\nby HASHBANG Productions"] autorelease];
+		NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"FlagPaint\nby HASHBANG Productions"];
 
-		NSMutableParagraphStyle *paragraphStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
+		NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
 		paragraphStyle.lineSpacing = 10.f;
 		paragraphStyle.alignment = NSTextAlignmentCenter;
 
@@ -39,7 +39,7 @@
 			NSKernAttributeName: [NSNull null]
 		} range:NSMakeRange(10, attributedString.string.length - 10)];
 
-		UILabel *flagPaintLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, topInset, 0, self.frame.size.height - topInset)] autorelease];
+		UILabel *flagPaintLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, topInset, 0, self.frame.size.height - topInset)];
 		flagPaintLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 		flagPaintLabel.textAlignment = NSTextAlignmentCenter;
 		flagPaintLabel.numberOfLines = 0;

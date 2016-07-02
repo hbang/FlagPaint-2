@@ -74,7 +74,7 @@ static NSString *const kHBFPWinterBoardTintsKey = @"Tints";
 	NSDictionary *wbPreferences = [NSDictionary dictionaryWithContentsOfURL:[NSURL URLWithString:@"file:///var/mobile/Library/Preferences/com.saurik.WinterBoard.plist"]];
 
 	if (wbPreferences && wbPreferences[kHBFPWinterBoardThemesKey]) {
-		[_themeTints release];
+		_themeTints = nil;
 
 		NSMutableDictionary *newThemeTints = [NSMutableDictionary dictionary];
 
@@ -140,13 +140,6 @@ static NSString *const kHBFPWinterBoardTintsKey = @"Tints";
 	} else {
 		return nil;
 	}
-}
-
-#pragma mark - Memory management
-
-- (void)dealloc {
-	[_preferences release];
-	[super dealloc];
 }
 
 @end

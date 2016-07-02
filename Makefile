@@ -8,7 +8,7 @@ FlagPaint7_FRAMEWORKS = Accelerate CoreGraphics QuartzCore UIKit
 FlagPaint7_PRIVATE_FRAMEWORKS = BulletinBoard MediaRemote
 FlagPaint7_EXTRA_FRAMEWORKS = Cephei
 FlagPaint7_LIBRARIES = applist
-FlagPaint7_CFLAGS = -include Global.h
+FlagPaint7_CFLAGS = -include Global.h -fobjc-arc
 
 include $(THEOS_MAKE_PATH)/tweak.mk
 

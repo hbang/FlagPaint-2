@@ -118,7 +118,7 @@ UIImage *HBFPIconForKey(NSString *key, UIImage *fallbackImage) {
 		__block UIImage *artwork = nil;
 
 		MRMediaRemoteGetNowPlayingInfo(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(CFDictionaryRef information) {
-			NSData *data = ((NSDictionary *)information)[(NSString *)kMRMediaRemoteNowPlayingInfoArtworkData];
+			NSData *data = ((__bridge NSDictionary *)information)[(__bridge NSString *)kMRMediaRemoteNowPlayingInfoArtworkData];
 
 			if (data) {
 				artwork = [[UIImage alloc] initWithData:data];
@@ -138,7 +138,7 @@ UIImage *HBFPIconForKey(NSString *key, UIImage *fallbackImage) {
 
 	if (!icon) {
 		HBLogDebug(@"%@: trying app icon", key);
-		icon = [[UIImage _applicationIconImageForBundleIdentifier:key format:[key isEqualToString:@"com.apple.mobilecal"] ? MIIconVariantSpotlight : MIIconVariantDefault scale:[UIScreen mainScreen].scale] retain];
+		icon = [UIImage _applicationIconImageForBundleIdentifier:key format:[key isEqualToString:@"com.apple.mobilecal"] ? MIIconVariantSpotlight : MIIconVariantDefault scale:[UIScreen mainScreen].scale];
 	}
 
 	if (!icon) {
@@ -174,7 +174,7 @@ BBBulletin *HBFPGetTestBulletin(BOOL isLockScreen) {
 	NSString *bundleIdentifier = testApps.allKeys[arc4random_uniform(testApps.allKeys.count)];
 	NSString *displayName = testApps[bundleIdentifier];
 
-	BBBulletin *bulletin = [[[BBBulletin alloc] init] autorelease];
+	BBBulletin *bulletin = [[BBBulletin alloc] init];
 	bulletin.bulletinID = @"ws.hbang.flagpaint";
 	bulletin.sectionID = bundleIdentifier;
 	bulletin.title = displayName;
@@ -236,7 +236,7 @@ void HBFPRespring() {
 	%init;
 
 	_UIAccessibilityEnhanceBackgroundContrast = (BOOL (*)())dlsym(RTLD_DEFAULT, "_UIAccessibilityEnhanceBackgroundContrast");
-	bundle = [[NSBundle bundleWithPath:@"/Library/PreferenceBundles/FlagPaint7.bundle"] retain];
+	bundle = [NSBundle bundleWithPath:@"/Library/PreferenceBundles/FlagPaint7.bundle"];
 
 	if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/PrettierBanners.dylib"]) {
 		hasMessagesAvatarTweak = YES;

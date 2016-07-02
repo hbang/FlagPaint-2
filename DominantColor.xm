@@ -86,7 +86,7 @@ UIColor *HBFPTintForKey(NSString *key, UIImage *fallbackImage) {
 		}
 
 		if (cache && !tintCache[key]) {
-			tintCache[key] = [tint retain];
+			tintCache[key] = tint;
 		}
 
 		if (!tint) {

@@ -11,7 +11,6 @@
 #import <version.h>
 
 static const char *kHBFPBackdropViewSettingsIdentifier;
-static const char *kHBFPBackgroundGradientIdentifier;
 
 BOOL hasStatusBarTweak;
 CGFloat bannerHeight = 64.f;
@@ -42,13 +41,13 @@ CGFloat bannerHeight = 64.f;
 
 			CGFloat grayscaleIntensity = preferences.bannerGrayscaleIntensity / 100.f;
 
-			UIView *grayView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+			UIView *grayView = [[UIView alloc] initWithFrame:CGRectZero];
 			grayView.backgroundColor = [UIColor colorWithWhite:(100.f - grayscaleIntensity) / 255.f alpha:grayscaleIntensity / 200.f];
 			grayView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 			[backdropView.superview insertSubview:grayView aboveSubview:backdropView];
 
 			if (preferences.bannerGradient) {
-				HBFPGradientView *gradientView = [[[HBFPGradientView alloc] initWithFrame:CGRectZero] autorelease];
+				HBFPGradientView *gradientView = [[HBFPGradientView alloc] initWithFrame:CGRectZero];
 				gradientView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 				gradientView.layer.locations = @[ @0, @0.5f, @1 ];
 				gradientView.layer.colors = @[
@@ -60,7 +59,7 @@ CGFloat bannerHeight = 64.f;
 			} else if (preferences.fonz) {
 				CGFloat division = 1.f / 6.f;
 
-				HBFPGradientView *gradientView = [[[HBFPGradientView alloc] initWithFrame:CGRectZero] autorelease];
+				HBFPGradientView *gradientView = [[HBFPGradientView alloc] initWithFrame:CGRectZero];
 				gradientView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 				gradientView.layer.locations = @[ @(division), @(division * 2.f), @(division * 3.f), @(division * 4.f), @(division * 5.f), @(division * 6.f) ];
 				gradientView.layer.colors = @[
@@ -189,13 +188,6 @@ CGFloat bannerHeight = 64.f;
 	return 0;
 }
 
-- (void)dealloc {
-	[objc_getAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier) release];
-	[objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier) release];
-
-	%orig;
-}
-
 %end
 
 %group JonyIve
@@ -297,7 +289,6 @@ CGFloat bannerHeight = 64.f;
 		SBControlColorSettings *vibrantSettings = colorSettings.vibrantSettings;
 		SBControlColorSettings *overlaySettings = colorSettings.overlaySettings;
 
-		[colorSettings release];
 		colorSettings = [[%c(SBNotificationControlColorSettings) alloc] initWithVibrantSettings:vibrantSettings overlaySettings:overlaySettings];
 	}
 

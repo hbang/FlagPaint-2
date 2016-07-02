@@ -49,7 +49,7 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 - (void)loadView {
 	[super loadView];
 
-	self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"FlagPaint" style:UIBarButtonItemStylePlain target:nil action:nil] autorelease];
+	self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"FlagPaint" style:UIBarButtonItemStylePlain target:nil action:nil];
 
 	_headerView = [[HBFPHeaderView alloc] initWithTopInset:kHBFPHeaderTopInset];
 	_headerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -118,13 +118,6 @@ static CGFloat const kHBFPHeaderHeight = 150.f;
 
 - (void)showTestLockScreenNotification {
 	notify_post("ws.hbang.flagpaint/TestLockScreenNotification");
-}
-
-#pragma mark - Memory management
-
-- (void)dealloc {
-	[_headerView release];
-	[super dealloc];
 }
 
 @end

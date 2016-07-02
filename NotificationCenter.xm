@@ -54,9 +54,6 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 }
 
 %new - (void)_flagpaint_updateMask {
-	CAGradientLayer *gradientLayer = objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier);
-	[gradientLayer release];
-
 	if (preferences.notificationCenterFade) {
 		CAGradientLayer *gradientLayer = [[CAGradientLayer alloc] init];
 		self.view.layer.mask = gradientLayer;
@@ -71,7 +68,6 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 
 		[self _flagpaint_updateMaskWithOffset:0.f height:self.view.frame.size.height];
 	} else {
-		[self.view.layer.mask release];
 		self.view.layer.mask = nil;
 	}
 }
@@ -102,11 +98,6 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 			gradientLayer.frame = self.view.bounds;
 		}
 	}
-}
-
-- (void)dealloc {
-	[objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier) release];
-	%orig;
 }
 
 %end
@@ -176,12 +167,6 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 	}
 }
 
-- (void)dealloc {
-	[objc_getAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier) release];
-	[objc_getAssociatedObject(self, &kHBFPBackgroundViewIdentifier) release];
-	%orig;
-}
-
 %end
 
 #pragma mark - Cell
@@ -241,11 +226,6 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 	}
 }
 
-- (void)dealloc {
-	[objc_getAssociatedObject(self, &kHBFPBackgroundViewIdentifier) release];
-	%orig;
-}
-
 %end
 
 #pragma mark - KVO hax
@@ -263,7 +243,7 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 		return;
 	}
 
-	SBBulletinViewController *viewController = (id)context;
+	SBBulletinViewController *viewController = (__bridge id)context;
 	UIScrollView *scrollView = object;
 
 	SBNotificationsModeViewController *parentViewController = (SBNotificationsModeViewController *)viewController.parentViewController;
@@ -298,7 +278,7 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 	self.view.clipsToBounds = NO;
 
 	HBFPBulletinViewControllerKVOObserver *observer = [[HBFPBulletinViewControllerKVOObserver alloc] init];
-	[self.view addObserver:observer forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:self];
+	[self.view addObserver:observer forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:(__bridge void *)self];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
