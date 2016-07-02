@@ -17,8 +17,6 @@
 		<dict>
 			<key>action</key>
 			<string>openPackage:</string>
-			<key>appIDForLazyIcon</key>
-			<string>com.anemonetheming.anemone</string>
 			<key>cell</key>
 			<string>PSLinkCell</string>
 			<key>cellClass</key>
@@ -27,8 +25,6 @@
 			<string>Anemone</string>
 			<key>packageIdentifier</key>
 			<string>com.anemonetheming.anemone</string>
-			<key>packageRepository</key>
-			<string>https://anemonetheming.com/nightly/</string>
 			<key>subtitleText</key>
 			<string>An awesome theme manager!</string>
 			<key>useLazyIcons</key>
@@ -111,22 +107,6 @@
 			<string>me.thomasfinch.watchnotifications</string>
 			<key>subtitleText</key>
 			<string>WatchOS style lock screen notifications</string>
-			<key>useLazyIcons</key>
-			<true/>
-		</dict>
-		<dict>
-			<key>action</key>
-			<string>openPackage:</string>
-			<key>cell</key>
-			<string>PSLinkCell</string>
-			<key>cellClass</key>
-			<string>HBFPPackageTableViewCell</string>
-			<key>label</key>
-			<string>WinterBoard</string>
-			<key>packageIdentifier</key>
-			<string>winterboard</string>
-			<key>subtitleText</key>
-			<string>theme manager, used by most themes</string>
 			<key>useLazyIcons</key>
 			<true/>
 		</dict>
