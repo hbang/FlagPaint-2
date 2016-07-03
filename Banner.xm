@@ -10,19 +10,23 @@
 #import <UIKit/_UIBackdropViewSettingsAdaptiveLight.h>
 #import <version.h>
 
-static const char *kHBFPBackdropViewSettingsIdentifier;
-
 BOOL hasStatusBarTweak;
 CGFloat bannerHeight = 64.f;
 
-@interface SBBannerContextView (FlagPaint)
+@interface SBBannerContextView ()
 
 - (void)_flagpaint_setHeightIfNeeded;
 - (CGFloat)_flagpaint_grabberHeightDifference;
 
+@property (nonatomic, retain) _UIBackdropViewSettings *_flagpaint_backdropViewSettings;
+
 @end
 
+#pragma mark - Container view hooks
+
 %hook SBBannerContextView
+
+%property (nonatomic, retain) _UIBackdropViewSettings *_flagpaint_backdropViewSettings;
 
 - (id)initWithFrame:(CGRect)frame {
 	self = %orig;
@@ -36,8 +40,7 @@ CGFloat bannerHeight = 64.f;
 			settings.colorTint = [UIColor blackColor];
 			settings.colorTintAlpha = preferences.bannerColorIntensity / 100.f;
 			[backdropView transitionToSettings:settings];
-
-			objc_setAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier, settings, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+			self._flagpaint_backdropViewSettings = settings;
 
 			CGFloat grayscaleIntensity = preferences.bannerGrayscaleIntensity / 100.f;
 
@@ -132,8 +135,7 @@ CGFloat bannerHeight = 64.f;
 	}
 
 	if (preferences.tintBanners) {
-		_UIBackdropViewSettings *settings = objc_getAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier);
-		settings.colorTint = HBFPTintForKey(key, iconImageView.image);
+		self._flagpaint_backdropViewSettings.colorTint = HBFPTintForKey(key, iconImageView.image);
 	}
 
 	if (preferences.bannerRemoveGrabber && IS_IOS_OR_NEWER(iOS_8_0)) {
@@ -190,6 +192,8 @@ CGFloat bannerHeight = 64.f;
 
 %end
 
+#pragma mark - Set banner frame hack
+
 %group JonyIve
 %hook SBBannerController
 
@@ -201,6 +205,8 @@ CGFloat bannerHeight = 64.f;
 
 %end
 %end
+
+#pragma mark - Banner view hooks
 
 %hook SBDefaultBannerView
 
@@ -238,6 +244,8 @@ CGFloat bannerHeight = 64.f;
 }
 
 %end
+
+#pragma mark - Text view hooks
 
 %hook SBDefaultBannerTextView
 
@@ -281,6 +289,8 @@ CGFloat bannerHeight = 64.f;
 
 %end
 
+#pragma mark - Button hooks
+
 %group CraigFederighi
 %hook SBNotificationVibrantButton
 
@@ -297,6 +307,8 @@ CGFloat bannerHeight = 64.f;
 
 %end
 %end
+
+#pragma mark - Constructor
 
 %ctor {
 	if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/TinyBar.dylib"]) {

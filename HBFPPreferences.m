@@ -1,5 +1,6 @@
 #import "HBFPPreferences.h"
 #import <Cephei/HBPreferences.h>
+#import <Cephei/UIColor+HBAdditions.h>
 
 static NSString *const kHBFPWinterBoardThemesKey = @"Themes";
 static NSString *const kHBFPWinterBoardThemeActiveKey = @"Active";
@@ -117,13 +118,13 @@ static NSString *const kHBFPWinterBoardTintsKey = @"Tints";
 	HBLogDebug(@"%@: trying preferences (%@)", key, value);
 
 	if (value) {
-		return [self _tintForValue:value];
+		return [UIColor hb_colorWithPropertyListValue:value];
 	}
 
 	value = [_themeTints objectForKey:key];
 	HBLogDebug(@"%@: trying theme (%@)", key, value);
 
-	return [self _tintForValue:value];
+	return [UIColor hb_colorWithPropertyListValue:value];
 }
 
 - (UIColor *)_tintForValue:(id)value {

@@ -38,8 +38,10 @@ BOOL firstRun = YES;
 %end
 
 %ctor {
+	HBLogDebug(@"had first run = %i", preferences.hadFirstRun);
 	if (!preferences.hadFirstRun) {
 		%init;
 		preferences.hadFirstRun = YES;
+	HBLogDebug(@"had first run NOW = %i", preferences.hadFirstRun);
 	}
 }

@@ -10,21 +10,32 @@
 #import <SpringBoard/SBNotificationsSectionHeaderView.h>
 #import <version.h>
 
-static const char *kHBFPBackdropViewSettingsIdentifier;
-static const char *kHBFPBackgroundGradientIdentifier;
-static const char *kHBFPBackgroundViewIdentifier;
-static const char *kHBFPPreferencesChangedIdentifier;
-
 static CGFloat const kHBFPNotificationHeaderBackgroundAlphaFloating = 0.43f;
 
 static CGFloat const kHBFPNotificationCellBackgroundAlphaNormal = 0.43f;
 static CGFloat const kHBFPNotificationCellBackgroundAlphaHighlighted = 0.86f;
 static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 
-@interface SBNotificationsModeViewController (FlagPaint)
+@interface SBNotificationsModeViewController ()
 
 - (void)_flagpaint_updateMask;
 - (void)_flagpaint_updateMaskWithOffset:(CGFloat)offset height:(CGFloat)height;
+
+@property (nonatomic, retain) CAGradientLayer *_flagpaint_gradientLayer;
+@property (nonatomic) BOOL _flagpaint_preferencesChanged;
+
+@end
+
+@interface SBNotificationsSectionHeaderView ()
+
+@property (nonatomic, retain) UIView *_flagpaint_backgroundView;
+@property (nonatomic, retain) _UIBackdropViewSettings *_flagpaint_backdropViewSettings;
+
+@end
+
+@interface SBNotificationsBulletinCell ()
+
+@property (nonatomic, retain) UIView *_flagpaint_backgroundView;
 
 @end
 
@@ -32,36 +43,35 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 
 %hook SBNotificationsModeViewController
 
+%property (nonatomic, retain) CAGradientLayer *_flagpaint_gradientLayer;
+%property (nonatomic, assign) BOOL _flagpaint_preferencesChanged;
+
 - (void)loadView {
 	%orig;
 
 	[self _flagpaint_updateMask];
 
 	[[NSNotificationCenter defaultCenter] addObserverForName:HBFPPreferencesChangedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
-		objc_setAssociatedObject(self, &kHBFPPreferencesChangedIdentifier, @YES, OBJC_ASSOCIATION_ASSIGN);
+		self._flagpaint_preferencesChanged = YES;
 	}];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
 	%orig;
 
-	if (((NSNumber *)objc_getAssociatedObject(self, &kHBFPPreferencesChangedIdentifier)).boolValue) {
-		objc_setAssociatedObject(self, &kHBFPPreferencesChangedIdentifier, @NO, OBJC_ASSOCIATION_ASSIGN);
+	if (self._flagpaint_preferencesChanged) {
+		self._flagpaint_preferencesChanged = NO;
 
-		SBNotificationsModeViewController *me = self;
-		[(UITableView *)me.view.subviews[0] reloadData];
+		[(UITableView *)self.view.subviews[0] reloadData];
 		[self _flagpaint_updateMask];
 	}
 }
 
 %new - (void)_flagpaint_updateMask {
-	SBNotificationsModeViewController *me = self;
-
 	if (preferences.notificationCenterFade) {
-		CAGradientLayer *gradientLayer = [[CAGradientLayer alloc] init];
-		me.view.layer.mask = gradientLayer;
-
-		objc_setAssociatedObject(self, &kHBFPBackgroundGradientIdentifier, gradientLayer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+		CAGradientLayer *gradientLayer = [CAGradientLayer layer];
+		self.view.layer.mask = gradientLayer;
+		self._flagpaint_gradientLayer = gradientLayer;
 
 		gradientLayer.colors = @[
 			(id)[UIColor whiteColor].CGColor,
@@ -69,9 +79,9 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 			(id)[UIColor colorWithWhite:1 alpha:0.1f].CGColor
 		];
 
-		[self _flagpaint_updateMaskWithOffset:0.f height:me.view.frame.size.height];
+		[self _flagpaint_updateMaskWithOffset:0.f height:self.view.frame.size.height];
 	} else {
-		me.view.layer.mask = nil;
+		self.view.layer.mask = nil;
 	}
 }
 
@@ -87,19 +97,17 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 		bottom = bottomMin;
 	}
 
-	CAGradientLayer *gradientLayer = objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier);
-	gradientLayer.locations = @[ @0, @(bottom), @1 ];
+	self._flagpaint_gradientLayer.locations = @[ @0, @(bottom), @1 ];
 }
 
 - (void)viewWillLayoutSubviews {
 	%orig;
 
 	if (preferences.notificationCenterFade) {
-		CAGradientLayer *gradientLayer = objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier);
+		CAGradientLayer *gradientLayer = self._flagpaint_gradientLayer;
 
-		SBNotificationsModeViewController *me = self;
-		if (!CGRectEqualToRect(gradientLayer.frame, me.view.bounds)) {
-			gradientLayer.frame = me.view.bounds;
+		if (!CGRectEqualToRect(gradientLayer.frame, self.view.bounds)) {
+			gradientLayer.frame = self.view.bounds;
 		}
 	}
 }
@@ -110,12 +118,15 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 
 %hook SBNotificationsSectionHeaderView
 
+%property (nonatomic, retain) UIView *_flagpaint_backgroundView;
+%property (nonatomic, retain) _UIBackdropViewSettings *_flagpaint_backdropViewSettings;
+
 - (id)initWithFrame:(CGRect)frame {
 	self = %orig;
 
 	if (self) {
 		if (preferences.tintNotificationCenter) {
-			((SBNotificationsSectionHeaderView *)self).clipsToBounds = NO;
+			self.clipsToBounds = NO;
 
 			CGFloat notificationCenterOpacity = preferences.notificationCenterOpacity / 100.f;
 
@@ -123,9 +134,9 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 				UIView *backgroundView = [[UIView alloc] initWithFrame:((SBNotificationsSectionHeaderView *)self).contentView.bounds];
 				backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 				backgroundView.alpha = notificationCenterOpacity;
-				[((SBNotificationsSectionHeaderView *)self).contentView insertSubview:backgroundView atIndex:0];
+				[self.contentView insertSubview:backgroundView atIndex:0];
 
-				objc_setAssociatedObject(self, &kHBFPBackgroundViewIdentifier, backgroundView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+				self._flagpaint_backgroundView = backgroundView;
 			} else {
 				_UIBackdropView *backdropView = MSHookIvar<_UIBackdropView *>(self, "_backdrop");
 
@@ -134,7 +145,7 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 				settings.colorTintAlpha = notificationCenterOpacity;
 				[backdropView transitionToSettings:settings];
 
-				objc_setAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier, settings, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+				self._flagpaint_backdropViewSettings = settings;
 			}
 		}
 	}
@@ -149,8 +160,8 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 		_UIBackdropView *backdropView = MSHookIvar<_UIBackdropView *>(self, "_backdrop");
 
 		CGRect frame = backdropView.frame;
-		frame.origin.x = -((SBNotificationsSectionHeaderView *)self).superview.frame.origin.x;
-		frame.size.width = backdropView.superview.frame.size.width + ((SBNotificationsSectionHeaderView *)self).superview.frame.origin.x * 2;
+		frame.origin.x = -self.superview.frame.origin.x;
+		frame.size.width = backdropView.superview.frame.size.width + self.superview.frame.origin.x * 2;
 		backdropView.frame = frame;
 	}
 }
@@ -160,11 +171,9 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 		CGFloat alpha = (preferences.notificationCenterOpacity / 100.f) * (floating ? kHBFPNotificationHeaderBackgroundAlphaFloating : 1.f);
 
 		if (_UIAccessibilityEnhanceBackgroundContrast()) {
-			UIView *backgroundView = objc_getAssociatedObject(self, &kHBFPBackgroundViewIdentifier);
-			backgroundView.alpha = alpha;
+			self._flagpaint_backgroundView.alpha = alpha;
 		} else {
-			_UIBackdropViewSettings *settings = objc_getAssociatedObject(self, &kHBFPBackdropViewSettingsIdentifier);
-			settings.grayscaleTintAlpha = alpha;
+			self._flagpaint_backdropViewSettings.grayscaleTintAlpha = alpha;
 		}
 	} else {
 		%orig;
@@ -176,6 +185,8 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 #pragma mark - Cell
 
 %hook SBNotificationsBulletinCell
+
+%property (nonatomic, retain) UIView *_flagpaint_backgroundView;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
 	self = %orig;
@@ -194,7 +205,7 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 		backgroundView.hidden = !preferences.tintNotificationCenter;
 		[self.contentView insertSubview:backgroundView atIndex:0];
 
-		objc_setAssociatedObject(self, &kHBFPBackgroundViewIdentifier, backgroundView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+		self._flagpaint_backgroundView = backgroundView;
 
 		[[NSNotificationCenter defaultCenter] addObserverForName:HBFPPreferencesChangedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
 			backgroundView.hidden = !preferences.tintNotificationCenter;
@@ -208,14 +219,12 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 	%orig;
 
 	CGFloat padding = IS_IPAD ? self.superview.superview.frame.origin.x : 0;
-	UIView *backgroundView = objc_getAssociatedObject(self, &kHBFPBackgroundViewIdentifier);
-	backgroundView.frame = CGRectMake(-padding, 0, self.frame.size.width + padding * 2, self.frame.size.height);
+	self._flagpaint_backgroundView.frame = CGRectMake(-padding, 0, self.frame.size.width + padding * 2, self.frame.size.height);
 }
 
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
 	if (preferences.tintNotificationCenter) {
-		UIView *backgroundView = objc_getAssociatedObject(self, &kHBFPBackgroundViewIdentifier);
-		backgroundView.alpha = (preferences.notificationCenterOpacity / 100.f) * (highlighted ? kHBFPNotificationCellBackgroundAlphaHighlighted : 1.f);
+		self._flagpaint_backgroundView.alpha = (preferences.notificationCenterOpacity / 100.f) * (highlighted ? kHBFPNotificationCellBackgroundAlphaHighlighted : 1.f);
 	} else {
 		%orig;
 	}
@@ -223,8 +232,7 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
 	if (preferences.tintNotificationCenter) {
-		UIView *backgroundView = objc_getAssociatedObject(self, &kHBFPBackgroundViewIdentifier);
-		backgroundView.alpha = (preferences.notificationCenterOpacity / 100.f) * (selected ? kHBFPNotificationCellBackgroundAlphaSelected : 1.f);
+		self._flagpaint_backgroundView.alpha = (preferences.notificationCenterOpacity / 100.f) * (selected ? kHBFPNotificationCellBackgroundAlphaSelected : 1.f);
 	} else {
 		%orig;
 	}
@@ -263,15 +271,10 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 
 %hook SBNotificationsAllModeBulletinInfo
 
-- (void)populateReusableView:(UITableViewCell *)cell {
+- (void)populateReusableView:(SBNotificationsBulletinCell *)cell {
 	%orig;
 
-	//NSString *key = HBFPGetKey(self.representedBulletin, nil);
-
-	SBNotificationsAllModeBulletinInfo *me = self;
-
-	UIView *backgroundView = objc_getAssociatedObject(cell, &kHBFPBackgroundViewIdentifier);
-	backgroundView.backgroundColor = HBFPTintForKey([(id)me.representedBulletin performSelector:@selector(sectionID)], nil);
+	cell._flagpaint_backgroundView.backgroundColor = HBFPTintForKey([(id)self.representedBulletin performSelector:@selector(sectionID)], nil);
 }
 
 %end
@@ -288,7 +291,7 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-	UIView *header = %orig;
+	SBNotificationsSectionHeaderView *header = (SBNotificationsSectionHeaderView *)%orig;
 
 	if (!header || !preferences.tintNotificationCenter) {
 		return header;
@@ -308,11 +311,9 @@ static CGFloat const kHBFPNotificationCellBackgroundAlphaSelected = 1.15f;
 		UIImageView *iconImageView = MSHookIvar<UIImageView *>(header, "_iconImageView");
 
 		if (_UIAccessibilityEnhanceBackgroundContrast()) {
-			UIView *backgroundView = objc_getAssociatedObject(header, &kHBFPBackgroundViewIdentifier);
-			backgroundView.backgroundColor = HBFPTintForKey(key, iconImageView.image);
+			header._flagpaint_backgroundView.backgroundColor = HBFPTintForKey(key, iconImageView.image);
 		} else {
-			_UIBackdropViewSettings *settings = objc_getAssociatedObject(header, &kHBFPBackdropViewSettingsIdentifier);
-			settings.colorTint = HBFPTintForKey(key, iconImageView.image);
+			header._flagpaint_backdropViewSettings.colorTint = HBFPTintForKey(key, iconImageView.image);
 		}
 	}
 

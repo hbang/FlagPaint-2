@@ -9,17 +9,29 @@
 #import <SpringBoard/SBLockScreenNotificationModel.h>
 #import <version.h>
 
-static const char *kHBFPBackgroundGradientIdentifier;
-static const char *kHBFPBackgroundViewIdentifier;
-
-@interface SBLockScreenNotificationListView (FlagPaint)
+@interface SBLockScreenNotificationListView ()
 
 - (void)_flagpaint_updateMask;
 - (void)_flagpaint_updateMaskWithOffset:(CGFloat)offset height:(CGFloat)height;
 
+@property (nonatomic, retain) UIView *_flagpaint_backgroundView;
+@property (nonatomic, retain) CAGradientLayer *_flagpaint_gradientLayer;
+
 @end
 
+@interface SBLockScreenNotificationCell ()
+
+@property (nonatomic, retain) UIView *_flagpaint_backgroundView;
+@property (nonatomic, retain) CAGradientLayer *_flagpaint_gradientLayer;
+
+@end
+
+#pragma mark - List view
+
 %hook SBLockScreenNotificationListView
+
+%property (nonatomic, retain) UIView *_flagpaint_backgroundView;
+%property (nonatomic, retain) CAGradientLayer *_flagpaint_gradientLayer;
 
 - (id)initWithFrame:(CGRect)frame {
 	self = %orig;
@@ -36,7 +48,7 @@ static const char *kHBFPBackgroundViewIdentifier;
 
 	if (preferences.lockFade) {
 		UIView *containerView = MSHookIvar<UIView *>(self, "_containerView");
-		CAGradientLayer *gradientLayer = objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier);
+		CAGradientLayer *gradientLayer = self._flagpaint_gradientLayer;
 
 		if (!CGRectEqualToRect(gradientLayer.frame, containerView.bounds)) {
 			gradientLayer.frame = containerView.bounds;
@@ -78,8 +90,7 @@ static const char *kHBFPBackgroundViewIdentifier;
 		}
 
 		if (preferences.tintLockScreen) {
-			UIView *backgroundView = objc_getAssociatedObject(cell, &kHBFPBackgroundViewIdentifier);
-			backgroundView.backgroundColor = HBFPTintForKey(key, iconImageView.image);
+			cell._flagpaint_backgroundView.backgroundColor = HBFPTintForKey(key, iconImageView.image);
 		}
 	}
 
@@ -90,10 +101,9 @@ static const char *kHBFPBackgroundViewIdentifier;
 	UIView *containerView = MSHookIvar<UIView *>(self, "_containerView");
 
 	if (preferences.lockFade) {
-		CAGradientLayer *gradientLayer = [[CAGradientLayer alloc] init];
+		CAGradientLayer *gradientLayer = [CAGradientLayer layer];
 		containerView.layer.mask = gradientLayer;
-
-		objc_setAssociatedObject(self, &kHBFPBackgroundGradientIdentifier, gradientLayer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+		self._flagpaint_gradientLayer = gradientLayer;
 
 		gradientLayer.colors = @[
 			hasBlurredClock ? (id)[UIColor whiteColor].CGColor : (id)[UIColor colorWithWhite:1 alpha:0.05f].CGColor,
@@ -122,8 +132,7 @@ static const char *kHBFPBackgroundViewIdentifier;
 		bottom = bottomMin;
 	}
 
-	CAGradientLayer *gradientLayer = objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier);
-	gradientLayer.locations = @[ @0, @(top), @(bottom), @1 ];
+	self._flagpaint_gradientLayer.locations = @[ @0, @(top), @(bottom), @1 ];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -136,31 +145,12 @@ static const char *kHBFPBackgroundViewIdentifier;
 
 %end
 
-%hook SBLockScreenBulletinCell
-
-+ (BOOL)wantsUnlockActionText {
-	return preferences.lockRemoveAction ? NO : %orig;
-}
-
-%group LockScreenBulletinCellIve
-
-+ (CGFloat)rowHeightForTitle:(NSString *)title subtitle:(NSString *)subtitle body:(NSString *)body maxLines:(NSUInteger)maxLines attachmentSize:(CGSize)attachmentSize datesVisible:(BOOL)datesVisible rowWidth:(CGFloat)rowWidth includeUnlockActionText:(BOOL)includeUnlockActionText {
-	return %orig(title, subtitle, body, maxLines, attachmentSize, datesVisible, rowWidth, preferences.lockRemoveAction ? NO : includeUnlockActionText);
-}
-
-%end
-
-%group LockScreenBulletinCellFederighi
-
-+ (CGFloat)rowHeightForTitle:(NSString *)title subtitle:(NSString *)subtitle body:(NSString *)body maxLines:(NSUInteger)maxLines attachmentSize:(CGSize)attachmentSize secondaryContentSize:(CGSize)secondaryContentSize datesVisible:(BOOL)datesVisible rowWidth:(CGFloat)rowWidth includeUnlockActionText:(BOOL)includeUnlockActionText {
-	return %orig(title, subtitle, body, maxLines, attachmentSize, secondaryContentSize, datesVisible, rowWidth, preferences.lockRemoveAction ? NO : includeUnlockActionText);
-}
-
-%end
-
-%end
+#pragma mark - Cell Hooks
 
 %hook SBLockScreenNotificationCell
+
+%property (nonatomic, retain) UIView *_flagpaint_backgroundView;
+%property (nonatomic, retain) CAGradientLayer *_flagpaint_gradientLayer;
 
 + (CGFloat)contentWidthWithRowWidth:(CGFloat)rowWidth andAttachmentSize:(CGSize)attachmentSize {
 	return %orig(preferences.biggerIcon && IS_IPAD ? rowWidth - 16.f : rowWidth, attachmentSize);
@@ -176,7 +166,7 @@ static const char *kHBFPBackgroundViewIdentifier;
 			backgroundView.alpha = preferences.lockOpacity / 100.f;
 			[self.realContentView insertSubview:backgroundView atIndex:0];
 
-			objc_setAssociatedObject(self, &kHBFPBackgroundViewIdentifier, backgroundView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+			self._flagpaint_backgroundView = backgroundView;
 
 			if (preferences.lockGradient) {
 				static BOOL IsRTL;
@@ -187,7 +177,7 @@ static const char *kHBFPBackgroundViewIdentifier;
 
 				NSArray *locations = @[ @0, @0.2f, @0.4f, @1 ];
 
-				CAGradientLayer *gradientLayer = [[CAGradientLayer alloc] init];
+				CAGradientLayer *gradientLayer = [CAGradientLayer layer];
 				gradientLayer.locations = IsRTL ? locations.reverseObjectEnumerator.allObjects : locations;
 				gradientLayer.startPoint = CGPointMake(0, 0.5f);
 				gradientLayer.endPoint = CGPointMake(1.f, 0.5f);
@@ -198,8 +188,7 @@ static const char *kHBFPBackgroundViewIdentifier;
 					(id)[UIColor colorWithWhite:1 alpha:0.0625f].CGColor
 				];
 				backgroundView.layer.mask = gradientLayer;
-
-				objc_setAssociatedObject(self, &kHBFPBackgroundGradientIdentifier, gradientLayer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+				self._flagpaint_gradientLayer = gradientLayer;
 			}
 		}
 	}
@@ -251,8 +240,7 @@ static const char *kHBFPBackgroundViewIdentifier;
 		}
 
 		if (preferences.tintLockScreen && preferences.lockGradient) {
-			CAGradientLayer *gradientLayer = objc_getAssociatedObject(self, &kHBFPBackgroundGradientIdentifier);
-			gradientLayer.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+			self._flagpaint_gradientLayer.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
 		}
 	}
 }
@@ -262,6 +250,8 @@ static const char *kHBFPBackgroundViewIdentifier;
 }
 
 %end
+
+#pragma mark - ClassicLockScreen support-ish
 
 %group ClassicLockScreen
 %hook CSAwayNotificationController
@@ -280,6 +270,34 @@ static const char *kHBFPBackgroundViewIdentifier;
 
 %end
 %end
+
+#pragma mark - Remove action label
+
+%hook SBLockScreenBulletinCell
+
++ (BOOL)wantsUnlockActionText {
+	return preferences.lockRemoveAction ? NO : %orig;
+}
+
+%group LockScreenBulletinCellIve
+
++ (CGFloat)rowHeightForTitle:(NSString *)title subtitle:(NSString *)subtitle body:(NSString *)body maxLines:(NSUInteger)maxLines attachmentSize:(CGSize)attachmentSize datesVisible:(BOOL)datesVisible rowWidth:(CGFloat)rowWidth includeUnlockActionText:(BOOL)includeUnlockActionText {
+	return %orig(title, subtitle, body, maxLines, attachmentSize, datesVisible, rowWidth, preferences.lockRemoveAction ? NO : includeUnlockActionText);
+}
+
+%end
+
+%group LockScreenBulletinCellFederighi
+
++ (CGFloat)rowHeightForTitle:(NSString *)title subtitle:(NSString *)subtitle body:(NSString *)body maxLines:(NSUInteger)maxLines attachmentSize:(CGSize)attachmentSize secondaryContentSize:(CGSize)secondaryContentSize datesVisible:(BOOL)datesVisible rowWidth:(CGFloat)rowWidth includeUnlockActionText:(BOOL)includeUnlockActionText {
+	return %orig(title, subtitle, body, maxLines, attachmentSize, secondaryContentSize, datesVisible, rowWidth, preferences.lockRemoveAction ? NO : includeUnlockActionText);
+}
+
+%end
+
+%end
+
+#pragma mark - Constructor
 
 %ctor {
 	if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/SubtleLock.dylib"]) {
