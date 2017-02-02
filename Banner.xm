@@ -291,6 +291,7 @@ CGFloat bannerHeight = 64.f;
 
 #pragma mark - Button hooks
 
+/*
 %group CraigFederighi
 %hook SBNotificationVibrantButton
 
@@ -307,6 +308,7 @@ CGFloat bannerHeight = 64.f;
 
 %end
 %end
+*/
 
 #pragma mark - Constructor
 
